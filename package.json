@@ -20,7 +20,7 @@
     "release:major": "standard-version",
     "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch",
-    "test": "npx nx run-many --target=test --all --u --codeCoverage --coverage --coverageReporters=lcov"
+    "test": "npx nx run-many --target=test --all --coverage"
   },
   "private": true,
   "prisma": {
