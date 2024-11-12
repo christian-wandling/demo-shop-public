@@ -26,7 +26,7 @@ jobs:
       - run: npm ci --legacy-peer-deps
 
       # Run tests
-      - run: npx nx run-many -t lint test build
+      - run: npx nx run-many -t lint test build --codeCoverage
       - run: npx nx run-many -t e2e-ci
 
       # Run quality gate

@@ -5,6 +5,7 @@
 .idea
 .nx/cache
 .vscode
+coverage
 dist
 node_modules
 pgdata
