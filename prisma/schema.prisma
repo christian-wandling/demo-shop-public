@@ -1,0 +1,130 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               Int               @id @default(autoincrement())
+  keycloakUser     String            @unique
+  email            String            @unique
+  firstname        String
+  lastname         String
+  phone            String
+  address          Address?
+  shoppingSessions ShoppingSession[]
+  orders           Order[]
+  deleted          Boolean           @default(false)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  deletedAt        DateTime?
+}
+
+model Address {
+  id        Int     @id @default(autoincrement())
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int     @unique
+  street    String
+  apartment String
+  city      String
+  zip       String
+  region    String?
+  country   String
+}
+
+model ShoppingSession {
+  id        Int        @id @default(autoincrement())
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  cartItems CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model CartItem {
+  id                Int             @id @default(autoincrement())
+  shoppingSession   ShoppingSession @relation(fields: [shoppingSessionId], references: [id], onDelete: Cascade)
+  shoppingSessionId Int
+  product           Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId         Int
+  quantity          Int
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+}
+
+model Product {
+  id          Int        @id @default(autoincrement())
+  name        String
+  categories  Category[]
+  images      Image[]
+  cartItems   CartItem[]
+  price       Decimal
+  description String?
+  deleted     Boolean    @default(false)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  deletedAt   DateTime?
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  product   Product[]
+  deleted   Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
+
+model Image {
+  id        Int       @id @default(autoincrement())
+  name      String
+  uri       String    @unique
+  product   Product?  @relation(fields: [productId], references: [id])
+  productId Int?
+  deleted   Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
+
+model Order {
+  id        Int         @id @default(autoincrement())
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  items     OrderItem[]
+  status    OrderStatus
+  deleted   Boolean     @default(false)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  deletedAt DateTime?
+}
+
+model OrderItem {
+  id               Int       @id @default(autoincrement())
+  order            Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId          Int
+  productId        Int
+  productName      String
+  productThumbnail String
+  quantity         Int
+  price            Decimal
+  deleted          Boolean   @default(false)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  deletedAt        DateTime?
+}
+
+enum OrderStatus {
+  CREATED
+  COMPLETED
+}

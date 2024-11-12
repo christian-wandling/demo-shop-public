@@ -1,0 +1,181 @@
+<div class="bg-gray-100 m-10 p-10 rounded">
+  <div class="flex items-start justify-between gap-8">
+    <form [formGroup]="checkoutForm()">
+      <div class="space-y-12">
+        <div class="border-b border-gray-900/10 pb-12">
+          <h2 class="text-base font-semibold leading-7 text-gray-900">Shipping information</h2>
+
+          <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-8">
+            <div class="sm:col-span-4">
+              <label for="first-name" class="required block text-sm font-medium leading-6 text-gray-900">
+                First name
+              </label>
+              <div class="mt-2">
+                <input
+                  formControlName="firstname"
+                  type="text"
+                  name="first-name"
+                  id="first-name"
+                  autocomplete="given-name"
+                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+              </div>
+              <lib-form-error [errors]="checkoutForm().controls.firstname.errors" />
+            </div>
+
+            <div class="sm:col-span-4">
+              <label for="last-name" class="required block text-sm font-medium leading-6 text-gray-900">
+                Last name
+              </label>
+              <div class="mt-2">
+                <input
+                  formControlName="lastname"
+                  type="text"
+                  name="last-name"
+                  id="last-name"
+                  autocomplete="family-name"
+                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                <lib-form-error [errors]="checkoutForm().controls.firstname.errors" />
+              </div>
+            </div>
+
+            <div class="sm:col-span-4">
+              <label for="email" class="required block text-sm font-medium leading-6 text-gray-900">
+                Email address
+              </label>
+              <div class="mt-2">
+                <input
+                  formControlName="email"
+                  id="email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+              </div>
+              <lib-form-error [errors]="checkoutForm().controls.email.errors" />
+            </div>
+
+            <div class="sm:col-span-4">
+              <label for="phone" class="required block text-sm font-medium leading-6 text-gray-900">Phone</label>
+              <div class="mt-2">
+                <input
+                  formControlName="phone"
+                  id="phone"
+                  name="phone"
+                  autocomplete="phone"
+                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+              </div>
+              <lib-form-error [errors]="checkoutForm().controls.phone.errors" />
+            </div>
+
+            <ng-container [formGroup]="checkoutForm().controls.address">
+              <div class="sm:col-span-4">
+                <label for="country" class="required block text-sm font-medium leading-6 text-gray-900">Country</label>
+                <div class="mt-2">
+                  <select
+                    formControlName="country"
+                    id="country"
+                    name="country"
+                    autocomplete="country-name"
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                    <option>United States</option>
+                    <option>Austria</option>
+                    <option>Vietnam</option>
+                  </select>
+                </div>
+                <lib-form-error [errors]="checkoutForm().controls.address.controls.country.errors" />
+              </div>
+
+              <div class="col-span-5">
+                <label for="street" class="required block text-sm font-medium leading-6 text-gray-900">Street</label>
+                <div class="mt-2">
+                  <input
+                    formControlName="street"
+                    type="text"
+                    name="street"
+                    id="street"
+                    autocomplete="address"
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                </div>
+              </div>
+
+              <div class="col-span-3">
+                <label for="apartment" class="required block text-sm font-medium leading-6 text-gray-900">
+                  Apartment
+                </label>
+                <div class="mt-2">
+                  <input
+                    formControlName="apartment"
+                    type="text"
+                    name="apartment"
+                    id="apartment"
+                    autocomplete="apartment"
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                </div>
+                <lib-form-error [errors]="checkoutForm().controls.address.controls.apartment.errors" />
+              </div>
+
+              <div class="sm:col-span-3 sm:col-start-1">
+                <label for="city" class="required block text-sm font-medium leading-6 text-gray-900">City</label>
+                <div class="mt-2">
+                  <input
+                    formControlName="city"
+                    type="text"
+                    name="city"
+                    id="city"
+                    autocomplete="address-level2"
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                </div>
+                <lib-form-error [errors]="checkoutForm().controls.address.controls.city.errors" />
+              </div>
+
+              <div class="sm:col-span-3">
+                <label for="region" class="block text-sm font-medium leading-6 text-gray-900">State / Province</label>
+                <div class="mt-2">
+                  <input
+                    formControlName="region"
+                    type="text"
+                    name="region"
+                    id="region"
+                    autocomplete="address-level1"
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                </div>
+              </div>
+
+              <div class="sm:col-span-2">
+                <label for="zip" class="required block text-sm font-medium leading-6 text-gray-900">
+                  ZIP / Postal code
+                </label>
+                <div class="mt-2">
+                  <input
+                    formControlName="zip"
+                    type="text"
+                    name="zip"
+                    id="zip"
+                    autocomplete="zip"
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                </div>
+                <lib-form-error [errors]="checkoutForm().controls.address.controls.zip.errors" />
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <section>
+      <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">Order Summary</h2>
+      <lib-cart-items [items]="items()" (removeItem)="removeItem($event)"></lib-cart-items>
+      <div class="border-t border-gray-900/10 mt-12">
+        <div class="mt-8 flex justify-between">
+          <span>Total</span><span>{{ price() | currency }}</span>
+        </div>
+      </div>
+
+      <section>
+        <div class="mt-16 flex items-center justify-center gap-x-6">
+          <button class="btn-checkout" [disabled]="checkoutForm().invalid" (click)="createOrder()">Checkout</button>
+        </div>
+      </section>
+    </section>
+  </div>
+</div>

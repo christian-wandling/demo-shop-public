@@ -1,0 +1,13 @@
+export * from './cart-items-api';
+import { CartItemsApi } from './cart-items-api';
+export * from './default-api';
+import { DefaultApi } from './default-api';
+export * from './orders-api';
+import { OrdersApi } from './orders-api';
+export * from './products-api';
+import { ProductsApi } from './products-api';
+export * from './shopping-sessions-api';
+import { ShoppingSessionsApi } from './shopping-sessions-api';
+export * from './users-api';
+import { UsersApi } from './users-api';
+export const APIS = [CartItemsApi, DefaultApi, OrdersApi, ProductsApi, ShoppingSessionsApi, UsersApi];

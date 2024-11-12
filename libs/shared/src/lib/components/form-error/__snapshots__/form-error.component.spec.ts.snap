@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormErrorComponent Snapshots should match snapshot with email error 1`] = `
+<div
+  class="text-xs text-red-600"
+  id="root9"
+>
+  
+  <div>
+    Email invalid
+  </div>
+  
+</div>
+`;
+
+exports[`FormErrorComponent Snapshots should match snapshot with multiple errors 1`] = `
+<div
+  class="text-xs text-red-600"
+  id="root10"
+>
+  <div>
+    Email is required
+  </div>
+  
+  <div>
+    Email invalid
+  </div>
+  
+</div>
+`;
+
+exports[`FormErrorComponent Snapshots should match snapshot with no errors 1`] = `
+<div
+  class="text-xs text-red-600"
+  id="root11"
+>
+  
+  
+</div>
+`;
+
+exports[`FormErrorComponent Snapshots should match snapshot with required error 1`] = `
+<div
+  class="text-xs text-red-600"
+  id="root8"
+>
+  <div>
+    Username is required
+  </div>
+  
+  
+</div>
+`;

@@ -1,0 +1,8 @@
+### GET all products
+GET http://localhost:3000/api/v1/products
+
+### GET product by id
+GET http://localhost:3000/api/v1/products/1
+
+### GET products by id - ERROR Not found
+GET http://localhost:3000/api/v1/products/a

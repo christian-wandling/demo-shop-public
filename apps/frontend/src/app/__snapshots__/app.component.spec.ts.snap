@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppComponent should display navigation and cart before initialization 1`] = `
+<app-root
+  initialized={[Function Function]}
+>
+  <lib-cart /><lib-navigation /><router-outlet />
+</app-root>
+`;
+
+exports[`AppComponent should not display navigation and cart before initialization 1`] = `
+<app-root
+  initialized={[Function Function]}
+>
+</app-root>
+`;

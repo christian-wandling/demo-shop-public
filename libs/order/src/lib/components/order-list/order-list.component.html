@@ -1,0 +1,50 @@
+<div class="mx-auto px-8 max-w-5xl">
+  <section class="py-8">
+    @if (user()) {
+    <h1 class="font-bold text-gray-700">{{ user()?.firstname }} {{ user()?.lastname }}</h1>
+    <div class="text-xs text-gray-500">
+      <p>{{ user()?.address?.street }} {{ user()?.address?.apartment }}</p>
+      <p>{{ user()?.address?.zip }} {{ user()?.address?.city }}, {{ user()?.address?.region }}</p>
+      <p>{{ user()?.address?.country }}</p>
+    </div>
+    }
+  </section>
+  <section>
+    <ul role="list" class="divide-y divide-gray-100">
+      @for (order of orders(); track order.id) {
+      <li class="flex justify-between gap-x-6 py-5">
+        <div class="flex min-w-0 gap-x-4">
+          <div class="min-w-0 flex-auto">
+            <p class="text-sm font-semibold leading-6 cursor-pointer hover:underline" [routerLink]="order.id">
+              Order #{{ order.id }}
+            </p>
+            <div class="flex gap-1">
+              @for (item of order.items; track item.productId; let index = $index; let count = $count) { @if (index <=
+              MAX_THUMBNAILS - 1) { @if (index === MAX_THUMBNAILS - 1 && count > MAX_THUMBNAILS) {
+              <div class="w-8 h-8 bg-gray-800 text-white text-center leading-8">+{{ count - MAX_THUMBNAILS + 1 }}</div>
+              } @else {
+              <div class="relative w-8 h-8">
+                <img [ngSrc]="item.productThumbnail" fill="" [alt]="item.productName" />
+              </div>
+              } } }
+            </div>
+          </div>
+        </div>
+        <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+          <p class="text-sm leading-6 text-gray-900">{{ order.amount | currency }}</p>
+          <p class="mt-1 text-xs leading-5 text-gray-500">
+            <time [dateTime]="order.created">{{ order.created | date : 'MMM dd, YYYY' : 'GMT' }}</time>
+          </p>
+          <p
+            class="rounded-md my-1 px-1 py-0.5 bg-gray-300 border border-slate-900 text-xs"
+            [ngClass]="{
+              'bg-green-900 text-white': order.status === 'COMPLETED'
+            }">
+            {{ order?.status | titlecase }}
+          </p>
+        </div>
+      </li>
+      }
+    </ul>
+  </section>
+</div>

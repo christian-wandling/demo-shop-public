@@ -1,0 +1,7 @@
+@if (errors()?.['required']) {
+  <div>{{ fieldName() }} is required</div>
+}
+
+@if (errors()?.['email']) {
+  <div>Email invalid</div>
+}

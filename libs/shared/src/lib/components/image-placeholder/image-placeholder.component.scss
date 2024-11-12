@@ -1,0 +1,17 @@
+:host {
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.placeholder-text {
+  font-size: 0;
+  font-weight: bold;
+
+  &:first-letter {
+    font-size: 10rem;
+  }
+}

@@ -1,0 +1,13 @@
+:host {
+  cursor: pointer;
+
+  &:not(:hover) {
+    .search-input:not(.extended) {
+      input {
+        width: 0;
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+  }
+}

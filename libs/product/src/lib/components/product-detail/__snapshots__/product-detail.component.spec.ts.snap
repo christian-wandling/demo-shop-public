@@ -1,0 +1,143 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductDetailComponent should match the snapshot 1`] = `
+<lib-product-detail
+  addButtonEnabled={[Function Function]}
+  product={[Function Function]}
+>
+  <div
+    class="product-detail pt-6"
+  >
+    <div
+      class="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8"
+    >
+      <div
+        class="aspect-h-1 aspect-w-1 hidden overflow-hidden rounded-lg lg:block"
+      >
+        <img
+          alt="Product 1"
+          class="h-full w-full object-cover object-center group-hover:opacity-75"
+          fetchpriority="auto"
+          fill=""
+          loading="lazy"
+          ng-img="true"
+          sizes="100vw"
+          src="uri"
+          style="position: absolute; width: 100%; height: 100%; inset: 0;"
+        />
+      </div>
+    </div>
+    <div
+      class="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16"
+    >
+      <div
+        class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8"
+      >
+        <h1
+          class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl"
+        >
+          Product 1
+        </h1>
+      </div>
+      <div
+        class="mt-4 lg:row-span-3 lg:mt-0"
+      >
+        <h2
+          class="sr-only"
+        >
+          Product information
+        </h2>
+        <p
+          class="text-3xl tracking-tight text-gray-900"
+        >
+           $10.00 
+        </p>
+        <button
+          class="btn-add mt-10 flex w-full items-center justify-center rounded-md border border-transparent px-8 py-3 text-base font-medium bg-gray-100 text-gray-800 pointer-events-none"
+          disabled=""
+        >
+           Add to cart 
+        </button>
+      </div>
+      <div
+        class="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6"
+      >
+        <div
+          class="product-description text-sm text-gray-600"
+        >
+        </div>
+      </div>
+    </div>
+  </div>
+</lib-product-detail>
+`;
+
+exports[`ProductDetailComponent should render the product details 1`] = `
+DebugElement {
+  "nativeNode": <div
+    class="product-detail pt-6"
+  >
+    <div
+      class="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8"
+    >
+      <div
+        class="aspect-h-1 aspect-w-1 hidden overflow-hidden rounded-lg lg:block"
+      >
+        <img
+          alt="Product 1"
+          class="h-full w-full object-cover object-center group-hover:opacity-75"
+          fetchpriority="auto"
+          fill=""
+          loading="lazy"
+          ng-img="true"
+          sizes="100vw"
+          src="uri"
+          style="position: absolute; width: 100%; height: 100%; inset: 0;"
+        />
+      </div>
+    </div>
+    <div
+      class="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16"
+    >
+      <div
+        class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8"
+      >
+        <h1
+          class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl"
+        >
+          Product 1
+        </h1>
+      </div>
+      <div
+        class="mt-4 lg:row-span-3 lg:mt-0"
+      >
+        <h2
+          class="sr-only"
+        >
+          Product information
+        </h2>
+        <p
+          class="text-3xl tracking-tight text-gray-900"
+        >
+           $10.00 
+        </p>
+        <button
+          class="btn-add mt-10 flex w-full items-center justify-center rounded-md border border-transparent px-8 py-3 text-base font-medium bg-gray-100 text-gray-800 pointer-events-none"
+          disabled=""
+        >
+           Add to cart 
+        </button>
+      </div>
+      <div
+        class="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6"
+      >
+        <div
+          class="product-description text-sm text-gray-600"
+        >
+          
+        </div>
+      </div>
+    </div>
+  </div>,
+}
+`;

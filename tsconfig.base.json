@@ -1,0 +1,29 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@demo-shop/api": ["libs/api/index.ts"],
+      "@demo-shop/auth": ["libs/auth/src/index.ts"],
+      "@demo-shop/cart": ["libs/cart/src/index.ts"],
+      "@demo-shop/navigation": ["libs/navigation/src/index.ts"],
+      "@demo-shop/order": ["libs/order/src/index.ts"],
+      "@demo-shop/product": ["libs/product/src/index.ts"],
+      "@demo-shop/shared": ["libs/shared/src/index.ts"],
+      "@demo-shop/user": ["libs/user/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

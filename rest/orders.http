@@ -1,0 +1,13 @@
+### GET all orders
+GET http://localhost:3000/api/orders
+
+### GET orders by id - ERROR Not found
+GET http://localhost:3000/api/orders/1
+
+### POST order
+POST http://localhost:3000/api/orders/create
+Content-Type: application/json
+
+{
+  "id": 0
+}

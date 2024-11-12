@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductSearchComponent should match the snapshot 1`] = `
+<lib-product-search
+  productFilter={[Function Function]}
+>
+  <a
+    class="p-2.5 text-gray-400 hover:text-gray-500"
+  >
+    <span
+      class="sr-only"
+    >
+      Search
+    </span>
+    <img
+      alt="search"
+      fetchpriority="auto"
+      height="20"
+      loading="lazy"
+      ng-img="true"
+      ngsrc="icons/search.svg"
+      src="icons/search.svg"
+      width="20"
+    />
+  </a><div
+    class="search-input relative"
+  >
+    <input
+      class="block w-full my-0.5 rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6 ng-untouched ng-pristine ng-valid"
+      name="price"
+      placeholder="Search products "
+      type="text"
+    />
+  </div>
+</lib-product-search>
+`;

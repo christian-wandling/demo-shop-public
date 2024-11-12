@@ -1,0 +1,33 @@
+<ng-container *ngIf="isSmallScreen(); else largeScreen">
+  @if (currentUser()) {
+  <div class="flow-root">
+    <a class="-m-2 block p-2 font-medium text-gray-900 cursor-pointer">
+      {{ currentUser()?.firstname }}&nbsp;{{ currentUser()?.lastname }}
+    </a>
+  </div>
+  <div class="flow-root">
+    <a (click)="logout()" class="-m-2 block p-2 font-medium text-gray-900 cursor-pointer"> Sign out </a>
+  </div>
+  } @else {
+  <div class="flow-root">
+    <a (click)="login()" class="-m-2 block p-2 font-medium text-gray-900 cursor-pointer"> Sign in </a>
+  </div>
+  <div class="flow-root">
+    <a (click)="register()" class="-m-2 block p-2 font-medium text-gray-900 cursor-pointer"> Register </a>
+  </div>
+  }
+</ng-container>
+
+<ng-template #largeScreen>
+  @if (currentUser()) {
+  <a class="text-sm font-medium text-gray-700 hover:text-gray-800 cursor-pointer">
+    {{ currentUser()?.firstname }}&nbsp;{{ currentUser()?.lastname }}
+  </a>
+  <span class="h-6 w-px bg-gray-200" aria-hidden="true"></span>
+  <a (click)="logout()" class="text-sm font-medium text-gray-700 hover:text-gray-800 cursor-pointer"> Sign out </a>
+  } @else {
+  <a (click)="login()" class="text-sm font-medium text-gray-700 hover:text-gray-800 cursor-pointer"> Sign in </a>
+  <span class="h-6 w-px bg-gray-200" aria-hidden="true"></span>
+  <a (click)="register()" class="text-sm font-medium text-gray-700 hover:text-gray-800 cursor-pointer"> Register </a>
+  }
+</ng-template>

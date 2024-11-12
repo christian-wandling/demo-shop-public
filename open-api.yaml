@@ -1,0 +1,4 @@
+stringEnums: true
+serviceSuffix: Api
+serviceFileSuffix: -api
+fileNaming: kebab-case

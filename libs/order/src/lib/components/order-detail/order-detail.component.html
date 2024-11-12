@@ -1,0 +1,62 @@
+<div class="mx-auto px-8 max-w-5xl" id="invoice">
+  <section class="py-8 flex justify-between items-center">
+    @if (user()) {
+    <div>
+      <h1 class="font-bold text-gray-700">{{ user()?.firstname }} {{ user()?.lastname }}</h1>
+      <div class="text-xs text-gray-500">
+        <p>{{ user()?.address?.street }} {{ user()?.address?.apartment }}</p>
+        <p>{{ user()?.address?.zip }} {{ user()?.address?.city }}, {{ user()?.address?.region }}</p>
+        <p>{{ user()?.address?.country }}</p>
+      </div>
+    </div>
+    @if (order()) {
+    <div class="text-gray-700 text-xs flex flex-col items-end">
+      <h1 class="text-sm font-semibold">Order #{{ order().id }}</h1>
+      <div>{{ order().created | date : 'YYYY-MM-dd HH:mm' : 'GMT' }}</div>
+      <div
+        class="rounded-md my-1 px-1 py-0.5 bg-gray-300 border border-slate-900 text-xs"
+        [ngClass]="{
+          'bg-green-900 text-white': order().status === 'COMPLETED'
+        }">
+        {{ order().status | titlecase }}
+      </div>
+      <button (click)="printPdf(order(), user())">print pdf</button>
+    </div>
+    } }
+  </section>
+  <section>
+    @if (order()) {
+    <ul role="list" class="divide-y divide-gray-100">
+      @for (item of order().items; track item.productId) {
+      <li class="flex gap-x-6 py-5">
+        <div class="relative w-16 h-16 flex-shrink">
+          <img [ngSrc]="item.productThumbnail" fill="" [alt]="item.productName" />
+        </div>
+        <div class="flex min-w-0 gap-x-4 flex-grow">
+          <div class="min-w-0 flex-auto">
+            <p class="text-sm leading-6 text-gray-900">#{{ item.productId }} {{ item.productName }}</p>
+            <p class="mt-1 truncate text-xs leading-5 text-gray-500">Qty {{ item.quantity }}</p>
+          </div>
+        </div>
+        <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+          <p class="text-sm leading-6 text-gray-900">{{ item.totalPrice | currency }}</p>
+          <p class="mt-1 text-xs leading-5 text-gray-500">
+            <span>{{ item.unitPrice | currency }}</span>
+          </p>
+        </div>
+      </li>
+      }
+      <li class="flex justify-between gap-x-6 py-5">
+        <div class="flex min-w-0 gap-x-4">
+          <div class="min-w-0 flex-auto">
+            <p class="text-sm font-semibold leading-6 text-gray-900">total</p>
+          </div>
+        </div>
+        <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+          <p class="text-sm leading-6 text-gray-900">{{ order().amount | currency }}</p>
+        </div>
+      </li>
+    </ul>
+    }
+  </section>
+</div>
