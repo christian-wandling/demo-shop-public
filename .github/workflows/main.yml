@@ -25,9 +25,17 @@ jobs:
 
       - run: npm ci --legacy-peer-deps
 
-      # Run tests
-      - run: npx nx run-many -t lint test build --codeCoverage
-      - run: npx nx run-many -t e2e-ci
+      - name: lint
+        run: npx nx run-many -t lint
+
+      - name: test
+        run: npx nx run-many -t test --codeCoverage
+
+      - name: e2e
+        run: npx nx run-many -t e2e-ci
+
+      - name: build
+        run: npx nx run-many -t build
 
       # Run quality gate
       - name: sonarcloud
