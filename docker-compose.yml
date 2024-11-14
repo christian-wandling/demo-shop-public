@@ -50,6 +50,7 @@ services:
       - KEYCLOAK_REALM
       - KEYCLOAK_CLIENT_API
       - KEYCLOAK_REALM_PUBLIC_KEY
+      - SENTRY_DSN
     volumes:
       - ./:/usr/src/app
       - /usr/src/app/node_modules

@@ -18,6 +18,7 @@ deploy_backend() {
   local SECRETS_FILES=(
     "${SECRETS_DIR}/postgres-credentials.txt"
     "${SECRETS_DIR}/keycloak-config.txt"
+    "${SECRETS_DIR}/sentry-config.txt"
   )
 
   local CONFIGS_FILES=(
