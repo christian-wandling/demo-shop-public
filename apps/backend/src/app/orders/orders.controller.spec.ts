@@ -2,18 +2,17 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { OrdersController } from './orders.controller';
 import { OrdersService } from './services/orders.service';
 import { OrderDTO } from './dtos/order-dto';
-import { EmailFromTokenPipe } from '../common/pipes/email-from-token.pipe';
-import { NotFoundException, RequestMethod } from '@nestjs/common';
+import { DecodeTokenPipe } from '../common/pipes/decode-token-pipe';
+import { ForbiddenException, NotFoundException, RequestMethod } from '@nestjs/common';
 import { OrderStatus } from '@prisma/client';
 import { ShoppingSessionsService } from '../shopping-sessions/services/shopping-sessions.service';
 import { ShoppingSessionDTO } from '../shopping-sessions/dtos/shopping-session-dto';
+import { DecodedToken } from '../common/entities/decoded-token';
 
 describe('OrdersController', () => {
   let controller: OrdersController;
   let ordersService: OrdersService;
   let shoppingSessionsService: ShoppingSessionsService;
-
-  const email = 'email@email.com';
 
   const mockOrderDto: OrderDTO = {
     id: '1',
@@ -22,6 +21,13 @@ describe('OrdersController', () => {
     amount: 0,
     created: new Date(),
     items: [],
+  };
+
+  const mockDecodedToken: DecodedToken = {
+    given_name: 'given_name',
+    family_name: 'family_name',
+    sub: 'sub',
+    email: 'email@email.com',
   };
 
   beforeEach(async () => {
@@ -44,8 +50,8 @@ describe('OrdersController', () => {
         },
       ],
     })
-      .overridePipe(EmailFromTokenPipe)
-      .useValue(jest.fn().mockReturnValue(email))
+      .overridePipe(DecodeTokenPipe)
+      .useValue(jest.fn().mockReturnValue(mockDecodedToken))
       .compile();
 
     controller = module.get(OrdersController);
@@ -94,19 +100,19 @@ describe('OrdersController', () => {
     it('should create an order from existing shopping session', async () => {
       jest.spyOn(shoppingSessionsService, 'findCurrentSessionForUser').mockResolvedValue(mockShoppingSessionDto);
 
-      const result = await controller.createOrder(email);
+      const result = await controller.createOrder(mockDecodedToken);
 
-      expect(shoppingSessionsService.findCurrentSessionForUser).toHaveBeenCalledWith(email);
+      expect(shoppingSessionsService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.email);
       expect(ordersService.createFromShoppingSession).toHaveBeenCalledWith(mockShoppingSessionDto);
       expect(result).toEqual(mockOrderDto);
     });
 
-    it('should throw NotFoundException when no shopping session exists', async () => {
+    it('should throw the right exception when no shopping session exists', async () => {
       jest.spyOn(shoppingSessionsService, 'findCurrentSessionForUser').mockReturnValueOnce(null);
 
-      await expect(controller.createOrder(email)).rejects.toThrow(NotFoundException);
+      await expect(controller.createOrder(mockDecodedToken)).rejects.toThrow(ForbiddenException);
 
-      expect(shoppingSessionsService.findCurrentSessionForUser).toHaveBeenCalledWith(email);
+      expect(shoppingSessionsService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.email);
       expect(ordersService.createFromShoppingSession).not.toHaveBeenCalled();
     });
 
@@ -115,9 +121,9 @@ describe('OrdersController', () => {
       jest.spyOn(ordersService, 'createFromShoppingSession').mockRejectedValue(error);
       jest.spyOn(shoppingSessionsService, 'findCurrentSessionForUser').mockResolvedValue(mockShoppingSessionDto);
 
-      await expect(controller.createOrder(email)).rejects.toThrow(error);
+      await expect(controller.createOrder(mockDecodedToken)).rejects.toThrow(error);
 
-      expect(shoppingSessionsService.findCurrentSessionForUser).toHaveBeenCalledWith(email);
+      expect(shoppingSessionsService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.email);
       expect(ordersService.createFromShoppingSession).toHaveBeenCalledWith(mockShoppingSessionDto);
     });
 
@@ -134,12 +140,10 @@ describe('OrdersController', () => {
 
   describe('getOrdersOfCurrentUser', () => {
     it('should return the order of current user', async () => {
-      const email = 'test@example.com';
-
-      const result = await controller.getOrdersOfCurrentUser(email);
+      const result = await controller.getOrdersOfCurrentUser(mockDecodedToken);
 
       expect(result).toEqual([mockOrderDto]);
-      expect(ordersService.findByUser).toHaveBeenCalledWith(email);
+      expect(ordersService.findByUser).toHaveBeenCalledWith(mockDecodedToken.email);
       expect(ordersService.findByUser).toHaveBeenCalledTimes(1);
     });
 
@@ -156,24 +160,22 @@ describe('OrdersController', () => {
 
   describe('getOrder', () => {
     it('should return a order by id and email', async () => {
-      const email = 'test@example.com';
       const id = '1';
 
-      const result = await controller.getOrder(id, email);
+      const result = await controller.getOrder(id, mockDecodedToken);
 
       expect(result).toEqual(mockOrderDto);
-      expect(ordersService.find).toHaveBeenCalledWith(id, email);
+      expect(ordersService.find).toHaveBeenCalledWith(id, mockDecodedToken.email);
       expect(ordersService.find).toHaveBeenCalledTimes(1);
     });
 
     it('should throw an error if order is not found', async () => {
-      const email = 'nonexistent@example.com';
       const id = '1';
 
       jest.spyOn(ordersService, 'find').mockRejectedValueOnce(new Error('Order not found'));
 
-      await expect(controller.getOrder(id, email)).rejects.toThrow('Order not found');
-      expect(ordersService.find).toHaveBeenCalledWith(id, email);
+      await expect(controller.getOrder(id, mockDecodedToken)).rejects.toThrow('Order not found');
+      expect(ordersService.find).toHaveBeenCalledWith(id, mockDecodedToken.email);
       expect(ordersService.find).toHaveBeenCalledTimes(1);
     });
 

@@ -91,7 +91,7 @@ describe('ProductsService', () => {
       expect(repository.find).toHaveBeenCalledWith('1');
     });
 
-    it('should throw NotFoundException when product does not exist', async () => {
+    it('should throw the right exception when product does not exist', async () => {
       repository.find.mockResolvedValue(null);
 
       await expect(service.find('1')).rejects.toThrow(NotFoundException);

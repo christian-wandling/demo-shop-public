@@ -1,10 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtService } from '@nestjs/jwt';
-import { EmailFromTokenPipe } from './email-from-token.pipe';
+import { DecodeTokenPipe } from './decode-token-pipe';
+import { DecodedToken } from '../entities/decoded-token';
 
-describe('EmailFromTokenPipe', () => {
-  let pipe: EmailFromTokenPipe;
+describe('DecodeTokenPipe', () => {
+  let pipe: DecodeTokenPipe;
   let jwtService: JwtService;
+
+  const mockDecodedToken: DecodedToken = {
+    given_name: 'given_name',
+    family_name: 'family_name',
+    sub: 'sub',
+    email: 'email@email.com',
+  };
 
   const mockJwtService = {
     decode: jest.fn(),
@@ -13,7 +21,7 @@ describe('EmailFromTokenPipe', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        EmailFromTokenPipe,
+        DecodeTokenPipe,
         {
           provide: JwtService,
           useValue: mockJwtService,
@@ -21,7 +29,7 @@ describe('EmailFromTokenPipe', () => {
       ],
     }).compile();
 
-    pipe = module.get<EmailFromTokenPipe>(EmailFromTokenPipe);
+    pipe = module.get<DecodeTokenPipe>(DecodeTokenPipe);
     jwtService = module.get<JwtService>(JwtService);
   });
 
@@ -29,16 +37,15 @@ describe('EmailFromTokenPipe', () => {
     jest.clearAllMocks();
   });
 
-  it('should extract email from valid Bearer token', () => {
+  it('should return decoded user from valid Bearer token', () => {
     const token = 'valid.jwt.token';
-    const email = 'test@example.com';
     const authHeader = `Bearer ${token}`;
 
-    mockJwtService.decode.mockReturnValue({ email });
+    mockJwtService.decode.mockReturnValue(mockDecodedToken);
 
     const result = pipe.transform(authHeader, {} as any);
 
-    expect(result).toBe(email);
+    expect(result).toEqual(mockDecodedToken);
     expect(jwtService.decode).toHaveBeenCalledWith(token);
   });
 
@@ -54,7 +61,7 @@ describe('EmailFromTokenPipe', () => {
   it('should handle missing token', () => {
     const authHeader = 'Bearer ';
 
-    mockJwtService.decode.mockReturnValue({ email: undefined });
+    mockJwtService.decode.mockReturnValue(undefined);
 
     const result = pipe.transform(authHeader, {} as any);
 

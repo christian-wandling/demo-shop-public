@@ -1,5 +1,7 @@
 ## @
 
+The demo shop API description
+
 The version of the OpenAPI document: 1.0
 
 ### Building

@@ -24,7 +24,6 @@ describe('ProductDTO', () => {
       });
 
       const errors = await validate(productDto);
-      console.log(errors);
       expect(errors).toHaveLength(0);
     });
 

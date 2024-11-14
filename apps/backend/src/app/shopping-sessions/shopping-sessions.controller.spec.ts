@@ -1,20 +1,26 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { EmailFromTokenPipe } from '../common/pipes/email-from-token.pipe';
+import { DecodeTokenPipe } from '../common/pipes/decode-token-pipe';
 import { ShoppingSessionsController } from './shopping-sessions.controller';
 import { ShoppingSessionsService } from './services/shopping-sessions.service';
 import { ShoppingSessionDTO } from './dtos/shopping-session-dto';
 import { RequestMethod } from '@nestjs/common';
+import { DecodedToken } from '../common/entities/decoded-token';
 
 describe('ShoppingSessionsController', () => {
   let controller: ShoppingSessionsController;
   let shoppingSessionsService: ShoppingSessionsService;
 
-  const email = 'email@email.com';
-
   const shoppingSessionDTO: ShoppingSessionDTO = {
     id: '1',
     userId: '1',
     items: [],
+  };
+
+  const mockDecodedToken: DecodedToken = {
+    given_name: 'given_name',
+    family_name: 'family_name',
+    sub: 'sub',
+    email: 'email@email.com',
   };
 
   beforeEach(async () => {
@@ -31,8 +37,8 @@ describe('ShoppingSessionsController', () => {
         },
       ],
     })
-      .overridePipe(EmailFromTokenPipe)
-      .useValue(jest.fn().mockReturnValue(email))
+      .overridePipe(DecodeTokenPipe)
+      .useValue(jest.fn().mockReturnValue(mockDecodedToken))
       .compile();
 
     controller = module.get(ShoppingSessionsController);
@@ -64,19 +70,18 @@ describe('ShoppingSessionsController', () => {
     it('should create a shopping session by email', async () => {
       const email = 'test@example.com';
 
-      const result = await controller.createShoppingSession(email);
+      const result = await controller.createShoppingSession(mockDecodedToken);
 
       expect(result).toEqual(shoppingSessionDTO);
-      expect(shoppingSessionsService.create).toHaveBeenCalledWith(email);
+      expect(shoppingSessionsService.create).toHaveBeenCalledWith(mockDecodedToken.email);
       expect(shoppingSessionsService.create).toHaveBeenCalledTimes(1);
     });
 
     it('should throw an error if shopping session could not be created', async () => {
-      const email = 'nonexistent@example.com';
       jest.spyOn(shoppingSessionsService, 'create').mockRejectedValueOnce(new Error('ShoppingSession not found'));
 
-      await expect(controller.createShoppingSession(email)).rejects.toThrow('ShoppingSession not found');
-      expect(shoppingSessionsService.create).toHaveBeenCalledWith(email);
+      await expect(controller.createShoppingSession(mockDecodedToken)).rejects.toThrow('ShoppingSession not found');
+      expect(shoppingSessionsService.create).toHaveBeenCalledWith(mockDecodedToken.email);
       expect(shoppingSessionsService.create).toHaveBeenCalledTimes(1);
     });
 
@@ -93,23 +98,22 @@ describe('ShoppingSessionsController', () => {
 
   describe('getCurrentShoppingSession', () => {
     it('should return a shopping session by email', async () => {
-      const email = 'test@example.com';
-
-      const result = await controller.getShoppingSessionOfCurrentUser(email);
+      const result = await controller.getShoppingSessionOfCurrentUser(mockDecodedToken);
 
       expect(result).toEqual(shoppingSessionDTO);
-      expect(shoppingSessionsService.findCurrentSessionForUser).toHaveBeenCalledWith(email);
+      expect(shoppingSessionsService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.email);
       expect(shoppingSessionsService.findCurrentSessionForUser).toHaveBeenCalledTimes(1);
     });
 
     it('should throw an error if shopping session is not found', async () => {
-      const email = 'nonexistent@example.com';
       jest
         .spyOn(shoppingSessionsService, 'findCurrentSessionForUser')
         .mockRejectedValueOnce(new Error('ShoppingSession not found'));
 
-      await expect(controller.getShoppingSessionOfCurrentUser(email)).rejects.toThrow('ShoppingSession not found');
-      expect(shoppingSessionsService.findCurrentSessionForUser).toHaveBeenCalledWith(email);
+      await expect(controller.getShoppingSessionOfCurrentUser(mockDecodedToken)).rejects.toThrow(
+        'ShoppingSession not found'
+      );
+      expect(shoppingSessionsService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.email);
       expect(shoppingSessionsService.findCurrentSessionForUser).toHaveBeenCalledTimes(1);
     });
 
@@ -129,23 +133,21 @@ describe('ShoppingSessionsController', () => {
 
   describe('removeShoppingSession', () => {
     it('should delete a shopping session by id and email', async () => {
-      const email = 'test@example.com';
       const id = '1';
 
-      const result = await controller.removeShoppingSession(id, email);
+      const result = await controller.removeShoppingSession(id, mockDecodedToken);
 
       expect(result).toEqual(undefined);
-      expect(shoppingSessionsService.remove).toHaveBeenCalledWith(id, email);
+      expect(shoppingSessionsService.remove).toHaveBeenCalledWith(id, mockDecodedToken.email);
       expect(shoppingSessionsService.remove).toHaveBeenCalledTimes(1);
     });
 
     it('should throw an error if shopping session is not found', async () => {
-      const email = 'nonexistent@example.com';
       const id = '1';
       jest.spyOn(shoppingSessionsService, 'remove').mockRejectedValueOnce(new Error('ShoppingSession not found'));
 
-      await expect(controller.removeShoppingSession(id, email)).rejects.toThrow('ShoppingSession not found');
-      expect(shoppingSessionsService.remove).toHaveBeenCalledWith(id, email);
+      await expect(controller.removeShoppingSession(id, mockDecodedToken)).rejects.toThrow('ShoppingSession not found');
+      expect(shoppingSessionsService.remove).toHaveBeenCalledWith(id, mockDecodedToken.email);
       expect(shoppingSessionsService.remove).toHaveBeenCalledTimes(1);
     });
 

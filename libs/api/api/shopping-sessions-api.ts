@@ -1,6 +1,5 @@
 /**
  * Demo shop
- * The demo shop API description
  *
  *
  *

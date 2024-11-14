@@ -1,8 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
 import { UsersRepository } from './users.repository';
-import { NotFoundException } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 import { HydratedUser } from '../entities/hydrated-user';
+import { DecodedToken } from '../../common/entities/decoded-token';
+import { CreateUserDTO } from '../dtos/create-user-dto';
+import { UserDTO } from '../dtos/user-dto';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -10,12 +13,12 @@ describe('UsersService', () => {
 
   const mockUser: HydratedUser = {
     id: 1,
-    email: 'test@example.com',
+    email: 'john.doe@email.com',
+    firstname: 'john',
+    lastname: 'doe',
+    keycloakUserId: 'id',
     deleted: false,
     deletedAt: undefined,
-    firstname: 'firstname',
-    keycloakUser: 'keycloakUser',
-    lastname: 'lastname',
     phone: 'phone',
     address: {
       id: 1,
@@ -31,15 +34,40 @@ describe('UsersService', () => {
     updatedAt: new Date(),
   };
 
-  const mockUserDTO = {
+  const mockUserDto: UserDTO = {
     id: '1',
-    email: 'test@example.com',
-    name: 'Test User',
+    email: 'john.doe@email.com',
+    firstname: 'john',
+    lastname: 'doe',
+    phone: 'phone',
+    address: {
+      street: 'street',
+      apartment: 'apartment',
+      city: 'city',
+      zip: 'zip',
+      region: 'region',
+      country: 'country',
+    },
+  };
+
+  const mockDecodedToken: DecodedToken = {
+    given_name: 'john',
+    family_name: 'doe',
+    sub: 'id',
+    email: 'john.doe@email.com',
+  };
+
+  const mockCreateUserDto: CreateUserDTO = {
+    firstname: 'john',
+    lastname: 'doe',
+    keycloakUserId: 'id',
+    email: 'john.doe@email.com',
   };
 
   beforeEach(async () => {
     const mockRepository = {
       find: jest.fn(),
+      create: jest.fn(),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -56,23 +84,38 @@ describe('UsersService', () => {
     repository = module.get(UsersRepository);
   });
 
-  describe('findByEmail', () => {
-    it('should return a user DTO when user exists', async () => {
-      repository.find.mockResolvedValue(mockUser);
+  describe('getFromToken', () => {
+    it('should create a user if not found', async () => {
+      jest.spyOn(repository, 'find').mockResolvedValue(null);
+      jest.spyOn(repository, 'create').mockResolvedValue(mockUser);
+      jest.spyOn(service, 'createUser').mockResolvedValue(mockUserDto);
 
-      await service.findByEmail('test@example.com');
-
-      expect(repository.find).toHaveBeenCalledWith('test@example.com');
-      expect(repository.find).toHaveBeenCalledTimes(1);
+      const result = await service.getFromToken(mockDecodedToken);
+      expect(result).toEqual(mockUserDto);
+      expect(service.createUser).toHaveBeenCalledWith(mockCreateUserDto);
     });
 
-    it('should throw NotFoundException when user does not exist', async () => {
-      repository.find.mockResolvedValue(null);
+    it('should return existing user if found', async () => {
+      jest.spyOn(repository, 'find').mockResolvedValue(mockUser);
 
-      await expect(service.findByEmail('nonexistent@example.com')).rejects.toThrow(NotFoundException);
+      const result = await service.getFromToken(mockDecodedToken);
+      expect(result).toEqual(mockUserDto);
+      expect(repository.create).not.toHaveBeenCalled();
+    });
+  });
 
-      expect(repository.find).toHaveBeenCalledWith('nonexistent@example.com');
-      expect(repository.find).toHaveBeenCalledTimes(1);
+  describe('createUser', () => {
+    it('should create a user successfully', async () => {
+      jest.spyOn(repository, 'create').mockResolvedValue(mockUser);
+
+      const result = await service.createUser(mockCreateUserDto);
+      expect(result).toEqual(mockUserDto);
+    });
+
+    it('should throw the right exception if user creation fails', async () => {
+      jest.spyOn(repository, 'create').mockResolvedValue(null);
+
+      await expect(service.createUser(mockCreateUserDto)).rejects.toThrow(BadRequestException);
     });
   });
 });

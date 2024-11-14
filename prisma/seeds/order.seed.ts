@@ -1,8 +1,22 @@
 import { Image, Order, OrderStatus, PrismaClient, Product, User } from '@prisma/client';
 import { faker } from '@faker-js/faker';
 import { differenceInMonths } from 'date-fns/differenceInMonths';
+import * as dotenv from 'dotenv';
+import * as process from 'node:process';
 
-const MORE_THAN_MONTHS_AGO = (date: Date) => differenceInMonths(new Date(), date) > 2;
+const moreThan2MonthsAgo = (date: Date) => differenceInMonths(new Date(), date) > 2;
+
+const getHasOrders = async (prisma: PrismaClient, email: string): Promise<boolean> => {
+  const order = await prisma.order.findFirst({
+    where: {
+      user: {
+        email,
+      },
+    },
+  });
+
+  return !!order;
+};
 
 export const seedOrders = async (
   prisma: PrismaClient,
@@ -15,19 +29,29 @@ export const seedOrders = async (
 ): Promise<Order[]> => {
   console.log('Seeding orders...');
 
+  dotenv.config();
+
+  const isProduction = (process.env.NODE_ENV as string) === 'production';
+
+  if (isProduction) {
+    console.log(`Environment is not development, skip seeding orders`);
+  }
+
   const orders: Order[] = [];
 
   for (const user of users) {
+    const hasOrders = await getHasOrders(prisma, user.email);
+
+    if (hasOrders) {
+      continue;
+    }
+
     const orderDates: Date[] = faker.helpers
       .multiple(() => faker.date.past({ years: 2 }), { count: 10 })
       .sort((a, b) => (a > b ? 1 : -1));
 
     for (let date of orderDates) {
-      let status: OrderStatus = OrderStatus.CREATED;
-
-      if (MORE_THAN_MONTHS_AGO(date)) {
-        status = OrderStatus.COMPLETED;
-      }
+      const status: OrderStatus = moreThan2MonthsAgo(date) ? OrderStatus.COMPLETED : OrderStatus.CREATED;
 
       const order: Order = await prisma.order.create({
         data: {
@@ -56,10 +80,12 @@ export const seedOrders = async (
           },
         });
       }
+
+      orders.push(order);
     }
   }
 
-  console.log('Seeding orders complete');
+  console.log(`Seeding complete: Added ${orders.length} order(s)`);
 
   return orders;
 };

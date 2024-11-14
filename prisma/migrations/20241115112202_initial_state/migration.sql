@@ -4,6 +4,7 @@ CREATE TYPE "OrderStatus" AS ENUM ('CREATED', 'COMPLETED');
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
+    "keycloakUserId" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "firstname" TEXT NOT NULL,
     "lastname" TEXT NOT NULL,
@@ -127,6 +128,9 @@ CREATE TABLE "_CategoryToProduct" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_keycloakUserId_key" ON "User"("keycloakUserId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");

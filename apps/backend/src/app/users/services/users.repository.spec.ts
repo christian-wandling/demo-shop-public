@@ -1,6 +1,8 @@
 import { Test } from '@nestjs/testing';
 import { PrismaService } from '../../common/services/prisma.service';
 import { UsersRepository } from './users.repository';
+import { HydratedUser } from '../entities/hydrated-user';
+import { CreateUserDTO } from '../dtos/create-user-dto';
 
 describe('UsersRepository', () => {
   let usersRepository: UsersRepository;
@@ -9,19 +11,38 @@ describe('UsersRepository', () => {
   const mockPrismaService = {
     user: {
       findUniqueOrThrow: jest.fn(),
+      create: jest.fn(),
     },
   };
 
-  const mockUser = {
+  const mockUser: HydratedUser = {
     id: 1,
+    firstname: 'John',
+    lastname: 'Doe',
     email: 'test@example.com',
-    name: 'Test User',
+    keycloakUserId: '12345',
+    phone: 'phone',
     address: {
       id: 1,
       street: '123 Main St',
       city: 'Test City',
       userId: 1,
+      apartment: 'apartment',
+      zip: 'zip',
+      region: 'region',
+      country: 'country',
     },
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    deleted: false,
+    deletedAt: null,
+  };
+
+  const dto: CreateUserDTO = {
+    firstname: 'John',
+    lastname: 'Doe',
+    email: 'test@example.com',
+    keycloakUserId: '12345',
   };
 
   beforeEach(async () => {
@@ -67,6 +88,30 @@ describe('UsersRepository', () => {
         where: { email },
         include: { address: true },
       });
+    });
+  });
+
+  describe('create', () => {
+    it('should create a user and return the created user with address', async () => {
+      mockPrismaService.user.create.mockResolvedValue(mockUser);
+
+      const result = await usersRepository.create(dto);
+      expect(result).toEqual(mockUser);
+      expect(mockPrismaService.user.create).toHaveBeenCalledWith({
+        data: {
+          firstname: dto.firstname,
+          lastname: dto.lastname,
+          email: dto.email,
+          keycloakUserId: dto.keycloakUserId,
+        },
+        include: { address: true },
+      });
+    });
+
+    it('should throw an error if user creation fails', async () => {
+      mockPrismaService.user.create.mockRejectedValue(new Error('Database error'));
+
+      await expect(usersRepository.create(dto)).rejects.toThrow('Database error');
     });
   });
 });

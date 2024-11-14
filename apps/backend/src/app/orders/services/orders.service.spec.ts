@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { OrdersService } from './orders.service';
 import { OrdersRepository } from './orders.repository';
-import { NotFoundException, InternalServerErrorException } from '@nestjs/common';
+import { NotFoundException, InternalServerErrorException, BadRequestException } from '@nestjs/common';
 import { ShoppingSessionDTO } from '../../shopping-sessions/dtos/shopping-session-dto';
 import { HydratedOrder } from '../entities/hydrated-order';
 import { OrderDTO } from '../dtos/order-dto';
@@ -66,7 +66,7 @@ describe('OrdersService', () => {
       expect(repository.find).toHaveBeenCalledWith('123', 'test@example.com');
     });
 
-    it('should throw NotFoundException when order is not found', async () => {
+    it('should throw the right exception when order is not found', async () => {
       repository.find.mockResolvedValue(null);
 
       await expect(service.find('123', 'test@example.com')).rejects.toThrow(NotFoundException);
@@ -102,12 +102,10 @@ describe('OrdersService', () => {
       expect(repository.createFromShoppingSession).toHaveBeenCalledWith(mockShoppingSession);
     });
 
-    it('should throw InternalServerErrorException when creation fails', async () => {
+    it('should throw the right exception when creation fails', async () => {
       repository.createFromShoppingSession.mockResolvedValue(null);
 
-      await expect(service.createFromShoppingSession(mockShoppingSession)).rejects.toThrow(
-        InternalServerErrorException
-      );
+      await expect(service.createFromShoppingSession(mockShoppingSession)).rejects.toThrow(BadRequestException);
     });
   });
 });

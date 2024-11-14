@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: quay.io/keycloak/keycloak:23.0.6
+          args: ['start']
+          ports:
+            - containerPort: 8080
+          #            - containerPort: 8443
+          envFrom:
+            - configMapRef:
+                name: keycloak-config
+            - secretRef:
+                name: keycloak-secrets
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 8080
+            #              port: 8443
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 3
+          volumeMounts:
+            - name: keycloak-data
+              mountPath: /opt/keycloak/data
+      #            - name: keycloak-certs
+      #              mountPath: /opt/keycloak/certs
+      #              readOnly: true
+      volumes:
+        - name: keycloak-data
+          persistentVolumeClaim:
+            claimName: keycloak-data
+#        - name: keycloak-certs
+#          secret:
+#            secretName: keycloak-tls

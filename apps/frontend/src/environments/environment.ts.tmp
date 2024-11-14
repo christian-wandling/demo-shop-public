@@ -1,0 +1,8 @@
+export const environment = {
+  production: true,
+  keycloak: {
+    url: 'http://localhost:30081',
+    realm: 'demo_shop',
+    clientId: 'demo_shop_ui',
+  },
+};
