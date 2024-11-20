@@ -1,4 +1,4 @@
-import { Body, InternalServerErrorException, NotFoundException, Param } from '@nestjs/common';
+import { Body, ForbiddenException, InternalServerErrorException, NotFoundException, Param } from '@nestjs/common';
 import { CartItemsService } from './services/cart-items.service';
 import { CartItemDTO, CreateCartItemDTO, UpdateCartItemDTO } from './dtos/cart-item-dto';
 import { CustomPost } from '../common/decorators/custom-post.decorator';
@@ -26,7 +26,7 @@ export class CartItemsController {
     const shoppingSession = await this.shoppingSessionsService.findCurrentSessionForUser(email);
 
     if (!shoppingSession) {
-      throw new NotFoundException();
+      throw new ForbiddenException('No active shopping session found. Please login to start a new shopping session.');
     }
 
     return this.cartItemsService.create(dto, shoppingSession.id);
@@ -41,7 +41,7 @@ export class CartItemsController {
     const shoppingSession = await this.shoppingSessionsService.findCurrentSessionForUser(email);
 
     if (!shoppingSession) {
-      throw new NotFoundException();
+      throw new ForbiddenException('No active shopping session found. Please login to start a new shopping session.');
     }
 
     return this.cartItemsService.update(id, dto, shoppingSession.id);
@@ -55,7 +55,7 @@ export class CartItemsController {
     const shoppingSession = await this.shoppingSessionsService.findCurrentSessionForUser(email);
 
     if (!shoppingSession) {
-      throw new NotFoundException();
+      throw new ForbiddenException('No active shopping session found. Please login to start a new shopping session.');
     }
 
     await this.cartItemsService.remove(id, shoppingSession.id);

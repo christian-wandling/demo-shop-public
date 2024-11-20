@@ -15,7 +15,7 @@ export class ProductsService {
     const product = await this.productsRepository.find(id);
 
     if (!product) {
-      throw new NotFoundException();
+      throw new NotFoundException(`Product not found`);
     }
 
     return toProductDTO(product);

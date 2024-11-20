@@ -1,4 +1,4 @@
-import { NotFoundException, Param } from '@nestjs/common';
+import { ForbiddenException, NotFoundException, Param } from '@nestjs/common';
 import { OrdersService } from './services/orders.service';
 import { OrderDTO } from './dtos/order-dto';
 import { Auth } from '../common/decorators/auth.decorator';
@@ -22,7 +22,7 @@ export class OrdersController {
     const shoppingSession = await this.shoppingSessionService.findCurrentSessionForUser(email);
 
     if (!shoppingSession) {
-      throw new NotFoundException();
+      throw new ForbiddenException('No active shopping session found. Please login to start a new shopping session.');
     }
 
     return this.ordersService.createFromShoppingSession(shoppingSession);

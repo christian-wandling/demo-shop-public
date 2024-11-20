@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CartItemDTO, CreateCartItemDTO, toCartItemDto, UpdateCartItemDTO } from '../dtos/cart-item-dto';
 import { CartItemsRepository } from './cart-items.repository';
 
@@ -10,7 +10,7 @@ export class CartItemsService {
     const cartItem = await this.cartItemRepository.create(dto, shoppingSessionId);
 
     if (!cartItem) {
-      throw new InternalServerErrorException();
+      throw new BadRequestException('Failed to create cart item');
     }
 
     return toCartItemDto(cartItem);
@@ -20,7 +20,7 @@ export class CartItemsService {
     const cartItem = await this.cartItemRepository.update(id, dto, shoppingSessionId);
 
     if (!cartItem) {
-      throw new InternalServerErrorException();
+      throw new NotFoundException(`Cart item not found`);
     }
 
     return toCartItemDto(cartItem);
@@ -30,7 +30,7 @@ export class CartItemsService {
     const cartItem = await this.cartItemRepository.remove(id, shoppingSessionId);
 
     if (!cartItem) {
-      throw new InternalServerErrorException();
+      throw new NotFoundException(`Cart item not found`);
     }
   }
 }

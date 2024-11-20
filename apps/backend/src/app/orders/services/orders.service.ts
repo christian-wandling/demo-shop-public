@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { OrdersRepository } from './orders.repository';
 import { OrderDTO, toOrderDto } from '../dtos/order-dto';
 import { batchConvert } from '../../common/util/batch-convert';
@@ -12,7 +12,7 @@ export class OrdersService {
     const order = await this.ordersRepository.find(id, email);
 
     if (!order) {
-      throw new NotFoundException();
+      throw new NotFoundException(`Order not found`);
     }
 
     return toOrderDto(order);
@@ -26,7 +26,7 @@ export class OrdersService {
     const order = await this.ordersRepository.createFromShoppingSession(shoppingSession);
 
     if (!order) {
-      throw new InternalServerErrorException();
+      throw new BadRequestException('Failed to create order');
     }
 
     return toOrderDto(order);

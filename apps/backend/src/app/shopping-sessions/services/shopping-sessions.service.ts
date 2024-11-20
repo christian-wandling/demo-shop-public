@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { ShoppingSessionDTO, toShoppingSessionDTO } from '../dtos/shopping-session-dto';
 import { ShoppingSessionsRepository } from './shopping-sessions.repository';
 
@@ -10,7 +10,7 @@ export class ShoppingSessionsService {
     const session = await this.shoppingSessionsRepository.create(email);
 
     if (!session) {
-      throw new InternalServerErrorException();
+      throw new BadRequestException('Failed to create shopping session');
     }
 
     return toShoppingSessionDTO(session);
@@ -30,7 +30,7 @@ export class ShoppingSessionsService {
     const shoppingSession = await this.shoppingSessionsRepository.remove(id, email);
 
     if (!shoppingSession) {
-      throw new InternalServerErrorException();
+      throw new NotFoundException(`Shopping session not found`);
     }
   }
 }
