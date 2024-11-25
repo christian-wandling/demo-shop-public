@@ -15,11 +15,11 @@ datasource db {
 
 model User {
   id               Int               @id @default(autoincrement())
-  keycloakUser     String            @unique
+  keycloakUserId   String            @unique
   email            String            @unique
   firstname        String
   lastname         String
-  phone            String
+  phone            String?
   address          Address?
   shoppingSessions ShoppingSession[]
   orders           Order[]

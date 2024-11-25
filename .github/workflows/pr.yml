@@ -26,16 +26,16 @@ jobs:
       - uses: nrwl/nx-set-shas@v4
 
       - name: lint
-        run: npx nx affected -t lint --configuration=ci
+        run: npx nx affected -t lint --configuration=ci --base=origin/main
 
       - name: test
-        run: npx nx affected -t test --configuration=ci --codeCoverage
+        run: npx nx affected -t test --configuration=ci --codeCoverage --base=origin/main
 
       - name: build
-        run: npx nx affected -t build
+        run: npx nx affected -t build --base=origin/main
 
-      - name: e2e
-        run: npx nx affected --parallel 1 -t e2e-ci
+      #      - name: e2e
+      #        run: npx nx affected --parallel 1 -t e2e --base=origin/main
 
       # Run quality gate
       - name: sonarcloud

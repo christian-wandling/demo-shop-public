@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CartItemsService } from './cart-items.service';
 import { CartItemsRepository } from './cart-items.repository';
 import { CartItemDTO, CreateCartItemDTO, UpdateCartItemDTO } from '../dtos/cart-item-dto';
@@ -91,10 +91,10 @@ describe('CartItemsService', () => {
       expect(result).toEqual(mockCartItemDto);
     });
 
-    it('should throw InternalServerErrorException when repository returns null', async () => {
+    it('should throw the right exception when repository returns null', async () => {
       mockRepository.create.mockResolvedValue(null);
 
-      await expect(service.create(createDto, sessionId)).rejects.toThrow(InternalServerErrorException);
+      await expect(service.create(createDto, sessionId)).rejects.toThrow(BadRequestException);
     });
   });
 
@@ -116,10 +116,10 @@ describe('CartItemsService', () => {
       expect(result).toEqual(updatedCartItemDto);
     });
 
-    it('should throw InternalServerErrorException when repository returns null', async () => {
+    it('should throw the right exception when repository returns null', async () => {
       mockRepository.update.mockResolvedValue(null);
 
-      await expect(service.update(itemId, updateDto, sessionId)).rejects.toThrow(InternalServerErrorException);
+      await expect(service.update(itemId, updateDto, sessionId)).rejects.toThrow(NotFoundException);
     });
   });
 
@@ -135,10 +135,10 @@ describe('CartItemsService', () => {
       expect(repository.remove).toHaveBeenCalledWith(itemId, sessionId);
     });
 
-    it('should throw InternalServerErrorException when repository returns null', async () => {
+    it('should throw the right exception when repository returns null', async () => {
       mockRepository.remove.mockResolvedValue(null);
 
-      await expect(service.remove(itemId, sessionId)).rejects.toThrow(InternalServerErrorException);
+      await expect(service.remove(itemId, sessionId)).rejects.toThrow(NotFoundException);
     });
   });
 });

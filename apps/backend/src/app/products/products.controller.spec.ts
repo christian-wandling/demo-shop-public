@@ -60,6 +60,26 @@ describe('ProductsController', () => {
     });
   });
 
+  describe('getAllProducts', () => {
+    it('should return a product by id', async () => {
+      const result = await controller.getAllProducts();
+
+      expect(result).toEqual(mockProducts);
+      expect(productsService.all).toHaveBeenCalled();
+      expect(productsService.all).toHaveBeenCalledTimes(1);
+    });
+
+    it('should have the correct path', () => {
+      const path = Reflect.getMetadata('path', ProductsController.prototype.getAllProducts);
+      expect(path).toEqual('/');
+    });
+
+    it('should have the correct method', () => {
+      const method = Reflect.getMetadata('method', ProductsController.prototype.getAllProducts);
+      expect(method).toEqual(RequestMethod.GET);
+    });
+  });
+
   describe('getProduct', () => {
     it('should return a product by id', async () => {
       const id = '1';

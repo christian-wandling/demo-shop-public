@@ -6,8 +6,9 @@ import { CustomController } from '../common/decorators/custom-controller.decorat
 import { CustomPost } from '../common/decorators/custom-post.decorator';
 import { CustomGet } from '../common/decorators/custom-get.decorator';
 import { CustomHeaders } from '../common/decorators/custom-headers.decorator';
-import { EmailFromTokenPipe } from '../common/pipes/email-from-token.pipe';
+import { DecodeTokenPipe } from '../common/pipes/decode-token-pipe';
 import { CustomDelete } from '../common/decorators/custom-delete.decorator';
+import { DecodedToken } from '../common/entities/decoded-token';
 
 @CustomController({ path: 'shopping-sessions', version: '1' })
 @Auth({ roles: ['buy_products'] })
@@ -16,23 +17,23 @@ export class ShoppingSessionsController {
 
   @CustomPost({ body: undefined, res: ShoppingSessionDTO })
   async createShoppingSession(
-    @CustomHeaders('authorization', EmailFromTokenPipe) email: string
+    @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken
   ): Promise<ShoppingSessionDTO> {
-    return this.shoppingSessionsService.create(email);
+    return this.shoppingSessionsService.create(decodedToken.email);
   }
 
   @CustomGet({ path: 'current', res: ShoppingSessionDTO })
   async getShoppingSessionOfCurrentUser(
-    @CustomHeaders('authorization', EmailFromTokenPipe) email: string
+    @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken
   ): Promise<ShoppingSessionDTO> {
-    return this.shoppingSessionsService.findCurrentSessionForUser(email);
+    return this.shoppingSessionsService.findCurrentSessionForUser(decodedToken.email);
   }
 
   @CustomDelete({ path: ':id' })
   async removeShoppingSession(
     @Param('id') id: string,
-    @CustomHeaders('authorization', EmailFromTokenPipe) email: string
+    @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken
   ): Promise<void> {
-    await this.shoppingSessionsService.remove(id, email);
+    await this.shoppingSessionsService.remove(id, decodedToken.email);
   }
 }

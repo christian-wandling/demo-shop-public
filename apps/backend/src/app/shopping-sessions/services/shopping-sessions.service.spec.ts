@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { ShoppingSessionsService } from './shopping-sessions.service';
 import { ShoppingSessionsRepository } from './shopping-sessions.repository';
 import { ShoppingSessionDTO } from '../dtos/shopping-session-dto';
@@ -58,10 +58,10 @@ describe('ShoppingSessionsService', () => {
       expect(result).toEqual(mockSessionDTO);
     });
 
-    it('should throw InternalServerErrorException when repository returns null', async () => {
+    it('should throw the right exception when repository returns null', async () => {
       repository.create.mockResolvedValue(null);
 
-      await expect(service.create(mockEmail)).rejects.toThrow(InternalServerErrorException);
+      await expect(service.create(mockEmail)).rejects.toThrow(BadRequestException);
     });
   });
 
@@ -86,11 +86,11 @@ describe('ShoppingSessionsService', () => {
       expect(result).toEqual(mockSessionDTO);
     });
 
-    it('should throw InternalServerErrorException when create fails during find', async () => {
+    it('should throw the right exception when create fails during find', async () => {
       repository.find.mockResolvedValue(null);
       repository.create.mockResolvedValue(null);
 
-      await expect(service.findCurrentSessionForUser(mockEmail)).rejects.toThrow(InternalServerErrorException);
+      await expect(service.findCurrentSessionForUser(mockEmail)).rejects.toThrow(BadRequestException);
     });
   });
 
@@ -105,10 +105,10 @@ describe('ShoppingSessionsService', () => {
       expect(repository.remove).toHaveBeenCalledWith(mockId, mockEmail);
     });
 
-    it('should throw InternalServerErrorException when repository returns null', async () => {
+    it('should throw the right exception when repository returns null', async () => {
       repository.remove.mockResolvedValue(null);
 
-      await expect(service.remove(mockId, mockEmail)).rejects.toThrow(InternalServerErrorException);
+      await expect(service.remove(mockId, mockEmail)).rejects.toThrow(NotFoundException);
     });
   });
 });

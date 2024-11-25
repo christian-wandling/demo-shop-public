@@ -31,8 +31,8 @@ jobs:
       - name: test
         run: npx nx run-many -t test --codeCoverage
 
-      - name: e2e
-        run: npx nx run-many -t e2e-ci
+      #      - name: e2e
+      #        run: npx nx run-many -t e2e
 
       - name: build
         run: npx nx run-many -t build

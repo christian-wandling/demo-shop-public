@@ -1,16 +1,30 @@
 import { Image, PrismaClient, Product } from '@prisma/client';
-import { faker, tr } from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
+
+const getHasProducts = async (prisma: PrismaClient) => {
+  const product = await prisma.product.findFirst();
+
+  return !!product;
+};
 
 export const seedProducts = async (prisma: PrismaClient): Promise<Array<Product & { images: Image[] }>> => {
   console.log('Seeding products...');
+
+  const hasProducts = await getHasProducts(prisma);
+
+  if (hasProducts) {
+    console.log(`Products table is not empty, skip seeding products`);
+
+    return [];
+  }
+
+  const products = [];
 
   const categories = await prisma.category.createManyAndReturn({
     data: faker.helpers.uniqueArray(faker.commerce.department, 5).map(name => ({
       name,
     })),
   });
-
-  const products = [];
 
   for (const name of faker.helpers.uniqueArray(faker.commerce.productName, 30)) {
     const category = categories[Math.floor(Math.random() * categories.length)];
@@ -46,7 +60,7 @@ export const seedProducts = async (prisma: PrismaClient): Promise<Array<Product 
     products.push(product);
   }
 
-  console.log('Seeding products complete');
+  console.log(`Seeding complete: Added ${products.length} products(s)`);
 
   return products;
 };

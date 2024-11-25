@@ -28,7 +28,6 @@ describe('UserDTO', () => {
     it('should pass validation with valid data', async () => {
       const userDto = plainToInstance(UserDTO, validUserData);
       const errors = await validate(userDto);
-      console.log(errors);
       expect(errors.length).toBe(0);
     });
 
@@ -77,7 +76,7 @@ describe('UserDTO', () => {
     it('should transform HydratedUser to UserDTO', () => {
       const mockUser: HydratedUser = {
         id: 1,
-        keycloakUser: '1',
+        keycloakUserId: '1',
         email: 'test@example.com',
         firstname: 'John',
         lastname: 'Doe',

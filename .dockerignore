@@ -3,14 +3,12 @@
 .github
 .husky
 .idea
-.nx/cache
 .vscode
 coverage
 dist
 node_modules
 pgdata
 rest
-secrets
 .czrc
 .dockerignore
 .editorconfig
