@@ -30,7 +30,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
       },
     ]),
     KeycloakConnectModule.register({
-      authServerUrl: `http://localhost:8080`,
+      authServerUrl: process.env.KEYCLOAK_URL,
       realm: process.env.KEYCLOAK_REALM,
       clientId: process.env.KEYCLOAK_CLIENT_API,
       secret: '',

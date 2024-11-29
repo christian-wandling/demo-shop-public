@@ -3,7 +3,7 @@
 map_secrets() {
   local container_name="$1"
   local template_file="$2"
-  local -a secret_files=("${@:3}")
+  local -a secrets_files=("${@:3}")
 
   local SCRIPT_DIR
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -12,16 +12,16 @@ map_secrets() {
   # Validate input parameters
   if [ -z "$container_name" ] || [ -z "$template_file" ]; then
     log_error "Missing required parameters."
-    log_error "Usage: map_secrets <container_name> <template_file> [secret_files...]"
+    log_error "Usage: map_secrets <container_name> <template_file> [secrets_files...]"
     log_error "Example: map_secrets \"postgres\" \"postgres-secrets.yaml\" \"secrets1.txt\" \"secrets2.txt\""
     return 1
   fi
 
-  if [ ${#secret_files[@]} -eq 0 ]; then
+  if [ ${#secrets_files[@]} -eq 0 ]; then
     return 0
   fi
 
-  for secrets_file in "${secret_files[@]}"; do
+  for secrets_file in "${secrets_files[@]}"; do
     if ! map_k8s_secret "$secrets_file" "$template_file"; then
       log_error "Failed to map secrets for $container_name from file: $secrets_file"
       return 1

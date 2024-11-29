@@ -32,7 +32,7 @@ export const appConfig: ApplicationConfig = {
     provideRouterStore(),
     provideApi(
       withConfiguration({
-        basePath: 'http://localhost:3000/api',
+        basePath: '/api',
       })
     ),
     provideAuth({

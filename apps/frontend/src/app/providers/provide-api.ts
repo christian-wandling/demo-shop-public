@@ -3,7 +3,6 @@ import { makeEnvironmentProviders } from '@angular/core';
 
 export function withConfiguration(configurationParameters: ConfigurationParameters = {}): Configuration {
   return new Configuration({
-    basePath: 'http://localhost:3000',
     ...configurationParameters,
   });
 }

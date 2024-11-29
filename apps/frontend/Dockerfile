@@ -16,8 +16,8 @@ COPY --from=dev /usr/src/app/node_modules ./node_modules
 COPY --from=dev /usr/src/app .
 COPY secrets/keycloak-config.txt .
 COPY .ops/docker/frontend/update-angular-environment.sh .
-RUN sh update-angular-environment.sh "apps/frontend/src/environments/environment.ts" "keycloak-config.txt" \
-    && npx nx build frontend \
+RUN sh update-angular-environment.sh "apps/frontend/src/environments/environment.ts" "keycloak-config.txt"
+RUN npx nx build frontend \
     && npm pkg delete scripts.prepare \
     && npm ci --omit=dev --ignore-scripts \
     && npm cache clean --force

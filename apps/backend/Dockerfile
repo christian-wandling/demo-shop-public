@@ -16,11 +16,11 @@ ENV NODE_ENV=production
 COPY package*.json ./
 COPY --from=dev /usr/src/app/node_modules ./node_modules
 COPY --from=dev /usr/src/app .
-RUN ls ./prisma -la
 RUN npx nx build backend \
     && npm pkg delete scripts.prepare \
     && npm ci --omit=dev --ignore-scripts \
-    && npm cache clean --force
+    && npm cache clean --force \
+    && npx prisma generate
 
 
 
@@ -32,5 +32,6 @@ ENV PORT=3000
 EXPOSE 3000
 USER node
 COPY --from=build /usr/src/app/node_modules ./node_modules
+COPY --from=build /usr/src/app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=build /usr/src/app/dist/apps/backend ./dist
 CMD ["dumb-init", "node", "dist/main.js"]
