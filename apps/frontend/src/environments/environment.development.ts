@@ -5,4 +5,7 @@ export const environment = {
     realm: 'demo_shop',
     clientId: 'demo_shop_ui',
   },
+  sentry: {
+    enabled: false,
+  },
 };

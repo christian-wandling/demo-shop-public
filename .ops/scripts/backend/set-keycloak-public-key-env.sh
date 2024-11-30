@@ -3,7 +3,7 @@
 set_keycloak_public_key_env() {
   local SCRIPT_DIR
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-  local SECRETS_DIR="${SCRIPT_DIR}/../../../../secrets"
+  local SECRETS_DIR="${SCRIPT_DIR}/../../../secrets"
   local UTILS_DIR="${SCRIPT_DIR}/../utils"
   source "${UTILS_DIR}/logging-utils.sh"
 

@@ -14,8 +14,6 @@ deploy_prod() {
   source "${SCRIPT_DIR}/prisma/run-prisma-jobs.sh"
   source "${SCRIPT_DIR}/frontend/deploy-frontend.sh"
 
-  setup || exit 1
-
   deploy_postgres || exit 1
   deploy_pgadmin || exit 1
   deploy_keycloak || exit 1
@@ -23,17 +21,7 @@ deploy_prod() {
   run_prisma_jobs || exit 1
   deploy_frontend || exit 1
 
-  cleanup || exit 1
-
   return 0
 }
 
-setup() {
-  mkdir -p tmp
-}
-
-cleanup() {
-  rm -rf tmp
-}
-
-deploy_prod
+deploy_prod "$0"

@@ -27,11 +27,16 @@
       },
       "configurations": {
         "production": {
+          "sourceMap": {
+            "hidden": true,
+            "scripts": true,
+            "styles": true
+          },
           "budgets": [
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumError": "2mb"
             },
             {
               "type": "anyComponentStyle",
@@ -67,7 +72,7 @@
       },
       "defaultConfiguration": "development",
       "options": {
-        "proxyConfig": "apps/frontend/proxy.conf.json",
+        "proxyConfig": "apps/frontend/proxy.conf.js",
         "poll": 2000,
         "host": "0.0.0.0"
       }

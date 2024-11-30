@@ -9,17 +9,25 @@ COPY --chown=node:node . .
 
 
 FROM docker.io/node:lts-alpine AS build
+ARG KEYCLOAK_URL
+ARG KEYCLOAK_REALM
+ARG KEYCLOAK_CLIENT_UI
+ARG SENTRY_DEMO_SHOP_UI_DSN
+ARG SENTRY_TRUSTED_DOMAIN
+ARG SENTRY_ORG
+ARG SENTRY_DEMO_SHOP_UI_PROJECT
 RUN apk add --no-cache gettext
 WORKDIR /usr/src/app
-COPY package*.json .
-COPY --from=dev /usr/src/app/node_modules ./node_modules
 COPY --from=dev /usr/src/app .
-COPY secrets/keycloak-config.txt .
-COPY .ops/docker/frontend/update-angular-environment.sh .
-RUN sh update-angular-environment.sh "apps/frontend/src/environments/environment.ts" "keycloak-config.txt"
+RUN envsubst < apps/frontend/src/environments/environment.ts > /tmp/environment.ts \
+    && mv /tmp/environment.ts apps/frontend/src/environments/environment.ts
 RUN npx nx build frontend \
     && npm pkg delete scripts.prepare \
-    && npm ci --omit=dev --ignore-scripts \
+RUN sh .ops/scripts/utils/upload-sourcemaps.sh \
+    "dist/apps/frontend" \
+    "$SENTRY_ORG" \
+    "$SENTRY_DEMO_SHOP_UI_PROJECT" \
+RUN npm ci --omit=dev --ignore-scripts \
     && npm cache clean --force
 
 

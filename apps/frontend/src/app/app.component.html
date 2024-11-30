@@ -1,5 +1,7 @@
 @if (initialized()) {
 <lib-cart></lib-cart>
 <lib-navigation></lib-navigation>
+<button (click)="throwFeError()">Test FE Error</button>
+<button (click)="throwBeError()">Test BE Error</button>
 <router-outlet></router-outlet>
 }

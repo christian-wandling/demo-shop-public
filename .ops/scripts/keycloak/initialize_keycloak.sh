@@ -22,7 +22,7 @@ _main() {
   local SCRIPT_DIR
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" || exit 1
   local UTILS_DIR="${SCRIPT_DIR}/../utils"
-  local SECRETS_DIR="${SCRIPT_DIR}/../../../../secrets"
+  local SECRETS_DIR="${SCRIPT_DIR}/../../../secrets"
 
   if ! source "${UTILS_DIR}/logging-utils.sh"; then
     echo "Error: Failed to source logging utilities" >&2
