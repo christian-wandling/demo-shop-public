@@ -1,6 +1,5 @@
 /**
  * Demo shop
- * The demo shop API description
  *
  *
  *
@@ -99,22 +98,22 @@ export class DefaultApi {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public getData(
+  public getError(
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: undefined; context?: HttpContext; transferCache?: boolean }
   ): Observable<any>;
-  public getData(
+  public getError(
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: undefined; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpResponse<any>>;
-  public getData(
+  public getError(
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: undefined; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpEvent<any>>;
-  public getData(
+  public getError(
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: undefined; context?: HttpContext; transferCache?: boolean }
@@ -152,7 +151,7 @@ export class DefaultApi {
       }
     }
 
-    let localVarPath = `/v1`;
+    let localVarPath = `/v1/app/debug-sentry`;
     return this.httpClient.request<any>('get', `${this.configuration.basePath}${localVarPath}`, {
       context: localVarHttpContext,
       responseType: <any>responseType_,

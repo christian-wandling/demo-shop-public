@@ -5,10 +5,12 @@ import { UserDTO } from './dtos/user-dto';
 import { DecodeTokenPipe } from '../common/pipes/decode-token-pipe';
 import { RequestMethod } from '@nestjs/common';
 import { DecodedToken } from '../common/entities/decoded-token';
+import { MonitoringService } from '../common/services/monitoring.service';
 
 describe('UsersController', () => {
   let controller: UsersController;
   let usersService: UsersService;
+  let monitoringService: MonitoringService;
 
   const mockUserDto: UserDTO = {
     address: undefined,
@@ -36,6 +38,12 @@ describe('UsersController', () => {
             getFromToken: jest.fn().mockResolvedValue(mockUserDto),
           },
         },
+        {
+          provide: MonitoringService,
+          useValue: {
+            setUser: jest.fn(),
+          },
+        },
       ],
     })
       .overridePipe(DecodeTokenPipe)
@@ -44,6 +52,7 @@ describe('UsersController', () => {
 
     controller = module.get(UsersController);
     usersService = module.get(UsersService);
+    monitoringService = module.get(MonitoringService);
   });
 
   afterEach(() => {
@@ -82,6 +91,22 @@ describe('UsersController', () => {
       await expect(controller.getCurrentUser(mockDecodedToken)).rejects.toThrow('User not found');
       expect(usersService.getFromToken).toHaveBeenCalledWith(mockDecodedToken);
       expect(usersService.getFromToken).toHaveBeenCalledTimes(1);
+    });
+
+    it('should set the user id', async () => {
+      await controller.getCurrentUser(mockDecodedToken);
+
+      expect(monitoringService.setUser).toHaveBeenCalledWith({ id: mockUserDto.id });
+      expect(monitoringService.setUser).toHaveBeenCalledTimes(1);
+    });
+
+    it('should set the user id to undefined if not user found', async () => {
+      jest.spyOn(usersService, 'getFromToken').mockRejectedValueOnce(new Error('User not found'));
+
+      await expect(controller.getCurrentUser(mockDecodedToken)).rejects.toThrow('User not found');
+
+      expect(monitoringService.setUser).toHaveBeenCalledWith({ id: undefined });
+      expect(monitoringService.setUser).toHaveBeenCalledTimes(1);
     });
 
     it('should have the correct path', () => {

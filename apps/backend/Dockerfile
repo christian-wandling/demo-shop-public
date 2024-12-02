@@ -11,17 +11,17 @@ RUN rm -rf .nx/cache \
 
 
 FROM docker.io/node:lts-alpine AS build
-WORKDIR /usr/src/app
 ENV NODE_ENV=production
-COPY package*.json ./
-COPY --from=dev /usr/src/app/node_modules ./node_modules
+ARG SENTRY_AUTH_TOKEN
+ARG SENTRY_ORG
+ARG SENTRY_DEMO_SHOP_API_PROJECT
+WORKDIR /usr/src/app
 COPY --from=dev /usr/src/app .
 RUN npx nx build backend \
     && npm pkg delete scripts.prepare \
     && npm ci --omit=dev --ignore-scripts \
     && npm cache clean --force \
     && npx prisma generate
-
 
 
 FROM docker.io/node:lts-alpine AS prod

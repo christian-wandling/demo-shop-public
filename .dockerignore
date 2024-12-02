@@ -1,4 +1,3 @@
-+research
 .angular
 .github
 .husky
@@ -9,10 +8,13 @@ dist
 node_modules
 pgdata
 rest
+secrets/*
+!secrets/nginx-server.key
+!secrets/nginx-server.crt
+!secrets/dhparam.pem
 .czrc
 .dockerignore
 .editorconfig
-.env
 .gitignore
 commitlint.config.js
 docker-compose*.yml
@@ -20,3 +22,4 @@ migrations.json
 npm-debug.log
 README.md
 **/Dockerfile
+.env*
