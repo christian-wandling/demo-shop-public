@@ -38,6 +38,8 @@ describe('OrderDetailComponent', () => {
     created: new UTCDate(2020, 0, 1).toString(),
   };
 
+  console.log(mockOrder.created);
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [OrderDetailComponent],

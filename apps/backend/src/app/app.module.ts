@@ -14,14 +14,11 @@ import {
   RoleGuard,
   TokenValidation,
 } from 'nest-keycloak-connect';
-import { APP_FILTER, APP_GUARD } from '@nestjs/core';
+import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { SentryGlobalFilter, SentryModule } from '@sentry/nestjs/setup';
-import { AppController } from './app.controller';
 
 @Module({
   imports: [
-    SentryModule.forRoot(),
     ConfigModule.forRoot(),
     JwtModule.register({
       global: true,
@@ -51,10 +48,6 @@ import { AppController } from './app.controller';
   ],
   providers: [
     {
-      provide: APP_FILTER,
-      useClass: SentryGlobalFilter,
-    },
-    {
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
@@ -67,6 +60,5 @@ import { AppController } from './app.controller';
       useClass: ThrottlerGuard,
     },
   ],
-  controllers: [AppController],
 })
 export class AppModule {}

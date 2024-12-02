@@ -9,7 +9,7 @@
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "backend:build:development"
+        "buildTarget": "backend:build"
       },
       "configurations": {
         "development": {
@@ -18,11 +18,6 @@
         "production": {
           "buildTarget": "backend:build:production"
         }
-      }
-    },
-    "build": {
-      "options": {
-        "args": []
       }
     },
     "test": {
