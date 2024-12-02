@@ -56,7 +56,6 @@ exports[`OrderDetailComponent should match the snapshot 1`] = `
     <section>
       <ul
         class="divide-y divide-gray-100"
-        role="list"
       >
         <li
           class="flex justify-between gap-x-6 py-5"

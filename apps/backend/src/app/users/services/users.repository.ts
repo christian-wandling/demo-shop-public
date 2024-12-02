@@ -7,7 +7,7 @@ import { CreateUserDTO } from '../dtos/create-user-dto';
 
 @Injectable()
 export class UsersRepository implements UsersRepositoryModel {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async find(email: string): Promise<HydratedUser> {
     return this.prisma.user.findUniqueOrThrow({

@@ -16,7 +16,7 @@ export class RandomIntService {
     const value = this.generate(max, min).next().value;
 
     if (value === this.lastValue) {
-      return this.getValue(min, max);
+      return this.getValue(max, min);
     }
 
     this.lastValue = value;

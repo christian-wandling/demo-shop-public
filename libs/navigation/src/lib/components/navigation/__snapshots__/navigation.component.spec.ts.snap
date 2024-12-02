@@ -340,7 +340,6 @@ exports[`NavigationComponent snapshots should match snapshot with flyout menu op
                               <ul
                                 aria-labelledby="Flyout1-heading"
                                 class="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
-                                role="list"
                               >
                                 <li
                                   class="flex"
@@ -463,7 +462,6 @@ exports[`NavigationComponent snapshots should match snapshot with flyout menu op
                               <ul
                                 aria-labelledby="Flyout2-heading"
                                 class="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
-                                role="list"
                               >
                                 
                               </ul>
@@ -521,16 +519,15 @@ exports[`NavigationComponent snapshots should match snapshot with mobile menu op
   class="bg-white"
   id="root7"
 >
-  <div
+  <dialog
     aria-modal="true"
     class="relative z-40 lg:hidden ng-trigger ng-trigger-animateBackdrop ng-animating"
-    role="dialog"
   >
     <div
       aria-hidden="true"
       class="fixed inset-0 bg-black bg-opacity-25"
     />
-  </div>
+  </dialog>
   <div
     class="absolute h-screen z-40 flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl ng-trigger ng-trigger-animateSlideOver ng-animating"
   >
@@ -638,7 +635,6 @@ exports[`NavigationComponent snapshots should match snapshot with mobile menu op
           <ul
             aria-labelledby="Flyout1-heading-mobile"
             class="mt-6 mb-10 last:mb-0 flex flex-col space-y-6"
-            role="list"
             style=""
           >
             <li
@@ -671,7 +667,6 @@ exports[`NavigationComponent snapshots should match snapshot with mobile menu op
           <ul
             aria-labelledby="Flyout2-heading-mobile"
             class="mt-6 mb-10 last:mb-0 flex flex-col space-y-6"
-            role="list"
             style=""
           >
             

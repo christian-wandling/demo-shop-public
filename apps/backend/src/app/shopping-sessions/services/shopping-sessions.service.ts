@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { ShoppingSessionDTO, toShoppingSessionDTO } from '../dtos/shopping-session-dto';
 import { ShoppingSessionsRepository } from './shopping-sessions.repository';
 

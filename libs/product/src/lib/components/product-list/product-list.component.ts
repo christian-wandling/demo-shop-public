@@ -15,7 +15,7 @@ import { RouterLink } from '@angular/router';
   },
 })
 export class ProductListComponent {
-  #productFacade = inject(ProductFacade);
+  readonly #productFacade = inject(ProductFacade);
 
   readonly products = this.#productFacade.getFiltered();
 }

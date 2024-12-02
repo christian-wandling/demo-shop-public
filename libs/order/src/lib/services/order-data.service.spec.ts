@@ -74,8 +74,8 @@ describe('OrderDataService', () => {
   });
 
   it('should throw an error when calling not implemented functions', async () => {
-    await expect(() => service.delete(mockOrders[0])).rejects.toBe('Not implemented');
-    await expect(() => service.update(mockOrders[0])).rejects.toBe('Not implemented');
-    await expect(() => service.updateAll(mockOrders)).rejects.toBe('Not implemented');
+    await expect(() => service.delete(mockOrders[0])).rejects.toEqual(new Error('Not implemented'));
+    await expect(() => service.update(mockOrders[0])).rejects.toEqual(new Error('Not implemented'));
+    await expect(() => service.updateAll(mockOrders)).rejects.toEqual(new Error('Not implemented'));
   });
 });

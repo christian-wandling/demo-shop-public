@@ -61,7 +61,7 @@
                   formControlName="phone"
                   id="phone"
                   name="phone"
-                  autocomplete="phone"
+                  autocomplete="tel"
                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
               </div>
               <lib-form-error [errors]="checkoutForm().controls.phone.errors" />
@@ -93,7 +93,7 @@
                     type="text"
                     name="street"
                     id="street"
-                    autocomplete="address"
+                    autocomplete="address-line1"
                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                 </div>
               </div>
@@ -108,7 +108,7 @@
                     type="text"
                     name="apartment"
                     id="apartment"
-                    autocomplete="apartment"
+                    autocomplete="address-line2"
                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                 </div>
                 <lib-form-error [errors]="checkoutForm().controls.address.controls.apartment.errors" />
@@ -122,7 +122,7 @@
                     type="text"
                     name="city"
                     id="city"
-                    autocomplete="address-level2"
+                    autocomplete="city"
                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                 </div>
                 <lib-form-error [errors]="checkoutForm().controls.address.controls.city.errors" />
@@ -136,7 +136,7 @@
                     type="text"
                     name="region"
                     id="region"
-                    autocomplete="address-level1"
+                    autocomplete="region"
                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                 </div>
               </div>
@@ -151,7 +151,7 @@
                     type="text"
                     name="zip"
                     id="zip"
-                    autocomplete="zip"
+                    autocomplete="postla-code"
                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                 </div>
                 <lib-form-error [errors]="checkoutForm().controls.address.controls.zip.errors" />

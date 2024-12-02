@@ -1,6 +1,6 @@
 <div class="mt-8">
   <div class="flow-root">
-    <ul role="list" class="-my-6 divide-y divide-gray-200">
+    <ul class="-my-6 divide-y divide-gray-200">
       @for (item of items(); track item.id) {
       <li class="flex py-6">
         <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
@@ -15,7 +15,6 @@
               </h3>
               <p class="ml-4">{{ item.totalPrice | currency }}</p>
             </div>
-            <!--                            <p class="mt-1 text-sm text-gray-500">Salmon</p>-->
           </div>
           <div class="flex flex-1 items-end justify-between text-sm">
             <p class="text-gray-500">Qty {{ item.quantity }}</p>

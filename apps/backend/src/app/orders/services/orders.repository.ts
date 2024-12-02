@@ -6,7 +6,7 @@ import { OrdersRepositoryModel } from '../models/orders-repository.model';
 
 @Injectable()
 export class OrdersRepository implements OrdersRepositoryModel {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   find(id: string, email: string): Promise<HydratedOrder> {
     return this.prisma.order.findUniqueOrThrow({

@@ -27,14 +27,14 @@ export class OrderDataService implements DataService<OrderDTO, OrderFilter> {
   }
 
   delete(entity: OrderDTO): Promise<void> {
-    return Promise.reject('Not implemented');
+    return Promise.reject(new Error('Not implemented'));
   }
 
   update(entity: OrderDTO): Promise<OrderDTO> {
-    return Promise.reject('Not implemented');
+    return Promise.reject(new Error('Not implemented'));
   }
 
   updateAll(entity: OrderDTO[]): Promise<OrderDTO[]> {
-    return Promise.reject('Not implemented');
+    return Promise.reject(new Error('Not implemented'));
   }
 }

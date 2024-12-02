@@ -26,7 +26,7 @@
   </section>
   <section>
     @if (order()) {
-    <ul role="list" class="divide-y divide-gray-100">
+    <ul class="divide-y divide-gray-100">
       @for (item of order().items; track item.productId) {
       <li class="flex gap-x-6 py-5">
         <div class="relative w-16 h-16 flex-shrink">

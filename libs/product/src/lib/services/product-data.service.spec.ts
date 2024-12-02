@@ -63,9 +63,9 @@ describe('ProductDataService', () => {
   });
 
   it('should throw an error when calling not implemented functions', async () => {
-    await expect(() => service.create(mockProducts[0])).rejects.toBe('Not implemented');
-    await expect(() => service.delete(mockProducts[0])).rejects.toBe('Not implemented');
-    await expect(() => service.update(mockProducts[0])).rejects.toBe('Not implemented');
-    await expect(() => service.updateAll(mockProducts)).rejects.toBe('Not implemented');
+    await expect(() => service.create(mockProducts[0])).rejects.toEqual(new Error('Not implemented'));
+    await expect(() => service.delete(mockProducts[0])).rejects.toEqual(new Error('Not implemented'));
+    await expect(() => service.update(mockProducts[0])).rejects.toEqual(new Error('Not implemented'));
+    await expect(() => service.updateAll(mockProducts)).rejects.toEqual(new Error('Not implemented'));
   });
 });

@@ -5,7 +5,7 @@ import { ProductsRepositoryModel } from '../models/products-repository.model';
 
 @Injectable()
 export class ProductsRepository implements ProductsRepositoryModel {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   all(): Promise<HydratedProduct[]> {
     return this.prisma.product.findMany({

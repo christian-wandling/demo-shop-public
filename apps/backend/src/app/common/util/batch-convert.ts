@@ -1,8 +1,8 @@
-export const batchConvert = <Output, Input = unknown>(orders: Input[], fn: (input: Input) => Output): Output[] => {
+export const batchConvert = <Output, Input = unknown>(items: Input[], fn: (input: Input) => Output): Output[] => {
   const outputs: Output[] = [];
 
-  for (let i = 0; i < orders.length; i++) {
-    outputs.push(fn(orders[i]));
+  for (const item of items) {
+    outputs.push(fn(item));
   }
 
   return outputs;

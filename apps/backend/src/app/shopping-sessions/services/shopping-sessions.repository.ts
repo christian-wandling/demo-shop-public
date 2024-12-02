@@ -6,7 +6,7 @@ import { ShoppingSessionsRepositoryModel } from '../models/shopping-sessions-rep
 
 @Injectable()
 export class ShoppingSessionsRepository implements ShoppingSessionsRepositoryModel {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   find(email: string): Promise<HydratedShoppingSession> {
     return this.prisma.shoppingSession.findFirst({

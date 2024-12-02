@@ -16,7 +16,7 @@ export class KeycloakService {
     return this.keycloak.authenticated === true;
   }
 
-  private keycloak: Keycloak = new Keycloak(this.authConfig.keycloak);
+  private readonly keycloak: Keycloak = new Keycloak(this.authConfig.keycloak);
 
   async init(): Promise<boolean> {
     return await this.keycloak.init({
