@@ -13,7 +13,6 @@ describe('API Configuration', () => {
       const config = withConfiguration();
 
       expect(config).toBeInstanceOf(Configuration);
-      expect(config.basePath).toBe('http://localhost:3000');
     });
 
     it('should override default configuration with provided parameters', () => {

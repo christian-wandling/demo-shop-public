@@ -1,8 +1,9 @@
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import { getState, patchState, signalStore, withHooks, withMethods, withState } from '@ngrx/signals';
 import { withDevtools } from '@angular-architects/ngrx-toolkit';
 import { firstValueFrom } from 'rxjs';
-import { inject } from '@angular/core';
+import { effect, inject } from '@angular/core';
 import { UserDTO, UsersApi } from '@demo-shop/api';
+import { MonitoringFacade } from '@demo-shop/monitoring';
 
 type UserState = {
   user: UserDTO | undefined;
@@ -21,5 +22,15 @@ export const UserStore = signalStore(
       const user = await firstValueFrom(usersApi.getCurrentUser());
       patchState(store, state => ({ ...state, user }));
     },
-  }))
+  })),
+  withHooks({
+    onInit(store) {
+      const monitoringFacade = inject(MonitoringFacade);
+
+      effect(() => {
+        const { user } = getState(store);
+        monitoringFacade.setUser({ id: user?.id });
+      });
+    },
+  })
 );

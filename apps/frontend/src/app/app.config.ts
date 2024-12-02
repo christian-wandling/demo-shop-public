@@ -1,5 +1,5 @@
-import { ApplicationConfig, isDevMode, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { ApplicationConfig, ErrorHandler, isDevMode, provideZoneChangeDetection, APP_INITIALIZER } from '@angular/core';
+import { provideRouter, Router } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideHttpClient, withFetch, withInterceptors, withXsrfConfiguration } from '@angular/common/http';
@@ -10,6 +10,7 @@ import { provideStore } from '@ngrx/store';
 import { provideApi, withConfiguration } from './providers/provide-api';
 import { authInterceptor, provideAuth } from '@demo-shop/auth';
 import { environment } from '../environments/environment';
+import * as Sentry from '@sentry/angular';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,11 +26,24 @@ export const appConfig: ApplicationConfig = {
     provideRouter(appRoutes),
     provideAnimationsAsync(),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
-    provideNavigation({ routes: appRoutes }),
+    provideRouterStore(),
     provideStore({
       router: routerReducer,
     }),
-    provideRouterStore(),
+    {
+      provide: ErrorHandler,
+      useValue: Sentry.createErrorHandler(),
+    },
+    {
+      provide: Sentry.TraceService,
+      deps: [Router],
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: () => () => undefined,
+      deps: [Sentry.TraceService],
+      multi: true,
+    },
     provideApi(
       withConfiguration({
         basePath: '/api',
@@ -38,5 +52,6 @@ export const appConfig: ApplicationConfig = {
     provideAuth({
       keycloak: environment.keycloak,
     }),
+    provideNavigation({ routes: appRoutes }),
   ],
 };
