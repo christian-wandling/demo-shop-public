@@ -6,14 +6,22 @@ import { CustomController } from '../common/decorators/custom-controller.decorat
 import { Auth } from '../common/decorators/auth.decorator';
 import { CustomGet } from '../common/decorators/custom-get.decorator';
 import { DecodedToken } from '../common/entities/decoded-token';
+import { MonitoringService } from '../common/services/monitoring.service';
 
 @CustomController({ path: 'users', version: '1' })
 @Auth({ roles: ['buy_products'] })
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService, private readonly monitoringService: MonitoringService) {}
 
   @CustomGet({ path: 'me', res: UserDTO })
-  getCurrentUser(@CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken): Promise<UserDTO> {
-    return this.usersService.getFromToken(decodedToken);
+  async getCurrentUser(@CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken): Promise<UserDTO> {
+    let user: UserDTO;
+
+    try {
+      user = await this.usersService.getFromToken(decodedToken);
+      return user;
+    } finally {
+      this.monitoringService.setUser({ id: user?.id });
+    }
   }
 }

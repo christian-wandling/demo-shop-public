@@ -35,14 +35,17 @@ services:
     command: npx nx serve backend
     environment:
       - PORT=3000
-      - NODE_ENV="development"
-      - NX_DAEMON="true"
+      - NODE_ENV=development
+      - NX_DAEMON=true
       - NX_REJECT_UNKNOWN_LOCAL_CACHE=0
       - DATABASE_URL
       - KEYCLOAK_REALM
       - KEYCLOAK_CLIENT_API
       - KEYCLOAK_REALM_PUBLIC_KEY
       - POSTGRES_HOST=db
+      - SENTRY_AUTH_TOKEN
+      - SENTRY_ORG
+      - SENTRY_TRUSTED_DOMAIN
       - SENTRY_DEMO_SHOP_API_DSN
     volumes:
       - ./:/usr/src/app
@@ -57,7 +60,7 @@ services:
     image: docker.io/node:lts-alpine
     working_dir: /usr/src/app
     environment:
-      - POSTGRES_HOST="db"
+      - POSTGRES_HOST=db
     volumes:
       - ./:/usr/src/app
     command: >
@@ -74,18 +77,18 @@ services:
     image: quay.io/keycloak/keycloak:23.0.6
     command: start-dev
     environment:
-      - KC_DB="${KC_DB}"
-      - KC_DB_URL="${KC_DB_URL}"
-      - KC_DB_USERNAME="${POSTGRES_USER}"
-      - KC_DB_PASSWORD="${POSTGRES_PASSWORD}"
-      - KC_HOSTNAME="localhost"
+      - KC_DB=${KC_DB}
+      - KC_DB_URL=${KC_DB_URL}
+      - KC_DB_USERNAME=${POSTGRES_USER}
+      - KC_DB_PASSWORD=${POSTGRES_PASSWORD}
+      - KC_HOSTNAME=localhost
       - KC_HOSTNAME_STRICT=false
       - KC_HOSTNAME_STRICT_HTTPS=false
-      - KC_LOG_LEVEL="info"
+      - KC_LOG_LEVEL=info
       - KC_METRICS_ENABLED=true
       - KC_HEALTH_ENABLED=true
-      - KEYCLOAK_ADMIN="${KEYCLOAK_ADMIN}"
-      - KEYCLOAK_ADMIN_PASSWORD="${KEYCLOAK_ADMIN_PASSWORD}"
+      - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN}
+      - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
     depends_on:
       - db
     ports:
@@ -103,7 +106,9 @@ services:
       - .env
       - ./secrets/sentry-config.txt
     environment:
-      - DEMO_SHOP_API_URL="http://backend:3000"
+      - DEMO_SHOP_API_URL=http://backend:3000
+      - SENTRY_DEMO_SHOP_UI_DSN
+      - SENTRY_TRUSTED_DOMAIN
     ports:
       - '4200:4200'
     volumes:

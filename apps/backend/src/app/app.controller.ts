@@ -1,11 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
-import { Public } from 'nest-keycloak-connect';
+import { Controller } from '@nestjs/common';
 
 @Controller('app')
-export class AppController {
-  @Public()
-  @Get('/debug-sentry')
-  getError() {
-    throw new Error('My first Sentry error!');
-  }
-}
+export class AppController {}

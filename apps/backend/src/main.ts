@@ -8,7 +8,7 @@ import { enableSwagger } from './app/common/util/enable-swagger';
 import { VersioningType } from '@nestjs/common/enums/version-type.enum';
 
 import helmet from 'helmet';
-import { CatchEverythingFilter } from './app/common/filters/http-exception.filter';
+import { CatchEverythingFilter } from './app/common/filters/catch-everything.filter';
 
 async function bootstrap() {
   const globalPrefix = 'api';
