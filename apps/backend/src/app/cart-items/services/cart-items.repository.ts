@@ -7,7 +7,7 @@ import { CartItemsRepositoryModel } from '../models/cart-items-repository.model'
 
 @Injectable()
 export class CartItemsRepository implements CartItemsRepositoryModel {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   create(item: CreateCartItemDTO, shoppingSessionId: string): Promise<HydratedCartItem> {
     return this.prisma.cartItem.create({

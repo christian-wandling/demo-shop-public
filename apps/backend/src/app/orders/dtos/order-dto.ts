@@ -3,7 +3,7 @@ import { OrderItemDTO, toOrderItemDTO } from './order-item-dto';
 import { HydratedOrder } from '../entities/hydrated-order';
 import { batchConvert } from '../../common/util/batch-convert';
 import { $Enums } from '@prisma/client';
-import { ArrayMinSize, IsDate, IsEnum, IsInt, IsNumber, Min, MinLength, ValidateNested } from 'class-validator';
+import { ArrayMinSize, IsDate, IsEnum, IsNumber, Min, MinLength, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class OrderDTO {

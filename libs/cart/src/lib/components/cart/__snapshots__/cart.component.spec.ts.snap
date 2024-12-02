@@ -17,11 +17,10 @@ exports[`CartComponent showCart should should display the component if showCart 
   showCart={[Function Function]}
   totalPrice={[Function Function]}
 >
-  <div
+  <dialog
     aria-labelledby="slide-over-title"
     aria-modal="true"
     class="relative z-50 ng-trigger ng-trigger-animateBackdrop ng-animating"
-    role="dialog"
   >
     <div
       aria-hidden="true"
@@ -34,7 +33,7 @@ exports[`CartComponent showCart should should display the component if showCart 
         class="absolute inset-0 overflow-hidden"
       />
     </div>
-  </div><div
+  </dialog><div
     class="z-50 pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10 ng-trigger ng-trigger-animateSlideOver ng-animating"
   >
     <div

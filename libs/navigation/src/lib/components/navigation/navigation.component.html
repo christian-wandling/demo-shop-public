@@ -1,12 +1,12 @@
 @if (mobileMenuOpen()) {
-<div
+<dialog
   [@animateBackdrop]
+  (keydown.escape)="mobileMenuOpen.set(false)"
   (click)="mobileMenuOpen.set(false)"
   class="relative z-40 lg:hidden"
-  role="dialog"
   aria-modal="true">
   <div class="fixed inset-0 bg-black bg-opacity-25" aria-hidden="true"></div>
-</div>
+</dialog>
 <div
   [@animateSlideOver]
   class="absolute h-screen z-40 flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
@@ -52,7 +52,6 @@
         @for (item of flyoutMenuItems; track $index) {
         <p id="{{ item.label }}-heading-mobile" class="font-medium text-gray-900">{{ item.label | titlecase }}</p>
         <ul
-          role="list"
           [attr.aria-labelledby]="item.label + '-heading-mobile'"
           class="mt-6 mb-10 last:mb-0 flex flex-col space-y-6">
           @for (subItem of item.subItems; track $index) {
@@ -170,7 +169,6 @@
                               {{ item.label | titlecase }}
                             </p>
                             <ul
-                              role="list"
                               [attr.aria-labelledby]="item.label + '-heading'"
                               class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
                               @for (subItem of item.subItems; track $index) {

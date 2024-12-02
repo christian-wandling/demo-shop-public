@@ -122,7 +122,7 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                   class="mt-2"
                 >
                   <input
-                    autocomplete="phone"
+                    autocomplete="tel"
                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ng-untouched ng-pristine ng-valid"
                     formcontrolname="phone"
                     id="phone"
@@ -182,7 +182,7 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                   class="mt-2"
                 >
                   <input
-                    autocomplete="address"
+                    autocomplete="address-line1"
                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ng-untouched ng-pristine ng-valid"
                     formcontrolname="street"
                     id="street"
@@ -204,7 +204,7 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                   class="mt-2"
                 >
                   <input
-                    autocomplete="apartment"
+                    autocomplete="address-line2"
                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ng-untouched ng-pristine ng-valid"
                     formcontrolname="apartment"
                     id="apartment"
@@ -230,7 +230,7 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                   class="mt-2"
                 >
                   <input
-                    autocomplete="address-level2"
+                    autocomplete="city"
                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ng-untouched ng-pristine ng-valid"
                     formcontrolname="city"
                     id="city"
@@ -256,7 +256,7 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                   class="mt-2"
                 >
                   <input
-                    autocomplete="address-level1"
+                    autocomplete="region"
                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ng-untouched ng-pristine ng-valid"
                     formcontrolname="region"
                     id="region"
@@ -278,7 +278,7 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                   class="mt-2"
                 >
                   <input
-                    autocomplete="zip"
+                    autocomplete="postla-code"
                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ng-untouched ng-pristine ng-valid"
                     formcontrolname="zip"
                     id="zip"
@@ -311,7 +311,6 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
             >
               <ul
                 class="-my-6 divide-y divide-gray-200"
-                role="list"
               >
               </ul>
             </div>

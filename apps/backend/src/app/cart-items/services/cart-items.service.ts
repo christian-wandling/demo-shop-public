@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CartItemDTO, CreateCartItemDTO, toCartItemDto, UpdateCartItemDTO } from '../dtos/cart-item-dto';
 import { CartItemsRepository } from './cart-items.repository';
 
