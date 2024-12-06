@@ -5,7 +5,7 @@ set_keycloak_public_key_env() {
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
   local SECRETS_DIR="${SCRIPT_DIR}/../../../secrets"
   local UTILS_DIR="${SCRIPT_DIR}/../utils"
-  source "${UTILS_DIR}/logging-utils.sh"
+  source "${UTILS_DIR}/logger.sh"
 
   local CONFIG_FILE="${SECRETS_DIR}/keycloak-config.txt"
 

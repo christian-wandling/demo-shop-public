@@ -23,3 +23,5 @@ npm-debug.log
 README.md
 **/Dockerfile
 .env*
+.ops/terraform
+.ops/k8s

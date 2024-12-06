@@ -1,7 +1,10 @@
-name: main
+name: CI
 
 on:
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
 
@@ -10,14 +13,14 @@ permissions:
   contents: read
 
 jobs:
-  main:
+  quality:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # Cache node_modules
       - uses: actions/setup-node@v3
         with:
           node-version: 20
@@ -31,13 +34,9 @@ jobs:
       - name: test
         run: npx nx run-many -t test --codeCoverage
 
-      #      - name: e2e
-      #        run: npx nx run-many -t e2e
-
       - name: build
         run: npx nx run-many -t build
 
-      # Run quality gate
       - name: sonarcloud
         uses: SonarSource/sonarcloud-github-action@master
         env:

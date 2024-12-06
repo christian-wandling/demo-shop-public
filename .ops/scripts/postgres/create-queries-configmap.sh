@@ -8,7 +8,7 @@ create_queries_configmap() {
   local SCRIPT_DIR
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
   local UTILS_DIR="${SCRIPT_DIR}/../utils"
-  source "${UTILS_DIR}/logging-utils.sh"
+  source "${UTILS_DIR}/logger.sh"
 
   if [[ -z "$queries_dir" || -z "$configmap_name" ]]; then
     log_error "Usage: create_queries_configmap <queries_dir> <configmap_name> [namespace]"

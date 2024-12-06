@@ -8,7 +8,7 @@ create_tls_secret() {
 
   local SCRIPT_DIR
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-  source "${SCRIPT_DIR}/logging-utils.sh"
+  source "${SCRIPT_DIR}/logger.sh"
 
   if [[ -z "$secret_name" || -z "$cert_path" || -z "$key_path" ]]; then
     log_error "Usage: create_tls_secret <secret_name> <cert_path> <key_path> [namespace]"

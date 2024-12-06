@@ -8,7 +8,7 @@ deploy_frontend() {
   local ROOT_DIR="${SCRIPT_DIR}/../../../"
   local SECRETS_DIR="${ROOT_DIR}/secrets"
 
-  source "${UTILS_DIR}/logging-utils.sh"
+  source "${UTILS_DIR}/logger.sh"
   source "${UTILS_DIR}/apply-configs.sh"
   source "${UTILS_DIR}/wait-for-pod.sh"
   source "${UTILS_DIR}/docker-build.sh"

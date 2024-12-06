@@ -1,0 +1,46 @@
+#!/bin/bash
+set -euo pipefail
+
+LOG_FILE="${log_file_path}"
+
+sudo mkdir -p "$(dirname "$LOG_FILE")"
+sudo touch "$LOG_FILE"
+sudo chown "${user}:${user}" "$LOG_FILE"
+
+${logger}
+
+handle_error() {
+    local exit_code=$1
+    local error_msg=$2
+    if [ "$exit_code" -ne 0 ]; then
+        log_error "$error_msg"
+        exit "$exit_code"
+    fi
+}
+
+if [ "$EUID" -ne 0 ]; then
+    log_error "Please run as root"
+    exit 1
+fi
+
+log_info "Updating yum repositories..."
+yum update -y
+handle_error $? "System update failed"
+
+log_info "Installing Docker..."
+yum install docker -y
+handle_error $? "Docker installation failed"
+
+log_info "Starting Docker service..."
+systemctl start docker
+handle_error $? "Failed to start Docker service"
+
+log_info "Enabling Docker service on boot..."
+systemctl enable docker
+handle_error $? "Failed to enable Docker service"
+
+log_info "Adding user to docker group..."
+usermod -aG docker "${user}"
+handle_error $? "Failed to add user to docker group"
+
+log_success "Docker successfully installed and configured"

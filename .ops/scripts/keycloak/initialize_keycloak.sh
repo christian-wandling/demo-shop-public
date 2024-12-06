@@ -24,7 +24,7 @@ _main() {
   local UTILS_DIR="${SCRIPT_DIR}/../utils"
   local SECRETS_DIR="${SCRIPT_DIR}/../../../secrets"
 
-  if ! source "${UTILS_DIR}/logging-utils.sh"; then
+  if ! source "${UTILS_DIR}/logger.sh"; then
     echo "Error: Failed to source logging utilities" >&2
     return 1
   fi

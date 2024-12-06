@@ -3,7 +3,7 @@
 wait_for_pod() {
   local SCRIPT_DIR
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-  source "${SCRIPT_DIR}/logging-utils.sh"
+  source "${SCRIPT_DIR}/logger.sh"
 
   if [ -z "$1" ]; then
     log_error "Container name parameter is required"
