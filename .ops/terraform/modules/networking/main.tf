@@ -63,7 +63,7 @@ resource "aws_internet_gateway" "main" {
   )
 }
 
-resource "aws_route_table" "public" {
+resource "aws_route_table" "main" {
   vpc_id = aws_vpc.main.id
 
   timeouts {
@@ -89,10 +89,11 @@ resource "aws_route_table" "public" {
 
 resource "aws_route_table_association" "subnet_1" {
   subnet_id      = aws_subnet.subnet_1.id
-  route_table_id = aws_route_table.public.id
+  route_table_id = aws_route_table.main.id
 }
 
 resource "aws_route_table_association" "subnet_2" {
   subnet_id      = aws_subnet.subnet_2.id
-  route_table_id = aws_route_table.public.id
+  route_table_id = aws_route_table.main.id
 }
+

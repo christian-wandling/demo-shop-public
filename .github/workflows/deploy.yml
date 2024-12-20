@@ -42,7 +42,7 @@ jobs:
       - name: Terraform Apply
         env:
           TF_VAR_aws_region: ${{ secrets.AWS_REGION }}
-          TF_VAR_allowed_cidr: ${{ secrets.ALLOWED_CIDR }}
+          TF_VAR_allowed_cidr_blocks: ${{ format('["{}"]', join('","', split(secrets.ALLOWED_CIDR, ','))) }}
           TF_VAR_keycloak_ssh_public_key_path: './keycloak_ssh_public_key'
           TF_VAR_keycloak_ssh_private_key_path: './keycloak_ssh_private_key'
           TF_VAR_keycloak_server_cert_path: './keycloak_server_cert.pem'

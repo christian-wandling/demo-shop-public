@@ -3,6 +3,11 @@ variable "environment" {
   type        = string
 }
 
+variable "allowed_cidr_blocks" {
+  description = "List of allowed IP addresses in CIDR notation"
+  type = list(string)
+}
+
 variable "identifier_prefix" {
   description = "Prefix for resource identifiers"
   type        = string

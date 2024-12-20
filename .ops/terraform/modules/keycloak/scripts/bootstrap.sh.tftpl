@@ -24,23 +24,23 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 log_info "Updating yum repositories..."
-yum update -y
+sudo yum update -y
 handle_error $? "System update failed"
 
 log_info "Installing Docker..."
-yum install docker -y
+sudo yum install docker -y
 handle_error $? "Docker installation failed"
 
 log_info "Starting Docker service..."
-systemctl start docker
+sudo systemctl start docker
 handle_error $? "Failed to start Docker service"
 
 log_info "Enabling Docker service on boot..."
-systemctl enable docker
+sudo systemctl enable docker
 handle_error $? "Failed to enable Docker service"
 
 log_info "Adding user to docker group..."
-usermod -aG docker "${user}"
+sudo usermod -aG docker "${user}"
 handle_error $? "Failed to add user to docker group"
 
 log_success "Docker successfully installed and configured"

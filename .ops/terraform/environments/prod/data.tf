@@ -29,3 +29,7 @@ data "aws_ssm_parameter" "api_db_username" {
 data "aws_ssm_parameter" "api_db_password" {
   name = "/api/${var.environment}/API_DB_PASSWORD"
 }
+
+data "http" "cloudflare_ips" {
+  url = "https://www.cloudflare.com/ips-v4"
+}

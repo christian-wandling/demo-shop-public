@@ -1,5 +1,5 @@
 resource "aws_security_group" "keycloak_sg" {
-  name = "${var.identifier_prefix}-keycloak-sg-${var.environment}"
+  name        = "${var.identifier_prefix}-keycloak-sg-${var.environment}"
   description = "Security group for Keycloak server"
   vpc_id      = var.vpc_id
 
@@ -17,18 +17,18 @@ resource "aws_security_group" "keycloak_sg" {
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "keycloak_ingress_http" {
-  count             = length(var.allowed_cidr)
+resource "aws_vpc_security_group_ingress_rule" "keycloak_ingress_https_allowed_ranges" {
+  count             = length(var.allowed_cidr_blocks)
   security_group_id = aws_security_group.keycloak_sg.id
-  from_port         = 8080
-  to_port           = 8080
+  cidr_ipv4         = var.allowed_cidr_blocks[count.index]
+  from_port         = 443
+  to_port           = 443
   ip_protocol       = "tcp"
-  cidr_ipv4         = var.allowed_cidr[count.index]
-  description       = "Allow HTTP access to Keycloak"
+  description       = "Allow HTTPS access from allowed ranges"
 
   tags = merge(
     {
-      Name        = "${var.identifier_prefix}-keycloak-sg-ingress-http-${var.environment}"
+      Name        = "${var.identifier_prefix}-keycloak-sg-ingress-https-allowed-ranges-${var.environment}"
       Environment = var.environment
       Managed_by  = "terraform"
     },
@@ -36,18 +36,18 @@ resource "aws_vpc_security_group_ingress_rule" "keycloak_ingress_http" {
   )
 }
 
-resource "aws_vpc_security_group_ingress_rule" "keycloak_ingress_https" {
-  count             = length(var.allowed_cidr)
+resource "aws_vpc_security_group_ingress_rule" "keycloak_ingress_https_cloudflare_ips" {
+  count             = length(var.cloudflare_ips)
   security_group_id = aws_security_group.keycloak_sg.id
-  from_port         = 8443
-  to_port           = 8443
+  cidr_ipv4         = var.cloudflare_ips[count.index]
+  from_port         = 443
+  to_port           = 443
   ip_protocol       = "tcp"
-  cidr_ipv4         = var.allowed_cidr[count.index]
-  description       = "Allow HTTPS access to Keycloak"
+  description       = "Allow HTTPS access from cloudflare"
 
   tags = merge(
     {
-      Name        = "${var.identifier_prefix}-keycloak-sg-ingress-https-${var.environment}"
+      Name        = "${var.identifier_prefix}-keycloak-sg-ingress-https-cloudflare-ips-${var.environment}"
       Environment = var.environment
       Managed_by  = "terraform"
     },
@@ -56,17 +56,17 @@ resource "aws_vpc_security_group_ingress_rule" "keycloak_ingress_https" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "keycloak_ingress_ssh" {
-  count             = length(var.allowed_cidr)
+  count = length(var.allowed_cidr_blocks)
   security_group_id = aws_security_group.keycloak_sg.id
   from_port         = 22
   to_port           = 22
   ip_protocol       = "tcp"
-  cidr_ipv4         = var.allowed_cidr[count.index]
+  cidr_ipv4         = var.allowed_cidr_blocks[count.index]
   description       = "Allow SSH access"
 
   tags = merge(
     {
-      Name        = "${var.identifier_prefix}-keycloak-sg-ingress-ssg-${var.environment}"
+      Name        = "${var.identifier_prefix}-keycloak-sg-ingress-ssh-${var.environment}"
       Environment = var.environment
       Managed_by  = "terraform"
     },
@@ -75,12 +75,12 @@ resource "aws_vpc_security_group_ingress_rule" "keycloak_ingress_ssh" {
 }
 
 resource "aws_vpc_security_group_egress_rule" "keycloak_egress_postgres" {
-  security_group_id = aws_security_group.keycloak_sg.id
-  ip_protocol       = "tcp"
-  from_port         = 5432
-  to_port           = 5432
+  security_group_id            = aws_security_group.keycloak_sg.id
+  ip_protocol                  = "tcp"
+  from_port                    = 5432
+  to_port                      = 5432
   referenced_security_group_id = var.postgres_sg
-  description       = "Allow outbound traffic to Postgres instances"
+  description                  = "Allow outbound traffic to Postgres instances"
 
   tags = merge(
     {

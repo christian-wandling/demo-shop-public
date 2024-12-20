@@ -2,12 +2,11 @@
 
 LOG_FILE="${log_file_path}"
 
+sudo mkdir -p "$(dirname "$LOG_FILE")"
+sudo touch "$LOG_FILE"
+sudo chown "${user}:${user}" "$LOG_FILE"
+
 ${logger}
-
-
-sudo chmod 644 "/home/ec2-user/secrets/cert.pem"
-sudo chmod 600 "/home/ec2-user/secrets/key.pem"
-sudo chown 1000:1000 "/home/ec2-user/secrets/*.pem"
 
 log_info "Stopping existing Keycloak container if running..."
 if docker ps -q -f name=keycloak | grep -q .; then
@@ -25,13 +24,16 @@ fi
 log_info "Starting new Keycloak container..."
 if ! sudo docker run -d \
          --name keycloak \
-         -p 8443:8443 \
+         -p 443:443 \
          -e KC_DB=postgres \
          -e KC_DB_SCHEMA="public" \
-         -e KC_HOSTNAME="${kc_hostname}" \
          -e KC_HTTP_ENABLED=false \
-         -e KC_HTTPS_PORT=8443 \
-         -e KC_HOSTNAME_STRICT_HTTPS=false \
+         -e KC_HTTPS_PORT=443 \
+         -e KC_PROXY=edge \
+         -e KC_PROXY_ADDRESS_FORWARDING=true \
+         -e KC_HOSTNAME="${kc_hostname}" \
+         -e KC_HOSTNAME_STRICT=true \
+         -e KC_HOSTNAME_STRICT_HTTPS=true \
          -e KC_HTTPS_CERTIFICATE_FILE=/opt/keycloak/certs/cert.pem \
          -e KC_HTTPS_CERTIFICATE_KEY_FILE=/opt/keycloak/certs/key.pem \
          -e KC_DB_URL="${kc_db_url}" \
@@ -45,10 +47,6 @@ if ! sudo docker run -d \
          -m 750M \
          --cpus 0.8 \
          -v /home/ec2-user/secrets:/opt/keycloak/certs \
-         --health-cmd="curl -f -k https://localhost:8443/health/ready" \
-         --health-interval=30s \
-         --health-timeout=10s \
-         --health-retries=3 \
          quay.io/keycloak/keycloak:23.0.6 \
          start; then
 

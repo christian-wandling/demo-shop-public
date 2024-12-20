@@ -13,3 +13,7 @@ provider "postgresql" {
   connect_timeout = 15
   max_connections = 20
 }
+
+provider "cloudflare" {
+  api_token = var.cloudflare_api_token
+}

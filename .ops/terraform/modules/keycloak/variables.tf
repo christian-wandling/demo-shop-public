@@ -1,5 +1,10 @@
-variable "allowed_cidr" {
+variable "allowed_cidr_blocks" {
   description = "List of allowed IP addresses in CIDR notation"
+  type = list(string)
+}
+
+variable "cloudflare_ips" {
+  description = "List of allowed IP addresses from cloudflare"
   type = list(string)
 }
 
@@ -64,4 +69,20 @@ variable "keycloak_server_cert_path" {
 variable "keycloak_server_key_path" {
   description = "The keycloak ssl certificate key"
   type        = string
+}
+
+variable "cloudflare_zone_id" {
+  description = "The id of the zone that will be used by the Cloudflare account"
+  type        = string
+  sensitive   = true
+}
+
+variable "cloudflare_domain_name" {
+  description = "Your domain name"
+  type        = string
+}
+
+variable "cloudflare_headers_worker" {
+  description = "Response machine headers"
+  type = string
 }

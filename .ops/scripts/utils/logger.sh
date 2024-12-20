@@ -4,27 +4,13 @@
 DEFAULT_LOG_FILE="/var/log/script.log"
 LOG_FILE=${LOG_FILE:-$DEFAULT_LOG_FILE}
 
-if [ -z "$RED" ]; then
-  readonly RED='\033[0;31m'
-fi
-if [ -z "$GREEN" ]; then
-  readonly GREEN='\033[0;32m'
-fi
-if [ -z "$YELLOW" ]; then
-  readonly YELLOW='\033[1;33m'
-fi
-if [ -z "$BLUE" ]; then
-  readonly BLUE='\033[0;34m'
-fi
-if [ -z "$PURPLE" ]; then
-  readonly PURPLE='\033[0;35m'
-fi
-if [ -z "$CYAN" ]; then
-  readonly CYAN='\033[0;36m'
-fi
-if [ -z "$NC" ]; then
-  readonly NC='\033[0m' # No Color
-fi
+: "${RED:='\033[0;31m'}"
+: "${GREEN:='\033[0;32m'}"
+: "${YELLOW:='\033[1;33m'}"
+: "${BLUE:='\033[0;34m'}"
+: "${PURPLE:='\033[0;35m'}"
+: "${CYAN:='\033[0;36m'}"
+: "${NC:='\033[0m'}"
 
 # Logging level configuration
 # Set default log level if not already set
@@ -109,5 +95,5 @@ set_log_file() {
 }
 
 # Export all logging functions and variables
-export RED GREEN YELLOW BLUE PURPLE CYAN NC LOG_FILE
+export LOG_FILE
 export -f log_debug log_info log_warn log_error log_success log_fatal set_log_level set_log_file

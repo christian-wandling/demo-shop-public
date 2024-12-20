@@ -26,7 +26,7 @@ resource "aws_instance" "keycloak" {
   user_data = templatefile("${path.module}/scripts/bootstrap.sh.tftpl", {
     user          = local.user
     logger        = local.logger
-    log_file_path = local.log_file_path
+    log_file_path = "/var/log/bootstrap.log"
   })
 
   tags = merge(
@@ -68,7 +68,7 @@ resource "terraform_data" "keycloak_deploy" {
 
   provisioner "file" {
     source      = var.keycloak_server_cert_path
-    destination ="/home/ec2-user/secrets/cert.pem"
+    destination = "/home/ec2-user/secrets/cert.pem"
   }
 
   provisioner "file" {
@@ -78,15 +78,26 @@ resource "terraform_data" "keycloak_deploy" {
 
   provisioner "remote-exec" {
     inline = [
+      "sudo chmod 644 /home/ec2-user/secrets/cert.pem",
+      "sudo chmod 600 /home/ec2-user/secrets/key.pem",
+      "sudo chmod 755 /home/ec2-user/secrets",
+      "sudo chown 1000:1000 /home/ec2-user/secrets/cert.pem",
+      "sudo chown 1000:1000 /home/ec2-user/secrets/key.pem"
+    ]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
       templatefile("${path.module}/scripts/deploy.sh.tftpl", {
-        kc_hostname                   = aws_eip.keycloak.public_dns
-        kc_db_password                = data.aws_ssm_parameter.kc_db_password.value
-        kc_db_url                     = local.kc_db_url
-        kc_db_username                = data.aws_ssm_parameter.kc_db_username.value
-        keycloak_admin_password       = data.aws_ssm_parameter.keycloak_admin_password.value
-        keycloak_admin                = data.aws_ssm_parameter.keycloak_admin.value
-        logger                        = local.logger
-        log_file_path                 = local.log_file_path
+        kc_hostname             = local.kc_domain
+        kc_db_password          = data.aws_ssm_parameter.kc_db_password.value
+        kc_db_url               = local.kc_db_url
+        kc_db_username          = data.aws_ssm_parameter.kc_db_username.value
+        keycloak_admin_password = data.aws_ssm_parameter.keycloak_admin_password.value
+        keycloak_admin          = data.aws_ssm_parameter.keycloak_admin.value
+        logger                  = local.logger
+        log_file_path           = "/var/log/deploy.log"
+        user                    = local.user
       })
     ]
   }

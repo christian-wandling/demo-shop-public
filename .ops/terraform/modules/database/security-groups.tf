@@ -28,12 +28,13 @@ resource "aws_security_group" "postgres_sg" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "postgres_ingress_terraform" {
+  count = length(var.allowed_cidr_blocks)
   security_group_id = aws_security_group.postgres_sg.id
-  from_port        = 5432
-  to_port          = 5432
-  ip_protocol      = "tcp"
-  cidr_ipv4        = "${trimspace(data.http.my_ip.response_body)}/32"
-  description      = "PostgreSQL access from Terraform environment"
+  from_port         = 5432
+  to_port           = 5432
+  ip_protocol       = "tcp"
+  cidr_ipv4         = var.allowed_cidr_blocks[count.index]
+  description       = "PostgreSQL access from Terraform environment"
 
   tags = merge(
     {

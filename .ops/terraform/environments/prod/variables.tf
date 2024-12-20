@@ -16,7 +16,7 @@ variable "project_name" {
   default     = "demo-shop"
 }
 
-variable "allowed_cidr" {
+variable "allowed_cidr_blocks" {
   description = "IP addresses allowed to access the application"
   type        = list(string)
   sensitive   = true
@@ -39,5 +39,28 @@ variable "keycloak_server_cert_path" {
 
 variable "keycloak_server_key_path" {
   description = "The keycloak ssl certificate key"
+  type        = string
+}
+
+variable "cloudflare_api_token" {
+  description = "The API token for Cloudflare"
+  type        = string
+  sensitive   = true
+}
+
+variable "cloudflare_zone_id" {
+  description = "The id of the zone that will be used by the Cloudflare account"
+  type        = string
+  sensitive   = true
+}
+
+variable "cloudflare_account_id" {
+  description = "The id of the cloudflare account"
+  type        = string
+  sensitive   = true
+}
+
+variable "cloudflare_domain_name" {
+  description = "Your domain name"
   type        = string
 }
