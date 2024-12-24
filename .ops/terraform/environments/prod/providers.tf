@@ -5,7 +5,7 @@ provider "aws" {
 provider "postgresql" {
   host            = split(":", module.database.db_endpoint)[0]
   port            = module.database.db_port
-  database        = module.database.app_db_name
+  database        = data.aws_ssm_parameter.app_db_name.value
   username        = module.database.db_username
   password        = module.database.db_password
   sslmode         = "require"
@@ -16,4 +16,11 @@ provider "postgresql" {
 
 provider "cloudflare" {
   api_token = var.cloudflare_api_token
+}
+
+provider "keycloak" {
+  client_id = "admin-cli"
+  username  = data.aws_ssm_parameter.keycloak_admin.value
+  password  = data.aws_ssm_parameter.keycloak_admin_password.value
+  url       = "https://${module.keycloak.keycloak_address}"
 }

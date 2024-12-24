@@ -30,11 +30,25 @@ jobs:
 
       - name: Setup SSH Keys and Certs
         run: |
+          echo "${{ secrets.API_SSH_PRIVATE_KEY }}" > api_ssh_private_key
+          echo "${{ secrets.API_SSH_PUBLIC_KEY }}" > api_ssh_public_key
           echo "${{ secrets.KEYCLOAK_SSH_PRIVATE_KEY }}" > keycloak_ssh_private_key
           echo "${{ secrets.KEYCLOAK_SSH_PUBLIC_KEY }}" > keycloak_ssh_public_key
           echo "${{ secrets.KEYCLOAK_SERVER_CERT }}" > keycloak_server_cert.pem
           echo "${{ secrets_keycloak_server_key }}" > keycloak_server_key.pem
-          chmod 600 keycloak_ssh_private_key keycloak_ssh_public_key *.pem
+          chmod 600 api_ssh_private_key api_ssh_public_key keycloak_ssh_private_key keycloak_ssh_public_key *.pem
+
+      - name: Build Api docker image
+        run: |
+          docker build \
+            --platform linux/amd64 \
+            --build-arg SENTRY_AUTH_TOKEN="${{ secrets.SENTRY_AUTH_TOKEN }}" \
+            --build-arg SENTRY_ORG="${{ secrets.SENTRY_ORG }}" \
+            --build-arg SENTRY_DEMO_SHOP_API_PROJECT="${{ secrets.SENTRY_DEMO_SHOP_API_PROJECT }}" \
+            -t demo-shop-api:latest .
+
+      - name: Save Api docker image
+        run: docker save demo-shop-api:latest | tee demo-shop-api.tar > /dev/null
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
@@ -43,10 +57,16 @@ jobs:
         env:
           TF_VAR_aws_region: ${{ secrets.AWS_REGION }}
           TF_VAR_allowed_cidr_blocks: ${{ format('["{}"]', join('","', split(secrets.ALLOWED_CIDR, ','))) }}
+          TF_VAR_api_ssh_public_key_path: './api_ssh_public_key'
+          TF_VAR_api_ssh_private_key_path: './api_ssh_private_key'
           TF_VAR_keycloak_ssh_public_key_path: './keycloak_ssh_public_key'
           TF_VAR_keycloak_ssh_private_key_path: './keycloak_ssh_private_key'
           TF_VAR_keycloak_server_cert_path: './keycloak_server_cert.pem'
           TF_VAR_keycloak_server_key_path: './keycloak_server_key.pem'
+          TF_VAR_sentry_auth_token: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          TF_VAR_sentry_org: ${{ secrets.SENTRY_ORG }}
+          TF_VAR_sentry_demo_shop_api_project: ${{ secrets.SENTRY_DEMO_SHOP_API_PROJECT }}
+          TF_VAR_api_docker_image_path: './demo-shop-api.tar'
         run: |
           terraform init
           terraform fmt -check

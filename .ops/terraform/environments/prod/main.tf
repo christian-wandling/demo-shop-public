@@ -14,6 +14,11 @@ terraform {
       source  = "cloudflare/cloudflare"
       version = "~> 4.48.0"
     }
+
+    keycloak = {
+      source  = "mrparkers/keycloak"
+      version = "~> 4.4.0"
+    }
   }
 
   required_version = ">= 1.10.0"

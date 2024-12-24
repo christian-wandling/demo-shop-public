@@ -63,3 +63,21 @@ resource "aws_vpc_security_group_ingress_rule" "postgres_ingres_keycloak" {
     var.additional_tags
   )
 }
+
+resource "aws_vpc_security_group_ingress_rule" "postgres_ingres_api" {
+  security_group_id            = aws_security_group.postgres_sg.id
+  from_port                    = 5432
+  to_port                      = 5432
+  ip_protocol                  = "tcp"
+  referenced_security_group_id = var.api_sg
+  description                  = "PostgreSQL access from the api"
+
+  tags = merge(
+    {
+      Name        = "${var.identifier_prefix}-postres-ingres-api-${var.environment}"
+      Environment = var.environment
+      Managed_by  = "terraform",
+    },
+    var.additional_tags
+  )
+}

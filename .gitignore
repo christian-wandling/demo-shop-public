@@ -66,3 +66,7 @@ pgdata
 tfplan
 **/terraform/**/output.txt
 *.tfvars
+
+*.tar
+
+.ops/local

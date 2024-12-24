@@ -39,12 +39,6 @@ output "kc_db_name" {
   sensitive = true
 }
 
-output "app_db_name" {
-  description = "The name of the keycloak database"
-  value = data.aws_ssm_parameter.app_db_name.value
-  sensitive = true
-}
-
 output "postgres_sg" {
   description = "The ID of the postgresql database"
   value = aws_security_group.postgres_sg.id

@@ -1,6 +1,6 @@
 resource "postgresql_role" "api_db_user" {
-  name                                = data.aws_ssm_parameter.api_db_username.value
-  password                            = data.aws_ssm_parameter.api_db_password.value
+  name                                = var.api_db_username
+  password                            = var.api_db_password
   login                               = true
   skip_drop_role                      = false
   valid_until                         = "infinity"

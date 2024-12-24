@@ -23,12 +23,12 @@ variable "allowed_cidr_blocks" {
 }
 
 variable "keycloak_ssh_public_key_path" {
-  description = "The keycloak ssh public key for Keycloak"
+  description = "The path of the ssh public key for Keycloak"
   type        = string
 }
 
 variable "keycloak_ssh_private_key_path" {
-  description = "The keycloak ssh private key path used interactive SSH key to the keycloak server."
+  description = "The path of the ssh private key for Keycloak"
   type        = string
 }
 
@@ -62,5 +62,20 @@ variable "cloudflare_account_id" {
 
 variable "cloudflare_domain_name" {
   description = "Your domain name"
+  type        = string
+}
+
+variable "api_ssh_public_key_path" {
+  description = "The path of the ssh public key for the api"
+  type        = string
+}
+
+variable "api_ssh_private_key_path" {
+  description = "The path of the ssh private key for the api"
+  type        = string
+}
+
+variable "api_docker_image_path" {
+  description = "The docker image path for the api"
   type        = string
 }

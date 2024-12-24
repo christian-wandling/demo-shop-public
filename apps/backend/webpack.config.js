@@ -22,6 +22,7 @@ module.exports = {
       outputHashing: 'none',
       watch: true,
       sourceMap: isProd ? 'hidden' : true,
+      generatePackageJson: true,
     }),
     sentryWebpackPlugin({
       authToken: process.env.SENTRY_AUTH_TOKEN,

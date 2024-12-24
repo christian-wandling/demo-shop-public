@@ -52,12 +52,12 @@ variable "kc_db_name" {
 }
 
 variable "keycloak_ssh_public_key_path" {
-  description = "The public SSH key"
+  description = "The path of the public SSH key for keycloak"
   type        = string
 }
 
 variable "keycloak_ssh_private_key_path" {
-  description = "The public SSH key"
+  description = "The path of the private SSH key for keycloak"
   type        = string
 }
 
@@ -85,4 +85,51 @@ variable "cloudflare_domain_name" {
 variable "cloudflare_headers_worker" {
   description = "Response machine headers"
   type = string
+}
+
+variable "user" {
+  description = "Name of the user in ec2"
+  type        = string
+}
+
+variable "logger" {
+  description = "Name of the user in ec2"
+  type        = string
+  sensitive = true
+}
+
+variable "keycloak_admin" {
+  description = "The keycloak admin user"
+  type        = string
+  sensitive   = true
+}
+
+variable "keycloak_admin_password" {
+  description = "The keycloak admin password"
+  type        = string
+  sensitive   = true
+}
+
+variable "keycloak_realm_name" {
+  description = "The name of the keycloak realm"
+  type        = string
+  sensitive   = true
+}
+
+variable "keycloak_client_ui" {
+  description = "The name of the keycloak client in UI"
+  type        = string
+  sensitive   = true
+}
+
+variable "keycloak_client_api" {
+  description = "The name of the keycloak client in API"
+  type        = string
+  sensitive   = true
+}
+
+variable "fe_address" {
+  description = "Frontend address"
+  type        = string
+  sensitive   = true
 }

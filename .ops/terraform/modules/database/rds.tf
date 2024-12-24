@@ -7,7 +7,7 @@ resource "aws_db_instance" "postgres" {
   storage_type      = "gp2"
   port              = 5432
 
-  db_name  = data.aws_ssm_parameter.app_db_name.value
+  db_name  = var.app_db_name
   username = data.aws_ssm_parameter.db_username.value
   password = data.aws_ssm_parameter.db_password.value
 

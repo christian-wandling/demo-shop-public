@@ -1,5 +1,5 @@
-resource "aws_iam_role" "keycloak_role" {
-  name = "${var.identifier_prefix}-keycloak-ec2-role-${var.environment}"
+resource "aws_iam_role" "api_role" {
+  name = "${var.identifier_prefix}-api-ec2-role-${var.environment}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -16,7 +16,7 @@ resource "aws_iam_role" "keycloak_role" {
 
   tags = merge(
     {
-      Name        = "${var.identifier_prefix}-keycloak-role-${var.environment}"
+      Name        = "${var.identifier_prefix}-api-role-${var.environment}"
       Environment = var.environment
       Managed_by  = "terraform",
     },
@@ -24,13 +24,13 @@ resource "aws_iam_role" "keycloak_role" {
   )
 }
 
-resource "aws_iam_instance_profile" "keycloak_profile" {
-  name = "keycloak-instance-profile"
-  role = aws_iam_role.keycloak_role.name
+resource "aws_iam_instance_profile" "api_profile" {
+  name = "api-instance-profile"
+  role = aws_iam_role.api_role.name
 
   tags = merge(
     {
-      Name        = "${var.identifier_prefix}-keycloak-profile-${var.environment}"
+      Name        = "${var.identifier_prefix}-api-profile-${var.environment}"
       Environment = var.environment
       Managed_by  = "terraform",
     },
@@ -38,9 +38,9 @@ resource "aws_iam_instance_profile" "keycloak_profile" {
   )
 }
 
-resource "aws_iam_role_policy" "keycloak_ssm_policy" {
-  name = "keycloak-ssm-policy"
-  role = aws_iam_role.keycloak_role.id
+resource "aws_iam_role_policy" "api_ssm_policy" {
+  name = "api-ssm-policy"
+  role = aws_iam_role.api_role.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -48,8 +48,9 @@ resource "aws_iam_role_policy" "keycloak_ssm_policy" {
       {
         Effect = "Allow"
         Action = [
-          "ssm:PutParameter",
-          "kms:Encrypt"
+          "ssm:GetParameter",
+          "ssm:GetParameters",
+          "kms:Decrypt"
         ]
         Resource = "*"
       }

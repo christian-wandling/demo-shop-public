@@ -30,11 +30,34 @@ variable "vpc_id" {
 
 variable "additional_tags" {
   description = "Additional tags for append"
-  type    = map(string)
+  type = map(string)
   default = {}
 }
 
 variable "keycloak_sg" {
   description = "The security group for keycloak"
   type        = string
+}
+
+variable "api_sg" {
+  description = "The security group for the api"
+  type        = string
+}
+
+variable "app_db_name" {
+  description = "The name of the app database"
+  type        = string
+  sensitive   = true
+}
+
+variable "api_db_username" {
+  description = "The username for the app database"
+  type        = string
+  sensitive   = true
+}
+
+variable "api_db_password" {
+  description = "The password for the app database"
+  type        = string
+  sensitive   = true
 }

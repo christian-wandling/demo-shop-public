@@ -22,11 +22,11 @@ COPY --from=dev /usr/src/app .
 RUN envsubst < apps/frontend/src/environments/environment.ts > /tmp/environment.ts \
     && mv /tmp/environment.ts apps/frontend/src/environments/environment.ts \
     && npx nx build frontend \
-    && npm pkg delete scripts.prepare \
     && sh .ops/scripts/utils/upload-sourcemaps.sh \
       "dist/apps/frontend" \
       "$SENTRY_ORG" \
       "$SENTRY_DEMO_SHOP_UI_PROJECT" \
+    && npm pkg delete scripts.prepare \
     && npm ci --omit=dev --ignore-scripts \
     && npm cache clean --force
 

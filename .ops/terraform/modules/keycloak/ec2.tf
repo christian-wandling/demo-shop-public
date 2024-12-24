@@ -24,8 +24,8 @@ resource "aws_instance" "keycloak" {
   }
 
   user_data = templatefile("${path.module}/scripts/bootstrap.sh.tftpl", {
-    user          = local.user
-    logger        = local.logger
+    user          = var.user
+    logger        = var.logger
     log_file_path = "/var/log/bootstrap.log"
   })
 
@@ -46,8 +46,8 @@ resource "terraform_data" "keycloak_deploy" {
     kc_db_password          = data.aws_ssm_parameter.kc_db_password.value
     kc_db_url               = local.kc_db_url
     kc_db_username          = data.aws_ssm_parameter.kc_db_username.value
-    keycloak_admin_password = data.aws_ssm_parameter.keycloak_admin_password.value
-    keycloak_admin          = data.aws_ssm_parameter.keycloak_admin.value
+    keycloak_admin          = var.keycloak_admin
+    keycloak_admin_password = var.keycloak_admin_password
     script_hash = filesha256("${path.module}/scripts/deploy.sh.tftpl"),
     cert_hash = filesha256(var.keycloak_server_cert_path),
     key_hash = filesha256(var.keycloak_server_key_path),
@@ -56,7 +56,7 @@ resource "terraform_data" "keycloak_deploy" {
   connection {
     type = "ssh"
     host = aws_eip.keycloak.public_ip
-    user = local.user  # or your instance's user
+    user = var.user
     private_key = file(var.keycloak_ssh_private_key_path)
   }
 
@@ -93,15 +93,14 @@ resource "terraform_data" "keycloak_deploy" {
         kc_db_password          = data.aws_ssm_parameter.kc_db_password.value
         kc_db_url               = local.kc_db_url
         kc_db_username          = data.aws_ssm_parameter.kc_db_username.value
-        keycloak_admin_password = data.aws_ssm_parameter.keycloak_admin_password.value
-        keycloak_admin          = data.aws_ssm_parameter.keycloak_admin.value
-        logger                  = local.logger
+        keycloak_admin          = var.keycloak_admin
+        keycloak_admin_password = var.keycloak_admin_password
+        user                    = var.user
+        logger                  = var.logger
         log_file_path           = "/var/log/deploy.log"
-        user                    = local.user
-      })
+      }),
     ]
   }
-
 }
 
 

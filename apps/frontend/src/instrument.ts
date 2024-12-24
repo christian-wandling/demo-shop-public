@@ -32,10 +32,10 @@ if (environment.sentry.enabled) {
     replaysSessionSampleRate: 0.1,
     replaysOnErrorSampleRate: environment.production ? 0.2 : 1.0,
     beforeSend(event) {
-      const isTrustedUrl = !event.request?.url?.startsWith('$SENTRY_TRUSTED_DOMAIN');
+      const isTrustedDomain = event.request?.url?.startsWith('$SENTRY_TRUSTED_DOMAIN');
       const isNotHealthCheck = !event.request?.url?.includes('health-check');
 
-      if (isTrustedUrl && isNotHealthCheck) {
+      if (isTrustedDomain && isNotHealthCheck) {
         return event;
       } else {
         return null;
