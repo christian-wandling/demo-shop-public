@@ -30,6 +30,7 @@ fi
 log_info "Starting new Api container..."
 if ! sudo docker run -d \
         --name api \
+        --restart unless-stopped \
         -p 3000:3000 \
         -e DATABASE_URL="${database_url}" \
         -e KEYCLOAK_CLIENT_API="${keycloak_client_api}" \

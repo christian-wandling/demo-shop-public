@@ -28,28 +28,33 @@ services:
       - db
 
   backend:
+    command: sh -c "npx prisma generate && npx nx serve backend --watch --host=0.0.0.0"
     build:
       context: .
       dockerfile: apps/backend/Dockerfile
       target: dev
-    command: npx nx serve backend
+    env_file:
+      - .env
+      - ./secrets/sentry-config.txt
     environment:
       - PORT=3000
       - NODE_ENV=development
-      - NX_DAEMON=true
+      - NX_DAEMON=false
       - NX_REJECT_UNKNOWN_LOCAL_CACHE=0
       - DATABASE_URL
       - KEYCLOAK_REALM
       - KEYCLOAK_CLIENT_API
       - KEYCLOAK_REALM_PUBLIC_KEY
+      - KEYCLOAK_URL
       - POSTGRES_HOST=db
       - SENTRY_AUTH_TOKEN
       - SENTRY_ORG
       - SENTRY_TRUSTED_DOMAIN
       - SENTRY_DEMO_SHOP_API_DSN
+      - SENTRY_DEMO_SHOP_API_PROJECT
     volumes:
-      - ./:/usr/src/app
-      - /usr/src/app/node_modules
+      - .:/app:cached
+      - /app/node_modules
     ports:
       - '127.0.0.1:3000:3000'
     networks:
@@ -109,11 +114,12 @@ services:
       - DEMO_SHOP_API_URL=http://backend:3000
       - SENTRY_DEMO_SHOP_UI_DSN
       - SENTRY_TRUSTED_DOMAIN
+      - API_URL=http://backend:3000
     ports:
       - '4200:4200'
     volumes:
-      - ./:/usr/src/app
-      - /usr/src/app/node_modules
+      - .:/app:cached
+      - /app/node_modules
     networks:
       - frontend
     depends_on:

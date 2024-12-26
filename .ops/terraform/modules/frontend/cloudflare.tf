@@ -23,14 +23,6 @@ resource "cloudflare_worker_route" "frontend_security_headers_route" {
   script_name = var.cloudflare_headers_worker
 }
 
-resource "cloudflare_page_rule" "frontend_https" {
-  zone_id = var.cloudflare_zone_id
-  target  = "${local.frontend_domain}/*"
-  actions {
-    always_use_https = true
-  }
-}
-
 resource "tls_private_key" "frontend_private_key" {
   algorithm = "RSA"
   rsa_bits  = 2048

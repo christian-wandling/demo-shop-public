@@ -30,6 +30,7 @@ fi
 log_info "Starting new Frontend container..."
 if ! sudo docker run -d \
         --name frontend \
+        --restart unless-stopped \
         -p 443:443 \
         -v ${cert_destination}:/etc/ssl/certs:ro \
         -v ${key_destination}:/etc/ssl/keys:ro \

@@ -68,5 +68,4 @@ tfplan
 *.tfvars
 
 *.tar
-
-.ops/local
+.local

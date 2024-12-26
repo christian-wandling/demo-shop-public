@@ -62,7 +62,7 @@ model Product {
   images      Image[]
   cartItems   CartItem[]
   price       Decimal
-  description String?
+  description String
   deleted     Boolean    @default(false)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt

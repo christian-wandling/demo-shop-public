@@ -21,3 +21,5 @@ data "aws_ssm_parameter" "keycloak_admin" {
 data "aws_ssm_parameter" "keycloak_admin_password" {
   name = "/keycloak/${var.environment}/KEYCLOAK_ADMIN_PASSWORD"
 }
+
+data "aws_caller_identity" "current" {}

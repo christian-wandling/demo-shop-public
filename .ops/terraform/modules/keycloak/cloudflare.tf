@@ -23,14 +23,6 @@ resource "cloudflare_worker_route" "keycloak_security_headers_route" {
   script_name = var.cloudflare_headers_worker
 }
 
-resource "cloudflare_page_rule" "keycloak_https" {
-  zone_id = var.cloudflare_zone_id
-  target  = "${local.kc_domain}/*"
-  actions {
-    always_use_https = true
-  }
-}
-
 resource "tls_private_key" "keycloak_private_key" {
   algorithm = "RSA"
   rsa_bits  = 2048

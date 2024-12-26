@@ -24,6 +24,7 @@ fi
 log_info "Starting new Keycloak container..."
 if ! sudo docker run -d \
          --name keycloak \
+         --restart unless-stopped \
          -p 443:443 \
          -e KC_DB=postgres \
          -e KC_DB_SCHEMA="public" \

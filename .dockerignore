@@ -3,12 +3,11 @@
 .husky
 .idea
 .vscode
+node_modules
 coverage
 dist
-node_modules
 pgdata
 rest
-secrets/*
 !secrets/nginx-server.key
 !secrets/nginx-server.crt
 !secrets/dhparam.pem
@@ -25,3 +24,5 @@ README.md
 .env*
 .ops/terraform
 .ops/k8s
+.local
+*.tar

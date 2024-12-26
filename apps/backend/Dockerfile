@@ -1,8 +1,9 @@
 FROM docker.io/node:lts-alpine AS dev
-RUN apk add --no-cache openssl
+RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
+
 
 
 FROM docker.io/node:lts-alpine AS build
