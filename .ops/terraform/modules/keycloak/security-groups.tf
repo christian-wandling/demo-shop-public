@@ -109,3 +109,30 @@ resource "aws_vpc_security_group_egress_rule" "keycloak_egress_all" {
     var.additional_tags
   )
 }
+
+resource "aws_vpc_security_group_ingress_rule" "keycloak_ingress_frontend" {
+  security_group_id = aws_security_group.keycloak_sg.id
+  ip_protocol       = "tcp"
+  from_port         = 443
+  to_port           = 443
+  referenced_security_group_id = var.frontend_sg
+  description       = "Allow traffic from frontend"
+
+  tags = merge(
+    {
+      Name        = "${var.identifier_prefix}-keycloak-sg-ingress-frontend-${var.environment}"
+      Environment = var.environment
+      Managed_by  = "terraform"
+    },
+    var.additional_tags
+  )
+}
+
+resource "aws_vpc_security_group_egress_rule" "keycloak_egress_frontend" {
+  security_group_id            = aws_security_group.keycloak_sg.id
+  ip_protocol                 = "tcp"
+  from_port                   = 1024
+  to_port                     = 65535
+  referenced_security_group_id = var.frontend_sg
+  description                 = "Allow response traffic to frontend"
+}

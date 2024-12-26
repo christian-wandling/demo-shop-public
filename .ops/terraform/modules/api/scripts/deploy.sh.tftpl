@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 LOG_FILE="${log_file_path}"
@@ -37,6 +36,8 @@ if ! sudo docker run -d \
         -e KEYCLOAK_REALM="${keycloak_realm}" \
         -e KEYCLOAK_URL="${keycloak_url}" \
         -e KEYCLOAK_REALM_PUBLIC_KEY="${keycloak_realm_public_key}" \
+        -e SENTRY_DEMO_SHOP_API_DSN="${sentry_demo_shop_api_dsn}" \
+        -e FRONTEND_URL="${frontend_url}" \
         demo-shop-api:latest; then
 
     log_error "Failed to start Api container"

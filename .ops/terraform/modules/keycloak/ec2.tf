@@ -49,8 +49,8 @@ resource "terraform_data" "keycloak_deploy" {
     keycloak_admin          = var.keycloak_admin
     keycloak_admin_password = var.keycloak_admin_password
     script_hash = filesha256("${path.module}/scripts/deploy.sh.tftpl"),
-    cert_hash = filesha256(var.keycloak_server_cert_path),
-    key_hash = filesha256(var.keycloak_server_key_path),
+    cert_hash = cloudflare_origin_ca_certificate.keycloak_cert.certificate
+    key_hash  = tls_private_key.keycloak_private_key.private_key_pem
   }
 
   connection {
@@ -67,12 +67,12 @@ resource "terraform_data" "keycloak_deploy" {
   }
 
   provisioner "file" {
-    source      = var.keycloak_server_cert_path
+    content     = cloudflare_origin_ca_certificate.keycloak_cert.certificate
     destination = "/home/ec2-user/secrets/cert.pem"
   }
 
   provisioner "file" {
-    source      = var.keycloak_server_key_path
+    content     = tls_private_key.keycloak_private_key.private_key_pem
     destination = "/home/ec2-user/secrets/key.pem"
   }
 

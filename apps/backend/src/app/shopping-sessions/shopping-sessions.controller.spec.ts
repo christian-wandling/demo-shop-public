@@ -62,7 +62,7 @@ describe('ShoppingSessionsController', () => {
 
     it('should have the correct roles', () => {
       const roles = Reflect.getMetadata('roles', ShoppingSessionsController);
-      expect(roles).toEqual({ roles: ['buy_products'] });
+      expect(roles).toEqual({ roles: ['realm:buy_products'] });
     });
   });
 

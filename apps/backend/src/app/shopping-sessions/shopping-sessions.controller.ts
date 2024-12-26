@@ -11,7 +11,7 @@ import { CustomDelete } from '../common/decorators/custom-delete.decorator';
 import { DecodedToken } from '../common/entities/decoded-token';
 
 @CustomController({ path: 'shopping-sessions', version: '1' })
-@Auth({ roles: ['buy_products'] })
+@Auth({ roles: ['realm:buy_products'] })
 export class ShoppingSessionsController {
   constructor(private readonly shoppingSessionsService: ShoppingSessionsService) {}
 

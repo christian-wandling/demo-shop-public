@@ -9,19 +9,14 @@ import { DecodedToken } from '../common/entities/decoded-token';
 import { MonitoringService } from '../common/services/monitoring.service';
 
 @CustomController({ path: 'users', version: '1' })
-@Auth({ roles: ['buy_products'] })
+@Auth({ roles: ['realm:buy_products'] })
 export class UsersController {
   constructor(private readonly usersService: UsersService, private readonly monitoringService: MonitoringService) {}
 
   @CustomGet({ path: 'me', res: UserDTO })
   async getCurrentUser(@CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken): Promise<UserDTO> {
-    let user: UserDTO;
-
-    try {
-      user = await this.usersService.getFromToken(decodedToken);
-      return user;
-    } finally {
-      this.monitoringService.setUser({ id: user?.id });
-    }
+    const user: UserDTO = await this.usersService.getFromToken(decodedToken);
+    this.monitoringService.setUser({ id: user?.id });
+    return user;
   }
 }

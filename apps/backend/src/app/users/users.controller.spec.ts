@@ -72,7 +72,7 @@ describe('UsersController', () => {
 
     it('should have the correct roles', () => {
       const roles = Reflect.getMetadata('roles', UsersController);
-      expect(roles).toEqual({ roles: ['buy_products'] });
+      expect(roles).toEqual({ roles: ['realm:buy_products'] });
     });
   });
 

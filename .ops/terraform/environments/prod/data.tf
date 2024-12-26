@@ -21,17 +21,3 @@ data "aws_ssm_parameter" "keycloak_admin" {
 data "aws_ssm_parameter" "keycloak_admin_password" {
   name = "/keycloak/${var.environment}/KEYCLOAK_ADMIN_PASSWORD"
 }
-
-
-data "aws_ssm_parameter" "keycloak_client_ui" {
-  name = "/keycloak/${var.environment}/KEYCLOAK_CLIENT_UI"
-}
-
-data "aws_ssm_parameter" "keycloak_client_api" {
-  name = "/keycloak/${var.environment}/KEYCLOAK_CLIENT_API"
-}
-
-data "aws_ssm_parameter" "keycloak_realm_name" {
-  name = "/keycloak/${var.environment}/KEYCLOAK_REALM_NAME"
-}
-

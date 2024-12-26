@@ -4,5 +4,7 @@ resource "cloudflare_worker_script" "security_headers" {
 
   tags = ["${var.project_name}-headers"]
 
-  content = file("${path.module}/workers/worker.js")
+  content = templatefile("workers/worker.js.tftpl", {
+    domain = var.cloudflare_domain_name
+  })
 }

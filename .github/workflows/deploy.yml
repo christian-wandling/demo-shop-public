@@ -32,11 +32,21 @@ jobs:
         run: |
           echo "${{ secrets.API_SSH_PRIVATE_KEY }}" > api_ssh_private_key
           echo "${{ secrets.API_SSH_PUBLIC_KEY }}" > api_ssh_public_key
+          echo "${{ secrets.FRONTEND_SSH_PRIVATE_KEY }}" > frontend_ssh_private_key
+          echo "${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}" > frontend_ssh_public_key
           echo "${{ secrets.KEYCLOAK_SSH_PRIVATE_KEY }}" > keycloak_ssh_private_key
           echo "${{ secrets.KEYCLOAK_SSH_PUBLIC_KEY }}" > keycloak_ssh_public_key
           echo "${{ secrets.KEYCLOAK_SERVER_CERT }}" > keycloak_server_cert.pem
-          echo "${{ secrets_keycloak_server_key }}" > keycloak_server_key.pem
-          chmod 600 api_ssh_private_key api_ssh_public_key keycloak_ssh_private_key keycloak_ssh_public_key *.pem
+          echo "${{ secrets.KEYCLOAK_SERVER_KEY }}" > keycloak_server_key.pem
+          echo "${{ secrets.DH_PARAM }}" > dhparam.pem
+          chmod 600 \
+            api_ssh_private_key \
+            api_ssh_public_key \
+            frontend_ssh_private_key \
+            frontend_ssh_public_key \
+            keycloak_ssh_private_key \
+            keycloak_ssh_public_key \
+            *.pem
 
       - name: Build Api docker image
         run: |
@@ -50,6 +60,32 @@ jobs:
       - name: Save Api docker image
         run: docker save demo-shop-api:latest | tee demo-shop-api.tar > /dev/null
 
+      - name: Configure frontend environment
+        run: |
+          envsubst < apps/frontend/src/environments/environment.ts > /tmp/environment.ts
+          mv /tmp/environment.ts apps/frontend/src/environments/environment.ts
+        env:
+          KEYCLOAK_URL: ${{ secrets.KEYCLOAK_URL }}
+          KEYCLOAK_REALM: ${{ secrets.KEYCLOAK_REALM }}
+          KEYCLOAK_CLIENT_UI: ${{ secrets.KEYCLOAK_CLIENT_UI }}
+          SENTRY_DEMO_SHOP_UI_DSN: ${{ secrets.SENTRY_DEMO_SHOP_UI_DSN }}
+          SENTRY_TRUSTED_DOMAIN: ${{ secrets.SENTRY_TRUSTED_DOMAIN }}
+
+      - name: Build Frontend docker image
+        run: docker build --platform linux/amd64  -t demo-shop-frontend:latest .
+
+      - name: Install Sentry CLI
+        run: npm install -g @sentry/cli
+
+      - name: Upload Sourcemaps
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_DEMO_SHOP_UI_PROJECT }}
+        run: |
+          sentry-cli sourcemaps inject dist/apps/frontend
+          sentry-cli sourcemaps upload dist/apps/frontend
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
 
@@ -57,16 +93,25 @@ jobs:
         env:
           TF_VAR_aws_region: ${{ secrets.AWS_REGION }}
           TF_VAR_allowed_cidr_blocks: ${{ format('["{}"]', join('","', split(secrets.ALLOWED_CIDR, ','))) }}
-          TF_VAR_api_ssh_public_key_path: './api_ssh_public_key'
-          TF_VAR_api_ssh_private_key_path: './api_ssh_private_key'
+          TF_VAR_keycloak_realm: ${{ secrets.KEYCLOAK_REALM }}
+          TF_VAR_keycloak_client_api: ${{ secrets.KEYCLOAK_CLIENT_API }}
+          TF_VAR_keycloak_client_ui: ${{ secrets.KEYCLOAK_CLIENT_UI }}
           TF_VAR_keycloak_ssh_public_key_path: './keycloak_ssh_public_key'
           TF_VAR_keycloak_ssh_private_key_path: './keycloak_ssh_private_key'
           TF_VAR_keycloak_server_cert_path: './keycloak_server_cert.pem'
           TF_VAR_keycloak_server_key_path: './keycloak_server_key.pem'
-          TF_VAR_sentry_auth_token: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          TF_VAR_sentry_org: ${{ secrets.SENTRY_ORG }}
-          TF_VAR_sentry_demo_shop_api_project: ${{ secrets.SENTRY_DEMO_SHOP_API_PROJECT }}
+          TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          TF_VAR_cloudflare_zone_id: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          TF_VAR_cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          TF_VAR_cloudflare_domain_name: ${{ secrets.CLOUDFLARE_DOMAIN_NAME }}
+          TF_VAR_api_ssh_public_key_path: './api_ssh_public_key'
+          TF_VAR_api_ssh_private_key_path: './api_ssh_private_key'
           TF_VAR_api_docker_image_path: './demo-shop-api.tar'
+          TF_VAR_frontend_ssh_public_key_path: './frontend_ssh_public_key'
+          TF_VAR_frontend_ssh_private_key_path: './frontend_ssh_private_key'
+          TF_VAR_frontend_docker_image_path: './demo-shop-frontend.tar'
+          TF_VAR_dhparam_file_path: './dhparam.pem'
+          TF_VAR_sentry_demo_shop_api_dsn: ${{ secrets.SENTRY_DEMO_SHOP_API_DSN }}
         run: |
           terraform init
           terraform fmt -check

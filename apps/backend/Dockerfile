@@ -1,9 +1,8 @@
 FROM docker.io/node:lts-alpine AS dev
-RUN apk add --no-cache libc6-compat openssl
+RUN apk add --no-cache openssl
 WORKDIR /app
-COPY --chown=node:node . .
-RUN npm ci \
-    && npx prisma generate
+COPY package*.json ./
+RUN npm ci
 
 
 FROM docker.io/node:lts-alpine AS build
@@ -11,9 +10,11 @@ ENV NODE_ENV=production
 ARG SENTRY_AUTH_TOKEN
 ARG SENTRY_ORG
 ARG SENTRY_DEMO_SHOP_API_PROJECT
+RUN apk add --no-cache openssl
 WORKDIR /app
-COPY --from=dev /app .
-RUN npx nx build backend
+COPY . .
+COPY --from=dev /app/node_modules ./node_modules
+RUN npx prisma generate && npx nx build backend
 WORKDIR /app/dist/apps/backend
 RUN npm ci
 

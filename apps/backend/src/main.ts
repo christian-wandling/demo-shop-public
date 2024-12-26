@@ -22,7 +22,7 @@ async function bootstrap() {
   app.useGlobalFilters(new CatchEverythingFilter(httpAdapterHost));
   app.setGlobalPrefix(globalPrefix);
   app.enableCors({
-    origin: [isProd ? 'https://localhost' : 'http://localhost:4200'],
+    origin: [process.env.FRONTEND_URL],
   });
   app.enableVersioning({
     type: VersioningType.URI,
@@ -36,7 +36,9 @@ async function bootstrap() {
     })
   );
 
-  enableSwagger(app);
+  if (!isProd) {
+    enableSwagger(app);
+  }
 
   await app.listen(port);
   Logger.log(`🚀 Application is running on: 'http://localhost:${port}/${globalPrefix}`);

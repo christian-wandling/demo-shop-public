@@ -1,7 +1,6 @@
 variable "aws_region" {
   description = "AWS region"
   type        = string
-  default     = "eu-central-1"
 }
 
 variable "environment" {
@@ -29,16 +28,6 @@ variable "keycloak_ssh_public_key_path" {
 
 variable "keycloak_ssh_private_key_path" {
   description = "The path of the ssh private key for Keycloak"
-  type        = string
-}
-
-variable "keycloak_server_cert_path" {
-  description = "The keycloak ssl certificate"
-  type        = string
-}
-
-variable "keycloak_server_key_path" {
-  description = "The keycloak ssl certificate key"
   type        = string
 }
 
@@ -78,4 +67,48 @@ variable "api_ssh_private_key_path" {
 variable "api_docker_image_path" {
   description = "The docker image path for the api"
   type        = string
+}
+
+variable "keycloak_realm" {
+  description = "Keycloak realm"
+  type        = string
+  sensitive   = true
+}
+
+variable "keycloak_client_ui" {
+  description = "Keycloak client fo the ui"
+  type        = string
+  sensitive   = true
+}
+
+variable "keycloak_client_api" {
+  description = "Keycloak client fo the api"
+  type        = string
+  sensitive   = true
+}
+
+variable "frontend_ssh_private_key_path" {
+  description = "The path of the ssh private key for the frontend"
+  type        = string
+}
+
+variable "frontend_ssh_public_key_path" {
+  description = "The path of the ssh public key for the frontend"
+  type        = string
+}
+
+variable "frontend_docker_image_path" {
+  description = "The docker image path for the frontend"
+  type        = string
+}
+
+variable "dhparam_file_path" {
+  description = "The path of the dhparam file"
+  type        = string
+}
+
+variable "sentry_demo_shop_api_dsn" {
+  description = "The sentry demo shop api dsn"
+  type        = string
+  sensitive   = true
 }

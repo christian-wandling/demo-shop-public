@@ -41,12 +41,12 @@ resource "aws_instance" "api" {
 
 resource "terraform_data" "api_deploy" {
   triggers_replace = {
-    instance_id = aws_instance.api.id
-    database_url                 = local.database_url
-    keycloak_realm_public_key    = var.keycloak_realm_public_key
-    keycloak_client_api          = var.keycloak_client_api
-    keycloak_realm               = var.keycloak_realm_name
-    keycloak_url                 = var.keycloak_address
+    instance_id               = aws_instance.api.id
+    database_url              = local.database_url
+    keycloak_realm_public_key = var.keycloak_realm_public_key
+    keycloak_client_api       = var.keycloak_client_api
+    keycloak_realm            = var.keycloak_realm
+    keycloak_url              = var.keycloak_address
     script_hash = filesha256("${path.module}/scripts/deploy.sh.tftpl"),
     image_hash = filesha256(var.api_docker_image_path),
   }
@@ -66,16 +66,40 @@ resource "terraform_data" "api_deploy" {
   provisioner "remote-exec" {
     inline = [
       templatefile("${path.module}/scripts/deploy.sh.tftpl", {
-        user                         = var.user
-        logger                       = var.logger
-        log_file_path                = "/var/log/deploy.log"
-        database_url                 = local.database_url
-        keycloak_realm_public_key    = var.keycloak_realm_public_key
-        keycloak_client_api          = var.keycloak_client_api
-        keycloak_realm               = var.keycloak_realm_name
-        keycloak_url                 = var.keycloak_address
+        user                      = var.user
+        logger                    = var.logger
+        log_file_path             = "/var/log/deploy.log"
+        database_url              = local.database_url
+        keycloak_realm_public_key = var.keycloak_realm_public_key
+        keycloak_client_api       = var.keycloak_client_api
+        keycloak_realm            = var.keycloak_realm
+        keycloak_url              = "https://${var.keycloak_address}"
+        frontend_url              = "https://${var.frontend_address}"
+        sentry_demo_shop_api_dsn  = var.sentry_demo_shop_api_dsn
       })
     ]
   }
-
 }
+
+
+# resource "terraform_data" "db_migrations" {
+#   depends_on = [terraform_data.api_deploy]
+#
+#   triggers_replace = {
+#     instance_id = aws_instance.api.id
+#     database_url = local.database_url
+#   }
+#
+#   connection {
+#     type        = "ssh"
+#     host        = aws_instance.api.public_ip
+#     user        = var.user
+#     private_key = file(var.api_ssh_private_key_path)
+#   }
+#
+#   provisioner "remote-exec" {
+#     inline = [
+#       "docker exec demo-shop-api npx prisma migrate deploy"
+#     ]
+#   }
+# }

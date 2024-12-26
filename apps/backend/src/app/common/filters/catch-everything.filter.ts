@@ -34,10 +34,6 @@ export class CatchEverythingFilter implements ExceptionFilter {
       return;
     }
 
-    Logger.error(
-      `
-      ${exceptionPrefix} Exception: ${exception?.['message']}`,
-      exception?.['stack']
-    );
+    Logger.error(`${exceptionPrefix} Exception: ${exception?.['message']}`, exception?.['stack']);
   }
 }

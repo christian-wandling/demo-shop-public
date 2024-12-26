@@ -61,16 +61,6 @@ variable "keycloak_ssh_private_key_path" {
   type        = string
 }
 
-variable "keycloak_server_cert_path" {
-  description = "The keycloak ssl certificate"
-  type        = string
-}
-
-variable "keycloak_server_key_path" {
-  description = "The keycloak ssl certificate key"
-  type        = string
-}
-
 variable "cloudflare_zone_id" {
   description = "The id of the zone that will be used by the Cloudflare account"
   type        = string
@@ -128,8 +118,12 @@ variable "keycloak_client_api" {
   sensitive   = true
 }
 
-variable "fe_address" {
-  description = "Frontend address"
+variable frontend_sg {
+  description = "The security group for the frontend"
   type        = string
-  sensitive   = true
+}
+
+variable frontend_address {
+  description = "The security group for the frontend"
+  type        = string
 }

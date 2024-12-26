@@ -91,7 +91,7 @@ variable "keycloak_client_api" {
   sensitive   = true
 }
 
-variable "keycloak_realm_name" {
+variable "keycloak_realm" {
   description = "The name of the keycloak realm"
   type        = string
   sensitive   = true
@@ -108,3 +108,24 @@ variable "api_docker_image_path" {
   type        = string
 }
 
+variable frontend_sg {
+  description = "The security group for the frontend"
+  type        = string
+}
+
+variable "keycloak_sg" {
+  description = "The security group for keycloak"
+  type        = string
+}
+
+variable "sentry_demo_shop_api_dsn" {
+  description = "The sentry demo shop api dsn"
+  type        = string
+  sensitive   = true
+}
+
+variable "frontend_address" {
+  description = "The address of the frontend server"
+  type        = string
+  sensitive   = true
+}
