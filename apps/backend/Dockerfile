@@ -15,7 +15,7 @@ RUN apk add --no-cache openssl
 WORKDIR /app
 COPY . .
 COPY --from=dev /app/node_modules ./node_modules
-RUN npx prisma generate && npx nx build backend
+RUN npx nx build backend
 WORKDIR /app/dist/apps/backend
 RUN npm ci
 
