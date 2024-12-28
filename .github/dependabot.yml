@@ -28,13 +28,13 @@ updates:
       - dependency-name: "zone.js"
       - dependency-name: "typescript"
     groups:
-    dependencies:
-      patterns:
-        - "*"
-      exclude-patterns:
-        - "@angular/*"
-        - "@nestjs/*"
-        - "@nrwl/*"
-      update-types:
-        - "minor"
-        - "patch"
+      dependencies:
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "@angular/*"
+          - "@nestjs/*"
+          - "@nrwl/*"
+        update-types:
+          - "minor"
+          - "patch"
