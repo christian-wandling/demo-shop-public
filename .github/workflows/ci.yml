@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  quality:
+  ci:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,10 +20,12 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - run: npm ci --ignore-scripts
+
+      - run: npx prisma generate
 
       - name: lint
         run: npx nx run-many -t lint
