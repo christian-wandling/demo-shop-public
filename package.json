@@ -98,7 +98,7 @@
     "@nx/nest": "20.1.1",
     "@nx/node": "20.1.1",
     "@nx/playwright": "20.1.1",
-    "@nx/web": "20.1.1",
+    "@nx/web": "20.3.0",
     "@nx/webpack": "20.1.1",
     "@nx/workspace": "20.1.1",
     "@openapitools/openapi-generator-cli": "^2.13.5",
