@@ -18,10 +18,23 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "@angular/*"
+      - dependency-name: "@angular-devkit/*"
+      - dependency-name: "@nestjs/*"
+      - dependency-name: "@nrwl/*"
+      - dependency-name: "nx"
+      - dependency-name: "@nx/*"
+      - dependency-name: "rxjs"
+      - dependency-name: "zone.js"
+      - dependency-name: "typescript"
     groups:
     dependencies:
       patterns:
         - "*"
+      exclude-patterns:
+        - "@angular/*"
+        - "@nestjs/*"
+        - "@nrwl/*"
       update-types:
         - "minor"
         - "patch"
