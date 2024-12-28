@@ -1,37 +1,41 @@
 name: Build
-on:
-  workflow_dispatch:
-
+on: workflow_dispatch
 permissions:
   contents: read
   actions: write
 
 jobs:
-  build:
+  build-api:
     runs-on: ubuntu-latest
     environment: production
-
-    defaults:
-      run:
-        working-directory: .
-
-    env:
-      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-      SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-
+    outputs:
+      artifact_name: demo-shop-api.tar
     steps:
       - uses: actions/checkout@v4
-
       - name: Build Api
-        id: build_api
         env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_DEMO_SHOP_API_PROJECT: ${{ secrets.SENTRY_DEMO_SHOP_API_PROJECT }}
         run: |
-          chmod +x scripts/build-api.sh
-          ./scripts/build-api.sh
+          chmod +x .ops/scripts/build-api.sh
+          ./.ops/scripts/build-api.sh
+      - name: Upload API artifact
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-artifact
+          path: demo-shop-api.tar
+          retention-days: 1
 
+  build-frontend:
+    runs-on: ubuntu-latest
+    environment: production
+    outputs:
+      artifact_name: demo-shop-frontend.tar
+    steps:
+      - uses: actions/checkout@v4
       - name: Build Frontend
-        id: build_frontend
         env:
           KEYCLOAK_URL: ${{ secrets.KEYCLOAK_URL }}
           KEYCLOAK_REALM: ${{ secrets.KEYCLOAK_REALM }}
@@ -39,25 +43,20 @@ jobs:
           SENTRY_DEMO_SHOP_UI_DSN: ${{ secrets.SENTRY_DEMO_SHOP_UI_DSN }}
           SENTRY_TRUSTED_DOMAIN: ${{ secrets.SENTRY_TRUSTED_DOMAIN }}
         run: |
-          chmod +x scripts/build-frontend.sh
-          ./scripts/build-frontend.sh
-
+          chmod +x .ops/scripts/build-frontend.sh
+          ./.ops/scripts/build-frontend.sh
       - name: Upload Sourcemaps
-        if: steps.build_frontend.outcome == 'success'
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.SENTRY_DEMO_SHOP_UI_PROJECT }}
         run: |
-          chmod +x scripts/process-sentry.sh
-          ./scripts/process-sentry.sh
-
-      - name: Upload artifacts
+          chmod +x .ops/scripts/process-sentry.sh
+          ./.ops/scripts/process-sentry.sh
+      - name: Upload Frontend artifact
+        if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifacts
-          if-no-files-found: error
-          path: |
-            demo-shop-api.tar
-            demo-shop-frontend.tar
+          name: frontend-artifact
+          path: demo-shop-frontend.tar
           retention-days: 1
