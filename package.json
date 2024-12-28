@@ -103,7 +103,7 @@
     "@nx/workspace": "20.1.1",
     "@openapitools/openapi-generator-cli": "^2.13.5",
     "@playwright/test": "^1.36.0",
-    "@schematics/angular": "18.2.9",
+    "@schematics/angular": "18.2.12",
     "@sentry/webpack-plugin": "^2.22.6",
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
