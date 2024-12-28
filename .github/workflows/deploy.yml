@@ -1,120 +1,113 @@
-name: Deploy Terraform Runner
-
+name: Deploy
 on:
-  workflow_dispatch: # Manual trigger only
-
+  workflow_run:
+    workflows: ['Build']
+    types:
+      - completed
+    branches:
+      - main
+      -
 permissions:
-  id-token: write
   contents: read
+  actions: read
+  id-token: write
 
 jobs:
   deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+    environment: production
+    concurrency:
+      group: production_deploy
+      cancel-in-progress: false
+
     defaults:
       run:
         working-directory: .ops/terraform/environments/prod
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_REGION: ${{ secrets.AWS_REGION }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+        shell: bash
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download artifacts
+        id: download
+        uses: actions/download-artifact@v3
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          name: build-artifacts
+
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v1
+        env:
+          AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+        with:
+          role-to-assume: ${AWS_ROLE_ARN}
+          aws-region: ${AWS_REGION}
 
       - name: Setup SSH Keys and Certs
-        run: |
-          echo "${{ secrets.API_SSH_PRIVATE_KEY }}" > api_ssh_private_key
-          echo "${{ secrets.API_SSH_PUBLIC_KEY }}" > api_ssh_public_key
-          echo "${{ secrets.FRONTEND_SSH_PRIVATE_KEY }}" > frontend_ssh_private_key
-          echo "${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}" > frontend_ssh_public_key
-          echo "${{ secrets.KEYCLOAK_SSH_PRIVATE_KEY }}" > keycloak_ssh_private_key
-          echo "${{ secrets.KEYCLOAK_SSH_PUBLIC_KEY }}" > keycloak_ssh_public_key
-          echo "${{ secrets.KEYCLOAK_SERVER_CERT }}" > keycloak_server_cert.pem
-          echo "${{ secrets.KEYCLOAK_SERVER_KEY }}" > keycloak_server_key.pem
-          echo "${{ secrets.DH_PARAM }}" > dhparam.pem
-          chmod 600 \
-            api_ssh_private_key \
-            api_ssh_public_key \
-            frontend_ssh_private_key \
-            frontend_ssh_public_key \
-            keycloak_ssh_private_key \
-            keycloak_ssh_public_key \
-            *.pem
-
-      - name: Build Api docker image
-        run: |
-          docker build \
-            --platform linux/amd64 \
-            --build-arg SENTRY_AUTH_TOKEN="${{ secrets.SENTRY_AUTH_TOKEN }}" \
-            --build-arg SENTRY_ORG="${{ secrets.SENTRY_ORG }}" \
-            --build-arg SENTRY_DEMO_SHOP_API_PROJECT="${{ secrets.SENTRY_DEMO_SHOP_API_PROJECT }}" \
-            -t demo-shop-api:latest .
-
-      - name: Save Api docker image
-        run: docker save demo-shop-api:latest | tee demo-shop-api.tar > /dev/null
-
-      - name: Configure frontend environment
-        run: |
-          envsubst < apps/frontend/src/environments/environment.ts > /tmp/environment.ts
-          mv /tmp/environment.ts apps/frontend/src/environments/environment.ts
         env:
-          KEYCLOAK_URL: ${{ secrets.KEYCLOAK_URL }}
-          KEYCLOAK_REALM: ${{ secrets.KEYCLOAK_REALM }}
-          KEYCLOAK_CLIENT_UI: ${{ secrets.KEYCLOAK_CLIENT_UI }}
-          SENTRY_DEMO_SHOP_UI_DSN: ${{ secrets.SENTRY_DEMO_SHOP_UI_DSN }}
-          SENTRY_TRUSTED_DOMAIN: ${{ secrets.SENTRY_TRUSTED_DOMAIN }}
-
-      - name: Build Frontend docker image
-        run: docker build --platform linux/amd64  -t demo-shop-frontend:latest .
-
-      - name: Install Sentry CLI
-        run: npm install -g @sentry/cli
-
-      - name: Upload Sourcemaps
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_DEMO_SHOP_UI_PROJECT }}
+          API_SSH_PRIVATE_KEY: ${{ API_SSH_PRIVATE_KEY }}"
+          API_SSH_PUBLIC_KEY: ${{ API_SSH_PUBLIC_KEY }}"
+          FRONTEND_SSH_PRIVATE_KEY: ${{ FRONTEND_SSH_PRIVATE_KEY }}"
+          FRONTEND_SSH_PUBLIC_KEY: ${{ FRONTEND_SSH_PUBLIC_KEY }}"
+          KEYCLOAK_SSH_PRIVATE_KEY: ${{ KEYCLOAK_SSH_PRIVATE_KEY }}"
+          KEYCLOAK_SSH_PUBLIC_KEY: ${{ KEYCLOAK_SSH_PUBLIC_KEY }}"
+          KEYCLOAK_SERVER_CERT: ${{ KEYCLOAK_SERVER_CERT }}"
+          KEYCLOAK_SERVER_KEY: ${{ KEYCLOAK_SERVER_KEY }}"
+          DH_PARAM: ${{ DH_PARAM }}"
         run: |
-          sentry-cli sourcemaps inject dist/apps/frontend
-          sentry-cli sourcemaps upload dist/apps/frontend
+          chmod +x scripts/setup-keys.sh
+          ./scripts/setup-keys.sh
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
 
-      - name: Terraform Apply
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt -check
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate
+
+      - name: Terraform Plan
         env:
-          TF_VAR_aws_region: ${{ secrets.AWS_REGION }}
+          TF_VAR_aws_region: ${AWS_REGION}
           TF_VAR_allowed_cidr_blocks: ${{ format('["{}"]', join('","', split(secrets.ALLOWED_CIDR, ','))) }}
           TF_VAR_keycloak_realm: ${{ secrets.KEYCLOAK_REALM }}
           TF_VAR_keycloak_client_api: ${{ secrets.KEYCLOAK_CLIENT_API }}
           TF_VAR_keycloak_client_ui: ${{ secrets.KEYCLOAK_CLIENT_UI }}
-          TF_VAR_keycloak_ssh_public_key_path: './keycloak_ssh_public_key'
-          TF_VAR_keycloak_ssh_private_key_path: './keycloak_ssh_private_key'
-          TF_VAR_keycloak_server_cert_path: './keycloak_server_cert.pem'
-          TF_VAR_keycloak_server_key_path: './keycloak_server_key.pem'
+          TF_VAR_keycloak_ssh_public_key_path: './secrets/keycloak_ssh_public_key'
+          TF_VAR_keycloak_ssh_private_key_path: './secrets/keycloak_ssh_private_key'
+          TF_VAR_keycloak_server_cert_path: './secrets/keycloak_server_cert.pem'
+          TF_VAR_keycloak_server_key_path: './secrets/keycloak_server_key.pem'
           TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           TF_VAR_cloudflare_zone_id: ${{ secrets.CLOUDFLARE_ZONE_ID }}
           TF_VAR_cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           TF_VAR_cloudflare_domain_name: ${{ secrets.CLOUDFLARE_DOMAIN_NAME }}
-          TF_VAR_api_ssh_public_key_path: './api_ssh_public_key'
-          TF_VAR_api_ssh_private_key_path: './api_ssh_private_key'
-          TF_VAR_api_docker_image_path: './demo-shop-api.tar'
-          TF_VAR_frontend_ssh_public_key_path: './frontend_ssh_public_key'
-          TF_VAR_frontend_ssh_private_key_path: './frontend_ssh_private_key'
-          TF_VAR_frontend_docker_image_path: './demo-shop-frontend.tar'
-          TF_VAR_dhparam_file_path: './dhparam.pem'
-          TF_VAR_sentry_demo_shop_api_dsn: ${{ secrets.SENTRY_DEMO_SHOP_API_DSN }}
+          TF_VAR_api_ssh_public_key_path: './secrets/api_ssh_public_key'
+          TF_VAR_api_ssh_private_key_path: './secrets/api_ssh_private_key'
+          TF_VAR_api_docker_image_path: './secrets/demo-shop-api.tar'
+          TF_VAR_frontend_ssh_public_key_path: './secrets/frontend_ssh_public_key'
+          TF_VAR_frontend_ssh_private_key_path: './secrets/frontend_ssh_private_key'
+          TF_VAR_frontend_docker_image_path: './secrets/demo-shop-frontend.tar'
+          TF_VAR_dhparam_file_path: './secrets/dhparam.pem'
+          TF_VAR_sentry_demo_shop_api_dsn: ${{ secrets.CLOUDFLARE_DOMAIN_NAME }}
         run: |
-          terraform init
-          terraform fmt -check
-          terraform validate
           terraform plan -out=tfplan
-          terraform apply -auto-approve tfplan
+
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply -auto-approve tfplan
+
+      - name: Cleanup Sensitive Files
+        if: always()
+        run: |
+          chmod +x scripts/cleanup.sh
+          ./scripts/cleanup.sh
