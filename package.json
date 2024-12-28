@@ -100,7 +100,7 @@
     "@nx/playwright": "20.1.1",
     "@nx/web": "20.1.1",
     "@nx/webpack": "20.1.1",
-    "@nx/workspace": "20.1.1",
+    "@nx/workspace": "20.3.0",
     "@openapitools/openapi-generator-cli": "^2.13.5",
     "@playwright/test": "^1.36.0",
     "@schematics/angular": "18.2.9",
