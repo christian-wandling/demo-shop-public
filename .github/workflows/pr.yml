@@ -24,7 +24,7 @@ jobs:
           node-version: 22
           cache: 'npm'
 
-      - run: npm ci --ignore-scripts
+      - run: npm ci --legacy-peer-deps --ignore-scripts
       - uses: nrwl/nx-set-shas@v4
 
       - name: lint
