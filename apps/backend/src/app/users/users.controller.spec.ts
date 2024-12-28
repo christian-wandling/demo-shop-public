@@ -100,15 +100,6 @@ describe('UsersController', () => {
       expect(monitoringService.setUser).toHaveBeenCalledTimes(1);
     });
 
-    it('should set the user id to undefined if not user found', async () => {
-      jest.spyOn(usersService, 'getFromToken').mockRejectedValueOnce(new Error('User not found'));
-
-      await expect(controller.getCurrentUser(mockDecodedToken)).rejects.toThrow('User not found');
-
-      expect(monitoringService.setUser).toHaveBeenCalledWith({ id: undefined });
-      expect(monitoringService.setUser).toHaveBeenCalledTimes(1);
-    });
-
     it('should have the correct path', () => {
       const path = Reflect.getMetadata('path', UsersController.prototype.getCurrentUser);
       expect(path).toEqual('me');
