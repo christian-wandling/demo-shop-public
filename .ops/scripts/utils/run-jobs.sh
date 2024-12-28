@@ -5,7 +5,7 @@ run_jobs() {
   local -a job_files=("${@:2}")
   local SCRIPT_DIR
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-  source "${SCRIPT_DIR}/logging-utils.sh"
+  source "${SCRIPT_DIR}/logger.sh"
 
   # Validate input parameters
   if [ -z "$container_name" ]; then
@@ -32,7 +32,7 @@ run_job() {
   local job_file="$2"
   local SCRIPT_DIR
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-  source "${SCRIPT_DIR}/logging-utils.sh"
+  source "${SCRIPT_DIR}/logger.sh"
 
   # Check if job_file is set
   if [[ -z "$job_file" ]]; then

@@ -6,7 +6,7 @@ apply_configs() {
 
   local SCRIPT_DIR
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-  source "${SCRIPT_DIR}/logging-utils.sh"
+  source "${SCRIPT_DIR}/logger.sh"
 
   log_info "Applying $container_name configurations..."
 

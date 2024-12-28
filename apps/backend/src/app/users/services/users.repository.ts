@@ -10,7 +10,7 @@ export class UsersRepository implements UsersRepositoryModel {
   constructor(private readonly prisma: PrismaService) {}
 
   async find(email: string): Promise<HydratedUser> {
-    return this.prisma.user.findUniqueOrThrow({
+    return this.prisma.user.findUnique({
       where: {
         email,
       },

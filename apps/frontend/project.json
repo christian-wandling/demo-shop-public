@@ -20,7 +20,8 @@
           {
             "glob": "**/*",
             "input": "apps/frontend/public"
-          }
+          },
+          "apps/frontend/src/robots.txt"
         ],
         "styles": ["apps/frontend/src/styles.scss"],
         "scripts": []

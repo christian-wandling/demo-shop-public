@@ -8,7 +8,7 @@ run_prisma_jobs() {
   local DOCKER_DIR="${SCRIPT_DIR}/../../docker"
   local SECRETS_DIR="${SCRIPT_DIR}/../../../secrets"
 
-  source "${UTILS_DIR}/logging-utils.sh"
+  source "${UTILS_DIR}/logger.sh"
   source "${UTILS_DIR}/apply-secret.sh"
   source "${UTILS_DIR}/apply-configs.sh"
   source "${UTILS_DIR}/docker-build.sh"

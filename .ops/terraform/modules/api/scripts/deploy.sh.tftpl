@@ -1,0 +1,53 @@
+#!/bin/bash
+
+LOG_FILE="${log_file_path}"
+
+sudo mkdir -p "$(dirname "$LOG_FILE")"
+sudo touch "$LOG_FILE"
+sudo chown "${user}:${user}" "$LOG_FILE"
+
+${logger}
+
+log_info "Stopping existing Api container if running..."
+if docker ps -q -f name=api | grep -q .; then
+    sudo docker stop api --time 30
+    log_info "Api container stopped"
+else
+    log_debug "No existing Api container running"
+fi
+
+log_info "Removing existing Api container if exists..."
+if ! sudo docker rm api 2>/dev/null; then
+    log_debug "No existing container to remove"
+fi
+
+log_info "Load Api docker image..."
+if ! sudo docker load < demo-shop-api.tar; then
+    log_error "Failed to load Api docker image"
+    exit 1
+fi
+
+log_info "Starting new Api container..."
+if ! sudo docker run -d \
+        --name api \
+        --restart unless-stopped \
+        -p 3000:3000 \
+        -e DATABASE_URL="${database_url}" \
+        -e KEYCLOAK_CLIENT_API="${keycloak_client_api}" \
+        -e KEYCLOAK_REALM="${keycloak_realm}" \
+        -e KEYCLOAK_URL="${keycloak_url}" \
+        -e KEYCLOAK_REALM_PUBLIC_KEY="${keycloak_realm_public_key}" \
+        -e SENTRY_DEMO_SHOP_API_DSN="${sentry_demo_shop_api_dsn}" \
+        -e FRONTEND_URL="${frontend_url}" \
+        demo-shop-api:latest; then
+
+    log_error "Failed to start Api container"
+    exit 1
+fi
+
+if sudo docker ps | grep -q api; then
+    log_success "Api container successfully deployed"
+else
+    log_fatal "Api container failed to start properly"
+    exit 1
+fi

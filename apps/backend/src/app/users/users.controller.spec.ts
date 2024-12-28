@@ -72,7 +72,7 @@ describe('UsersController', () => {
 
     it('should have the correct roles', () => {
       const roles = Reflect.getMetadata('roles', UsersController);
-      expect(roles).toEqual({ roles: ['buy_products'] });
+      expect(roles).toEqual({ roles: ['realm:buy_products'] });
     });
   });
 
@@ -97,15 +97,6 @@ describe('UsersController', () => {
       await controller.getCurrentUser(mockDecodedToken);
 
       expect(monitoringService.setUser).toHaveBeenCalledWith({ id: mockUserDto.id });
-      expect(monitoringService.setUser).toHaveBeenCalledTimes(1);
-    });
-
-    it('should set the user id to undefined if not user found', async () => {
-      jest.spyOn(usersService, 'getFromToken').mockRejectedValueOnce(new Error('User not found'));
-
-      await expect(controller.getCurrentUser(mockDecodedToken)).rejects.toThrow('User not found');
-
-      expect(monitoringService.setUser).toHaveBeenCalledWith({ id: undefined });
       expect(monitoringService.setUser).toHaveBeenCalledTimes(1);
     });
 

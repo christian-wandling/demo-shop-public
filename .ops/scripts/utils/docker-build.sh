@@ -3,7 +3,7 @@
 docker_build() {
     local SCRIPT_DIR
     SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-    source "${SCRIPT_DIR}/logging-utils.sh"
+    source "${SCRIPT_DIR}/logger.sh"
 
     # Set up error handling
     trap 'echo "Build interrupted"; exit 1' INT TERM

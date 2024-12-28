@@ -10,7 +10,7 @@ describe('UsersRepository', () => {
 
   const mockPrismaService = {
     user: {
-      findUniqueOrThrow: jest.fn(),
+      findUnique: jest.fn(),
       create: jest.fn(),
     },
   };
@@ -68,23 +68,23 @@ describe('UsersRepository', () => {
     const email = 'test@example.com';
 
     it('should find a user by email with address included', async () => {
-      mockPrismaService.user.findUniqueOrThrow.mockResolvedValue(mockUser);
+      mockPrismaService.user.findUnique.mockResolvedValue(mockUser);
 
       const result = await usersRepository.find(email);
 
       expect(result).toEqual(mockUser);
-      expect(prismaService.user.findUniqueOrThrow).toHaveBeenCalledWith({
+      expect(prismaService.user.findUnique).toHaveBeenCalledWith({
         where: { email },
         include: { address: true },
       });
-      expect(prismaService.user.findUniqueOrThrow).toHaveBeenCalledTimes(1);
+      expect(prismaService.user.findUnique).toHaveBeenCalledTimes(1);
     });
 
     it('should throw when user is not found', async () => {
-      mockPrismaService.user.findUniqueOrThrow.mockRejectedValue(new Error('User not found'));
+      mockPrismaService.user.findUnique.mockRejectedValue(new Error('User not found'));
 
       await expect(usersRepository.find(email)).rejects.toThrow('User not found');
-      expect(prismaService.user.findUniqueOrThrow).toHaveBeenCalledWith({
+      expect(prismaService.user.findUnique).toHaveBeenCalledWith({
         where: { email },
         include: { address: true },
       });

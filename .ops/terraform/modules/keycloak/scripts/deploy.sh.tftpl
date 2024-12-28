@@ -1,0 +1,63 @@
+#!/bin/bash
+
+LOG_FILE="${log_file_path}"
+
+sudo mkdir -p "$(dirname "$LOG_FILE")"
+sudo touch "$LOG_FILE"
+sudo chown "${user}:${user}" "$LOG_FILE"
+
+${logger}
+
+log_info "Stopping existing Keycloak container if running..."
+if docker ps -q -f name=keycloak | grep -q .; then
+    sudo docker stop keycloak --time 30
+    log_info "Keycloak container stopped"
+else
+    log_debug "No existing Keycloak container running"
+fi
+
+log_info "Removing existing Keycloak container if exists..."
+if ! sudo docker rm keycloak 2>/dev/null; then
+    log_debug "No existing container to remove"
+fi
+
+log_info "Starting new Keycloak container..."
+if ! sudo docker run -d \
+         --name keycloak \
+         --restart unless-stopped \
+         -p 443:443 \
+         -e KC_DB=postgres \
+         -e KC_DB_SCHEMA="public" \
+         -e KC_HTTP_ENABLED=false \
+         -e KC_HTTPS_PORT=443 \
+         -e KC_PROXY=edge \
+         -e KC_PROXY_ADDRESS_FORWARDING=true \
+         -e KC_HOSTNAME="${kc_hostname}" \
+         -e KC_HOSTNAME_STRICT=true \
+         -e KC_HOSTNAME_STRICT_HTTPS=true \
+         -e KC_HTTPS_CERTIFICATE_FILE=/opt/keycloak/certs/cert.pem \
+         -e KC_HTTPS_CERTIFICATE_KEY_FILE=/opt/keycloak/certs/key.pem \
+         -e KC_DB_URL="${kc_db_url}" \
+         -e KC_DB_USERNAME="${kc_db_username}" \
+         -e KC_DB_PASSWORD="${kc_db_password}" \
+         -e KEYCLOAK_ADMIN="${keycloak_admin}" \
+         -e KEYCLOAK_ADMIN_PASSWORD="${keycloak_admin_password}" \
+         -e KC_LOG_LEVEL=INFO \
+         -e KC_METRICS_ENABLED=true \
+         -e KC_HEALTH_ENABLED=true \
+         -m 750M \
+         --cpus 0.8 \
+         -v /home/ec2-user/secrets:/opt/keycloak/certs \
+         quay.io/keycloak/keycloak:23.0.6 \
+         start; then
+
+    log_error "Failed to start Keycloak container"
+    exit 1
+fi
+
+if sudo docker ps | grep -q keycloak; then
+    log_success "Keycloak container successfully deployed"
+else
+    log_fatal "Keycloak container failed to start properly"
+    exit 1
+fi

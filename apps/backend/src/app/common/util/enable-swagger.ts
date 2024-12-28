@@ -16,7 +16,9 @@ export const enableSwagger = app => {
   });
 
   SwaggerModule.setup('api', app, document, {
-    yamlDocumentUrl: 'api/yaml',
     jsonDocumentUrl: 'api/json',
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
   });
 };

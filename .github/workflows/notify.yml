@@ -1,0 +1,24 @@
+name: Deployment Notification
+
+on:
+  workflow_run:
+    workflows: ['Deploy Infrastructure']
+    types:
+      - completed
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Deployment Status
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const status = '${{ github.event.workflow_run.conclusion }}'
+            const message = `Production deployment ${status.toLowerCase()}`
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message
+            })

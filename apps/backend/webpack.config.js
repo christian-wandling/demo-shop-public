@@ -1,5 +1,5 @@
 const { sentryWebpackPlugin } = require('@sentry/webpack-plugin');
-
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { NxAppWebpackPlugin } = require('@nx/webpack/app-plugin');
 const { join } = require('path');
 const nodeExternals = require('webpack-node-externals');
@@ -22,12 +22,27 @@ module.exports = {
       outputHashing: 'none',
       watch: true,
       sourceMap: isProd ? 'hidden' : true,
+      generatePackageJson: true,
     }),
     sentryWebpackPlugin({
       authToken: process.env.SENTRY_AUTH_TOKEN,
       org: process.env.SENTRY_ORG,
       project: process.env.SENTRY_DEMO_SHOP_API_PROJECT,
       telemetry: false,
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: '../../prisma/schema.prisma',
+          to: 'prisma/schema.prisma',
+          filter: path => !path.includes('node_modules'),
+        },
+        {
+          from: '../../prisma/migrations/',
+          to: 'prisma/migrations/',
+          filter: path => !path.includes('node_modules'),
+        },
+      ],
     }),
   ],
   externals: [nodeExternals()],

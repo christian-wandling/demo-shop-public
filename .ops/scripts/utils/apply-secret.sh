@@ -9,11 +9,11 @@ apply_secret() {
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
   # Check if logging utils exist
-  if [ ! -f "${SCRIPT_DIR}/logging-utils.sh" ]; then
-    echo "[Error] logging-utils.sh not found"
+  if [ ! -f "${SCRIPT_DIR}/logger.sh" ]; then
+    echo "[Error] logger.sh not found"
     return 1
   fi
-  source "${SCRIPT_DIR}/logging-utils.sh"
+  source "${SCRIPT_DIR}/logger.sh"
 
   # Validate input parameters
   if [ -z "$container_name" ] || [ -z "$secret_file" ]; then

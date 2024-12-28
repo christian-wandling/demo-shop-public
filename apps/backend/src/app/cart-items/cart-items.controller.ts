@@ -12,7 +12,7 @@ import { CustomPatch } from '../common/decorators/custom-patch.decorator';
 import { DecodedToken } from '../common/entities/decoded-token';
 
 @CustomController({ path: 'cart-items', version: '1' })
-@Auth({ roles: ['buy_products'] })
+@Auth({ roles: ['realm:buy_products'] })
 export class CartItemsController {
   constructor(
     private readonly shoppingSessionsService: ShoppingSessionsService,

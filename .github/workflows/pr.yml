@@ -19,10 +19,13 @@ jobs:
       # Cache node_modules
       - uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
-      - run: npm ci --legacy-peer-deps
+      - run: npm ci --legacy-peer-deps --ignore-scripts
+
+      - run: npx prisma generate
+
       - uses: nrwl/nx-set-shas@v4
 
       - name: lint

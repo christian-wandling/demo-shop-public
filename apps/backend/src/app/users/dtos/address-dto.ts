@@ -25,11 +25,11 @@ export class AddressDTO {
 
 export const toAddressDTO = (address: Address): AddressDTO => {
   return {
-    street: address.street,
-    apartment: address.apartment,
-    city: address.city,
-    region: address.region,
-    zip: address.zip,
-    country: address.country,
+    street: address?.street,
+    apartment: address?.apartment,
+    city: address?.city,
+    region: address?.region,
+    zip: address?.zip,
+    country: address?.country,
   };
 };

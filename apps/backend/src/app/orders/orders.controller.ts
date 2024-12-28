@@ -11,7 +11,7 @@ import { ShoppingSessionsService } from '../shopping-sessions/services/shopping-
 import { DecodedToken } from '../common/entities/decoded-token';
 
 @CustomController({ path: 'orders', version: '1' })
-@Auth({ roles: ['buy_products'] })
+@Auth({ roles: ['realm:buy_products'] })
 export class OrdersController {
   constructor(
     private readonly ordersService: OrdersService,
