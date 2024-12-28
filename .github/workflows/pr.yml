@@ -16,8 +16,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Cache node_modules
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: 'npm'
@@ -26,7 +25,7 @@ jobs:
 
       - run: npx prisma generate
 
-      - uses: nrwl/nx-set-shas@v4
+      - uses: nrwl/nx-set-shas@e2e6dc8bce4b0387a05eb687735c39c41580b792
 
       - name: lint
         run: npx nx affected -t lint --configuration=ci --base=origin/main
@@ -42,7 +41,7 @@ jobs:
 
       # Run quality gate
       - name: sonarcloud
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@bfd4e558cda28cda6b5defafb9232d191be8c203
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
