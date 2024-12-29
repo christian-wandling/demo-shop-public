@@ -71,4 +71,10 @@ variable "keycloak_sg" {
   type        = string
 }
 
+variable "cloudflare_zone_id" {
+  description = "The id of the zone that will be used by the Cloudflare account"
+  type        = string
+  sensitive   = true
+}
+
 
