@@ -100,6 +100,17 @@ jobs:
           echo "Event: ${{ github.event_name }}"
           echo "Ref type: ${{ github.ref_type }}"
 
+      - name: Debug Token Claims
+        run: |
+          TOKEN=$(curl -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com" | jq -r .value)
+          echo "Subject claim: $(echo $TOKEN | cut -d. -f2 | base64 -d | jq .sub)"
+          echo "Audience claim: $(echo $TOKEN | cut -d. -f2 | base64 -d | jq .aud)"
+
+      - name: Debug Provider
+        run: |
+          echo "Provider URL: token.actions.githubusercontent.com"
+          echo "Repo: ${{ github.repository }}"
+
       - name: Debug OIDC
         run: |
           curl -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com"
