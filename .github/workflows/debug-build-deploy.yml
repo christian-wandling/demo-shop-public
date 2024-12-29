@@ -94,27 +94,6 @@ jobs:
           pattern: '*-artifact'
           path: .
 
-      - name: Debug Role
-        run: |
-          echo "Running from: ${{ github.repository }}"
-          echo "Event: ${{ github.event_name }}"
-          echo "Ref type: ${{ github.ref_type }}"
-
-      - name: Debug Token Claims
-        run: |
-          TOKEN=$(curl -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com" | jq -r .value)
-          echo "Subject claim: $(echo $TOKEN | cut -d. -f2 | base64 -d | jq .sub)"
-          echo "Audience claim: $(echo $TOKEN | cut -d. -f2 | base64 -d | jq .aud)"
-
-      - name: Debug Provider
-        run: |
-          echo "Provider URL: token.actions.githubusercontent.com"
-          echo "Repo: ${{ github.repository }}"
-
-      - name: Debug OIDC
-        run: |
-          curl -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com"
-
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502
         with:
@@ -159,22 +138,22 @@ jobs:
           TF_VAR_keycloak_realm: ${{ secrets.KEYCLOAK_REALM }}
           TF_VAR_keycloak_client_api: ${{ secrets.KEYCLOAK_CLIENT_API }}
           TF_VAR_keycloak_client_ui: ${{ secrets.KEYCLOAK_CLIENT_UI }}
-          TF_VAR_keycloak_ssh_public_key_path: './secrets/keycloak_ssh_public_key'
-          TF_VAR_keycloak_ssh_private_key_path: './secrets/keycloak_ssh_private_key'
-          TF_VAR_keycloak_server_cert_path: './secrets/keycloak_server_cert.pem'
-          TF_VAR_keycloak_server_key_path: './secrets/keycloak_server_key.pem'
           TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           TF_VAR_cloudflare_zone_id: ${{ secrets.CLOUDFLARE_ZONE_ID }}
           TF_VAR_cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           TF_VAR_cloudflare_domain_name: ${{ secrets.CLOUDFLARE_DOMAIN_NAME }}
-          TF_VAR_api_ssh_public_key_path: './secrets/api_ssh_public_key'
-          TF_VAR_api_ssh_private_key_path: './secrets/api_ssh_private_key'
-          TF_VAR_api_docker_image_path: './secrets/demo-shop-api.tar'
-          TF_VAR_frontend_ssh_public_key_path: './secrets/frontend_ssh_public_key'
-          TF_VAR_frontend_ssh_private_key_path: './secrets/frontend_ssh_private_key'
-          TF_VAR_frontend_docker_image_path: './secrets/demo-shop-frontend.tar'
-          TF_VAR_dhparam_file_path: './secrets/dhparam.pem'
           TF_VAR_sentry_demo_shop_api_dsn: ${{ secrets.CLOUDFLARE_DOMAIN_NAME }}
+          TF_VAR_keycloak_ssh_public_key_path: '.secrets/keycloak_ssh_public_key'
+          TF_VAR_keycloak_ssh_private_key_path: '.secrets/keycloak_ssh_private_key'
+          TF_VAR_keycloak_server_cert_path: '.secrets/keycloak_server_cert.pem'
+          TF_VAR_keycloak_server_key_path: '.secrets/keycloak_server_key.pem'
+          TF_VAR_api_ssh_public_key_path: '.secrets/api_ssh_public_key'
+          TF_VAR_api_ssh_private_key_path: '.secrets/api_ssh_private_key'
+          TF_VAR_frontend_ssh_public_key_path: '.secrets/frontend_ssh_public_key'
+          TF_VAR_frontend_ssh_private_key_path: '.secrets/frontend_ssh_private_key'
+          TF_VAR_dhparam_file_path: '.secrets/dhparam.pem'
+          TF_VAR_api_docker_image_path: 'demo-shop-api.tar'
+          TF_VAR_frontend_docker_image_path: 'demo-shop-frontend.tar'
         run: terraform plan -out=tfplan
 
       - name: Terraform Apply
