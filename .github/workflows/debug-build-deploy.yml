@@ -89,6 +89,8 @@ jobs:
     concurrency:
       group: production_deploy
       cancel-in-progress: false
+    outputs:
+      deployment: ${{ steps.start-deployment.outputs.deployment_id }}
 
     defaults:
       run:
@@ -98,7 +100,7 @@ jobs:
     steps:
       - name: Start Deployment
         uses: bobheadxi/deployments@648679e8e4915b27893bd7dbc35cb504dc915bc8
-        id: deployment
+        id: start-deployment
         with:
           step: start
           token: ${{ github.token }}
@@ -136,19 +138,19 @@ jobs:
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
 
       - name: Terraform Init
-        id: init
+        id: infra-tf-init
         if: success()
         run: terraform init
 
       - name: Terraform Validate
-        id: validate
+        id: infra-tf-validate
         if: success()
         run: terraform validate
 
       - name: Terraform Plan
-        id: plan -target module.networking -target module.github_runner
+        id: infra-tf-plan
         if: success()
-        run: terraform plan -out=tfplan
+        run: terraform plan -target module.networking -target module.github_runne -out=tfplan
         env:
           TF_VAR_aws_region: ${{ secrets.AWS_REGION }}
           TF_VAR_allowed_cidr_blocks: ${{ secrets.ALLOWED_CIDR }}
@@ -164,7 +166,7 @@ jobs:
           TF_VAR_repository_url: ${{ github.repository }}
 
       - name: Terraform Apply
-        id: apply
+        id: infra-tf-apply
         if: success()
         run: |
           terraform apply -target module.networking -target module.github_runner -auto-approve tfplan
@@ -180,7 +182,7 @@ jobs:
     runs-on: self-hosted
     environment:
       name: production
-      url: ${{ steps.apply.outputs.url }}
+      url: ${{ steps.services-tf-apply.outputs.url }}
     concurrency:
       group: production_deploy
       cancel-in-progress: false
@@ -194,7 +196,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Download artifacts
-        id: download
+        id: download-artifacts
         uses: actions/download-artifact@v4
         with:
           pattern: '*-artifact'
@@ -232,17 +234,17 @@ jobs:
           node-version: '22'
 
       - name: Terraform Init
-        id: init
+        id: services-tf-init
         if: success()
         run: terraform init
 
       - name: Terraform Validate
-        id: validate
+        id: services-tf-validate
         if: success()
         run: terraform validate
 
       - name: Terraform Plan
-        id: plan
+        id: services-tf-plan
         if: success()
         env:
           TF_VAR_aws_region: ${{ secrets.AWS_REGION }}
@@ -260,7 +262,7 @@ jobs:
         run: terraform plan -out=tfplan
 
       - name: Terraform Apply
-        id: apply
+        id: services-tf-apply
         if: success()
         run: |
           terraform apply -auto-approve tfplan
@@ -274,8 +276,8 @@ jobs:
           token: ${{ github.token }}
           env: production
           status: ${{ job.status }}
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-          env_url: ${{ steps.apply.outputs.url }}
+          deployment_id: ${{ needs.deploy-infra.outputs.deployment}}
+          env_url: ${{ steps.services-tf-apply.outputs.url }}
 
       - name: Cleanup Sensitive Files
         if: always()
