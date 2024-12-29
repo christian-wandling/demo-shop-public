@@ -180,9 +180,6 @@ jobs:
   deploy-services:
     needs: [build-api, build-frontend, deploy-infra]
     runs-on: self-hosted
-    environment:
-      name: production
-      url: ${{ steps.services-tf-apply.outputs.url }}
     concurrency:
       group: production_deploy
       cancel-in-progress: false
