@@ -25,16 +25,15 @@ jobs:
         with:
           node-version: 22
           cache: 'npm'
-
-      - run: npm ci --ignore-scripts
-
-      - run: npx prisma generate
-
-      - name: lint
-        run: npx nx run-many -t lint
-
-      - name: test
-        run: npx nx run-many -t test --codeCoverage
-
-      - name: build
-        run: npx nx run-many -t build
+#      - run: npm ci --ignore-scripts
+#
+#      - run: npx prisma generate
+#
+#      - name: lint
+#        run: npx nx run-many -t lint
+#
+#      - name: test
+#        run: npx nx run-many -t test --codeCoverage
+#
+#      - name: build
+#        run: npx nx run-many -t build

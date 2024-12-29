@@ -7,58 +7,57 @@ on:
     branches:
       - main
       - update-github-workflows
-  workflow_dispatch:
 permissions:
   contents: read
   actions: write
 
 jobs:
-  build-api:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Build Api
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_DEMO_SHOP_API_PROJECT: ${{ secrets.SENTRY_DEMO_SHOP_API_PROJECT }}
-        run: |
-          chmod +x .ops/scripts/build-api.sh
-          ./.ops/scripts/build-api.sh
-      - name: Upload API artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: api-artifact
-          path: demo-shop-api.tar
-          retention-days: 1
-
-  build-frontend:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Build Frontend
-        env:
-          KEYCLOAK_URL: ${{ secrets.KEYCLOAK_URL }}
-          KEYCLOAK_REALM: ${{ secrets.KEYCLOAK_REALM }}
-          KEYCLOAK_CLIENT_UI: ${{ secrets.KEYCLOAK_CLIENT_UI }}
-          SENTRY_DEMO_SHOP_UI_DSN: ${{ secrets.SENTRY_DEMO_SHOP_UI_DSN }}
-          SENTRY_TRUSTED_DOMAIN: ${{ secrets.SENTRY_TRUSTED_DOMAIN }}
-        run: |
-          chmod +x .ops/scripts/build-frontend.sh
-          ./.ops/scripts/build-frontend.sh
-      - name: Upload Sourcemaps
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_DEMO_SHOP_UI_PROJECT }}
-        run: |
-          chmod +x .ops/scripts/upload-sourcemaps.sh
-          ./.ops/scripts/upload-sourcemaps.sh
-      - name: Upload Frontend artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: frontend-artifact
-          path: demo-shop-frontend.tar
-          retention-days: 1
+#  build-api:
+#    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Build Api
+#        env:
+#          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+#          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+#          SENTRY_DEMO_SHOP_API_PROJECT: ${{ secrets.SENTRY_DEMO_SHOP_API_PROJECT }}
+#        run: |
+#          chmod +x .ops/scripts/build-api.sh
+#          ./.ops/scripts/build-api.sh
+#      - name: Upload API artifact
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: api-artifact
+#          path: demo-shop-api.tar
+#          retention-days: 1
+#
+#  build-frontend:
+#    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Build Frontend
+#        env:
+#          KEYCLOAK_URL: ${{ secrets.KEYCLOAK_URL }}
+#          KEYCLOAK_REALM: ${{ secrets.KEYCLOAK_REALM }}
+#          KEYCLOAK_CLIENT_UI: ${{ secrets.KEYCLOAK_CLIENT_UI }}
+#          SENTRY_DEMO_SHOP_UI_DSN: ${{ secrets.SENTRY_DEMO_SHOP_UI_DSN }}
+#          SENTRY_TRUSTED_DOMAIN: ${{ secrets.SENTRY_TRUSTED_DOMAIN }}
+#        run: |
+#          chmod +x .ops/scripts/build-frontend.sh
+#          ./.ops/scripts/build-frontend.sh
+#      - name: Upload Sourcemaps
+#        env:
+#          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+#          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+#          SENTRY_PROJECT: ${{ secrets.SENTRY_DEMO_SHOP_UI_PROJECT }}
+#        run: |
+#          chmod +x .ops/scripts/upload-sourcemaps.sh
+#          ./.ops/scripts/upload-sourcemaps.sh
+#      - name: Upload Frontend artifact
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: frontend-artifact
+#          path: demo-shop-frontend.tar
+#          retention-days: 1

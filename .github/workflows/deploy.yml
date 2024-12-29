@@ -7,7 +7,6 @@ on:
     branches:
       - main
       - update-github-workflows
-  workflow_dispatch:
 permissions:
   contents: read
   actions: read
