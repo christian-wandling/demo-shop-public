@@ -120,6 +120,7 @@ module "github_runner" {
   github_token                       = var.github_token
   identifier_prefix                  = var.project_name
   repository_url                     = var.repository_url
+  cloudflare_zone_id                 = var.cloudflare_zone_id
   logger                             = local.logger
   user                               = local.user
   vpc_id                             = module.networking.vpc_id
