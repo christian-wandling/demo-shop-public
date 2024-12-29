@@ -6,7 +6,9 @@ on:
       - completed
     branches:
       - main
-      - update-github-workflows
+  pull_request:
+    branches:
+      - main
 permissions:
   contents: read
   actions: read
