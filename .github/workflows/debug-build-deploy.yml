@@ -67,7 +67,7 @@ jobs:
         run: ls -la demo-shop-frontend.tar
   deploy:
     needs: [build-api, build-frontend]
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     environment:
       name: production
       url: ${{ steps.apply.outputs.url }}
