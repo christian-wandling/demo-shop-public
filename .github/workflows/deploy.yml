@@ -6,17 +6,26 @@ on:
       - completed
     branches:
       - main
-      -
 permissions:
   contents: read
   actions: read
   id-token: write
+  deployments: write
 
 jobs:
-  deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
+  approve:
+    if: github.event.workflow_run.conclusion == 'success'
     environment: production
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Approved!"
+
+  deploy:
+    needs: approve
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ steps.apply.outputs.url }}
     concurrency:
       group: production_deploy
       cancel-in-progress: false
@@ -26,43 +35,49 @@ jobs:
         working-directory: .ops/terraform/environments/prod
         shell: bash
 
-    env:
-      AWS_REGION: ${{ secrets.AWS_REGION }}
-
     steps:
-      - uses: actions/checkout@v3
+      - name: Start Deployment
+        uses: bobheadxi/deployments@v1
+        id: deployment
+        with:
+          step: start
+          token: ${{ github.token }}
+          env: production
+          ref: ${{ github.sha }}
+          description: 'Starting deployment'
+
+      - uses: actions/checkout@v4
 
       - name: Download artifacts
         id: download
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: build-artifacts
+          pattern: '*-artifact'
+          path: .
 
       - name: Configure AWS
-        uses: aws-actions/configure-aws-credentials@v1
-        env:
-          AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+        uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502
         with:
-          role-to-assume: ${AWS_ROLE_ARN}
-          aws-region: ${AWS_REGION}
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Setup SSH Keys and Certs
         env:
-          API_SSH_PRIVATE_KEY: ${{ API_SSH_PRIVATE_KEY }}"
-          API_SSH_PUBLIC_KEY: ${{ API_SSH_PUBLIC_KEY }}"
-          FRONTEND_SSH_PRIVATE_KEY: ${{ FRONTEND_SSH_PRIVATE_KEY }}"
-          FRONTEND_SSH_PUBLIC_KEY: ${{ FRONTEND_SSH_PUBLIC_KEY }}"
-          KEYCLOAK_SSH_PRIVATE_KEY: ${{ KEYCLOAK_SSH_PRIVATE_KEY }}"
-          KEYCLOAK_SSH_PUBLIC_KEY: ${{ KEYCLOAK_SSH_PUBLIC_KEY }}"
-          KEYCLOAK_SERVER_CERT: ${{ KEYCLOAK_SERVER_CERT }}"
-          KEYCLOAK_SERVER_KEY: ${{ KEYCLOAK_SERVER_KEY }}"
-          DH_PARAM: ${{ DH_PARAM }}"
+          API_SSH_PRIVATE_KEY: ${{ secrets.API_SSH_PRIVATE_KEY }}
+          API_SSH_PUBLIC_KEY: ${{ secrets.API_SSH_PUBLIC_KEY }}
+          FRONTEND_SSH_PRIVATE_KEY: ${{ secrets.FRONTEND_SSH_PRIVATE_KEY }}
+          FRONTEND_SSH_PUBLIC_KEY: ${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}
+          KEYCLOAK_SSH_PRIVATE_KEY: ${{ secrets.KEYCLOAK_SSH_PRIVATE_KEY }}
+          KEYCLOAK_SSH_PUBLIC_KEY: ${{ secrets.KEYCLOAK_SSH_PUBLIC_KEY }}
+          KEYCLOAK_SERVER_CERT: ${{ secrets.KEYCLOAK_SERVER_CERT }}
+          KEYCLOAK_SERVER_KEY: ${{ secrets.KEYCLOAK_SERVER_KEY }}
+          DH_PARAM: ${{ secrets.DH_PARAM }}
         run: |
-          chmod +x scripts/setup-keys.sh
-          ./scripts/setup-keys.sh
+          chmod +x ../../../scripts/setup-keys.sh
+          ../../../scripts/setup-keys.sh
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
 
       - name: Terraform Init
         id: init
@@ -77,9 +92,10 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
+        id: plan
         env:
-          TF_VAR_aws_region: ${AWS_REGION}
-          TF_VAR_allowed_cidr_blocks: ${{ format('["{}"]', join('","', split(secrets.ALLOWED_CIDR, ','))) }}
+          TF_VAR_aws_region: ${{ secrets.AWS_REGION }}
+          TF_VAR_allowed_cidr_blocks: ${{ format('["{}"]', join('","', fromJSON(secrets.ALLOWED_CIDR))) }}
           TF_VAR_keycloak_realm: ${{ secrets.KEYCLOAK_REALM }}
           TF_VAR_keycloak_client_api: ${{ secrets.KEYCLOAK_CLIENT_API }}
           TF_VAR_keycloak_client_ui: ${{ secrets.KEYCLOAK_CLIENT_UI }}
@@ -99,15 +115,27 @@ jobs:
           TF_VAR_frontend_docker_image_path: './secrets/demo-shop-frontend.tar'
           TF_VAR_dhparam_file_path: './secrets/dhparam.pem'
           TF_VAR_sentry_demo_shop_api_dsn: ${{ secrets.CLOUDFLARE_DOMAIN_NAME }}
-        run: |
-          terraform plan -out=tfplan
+        run: terraform plan -out=tfplan
 
       - name: Terraform Apply
         id: apply
-        run: terraform apply -auto-approve tfplan
+        run: |
+          terraform apply -auto-approve tfplan
+          echo "url=$(terraform output -raw frontend_url)" >> $GITHUB_OUTPUT
+
+      - name: Update Deployment Status
+        if: always()
+        uses: bobheadxi/deployments@v1
+        with:
+          step: finish
+          token: ${{ github.token }}
+          env: production
+          status: ${{ job.status }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          env_url: ${{ steps.apply.outputs.url }}
 
       - name: Cleanup Sensitive Files
         if: always()
         run: |
-          chmod +x scripts/cleanup.sh
-          ./scripts/cleanup.sh
+          chmod +x ../../../scripts/cleanup.sh
+          ../../../scripts/cleanup.sh

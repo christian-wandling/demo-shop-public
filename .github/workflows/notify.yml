@@ -6,12 +6,16 @@ on:
     types:
       - completed
 
+permissions:
+  issues: write
+  contents: read
+
 jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
       - name: Notify Deployment Status
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             const status = '${{ github.event.workflow_run.conclusion }}'

@@ -40,7 +40,10 @@ mv /tmp/environment.ts apps/frontend/src/environments/environment.ts || {
 }
 
 echo "Building Docker image..."
-docker build --platform linux/amd64 -t demo-shop-frontend:latest . || {
+docker build \
+    --platform linux/amd64 \
+    -f apps/frontend/Dockerfile \
+    -t demo-shop-frontend:latest . || {
     echo "Docker build failed"
     exit 1
 }

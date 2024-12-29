@@ -2,7 +2,7 @@ FROM docker.io/node:lts-alpine AS dev
 RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
+RUN npm ci --ignore-scripts
 
 
 FROM docker.io/node:lts-alpine AS build
@@ -14,7 +14,7 @@ RUN apk add --no-cache openssl
 WORKDIR /app
 COPY . .
 COPY --from=dev /app/node_modules ./node_modules
-RUN npx nx build backend
+RUN npx prisma generate && npx nx build backend
 WORKDIR /app/dist/apps/backend
 RUN npm ci --ignore-scripts
 

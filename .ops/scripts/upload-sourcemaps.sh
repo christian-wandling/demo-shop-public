@@ -27,13 +27,15 @@ done
 
 echo "Starting Sentry processing..."
 
+mkdir -p ./dist/apps/frontend
+
 echo "Extracting frontend files..."
 container_id=$(docker create demo-shop-frontend:latest) || {
     echo "Failed to create container"
     exit 1
 }
 
-docker cp "$container_id":/app/dist/apps/frontend ./dist/apps/frontend || {
+docker cp "$container_id":/usr/share/nginx/html/ ./tmp/ || {
     echo "Failed to copy files from container"
     docker rm "$container_id"
     exit 1
@@ -51,17 +53,17 @@ npm install -g @sentry/cli || {
 }
 
 echo "Processing sourcemaps..."
-sentry-cli sourcemaps inject dist/apps/frontend || {
+sentry-cli sourcemaps inject tmp || {
     echo "Failed to inject sourcemaps"
     exit 1
 }
 
-sentry-cli sourcemaps upload dist/apps/frontend || {
+sentry-cli sourcemaps upload tmp || {
     echo "Failed to upload sourcemaps"
     exit 1
 }
 
 echo "Cleaning up..."
-rm -rf ./dist
+rm -rf ./tmp
 
 echo "Sentry processing completed successfully"

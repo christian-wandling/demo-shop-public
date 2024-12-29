@@ -25,6 +25,7 @@ docker build \
     --build-arg SENTRY_AUTH_TOKEN="${SENTRY_AUTH_TOKEN}" \
     --build-arg SENTRY_ORG="${SENTRY_ORG}" \
     --build-arg SENTRY_DEMO_SHOP_API_PROJECT="${SENTRY_DEMO_SHOP_API_PROJECT}" \
+    -f apps/backend/Dockerfile \
     -t demo-shop-api:latest . || {
         echo "Docker build failed"
         exit 1
