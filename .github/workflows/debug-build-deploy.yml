@@ -155,17 +155,17 @@ jobs:
           TF_VAR_cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           TF_VAR_cloudflare_domain_name: ${{ secrets.CLOUDFLARE_DOMAIN_NAME }}
           TF_VAR_sentry_demo_shop_api_dsn: ${{ secrets.CLOUDFLARE_DOMAIN_NAME }}
-          TF_VAR_keycloak_ssh_public_key_path: '.secrets/keycloak_ssh_public_key'
-          TF_VAR_keycloak_ssh_private_key_path: '.secrets/keycloak_ssh_private_key'
-          TF_VAR_keycloak_server_cert_path: '.secrets/keycloak_server_cert.pem'
-          TF_VAR_keycloak_server_key_path: '.secrets/keycloak_server_key.pem'
-          TF_VAR_api_ssh_public_key_path: '.secrets/api_ssh_public_key'
-          TF_VAR_api_ssh_private_key_path: '.secrets/api_ssh_private_key'
-          TF_VAR_frontend_ssh_public_key_path: '.secrets/frontend_ssh_public_key'
-          TF_VAR_frontend_ssh_private_key_path: '.secrets/frontend_ssh_private_key'
-          TF_VAR_dhparam_file_path: '.secrets/dhparam.pem'
-          TF_VAR_api_docker_image_path: 'artifacts/demo-shop-api.tar'
-          TF_VAR_frontend_docker_image_path: 'artifacts/demo-shop-frontend.tar'
+          TF_VAR_keycloak_ssh_public_key_path: './.secrets/keycloak_ssh_public_key'
+          TF_VAR_keycloak_ssh_private_key_path: './.secrets/keycloak_ssh_private_key'
+          TF_VAR_keycloak_server_cert_path: './.secrets/keycloak_server_cert.pem'
+          TF_VAR_keycloak_server_key_path: './.secrets/keycloak_server_key.pem'
+          TF_VAR_api_ssh_public_key_path: './.secrets/api_ssh_public_key'
+          TF_VAR_api_ssh_private_key_path: './.secrets/api_ssh_private_key'
+          TF_VAR_frontend_ssh_public_key_path: './.secrets/frontend_ssh_public_key'
+          TF_VAR_frontend_ssh_private_key_path: './.secrets/frontend_ssh_private_key'
+          TF_VAR_dhparam_file_path: './.secrets/dhparam.pem'
+          TF_VAR_api_docker_image_path: './artifacts/frontend-artifact/demo-shop-api.tar'
+          TF_VAR_frontend_docker_image_path: './artifacts/frontend-artifact/demo-shop-frontend.tar'
         run: terraform plan -out=tfplan
 
       - name: Terraform Apply
