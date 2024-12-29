@@ -17,7 +17,7 @@ variable "project_name" {
 
 variable "allowed_cidr_blocks" {
   description = "IP addresses allowed to access the application"
-  type        = list(string)
+  type = list(string)
   sensitive   = true
 }
 
@@ -109,6 +109,28 @@ variable "dhparam_file_path" {
 
 variable "sentry_demo_shop_api_dsn" {
   description = "The sentry demo shop api dsn"
+  type        = string
+  sensitive   = true
+}
+
+variable "github_runner_ssh_public_key_path" {
+  description = "The path of the public SSH key for the github runner"
+  type        = string
+}
+
+variable "github_runner_ssh_private_key_path" {
+  description = "The path of the private SSH key for the github runner"
+  type        = string
+}
+
+variable "github_token" {
+  description = "The token for github"
+  type        = string
+  sensitive   = true
+}
+
+variable "repository_url" {
+  description = "The url of the github repository"
   type        = string
   sensitive   = true
 }

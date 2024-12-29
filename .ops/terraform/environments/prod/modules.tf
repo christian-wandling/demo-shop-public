@@ -109,6 +109,23 @@ module "frontend" {
   api_address                   = module.api.api_private_ip
 }
 
+module "github_runner" {
+  source                             = "../../modules/github_runner"
+  allowed_cidr_blocks                = var.allowed_cidr_blocks
+  environment                        = var.environment
+  github_runner_ssh_private_key_path = var.github_runner_ssh_private_key_path
+  github_runner_ssh_public_key_path  = var.github_runner_ssh_public_key_path
+  github_token                       = var.github_token
+  identifier_prefix                  = var.project_name
+  repository_url                     = var.repository_url
+  logger                             = local.logger
+  user                               = local.user
+  vpc_id                             = module.networking.vpc_id
+  subnet_id_1                        = module.networking.subnet_id_1
+  keycloak_sg                        = module.keycloak.keycloak_sg
+  postgres_sg                        = module.database.postgres_sg
+}
+
 module "networking" {
   source = "../../modules/networking"
 

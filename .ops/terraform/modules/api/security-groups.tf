@@ -101,7 +101,7 @@ resource "aws_vpc_security_group_egress_rule" "api_egress_postgres" {
 
   tags = merge(
     {
-      Name        = "${var.identifier_prefix}-keycloak-sg-egress-postgress-${var.environment}"
+      Name        = "${var.identifier_prefix}-api-sg-egress-postgress-${var.environment}"
       Environment = var.environment
       Managed_by  = "terraform"
     },

@@ -5,6 +5,8 @@ mkdir -p .secrets
 
 echo "${API_SSH_PRIVATE_KEY}" > .secrets/api_ssh_private_key
 echo "${API_SSH_PUBLIC_KEY}" > .secrets/api_ssh_public_key
+echo "${RUNNER_SSH_PRIVATE_KEY}" > .secrets/github_runner_ssh_private_key
+echo "${RUNNER_SSH_PUBLIC_KEY}" > .secrets/github_runner_ssh_public_key
 echo "${FRONTEND_SSH_PRIVATE_KEY}" > .secrets/frontend_ssh_private_key
 echo "${FRONTEND_SSH_PUBLIC_KEY}" > .secrets/frontend_ssh_public_key
 echo "${KEYCLOAK_SSH_PRIVATE_KEY}" > .secrets/keycloak_ssh_private_key

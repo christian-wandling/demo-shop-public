@@ -9,6 +9,21 @@ permissions:
   id-token: write
   deployments: write
 
+env:
+  TF_VAR_keycloak_ssh_public_key_path: './.secrets/keycloak_ssh_public_key'
+  TF_VAR_keycloak_ssh_private_key_path: './.secrets/keycloak_ssh_private_key'
+  TF_VAR_keycloak_server_cert_path: './.secrets/keycloak_server_cert.pem'
+  TF_VAR_keycloak_server_key_path: './.secrets/keycloak_server_key.pem'
+  TF_VAR_api_ssh_public_key_path: './.secrets/api_ssh_public_key'
+  TF_VAR_api_ssh_private_key_path: './.secrets/api_ssh_private_key'
+  TF_VAR_frontend_ssh_public_key_path: './.secrets/frontend_ssh_public_key'
+  TF_VAR_frontend_ssh_private_key_path: './.secrets/frontend_ssh_private_key'
+  TF_VAR_github_runner_ssh_public_key_path: './.secrets/github_runner_ssh_public_key'
+  TF_VAR_github_runner_ssh_private_key_path: './.secrets/github_runner_ssh_private_key'
+  TF_VAR_dhparam_file_path: './.secrets/dhparam.pem'
+  TF_VAR_api_docker_image_path: './artifacts/frontend-artifact/demo-shop-api.tar'
+  TF_VAR_frontend_docker_image_path: './artifacts/frontend-artifact/demo-shop-frontend.tar'
+
 jobs:
   build-api:
     #    if: github.event.workflow_run.conclusion == 'success'
@@ -65,12 +80,12 @@ jobs:
 
       - name: Check if artifact file exists
         run: ls -la demo-shop-frontend.tar
-  deploy:
+
+  deploy-infra:
     needs: [build-api, build-frontend]
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     environment:
       name: production
-      url: ${{ steps.apply.outputs.url }}
     concurrency:
       group: production_deploy
       cancel-in-progress: false
@@ -93,6 +108,91 @@ jobs:
 
       - uses: actions/checkout@v4
 
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          audience: sts.amazonaws.com
+
+      - name: Setup SSH Keys and Certs
+        env:
+          API_SSH_PRIVATE_KEY: ${{ secrets.API_SSH_PRIVATE_KEY }}
+          API_SSH_PUBLIC_KEY: ${{ secrets.API_SSH_PUBLIC_KEY }}
+          RUNNER_SSH_PRIVATE_KEY: ${{ secrets.RUNNER_SSH_PRIVATE_KEY }}
+          RUNNER_SSH_PUBLIC_KEY: ${{ secrets.RUNNER_SSH_PUBLIC_KEY }}
+          FRONTEND_SSH_PRIVATE_KEY: ${{ secrets.FRONTEND_SSH_PRIVATE_KEY }}
+          FRONTEND_SSH_PUBLIC_KEY: ${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}
+          KEYCLOAK_SSH_PRIVATE_KEY: ${{ secrets.KEYCLOAK_SSH_PRIVATE_KEY }}
+          KEYCLOAK_SSH_PUBLIC_KEY: ${{ secrets.KEYCLOAK_SSH_PUBLIC_KEY }}
+          KEYCLOAK_SERVER_CERT: ${{ secrets.KEYCLOAK_SERVER_CERT }}
+          KEYCLOAK_SERVER_KEY: ${{ secrets.KEYCLOAK_SERVER_KEY }}
+          DH_PARAM: ${{ secrets.DH_PARAM }}
+        run: |
+          chmod +x ../../../scripts/setup-keys.sh
+          ../../../scripts/setup-keys.sh
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
+
+      - name: Terraform Init
+        id: init
+        if: success()
+        run: terraform init
+
+      - name: Terraform Validate
+        id: validate
+        if: success()
+        run: terraform validate
+
+      - name: Terraform Plan
+        id: plan -target module.networking -target module.github_runner
+        if: success()
+        run: terraform plan -out=tfplan
+        env:
+          TF_VAR_aws_region: ${{ secrets.AWS_REGION }}
+          TF_VAR_allowed_cidr_blocks: ${{ secrets.ALLOWED_CIDR }}
+          TF_VAR_keycloak_realm: ${{ secrets.KEYCLOAK_REALM }}
+          TF_VAR_keycloak_client_api: ${{ secrets.KEYCLOAK_CLIENT_API }}
+          TF_VAR_keycloak_client_ui: ${{ secrets.KEYCLOAK_CLIENT_UI }}
+          TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          TF_VAR_cloudflare_zone_id: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          TF_VAR_cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          TF_VAR_cloudflare_domain_name: ${{ secrets.CLOUDFLARE_DOMAIN_NAME }}
+          TF_VAR_sentry_demo_shop_api_dsn: ${{ secrets.CLOUDFLARE_DOMAIN_NAME }}
+          TF_VAR_github_token: ${{ github.token }}
+          TF_VAR_repository_url: ${{ github.repository }}
+
+      - name: Terraform Apply
+        id: apply
+        if: success()
+        run: |
+          terraform apply -target module.networking -target module.github_runner -auto-approve tfplan
+
+      - name: Cleanup Sensitive Files
+        if: always()
+        run: |
+          chmod +x ../../../scripts/cleanup.sh
+          ../../../scripts/cleanup.sh
+
+  deploy-services:
+    needs: [build-api, build-frontend, deploy-infra]
+    runs-on: self-hosted
+    environment:
+      name: production
+      url: ${{ steps.apply.outputs.url }}
+    concurrency:
+      group: production_deploy
+      cancel-in-progress: false
+
+    defaults:
+      run:
+        working-directory: .ops/terraform/environments/prod
+        shell: bash
+
+    steps:
+      - uses: actions/checkout@v4
+
       - name: Download artifacts
         id: download
         uses: actions/download-artifact@v4
@@ -111,6 +211,8 @@ jobs:
         env:
           API_SSH_PRIVATE_KEY: ${{ secrets.API_SSH_PRIVATE_KEY }}
           API_SSH_PUBLIC_KEY: ${{ secrets.API_SSH_PUBLIC_KEY }}
+          RUNNER_SSH_PRIVATE_KEY: ${{ secrets.RUNNER_SSH_PRIVATE_KEY }}
+          RUNNER_SSH_PUBLIC_KEY: ${{ secrets.RUNNER_SSH_PUBLIC_KEY }}
           FRONTEND_SSH_PRIVATE_KEY: ${{ secrets.FRONTEND_SSH_PRIVATE_KEY }}
           FRONTEND_SSH_PUBLIC_KEY: ${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}
           KEYCLOAK_SSH_PRIVATE_KEY: ${{ secrets.KEYCLOAK_SSH_PRIVATE_KEY }}
@@ -153,17 +255,8 @@ jobs:
           TF_VAR_cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           TF_VAR_cloudflare_domain_name: ${{ secrets.CLOUDFLARE_DOMAIN_NAME }}
           TF_VAR_sentry_demo_shop_api_dsn: ${{ secrets.CLOUDFLARE_DOMAIN_NAME }}
-          TF_VAR_keycloak_ssh_public_key_path: './.secrets/keycloak_ssh_public_key'
-          TF_VAR_keycloak_ssh_private_key_path: './.secrets/keycloak_ssh_private_key'
-          TF_VAR_keycloak_server_cert_path: './.secrets/keycloak_server_cert.pem'
-          TF_VAR_keycloak_server_key_path: './.secrets/keycloak_server_key.pem'
-          TF_VAR_api_ssh_public_key_path: './.secrets/api_ssh_public_key'
-          TF_VAR_api_ssh_private_key_path: './.secrets/api_ssh_private_key'
-          TF_VAR_frontend_ssh_public_key_path: './.secrets/frontend_ssh_public_key'
-          TF_VAR_frontend_ssh_private_key_path: './.secrets/frontend_ssh_private_key'
-          TF_VAR_dhparam_file_path: './.secrets/dhparam.pem'
-          TF_VAR_api_docker_image_path: './artifacts/frontend-artifact/demo-shop-api.tar'
-          TF_VAR_frontend_docker_image_path: './artifacts/frontend-artifact/demo-shop-frontend.tar'
+          TF_VAR_github_token: ${{ github.token }}
+          TF_VAR_repository_url: ${{ github.repository }}
         run: terraform plan -out=tfplan
 
       - name: Terraform Apply

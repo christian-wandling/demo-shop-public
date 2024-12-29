@@ -127,3 +127,8 @@ variable frontend_address {
   description = "The security group for the frontend"
   type        = string
 }
+
+variable "github_runner_sg" {
+  description = "The security group for the github runner"
+  type        = string
+}

@@ -44,6 +44,11 @@ variable "api_sg" {
   type        = string
 }
 
+variable "github_runner_sg" {
+  description = "The security group for the github runner"
+  type        = string
+}
+
 variable "app_db_name" {
   description = "The name of the app database"
   type        = string

@@ -64,7 +64,7 @@ resource "aws_vpc_security_group_ingress_rule" "postgres_ingres_keycloak" {
   )
 }
 
-resource "aws_vpc_security_group_ingress_rule" "postgres_ingres_api" {
+resource "aws_vpc_security_group_ingress_rule" "postgres_ingress_api" {
   security_group_id            = aws_security_group.postgres_sg.id
   from_port                    = 5432
   to_port                      = 5432
@@ -75,6 +75,24 @@ resource "aws_vpc_security_group_ingress_rule" "postgres_ingres_api" {
   tags = merge(
     {
       Name        = "${var.identifier_prefix}-postres-ingres-api-${var.environment}"
+      Environment = var.environment
+      Managed_by  = "terraform",
+    },
+    var.additional_tags
+  )
+}
+
+resource "aws_vpc_security_group_ingress_rule" "postgres_ingres_github_runner" {
+  security_group_id            = aws_security_group.postgres_sg.id
+  from_port                    = 5432
+  to_port                      = 5432
+  ip_protocol                  = "tcp"
+  referenced_security_group_id = var.github_runner_sg
+  description                  = "PostgreSQL access from the github runner"
+
+  tags = merge(
+    {
+      Name        = "${var.identifier_prefix}-postres-ingres-github-runner-${var.environment}"
       Environment = var.environment
       Managed_by  = "terraform",
     },
