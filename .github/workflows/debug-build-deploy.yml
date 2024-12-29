@@ -125,6 +125,10 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: Terraform Init
         id: init
         if: success()
