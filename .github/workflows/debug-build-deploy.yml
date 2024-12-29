@@ -150,7 +150,7 @@ jobs:
       - name: Terraform Plan
         id: infra-tf-plan
         if: success()
-        run: terraform plan -target module.networking -target module.github_runne -out=tfplan
+        run: terraform plan -target module.networking -target module.github_runner -out=tfplan
         env:
           TF_VAR_aws_region: ${{ secrets.AWS_REGION }}
           TF_VAR_allowed_cidr_blocks: ${{ secrets.ALLOWED_CIDR }}
