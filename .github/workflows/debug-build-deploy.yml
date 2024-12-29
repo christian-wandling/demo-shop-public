@@ -100,9 +100,9 @@ jobs:
           echo "Event: ${{ github.event_name }}"
           echo "Ref type: ${{ github.ref_type }}"
 
-      - name: Verify AWS Identity
+      - name: Debug OIDC
         run: |
-          aws sts get-caller-identity
+          curl -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com"
 
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502
