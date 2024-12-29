@@ -28,11 +28,11 @@ jobs:
 #
 #      - run: npx prisma generate
 #
-#      - name: lint
+#      - name: Lint
 #        run: npx nx run-many -t lint
 #
-#      - name: test
+#      - name: Test
 #        run: npx nx run-many -t test --codeCoverage
 #
-#      - name: build
+#      - name: Build
 #        run: npx nx run-many -t build
