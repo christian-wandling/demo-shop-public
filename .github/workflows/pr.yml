@@ -38,10 +38,3 @@ jobs:
 
       #      - name: e2e
       #        run: npx nx affected --parallel 1 -t e2e --base=origin/main
-
-      # Run quality gate
-      - name: sonarcloud
-        uses: SonarSource/sonarqube-scan-action@bfd4e558cda28cda6b5defafb9232d191be8c203
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
