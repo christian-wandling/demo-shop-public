@@ -16,6 +16,7 @@ module "database" {
   vpc_id              = module.networking.vpc_id
   keycloak_sg         = module.keycloak.keycloak_sg
   api_sg              = module.api.api_sg
+  github_runner_sg    = module.github_runner.github_runner_sg
 }
 
 module "keycloak" {
@@ -48,6 +49,7 @@ module "keycloak" {
   postgres_sg                   = module.database.postgres_sg
   frontend_sg                   = module.frontend.frontend_sg
   frontend_address              = module.frontend.frontend_address
+  github_runner_sg              = module.github_runner.github_runner_sg
 }
 
 module "api" {
