@@ -10,6 +10,7 @@ permissions:
   deployments: write
 
 env:
+  ACTIONS_STEP_DEBUG: ${{ secrets.ACTIONS_STEP_DEBUG }}
   TF_LOG: ERROR
   TF_LOG_PATH: terraform.log
   TF_VAR_keycloak_ssh_public_key_path: './.secrets/keycloak_ssh_public_key'
@@ -159,15 +160,31 @@ jobs:
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
 
       - name: Run Terraform
-        id: infra-terraform
+        id: services-terraform
         if: success()
         timeout-minutes: 30
-        continue-on-error: true
         run: |
-          chmod +x ../../../scripts/terraform-infra.sh
-          ../../../scripts/terraform-infra.sh
-          TF_EXIT=$?
-          echo "tf_exit_code=$TF_EXIT" >> $GITHUB_ENV
+          # Enable debug for both bash and GitHub Actions
+          set -x
+          echo "::debug::Starting Terraform execution"
+
+          # Add timestamp for tracking
+          echo "::debug::Start time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+
+          chmod +x ../../../scripts/terraform-services.sh
+
+          # Run with error capture
+          if ! ../../../scripts/terraform-services.sh; then
+            EXIT_CODE=$?
+            echo "::error::Terraform script failed with exit code: $EXIT_CODE"
+            echo "::debug::End time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            echo "::group::Last Terraform operations"
+            tail -n 50 terraform.log || true
+            echo "::endgroup::"
+            exit $EXIT_CODE
+          fi
+
+          echo "::debug::End time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
 
       - name: Upload Terraform Logs
         if: always()

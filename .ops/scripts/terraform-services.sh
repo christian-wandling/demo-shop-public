@@ -1,23 +1,19 @@
 #!/bin/bash
-set -e  # Exit on error
-trap 'handle_error $?' ERR  # Trap errors
 
-handle_error() {
-    local exit_code=$1
-    echo "Error occurred with exit code: $exit_code"
+# Signal handling
+cleanup() {
+    local exit_code=$?
+    echo "Caught exit signal - cleaning up..."
 
-    # Sync state on failure
-    echo "Synchronizing state..."
-    terraform plan \
-        -compact-warnings \
-        -parallelism=50 \
-        -no-color | grep "^  # .* will be " || true
+    # Try to sync state
+    terraform plan -no-color > /dev/null 2>&1 || true
+    terraform state list > /dev/null 2>&1 || true
 
-    echo "Current state is:"
-    terraform state list || true
-
+    echo "Exiting with code: $exit_code"
     exit $exit_code
 }
+
+trap cleanup SIGINT SIGTERM ERR EXIT
 
 echo "Starting Terraform services..."
 
@@ -39,26 +35,22 @@ fi
 
 # Plan
 echo "Planning Terraform changes..."
-terraform plan -detailed-exitcode -out=tfplan
-PLAN_EXIT=$?
-if [ $PLAN_EXIT -ne 0 ] && [ $PLAN_EXIT -ne 2 ]; then
+terraform plan -detailed-exitcode -out=tfplan || {
     echo "Terraform plan failed"
-    exit $PLAN_EXIT
-fi
+    exit 1
+}
 
 # Apply
 echo "Applying Terraform changes..."
-terraform apply -auto-approve tfplan
-APPLY_EXIT=$?
-if [ $APPLY_EXIT -ne 0 ]; then
-    echo "Apply failed"
-    exit $APPLY_EXIT
+if ! terraform apply -auto-approve tfplan; then
+    echo "Apply failed or was cancelled"
+    exit 1
 fi
 
 echo "Services deployment successful"
 
-# Capture URL for deployment status
-FRONTEND_URL=$(terraform output -raw frontend_url || echo "")
+# Safely capture URL
+FRONTEND_URL=$(terraform output -raw frontend_url 2>/dev/null || echo "")
 if [ ! -z "$FRONTEND_URL" ]; then
     echo "url=$FRONTEND_URL" >> $GITHUB_OUTPUT
 fi
