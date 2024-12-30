@@ -48,20 +48,35 @@ chown -R ${user}:${user} .
 
 # Configure and start runner
 log_info "Configuring runner..."
-if ! sudo -u ${user} ./config.sh --url "${url}" --token "${token}"; then
+if ! sudo -u ${user} ./config.sh \
+    --url "${url}" \
+    --token "${token}" \
+    --unattended \
+    --work "_work"; then
     log_error "Failed to configure runner"
+    cat /home/${user}/actions-runner/.runner >> ${log_file_path}
     exit 1
 fi
 
 log_info "Installing runner as a service..."
-if ! sudo -u ${user} ./svc.sh install; then
+if ! sudo ./svc.sh install ${user}; then
     log_error "Failed to install runner service"
+    systemctl status actions.runner.* >> ${log_file_path}
     exit 1
 fi
 
 log_info "Starting runner service..."
-if ! sudo -u ${user} ./svc.sh start; then
+if ! sudo ./svc.sh start; then
     log_error "Failed to start runner service"
+    systemctl status actions.runner.* >> ${log_file_path}
+    journalctl -u actions.runner.* >> ${log_file_path}
+    exit 1
+fi
+
+sleep 5
+if ! systemctl is-active --quiet actions.runner.*; then
+    log_error "Runner service is not active"
+    systemctl status actions.runner.* >> ${log_file_path}
     exit 1
 fi
 
