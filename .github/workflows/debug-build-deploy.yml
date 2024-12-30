@@ -162,6 +162,11 @@ jobs:
         if: success()
         run: terraform validate
 
+      - name: Terraform Refresh
+        id: infra-tf-refresh
+        if: success()
+        run: terraform refresh
+
       - name: Terraform Plan
         id: infra-tf-plan
         if: success()
@@ -173,7 +178,6 @@ jobs:
         timeout-minutes: 30
         run: |
           trap 'echo "Operation timed out, syncing state..."; terraform refresh; exit 1' SIGTERM
-          terraform refresh
           if ! terraform apply -auto-approve tfplan; then
             echo "Apply failed, synchronizing state..."
             terraform show
@@ -285,7 +289,6 @@ jobs:
         timeout-minutes: 30
         run: |
           trap 'echo "Operation timed out, syncing state..."; terraform refresh; exit 1' SIGTERM
-          terraform refresh
           if ! terraform apply -auto-approve tfplan; then
             echo "Apply failed, synchronizing state..."
             terraform show
