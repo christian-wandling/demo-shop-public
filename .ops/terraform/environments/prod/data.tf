@@ -23,10 +23,3 @@ data "aws_ssm_parameter" "keycloak_admin_password" {
 }
 
 data "aws_caller_identity" "current" {}
-
-data "terraform_remote_state" "this" {
-  backend = "local"
-  config = {
-    path = "./terraform.tfstate"
-  }
-}
