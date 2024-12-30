@@ -29,10 +29,11 @@ terraform {
   required_version = ">= 1.10.0"
 
   backend "s3" {
-    bucket  = "demo-shop-terraform-state"
-    key     = "prod/terraform.tfstate"
-    region  = "eu-central-1"
-    encrypt = true
+    bucket         = "demo-shop-terraform-state"
+    key            = "prod/terraform.tfstate"
+    region         = "eu-central-1"
+    dynamodb_table = "terraform-state-lock"
+    encrypt        = true
   }
 }
 

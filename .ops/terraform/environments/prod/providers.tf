@@ -20,11 +20,11 @@ provider "cloudflare" {
 
 provider "keycloak" {
   client_timeout = 30
-  initial_login = false
-  client_id     = "admin-cli"
-  username      = data.aws_ssm_parameter.keycloak_admin.value
-  password      = data.aws_ssm_parameter.keycloak_admin_password.value
-  url           = "https://${module.keycloak.keycloak_address}"
+  initial_login  = false
+  client_id      = "admin-cli"
+  username       = data.aws_ssm_parameter.keycloak_admin.value
+  password       = data.aws_ssm_parameter.keycloak_admin_password.value
+  url            = "https://${module.keycloak.keycloak_address}"
 }
 
 provider "github" {

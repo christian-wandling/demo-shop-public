@@ -17,7 +17,7 @@ variable "project_name" {
 
 variable "allowed_cidr_blocks" {
   description = "IP addresses allowed to access the application"
-  type = list(string)
+  type        = list(string)
   sensitive   = true
 }
 

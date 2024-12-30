@@ -10,7 +10,7 @@ permissions:
   deployments: write
 
 env:
-  TF_LOG: DEBUG
+  TF_LOG: ERROR
   TF_VAR_keycloak_ssh_public_key_path: './.secrets/keycloak_ssh_public_key'
   TF_VAR_keycloak_ssh_private_key_path: './.secrets/keycloak_ssh_private_key'
   TF_VAR_keycloak_server_cert_path: './.secrets/keycloak_server_cert.pem'
@@ -88,7 +88,7 @@ jobs:
     environment:
       name: production
     concurrency:
-      group: production_deploy
+      group: ${{ github.workflow }}-${{ github.ref }}
       cancel-in-progress: false
     outputs:
       deployment: ${{ steps.start-deployment.outputs.deployment_id }}
@@ -138,6 +138,14 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
 
+      - name: Validate Workspace
+        run: |
+          WORKSPACE=$(terraform workspace show)
+          if [ "$WORKSPACE" != "prod" ]; then
+            echo "Wrong workspace: $WORKSPACE"
+            exit 1
+          fi
+
       - name: Terraform Init
         id: infra-tf-init
         if: success()
@@ -167,11 +175,43 @@ jobs:
           TF_VAR_github_org: ${{ github.repository_owner }}
           TF_VAR_github_repo: ${{ github.event.repository.name }}
 
+      - name: Check State Before Apply
+        run: |
+          terraform refresh
+          terraform plan -detailed-exitcode
+          if [ $? -eq 2 ]; then
+            echo "WARNING: State drift detected before apply"
+          fi
+
       - name: Terraform Apply
         id: infra-tf-apply
         if: success()
         run: |
-          terraform apply -auto-approve -target module.networking -target module.github_runner -auto-approve tfplan
+          terraform apply -auto-approve -target module.networking -target module.github_runner -auto-approve tfplan || {
+            echo "Apply failed, running cleanup..."
+            terraform refresh
+            terraform plan
+            exit 1
+           }
+
+      - name: Verify State
+        run: |
+          terraform refresh
+          terraform plan -detailed-exitcode
+          if [ $? -eq 2 ]; then
+            echo "State drift detected"
+            exit 1
+          fi
+
+      - name: Save State Artifact
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-state-backup
+          path: |
+            terraform.tfstate
+            terraform.tfstate.backup
+          retention-days: 5
 
       - name: Cleanup Sensitive Files
         if: always()
@@ -245,6 +285,14 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Validate Workspace
+        run: |
+          WORKSPACE=$(terraform workspace show)
+          if [ "$WORKSPACE" != "prod" ]; then
+            echo "Wrong workspace: $WORKSPACE"
+            exit 1
+          fi
+
       - name: Terraform Init
         id: services-tf-init
         if: success()
@@ -274,12 +322,34 @@ jobs:
           TF_VAR_github_repo: ${{ github.event.repository.name }}
         run: terraform plan -out=tfplan
 
+      - name: Check State Before Apply
+        run: |
+          terraform refresh
+          terraform plan -detailed-exitcode
+          if [ $? -eq 2 ]; then
+            echo "WARNING: State drift detected before apply"
+          fi
+
       - name: Terraform Apply
         id: services-tf-apply
         if: success()
         run: |
-          terraform apply -auto-approve tfplan
+          terraform apply -auto-approve tfplan ||   {
+          echo "Apply failed, running cleanup..."
+            terraform refresh
+            terraform plan
+            exit 1
+           }
           echo "url=$(terraform output -raw frontend_url)" >> $GITHUB_OUTPUT
+
+      - name: Verify State
+        run: |
+          terraform refresh
+          terraform plan -detailed-exitcode
+          if [ $? -eq 2 ]; then
+            echo "State drift detected"
+            exit 1
+          fi
 
       - name: Update Deployment Status
         if: always()
@@ -291,6 +361,16 @@ jobs:
           status: ${{ job.status }}
           deployment_id: ${{ needs.deploy-infra.outputs.deployment}}
           env_url: ${{ steps.services-tf-apply.outputs.url }}
+
+      - name: Save State Artifact
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-state-backup
+          path: |
+            terraform.tfstate
+            terraform.tfstate.backup
+          retention-days: 5
 
       - name: Cleanup Sensitive Files
         if: always()

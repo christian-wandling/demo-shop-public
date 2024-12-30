@@ -112,20 +112,20 @@ module "frontend" {
 }
 
 module "github_runner" {
-  source                             = "../../modules/github_runner"
-  allowed_cidr_blocks                = var.allowed_cidr_blocks
-  environment                        = var.environment
-  github_runner_ssh_public_key_path  = var.github_runner_ssh_public_key_path
-  identifier_prefix                  = var.project_name
-  cloudflare_zone_id                 = var.cloudflare_zone_id
-  github_org                         = var.github_org
-  github_repo                        = var.github_repo
-  logger                             = local.logger
-  user                               = local.user
-  vpc_id                             = module.networking.vpc_id
-  subnet_id_1                        = module.networking.subnet_id_1
-  keycloak_sg                        = module.keycloak.keycloak_sg
-  postgres_sg                        = module.database.postgres_sg
+  source                            = "../../modules/github_runner"
+  allowed_cidr_blocks               = var.allowed_cidr_blocks
+  environment                       = var.environment
+  github_runner_ssh_public_key_path = var.github_runner_ssh_public_key_path
+  identifier_prefix                 = var.project_name
+  cloudflare_zone_id                = var.cloudflare_zone_id
+  github_org                        = var.github_org
+  github_repo                       = var.github_repo
+  logger                            = local.logger
+  user                              = local.user
+  vpc_id                            = module.networking.vpc_id
+  subnet_id_1                       = module.networking.subnet_id_1
+  keycloak_sg                       = module.keycloak.keycloak_sg
+  postgres_sg                       = module.database.postgres_sg
 }
 
 module "networking" {
