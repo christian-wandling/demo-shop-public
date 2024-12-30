@@ -10,6 +10,7 @@ permissions:
   deployments: write
 
 env:
+  TF_LOG: DEBUG
   TF_VAR_keycloak_ssh_public_key_path: './.secrets/keycloak_ssh_public_key'
   TF_VAR_keycloak_ssh_private_key_path: './.secrets/keycloak_ssh_private_key'
   TF_VAR_keycloak_server_cert_path: './.secrets/keycloak_server_cert.pem'
@@ -170,7 +171,7 @@ jobs:
         id: infra-tf-apply
         if: success()
         run: |
-          terraform apply -target module.networking -target module.github_runner -auto-approve tfplan
+          terraform apply -auto-approve -target module.networking -target module.github_runner -auto-approve tfplan
 
       - name: Cleanup Sensitive Files
         if: always()
@@ -179,6 +180,7 @@ jobs:
           ../../../scripts/cleanup.sh
 
   deploy-services:
+    timeout-minutes: 30
     needs: [build-api, build-frontend, deploy-infra]
     runs-on: self-hosted
     concurrency:
