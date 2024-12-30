@@ -48,9 +48,9 @@ resource "terraform_data" "keycloak_deploy" {
     kc_db_username          = data.aws_ssm_parameter.kc_db_username.value
     keycloak_admin          = var.keycloak_admin
     keycloak_admin_password = var.keycloak_admin_password
-    script_hash = filesha256("${path.module}/scripts/deploy.sh.tftpl"),
-    cert_hash = cloudflare_origin_ca_certificate.keycloak_cert.certificate
-    key_hash  = tls_private_key.keycloak_private_key.private_key_pem
+    script_hash = filesha256("${path.module}/scripts/deploy.sh.tftpl")
+    cert_hash               = cloudflare_origin_ca_certificate.keycloak_cert.certificate
+    key_hash                = tls_private_key.keycloak_private_key.private_key_pem
   }
 
   connection {
