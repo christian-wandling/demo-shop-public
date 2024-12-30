@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set +e
 echo "Starting Terraform infra..."
 
@@ -8,7 +7,6 @@ terraform init
 INIT_EXIT=$?
 if [ $INIT_EXIT -ne 0 ]; then
     echo "Terraform init failed"
-    echo "success=false" >> $GITHUB_OUTPUT
     exit $INIT_EXIT
 fi
 
@@ -17,7 +15,6 @@ terraform validate
 VALIDATE_EXIT=$?
 if [ $VALIDATE_EXIT -ne 0 ]; then
     echo "Terraform validate failed"
-    echo "success=false" >> $GITHUB_OUTPUT
     exit $VALIDATE_EXIT
 fi
 
@@ -26,7 +23,6 @@ terraform plan -target module.networking -target module.github_runner -detailed-
 PLAN_EXIT=$?
 if [ $PLAN_EXIT -ne 0 ]; then
     echo "Terraform plan failed"
-    echo "success=false" >> $GITHUB_OUTPUT
     exit $PLAN_EXIT
 fi
 
@@ -43,10 +39,8 @@ if [ $APPLY_EXIT -ne 0 ]; then
         -no-color | grep "^  # .* will be "
     echo "Current state is:"
     terraform state list
-    echo "success=false" >> $GITHUB_OUTPUT
     exit $APPLY_EXIT
-else
-    echo "Infra deployment successful"
-    echo "success=true" >> $GITHUB_OUTPUT
-    exit 0  # Explicitly exit with success
 fi
+
+echo "Infra deployment successful"
+exit 0

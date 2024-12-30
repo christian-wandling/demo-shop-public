@@ -94,7 +94,6 @@ jobs:
       cancel-in-progress: false
     outputs:
       deployment: ${{ steps.start-deployment.outputs.deployment_id }}
-      infra_success: ${{ steps.infra-terraform.outputs.success }}
     env:
       TF_VAR_aws_region: ${{ secrets.AWS_REGION }}
       TF_VAR_allowed_cidr_blocks: ${{ secrets.ALLOWED_CIDR }}
@@ -167,8 +166,8 @@ jobs:
         run: |
           chmod +x ../../../scripts/terraform-infra.sh
           ../../../scripts/terraform-infra.sh
-          echo "tf_result=$?" >> $GITHUB_ENV
-          echo "tf_success=${{ steps.infra-terraform.outputs.success }}" >> $GITHUB_ENV
+          TF_EXIT=$?
+          echo "tf_exit_code=$TF_EXIT" >> $GITHUB_ENV
 
       - name: Upload Terraform Logs
         if: always()
@@ -194,15 +193,15 @@ jobs:
       - name: Check Status
         if: always()
         run: |
-          if [ "${{ env.tf_result }}" != "0" ] || [ "${{ env.tf_success }}" != "true" ]; then
-            echo "Terraform operation failed"
+          if [ "${{ env.tf_exit_code }}" != "0" ]; then
+            echo "Terraform operation failed with exit code ${{ env.tf_exit_code }}"
             exit 1
           fi
 
   deploy-services:
     timeout-minutes: 45
     needs: [deploy-infra]
-    if: needs.deploy-infra.outputs.infra_success == 'true'
+    if: needs.deploy-infra.result == 'success'
     runs-on: self-hosted
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
@@ -276,8 +275,11 @@ jobs:
         run: |
           chmod +x ../../../scripts/terraform-services.sh
           ../../../scripts/terraform-services.sh
-          echo "tf_result=$?" >> $GITHUB_ENV
-          echo "tf_success=${{ steps.services-terraform.outputs.success }}" >> $GITHUB_ENV
+          TF_EXIT=$?
+          echo "tf_exit_code=$TF_EXIT" >> $GITHUB_ENV
+          if [ $TF_EXIT -eq 0 ]; then
+            echo "url=$(terraform output -raw frontend_url)" >> $GITHUB_OUTPUT
+          fi
 
       - name: Upload Terraform Logs
         if: always()
@@ -302,7 +304,7 @@ jobs:
           token: ${{ github.token }}
           env: production
           status: ${{ job.status }}
-          deployment_id: ${{ needs.deploy-infra.outputs.deployment}}
+          deployment_id: ${{ needs.deploy-infra.outputs.deployment }}
           env_url: ${{ steps.services-terraform.outputs.url }}
           auto_inactive: true
 
@@ -315,7 +317,7 @@ jobs:
       - name: Check Status
         if: always()
         run: |
-          if [ "${{ env.tf_result }}" != "0" ] || [ "${{ env.tf_success }}" != "true" ]; then
-            echo "Terraform operation failed"
+          if [ "${{ env.tf_exit_code }}" != "0" ]; then
+            echo "Terraform operation failed with exit code ${{ env.tf_exit_code }}"
             exit 1
           fi
