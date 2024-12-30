@@ -83,7 +83,7 @@ jobs:
         run: ls -la demo-shop-frontend.tar
 
   deploy-infra:
-    timeout-minutes: 30
+    timeout-minutes: 45
     needs: [build-api, build-frontend]
     runs-on: ubuntu-latest
     environment:
@@ -200,7 +200,7 @@ jobs:
           ../../../scripts/cleanup.sh
 
   deploy-services:
-    timeout-minutes: 30
+    timeout-minutes: 45
     needs: [deploy-infra]
     runs-on: self-hosted
     concurrency:
