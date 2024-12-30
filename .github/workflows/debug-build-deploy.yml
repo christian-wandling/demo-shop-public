@@ -10,7 +10,7 @@ permissions:
   deployments: write
 
 env:
-  TF_LOG: ERROR
+  TF_LOG: DEBUG
   TF_VAR_keycloak_ssh_public_key_path: './.secrets/keycloak_ssh_public_key'
   TF_VAR_keycloak_ssh_private_key_path: './.secrets/keycloak_ssh_private_key'
   TF_VAR_keycloak_server_cert_path: './.secrets/keycloak_server_cert.pem'
@@ -83,6 +83,7 @@ jobs:
         run: ls -la demo-shop-frontend.tar
 
   deploy-infra:
+    timeout-minutes: 30
     needs: [build-api, build-frontend]
     runs-on: ubuntu-latest
     environment:
@@ -149,6 +150,10 @@ jobs:
           chmod +x ../../../scripts/setup-keys.sh
           ../../../scripts/setup-keys.sh
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
 
@@ -161,11 +166,6 @@ jobs:
         id: infra-tf-validate
         if: success()
         run: terraform validate
-
-      - name: Terraform Refresh
-        id: infra-tf-refresh
-        if: success()
-        run: terraform refresh
 
       - name: Terraform Plan
         id: infra-tf-plan
@@ -181,7 +181,6 @@ jobs:
           if ! terraform apply -auto-approve tfplan; then
             echo "Apply failed, synchronizing state..."
             terraform show
-            terraform refresh
             terraform plan -target module.networking -target module.github_runner
             exit 1
           fi
@@ -202,10 +201,10 @@ jobs:
 
   deploy-services:
     timeout-minutes: 30
-    needs: [build-api, build-frontend, deploy-infra]
+    needs: [deploy-infra]
     runs-on: self-hosted
     concurrency:
-      group: production_deploy
+      group: ${{ github.workflow }}-${{ github.ref }}
       cancel-in-progress: false
     env:
       TF_VAR_aws_region: ${{ secrets.AWS_REGION }}
@@ -261,12 +260,12 @@ jobs:
           chmod +x ../../../scripts/setup-keys.sh
           ../../../scripts/setup-keys.sh
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
-
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
 
       - name: Terraform Init
         id: services-tf-init
@@ -292,12 +291,19 @@ jobs:
           if ! terraform apply -auto-approve tfplan; then
             echo "Apply failed, synchronizing state..."
             terraform show
-            terraform refresh
             terraform plan
             exit 1
           else
             echo "url=$(terraform output -raw frontend_url)" >> $GITHUB_OUTPUT
           fi
+
+      - name: Clear Lock
+        if: always()
+        run: |
+          echo "Clearing terraform state lock..."
+          aws dynamodb delete-item \
+          --table-name terraform-state-lock \
+          --key '{"LockID": {"S": "demo-shop-terraform-state/prod/terraform.tfstate"}}'
 
       - name: Update Deployment Status
         if: always()
@@ -309,14 +315,6 @@ jobs:
           status: ${{ job.status }}
           deployment_id: ${{ needs.deploy-infra.outputs.deployment}}
           env_url: ${{ steps.services-tf-apply.outputs.url }}
-
-      - name: Clear Lock
-        if: always()
-        run: |
-          echo "Clearing terraform state lock..."
-          aws dynamodb delete-item \
-          --table-name terraform-state-lock \
-          --key '{"LockID": {"S": "demo-shop-terraform-state/prod/terraform.tfstate"}}'
 
       - name: Cleanup Sensitive Files
         if: always()
