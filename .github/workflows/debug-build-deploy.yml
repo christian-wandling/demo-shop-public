@@ -167,6 +167,8 @@ jobs:
         run: |
           chmod +x ../../../scripts/terraform-infra.sh
           ../../../scripts/terraform-infra.sh
+          echo "tf_result=$?" >> $GITHUB_ENV
+          echo "tf_success=${{ steps.infra-terraform.outputs.success }}" >> $GITHUB_ENV
 
       - name: Upload Terraform Logs
         if: always()
@@ -188,6 +190,14 @@ jobs:
         run: |
           chmod +x ../../../scripts/cleanup.sh
           ../../../scripts/cleanup.sh
+
+      - name: Check Status
+        if: always()
+        run: |
+          if [ "${{ env.tf_result }}" != "0" ] || [ "${{ env.tf_success }}" != "true" ]; then
+            echo "Terraform operation failed"
+            exit 1
+          fi
 
   deploy-services:
     timeout-minutes: 45
@@ -266,6 +276,8 @@ jobs:
         run: |
           chmod +x ../../../scripts/terraform-services.sh
           ../../../scripts/terraform-services.sh
+          echo "tf_result=$?" >> $GITHUB_ENV
+          echo "tf_success=${{ steps.services-terraform.outputs.success }}" >> $GITHUB_ENV
 
       - name: Upload Terraform Logs
         if: always()
@@ -292,9 +304,18 @@ jobs:
           status: ${{ job.status }}
           deployment_id: ${{ needs.deploy-infra.outputs.deployment}}
           env_url: ${{ steps.services-terraform.outputs.url }}
+          auto_inactive: true
 
       - name: Cleanup Sensitive Files
         if: always()
         run: |
           chmod +x ../../../scripts/cleanup.sh
           ../../../scripts/cleanup.sh
+
+      - name: Check Status
+        if: always()
+        run: |
+          if [ "${{ env.tf_result }}" != "0" ] || [ "${{ env.tf_success }}" != "true" ]; then
+            echo "Terraform operation failed"
+            exit 1
+          fi

@@ -46,6 +46,7 @@ if [ $APPLY_EXIT -ne 0 ]; then
     echo "success=false" >> $GITHUB_OUTPUT
     exit $APPLY_EXIT
 else
-    echo "Infrastructure deployment successful"
+    echo "Infra deployment successful"
     echo "success=true" >> $GITHUB_OUTPUT
+    exit 0  # Explicitly exit with success
 fi
