@@ -277,9 +277,6 @@ jobs:
           ../../../scripts/terraform-services.sh
           TF_EXIT=$?
           echo "tf_exit_code=$TF_EXIT" >> $GITHUB_ENV
-          if [ $TF_EXIT -eq 0 ]; then
-            echo "url=$(terraform output -raw frontend_url)" >> $GITHUB_OUTPUT
-          fi
 
       - name: Upload Terraform Logs
         if: always()
