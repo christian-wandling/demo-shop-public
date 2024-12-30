@@ -1,9 +1,10 @@
 resource "aws_instance" "github_runner" {
-  ami           = "ami-0e54671bdf3c8ed8d"
-  instance_type = "t2.micro"
-  monitoring    = false
-  subnet_id     = var.subnet_id_1
-  key_name      = aws_key_pair.github_runner_key_pub.key_name
+  ami                         = "ami-0e54671bdf3c8ed8d"
+  instance_type               = "t2.micro"
+  monitoring                  = false
+  user_data_replace_on_change = true
+  subnet_id                   = var.subnet_id_1
+  key_name                    = aws_key_pair.github_runner_key_pub.key_name
 
   associate_public_ip_address = true
 

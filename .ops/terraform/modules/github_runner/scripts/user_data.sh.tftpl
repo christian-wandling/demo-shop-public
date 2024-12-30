@@ -53,9 +53,15 @@ if ! sudo -u ${user} ./config.sh --url "${url}" --token "${token}"; then
     exit 1
 fi
 
-log_info "Starting runner..."
-if ! sudo -u ${user} ./run.sh; then
-    log_error "Failed to start runner"
+log_info "Installing runner as a service..."
+if ! sudo -u ${user} ./svc.sh install; then
+    log_error "Failed to install runner service"
+    exit 1
+fi
+
+log_info "Starting runner service..."
+if ! sudo -u ${user} ./svc.sh start; then
+    log_error "Failed to start runner service"
     exit 1
 fi
 
