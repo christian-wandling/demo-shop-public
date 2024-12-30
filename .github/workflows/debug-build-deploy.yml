@@ -94,6 +94,7 @@ jobs:
       cancel-in-progress: false
     outputs:
       deployment: ${{ steps.start-deployment.outputs.deployment_id }}
+      infra_success: ${{ steps.infra-terraform.outputs.success }}
     env:
       TF_VAR_aws_region: ${{ secrets.AWS_REGION }}
       TF_VAR_allowed_cidr_blocks: ${{ secrets.ALLOWED_CIDR }}
@@ -191,6 +192,7 @@ jobs:
   deploy-services:
     timeout-minutes: 45
     needs: [deploy-infra]
+    if: needs.deploy-infra.outputs.infra_success == 'true'
     runs-on: self-hosted
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
@@ -257,7 +259,7 @@ jobs:
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
 
       - name: Run Terraform
-        id: infra-terraform
+        id: services-terraform
         if: success()
         timeout-minutes: 30
         continue-on-error: true
@@ -289,7 +291,7 @@ jobs:
           env: production
           status: ${{ job.status }}
           deployment_id: ${{ needs.deploy-infra.outputs.deployment}}
-          env_url: ${{ steps.services-tf-apply.outputs.url }}
+          env_url: ${{ steps.services-terraform.outputs.url }}
 
       - name: Cleanup Sensitive Files
         if: always()

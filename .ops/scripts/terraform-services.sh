@@ -2,7 +2,7 @@
 
 set +e
 
-echo "Starting Terraform operations..."
+echo "Starting Terraform services..."
 
 # Init
 terraform init
@@ -40,4 +40,6 @@ if [ $APPLY_EXIT -ne 0 ]; then
   echo "Current state is:"
   terraform state list
   exit $APPLY_EXIT
+else
+  echo "url=$(terraform output -raw frontend_url)" >> $GITHUB_OUTPUT
 fi
