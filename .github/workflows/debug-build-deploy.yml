@@ -267,6 +267,22 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
 
+      - name: Check Resources Before
+        run: |
+          echo "::group::Pre-deployment Resource Check"
+          echo "::debug::Disk Space:"
+          df -h
+
+          echo "::debug::Memory Usage:"
+          free -h
+
+          echo "::debug::CPU Load:"
+          uptime
+
+          echo "::debug::Process Count:"
+          ps aux | wc -l
+          echo "::endgroup::"
+
       - name: Run Terraform
         id: services-terraform
         if: success()
@@ -293,6 +309,56 @@ jobs:
           fi
 
           echo "::debug::End time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+
+      - name: Run Terraform
+        id: services-terraform
+        if: success()
+        timeout-minutes: 30
+        run: |
+          set -x
+          echo "::debug::Starting Terraform execution"
+          echo "::debug::Start time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+
+          # Set process monitoring
+          echo "::debug::Process Tree before execution:"
+          ps auxf
+
+          # Run with process tracking
+          (
+            trap 'echo "::debug::Received signal in subshell"' SIGTERM SIGINT
+            chmod +x ../../../scripts/terraform-services.sh
+            ../../../scripts/terraform-services.sh &
+            TF_PID=$!
+
+            echo "::debug::Terraform process ID: $TF_PID"
+
+            wait $TF_PID
+            EXIT_CODE=$?
+            echo "::debug::Process $TF_PID exited with code $EXIT_CODE"
+          )
+          FINAL_EXIT=$?
+
+          echo "::debug::Process Tree after execution:"
+          ps auxf
+
+          echo "::debug::Process exit details:"
+          echo "::debug::Final exit code: $FINAL_EXIT"
+          echo "::debug::End time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+
+          if [ $FINAL_EXIT -ne 0 ]; then
+            echo "::group::Process Information"
+            echo "::debug::Last system messages:"
+            dmesg | tail -n 50 || true
+            echo "::debug::Process tree at failure:"
+            pstree -p || true
+            echo "::endgroup::"
+
+            exit $FINAL_EXIT
+          fi
+        env:
+          RUNNER_DEBUG: '1'
+          ACTIONS_RUNNER_DEBUG: 'true'
+          ACTIONS_STEP_DEBUG: 'true'
 
       - name: Upload Terraform Logs
         if: always()
