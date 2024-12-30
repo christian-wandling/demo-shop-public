@@ -93,17 +93,19 @@ jobs:
     outputs:
       deployment: ${{ steps.start-deployment.outputs.deployment_id }}
     env:
-      API_SSH_PRIVATE_KEY: ${{ secrets.API_SSH_PRIVATE_KEY }}
-      API_SSH_PUBLIC_KEY: ${{ secrets.API_SSH_PUBLIC_KEY }}
-      RUNNER_SSH_PRIVATE_KEY: ${{ secrets.RUNNER_SSH_PRIVATE_KEY }}
-      RUNNER_SSH_PUBLIC_KEY: ${{ secrets.RUNNER_SSH_PUBLIC_KEY }}
-      FRONTEND_SSH_PRIVATE_KEY: ${{ secrets.FRONTEND_SSH_PRIVATE_KEY }}
-      FRONTEND_SSH_PUBLIC_KEY: ${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}
-      KEYCLOAK_SSH_PRIVATE_KEY: ${{ secrets.KEYCLOAK_SSH_PRIVATE_KEY }}
-      KEYCLOAK_SSH_PUBLIC_KEY: ${{ secrets.KEYCLOAK_SSH_PUBLIC_KEY }}
-      KEYCLOAK_SERVER_CERT: ${{ secrets.KEYCLOAK_SERVER_CERT }}
-      KEYCLOAK_SERVER_KEY: ${{ secrets.KEYCLOAK_SERVER_KEY }}
-      DH_PARAM: ${{ secrets.DH_PARAM }}
+      TF_VAR_aws_region: ${{ secrets.AWS_REGION }}
+      TF_VAR_allowed_cidr_blocks: ${{ secrets.ALLOWED_CIDR }}
+      TF_VAR_keycloak_realm: ${{ secrets.KEYCLOAK_REALM }}
+      TF_VAR_keycloak_client_api: ${{ secrets.KEYCLOAK_CLIENT_API }}
+      TF_VAR_keycloak_client_ui: ${{ secrets.KEYCLOAK_CLIENT_UI }}
+      TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      TF_VAR_cloudflare_zone_id: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+      TF_VAR_cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      TF_VAR_cloudflare_domain_name: ${{ secrets.CLOUDFLARE_DOMAIN_NAME }}
+      TF_VAR_sentry_demo_shop_api_dsn: ${{ secrets.CLOUDFLARE_DOMAIN_NAME }}
+      TF_VAR_github_token: ${{ secrets.DEPLOY_INFRA_TOKEN }}
+      TF_VAR_github_org: ${{ github.repository_owner }}
+      TF_VAR_github_repo: ${{ github.event.repository.name }}
 
     defaults:
       run:
@@ -131,6 +133,18 @@ jobs:
           audience: sts.amazonaws.com
 
       - name: Setup SSH Keys and Certs
+        env:
+          API_SSH_PRIVATE_KEY: ${{ secrets.API_SSH_PRIVATE_KEY }}
+          API_SSH_PUBLIC_KEY: ${{ secrets.API_SSH_PUBLIC_KEY }}
+          RUNNER_SSH_PRIVATE_KEY: ${{ secrets.RUNNER_SSH_PRIVATE_KEY }}
+          RUNNER_SSH_PUBLIC_KEY: ${{ secrets.RUNNER_SSH_PUBLIC_KEY }}
+          FRONTEND_SSH_PRIVATE_KEY: ${{ secrets.FRONTEND_SSH_PRIVATE_KEY }}
+          FRONTEND_SSH_PUBLIC_KEY: ${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}
+          KEYCLOAK_SSH_PRIVATE_KEY: ${{ secrets.KEYCLOAK_SSH_PRIVATE_KEY }}
+          KEYCLOAK_SSH_PUBLIC_KEY: ${{ secrets.KEYCLOAK_SSH_PUBLIC_KEY }}
+          KEYCLOAK_SERVER_CERT: ${{ secrets.KEYCLOAK_SERVER_CERT }}
+          KEYCLOAK_SERVER_KEY: ${{ secrets.KEYCLOAK_SERVER_KEY }}
+          DH_PARAM: ${{ secrets.DH_PARAM }}
         run: |
           chmod +x ../../../scripts/setup-keys.sh
           ../../../scripts/setup-keys.sh
@@ -182,21 +196,53 @@ jobs:
           fi
 
       - name: Save State Artifact
-        if: failure()
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: terraform-state-backup
+          name: terraform-state-backup-${{ github.run_id }} # Unique name per run
           path: |
             terraform.tfstate
             terraform.tfstate.backup
+            tfplan
+            .terraform.lock.hcl
           retention-days: 5
+        continue-on-error: true # Don't fail if files don't exist
 
-      - name: Clear stuck locks
-        if: failure()
+      - name: Log State Backup Status
+        if: always()
         run: |
-          aws dynamodb delete-item \
+          echo "Checking state files..."
+          if [ -f "terraform.tfstate" ]; then
+            echo "State file exists"
+            ls -lh terraform.tfstate
+          else
+            echo "No state file found"
+          fi
+          if [ -f "terraform.tfstate.backup" ]; then
+            echo "Backup state file exists"
+            ls -lh terraform.tfstate.backup
+          fi
+
+      - name: Check and Clear Locks
+        if: always()
+        run: |
+          echo "Checking for terraform state locks..."
+
+          # Check if lock exists
+          LOCK_EXISTS=$(aws dynamodb get-item \
             --table-name terraform-state-lock \
-            --key '{"LockID": {"S": "demo-shop-terraform-state/prod/terraform.tfstate"}}'
+            --key '{"LockID": {"S": "demo-shop-terraform-state/prod/terraform.tfstate"}}' \
+            --output json)
+
+          if [ ! -z "$LOCK_EXISTS" ]; then
+            echo "Lock found, clearing..."
+            aws dynamodb delete-item \
+              --table-name terraform-state-lock \
+              --key '{"LockID": {"S": "demo-shop-terraform-state/prod/terraform.tfstate"}}'
+            echo "Lock cleared"
+          else
+            echo "No lock found, skipping"
+          fi
 
       - name: Cleanup Sensitive Files
         if: always()
@@ -340,21 +386,53 @@ jobs:
           env_url: ${{ steps.services-tf-apply.outputs.url }}
 
       - name: Save State Artifact
-        if: failure()
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: terraform-state-backup
+          name: terraform-state-backup-${{ github.run_id }} # Unique name per run
           path: |
             terraform.tfstate
             terraform.tfstate.backup
+            tfplan
+            .terraform.lock.hcl
           retention-days: 5
+        continue-on-error: true # Don't fail if files don't exist
 
-      - name: Clear stuck locks
-        if: failure()
+      - name: Log State Backup Status
+        if: always()
         run: |
-          aws dynamodb delete-item \
+          echo "Checking state files..."
+          if [ -f "terraform.tfstate" ]; then
+            echo "State file exists"
+            ls -lh terraform.tfstate
+          else
+            echo "No state file found"
+          fi
+          if [ -f "terraform.tfstate.backup" ]; then
+            echo "Backup state file exists"
+            ls -lh terraform.tfstate.backup
+          fi
+
+      - name: Check and Clear Locks
+        if: always()
+        run: |
+          echo "Checking for terraform state locks..."
+
+          # Check if lock exists
+          LOCK_EXISTS=$(aws dynamodb get-item \
             --table-name terraform-state-lock \
-            --key '{"LockID": {"S": "demo-shop-terraform-state/prod/terraform.tfstate"}}'
+            --key '{"LockID": {"S": "demo-shop-terraform-state/prod/terraform.tfstate"}}' \
+            --output json)
+
+          if [ ! -z "$LOCK_EXISTS" ]; then
+            echo "Lock found, clearing..."
+            aws dynamodb delete-item \
+              --table-name terraform-state-lock \
+              --key '{"LockID": {"S": "demo-shop-terraform-state/prod/terraform.tfstate"}}'
+            echo "Lock cleared"
+          else
+            echo "No lock found, skipping"
+          fi
 
       - name: Cleanup Sensitive Files
         if: always()
