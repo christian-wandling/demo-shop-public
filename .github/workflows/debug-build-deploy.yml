@@ -158,33 +158,21 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
 
-      - name: Terraform Init
-        id: infra-tf-init
-        if: success()
-        run: terraform init
-
-      - name: Terraform Validate
-        id: infra-tf-validate
-        if: success()
-        run: terraform validate
-
-      - name: Terraform Plan
-        id: infra-tf-plan
-        if: success()
-        run: terraform plan -target module.networking -target module.github_runner -detailed-exitcode -out=tfplan
-
-      - name: Terraform Apply
-        id: infra-tf-apply
+      - name: Run Terraform
+        id: infra-terraform
         if: success()
         timeout-minutes: 30
+        continue-on-error: true
         run: |
-          trap 'echo "Operation timed out, syncing state..."; terraform refresh; exit 1' SIGTERM
-          if ! terraform apply -auto-approve tfplan; then
-            echo "Apply failed, synchronizing state..."
-            terraform show
-            terraform plan -target module.networking -target module.github_runner
-            exit 1
-          fi
+          chmod +x ../../../scripts/terraform-infra.sh
+          ../../../scripts/terraform-infra.sh
+
+      - name: Upload Terraform Logs
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: terraform-logs
+          path: terraform.log
 
       - name: Clear Lock
         if: always()
@@ -268,36 +256,14 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
 
-      - name: Terraform Init
-        id: services-tf-init
+      - name: Run Terraform
+        id: infra-terraform
         if: success()
-        run: terraform init
-
-      - name: Terraform Validate
-        id: services-tf-validate
-        if: success()
-        run: terraform validate
-
-      - name: Terraform Plan
-        id: services-tf-plan
-        if: success()
-        run: terraform plan -out=tfplan
-
-      - name: Terraform Apply
-        id: services-tf-apply
-        if: success()
-        continue-on-error: true
         timeout-minutes: 30
+        continue-on-error: true
         run: |
-          trap 'echo "Operation timed out, syncing state..."; terraform refresh; exit 1' SIGTERM
-          if ! terraform apply -auto-approve tfplan; then
-            echo "Apply failed, synchronizing state..."
-            terraform show
-            terraform plan
-            exit 1
-          else
-            echo "url=$(terraform output -raw frontend_url)" >> $GITHUB_OUTPUT
-          fi
+          chmod +x ../../../scripts/terraform-services.sh
+          ../../../scripts/terraform-services.sh
 
       - name: Upload Terraform Logs
         if: always()
