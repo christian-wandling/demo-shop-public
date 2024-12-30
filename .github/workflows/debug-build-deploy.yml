@@ -167,82 +167,28 @@ jobs:
         if: success()
         run: terraform plan -target module.networking -target module.github_runner -out=tfplan
 
-      - name: Check State Before Apply
-        run: |
-          terraform refresh
-          terraform plan -detailed-exitcode
-          if [ $? -eq 2 ]; then
-            echo "WARNING: State drift detected before apply"
-          fi
-
       - name: Terraform Apply
         id: infra-tf-apply
         if: success()
+        timeout-minutes: 30
         run: |
-          terraform apply -auto-approve -target module.networking -target module.github_runner -auto-approve tfplan || {
-            echo "Apply failed, running cleanup..."
-            terraform refresh
-            terraform plan
-            exit 1
-           }
-
-      - name: Verify State
-        run: |
+          trap 'echo "Operation timed out, syncing state..."; terraform refresh; exit 1' SIGTERM
           terraform refresh
-          terraform plan -detailed-exitcode
-          if [ $? -eq 2 ]; then
-            echo "State drift detected"
+          if ! terraform apply -auto-approve tfplan; then
+            echo "Apply failed, synchronizing state..."
+            terraform show
+            terraform refresh
+            terraform plan -target module.networking -target module.github_runner
             exit 1
           fi
 
-      - name: Save State Artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: terraform-state-backup-${{ github.run_id }} # Unique name per run
-          path: |
-            terraform.tfstate
-            terraform.tfstate.backup
-            tfplan
-            .terraform.lock.hcl
-          retention-days: 5
-        continue-on-error: true # Don't fail if files don't exist
-
-      - name: Log State Backup Status
+      - name: Clear Lock
         if: always()
         run: |
-          echo "Checking state files..."
-          if [ -f "terraform.tfstate" ]; then
-            echo "State file exists"
-            ls -lh terraform.tfstate
-          else
-            echo "No state file found"
-          fi
-          if [ -f "terraform.tfstate.backup" ]; then
-            echo "Backup state file exists"
-            ls -lh terraform.tfstate.backup
-          fi
-
-      - name: Check and Clear Locks
-        if: always()
-        run: |
-          echo "Checking for terraform state locks..."
-
-          # Check if lock exists
-          LOCK_EXISTS=$(aws dynamodb get-item \
+          echo "Clearing terraform state lock..."
+          aws dynamodb delete-item \
             --table-name terraform-state-lock \
-            --key '{"LockID": {"S": "demo-shop-terraform-state/prod/terraform.tfstate"}}' \
-            --output json)
-
-          if [ ! -z "$LOCK_EXISTS" ]; then
-            echo "Lock found, clearing..."
-            aws dynamodb delete-item \
-              --table-name terraform-state-lock \
-              --key '{"LockID": {"S": "demo-shop-terraform-state/prod/terraform.tfstate"}}'
-            echo "Lock cleared"
-          else
-            echo "No lock found, skipping"
-          fi
+            --key '{"LockID": {"S": "demo-shop-terraform-state/prod/terraform.tfstate"}}'
 
       - name: Cleanup Sensitive Files
         if: always()
@@ -286,18 +232,6 @@ jobs:
         with:
           pattern: '*-artifact'
           path: .ops/terraform/environments/prod/artifacts
-
-      - name: Debug file structure
-        run: |
-          echo "Current directory: $(pwd)"
-          echo "Listing current directory:"
-          ls -la
-          echo "Listing artifacts directory:"
-          ls -la ./artifacts || echo "artifacts dir not found"
-          echo "Listing frontend-artifact directory:"
-          ls -la ./artifacts/frontend-artifact || echo "frontend-artifact dir not found"
-          echo "Full path check:"
-          readlink -f ./artifacts/frontend-artifact/demo-shop-api.tar || echo "file not found"
 
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502
@@ -345,36 +279,21 @@ jobs:
         if: success()
         run: terraform plan -out=tfplan
 
-      - name: Check State Before Apply
-        run: |
-          terraform refresh -target module.networking -target module.github_runner || {
-            echo "Warning: State refresh failed, but continuing..."
-            exit 0  # Don't fail the workflow
-            }
-          terraform plan -detailed-exitcode -target module.networking -target module.github_runner || {
-            echo "Warning: State drift detected"
-            exit 0  # Don't fail the workflow
-          }
-
       - name: Terraform Apply
         id: services-tf-apply
         if: success()
+        timeout-minutes: 30
         run: |
-          terraform apply -auto-approve tfplan ||   {
-          echo "Apply failed, running cleanup..."
+          trap 'echo "Operation timed out, syncing state..."; terraform refresh; exit 1' SIGTERM
+          terraform refresh
+          if ! terraform apply -auto-approve tfplan; then
+            echo "Apply failed, synchronizing state..."
+            terraform show
             terraform refresh
             terraform plan
             exit 1
-           }
-          echo "url=$(terraform output -raw frontend_url)" >> $GITHUB_OUTPUT
-
-      - name: Verify State
-        run: |
-          terraform refresh
-          terraform plan -detailed-exitcode
-          if [ $? -eq 2 ]; then
-            echo "State drift detected"
-            exit 1
+          else
+            echo "url=$(terraform output -raw frontend_url)" >> $GITHUB_OUTPUT
           fi
 
       - name: Update Deployment Status
@@ -388,54 +307,13 @@ jobs:
           deployment_id: ${{ needs.deploy-infra.outputs.deployment}}
           env_url: ${{ steps.services-tf-apply.outputs.url }}
 
-      - name: Save State Artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: terraform-state-backup-${{ github.run_id }} # Unique name per run
-          path: |
-            terraform.tfstate
-            terraform.tfstate.backup
-            tfplan
-            .terraform.lock.hcl
-          retention-days: 5
-        continue-on-error: true # Don't fail if files don't exist
-
-      - name: Log State Backup Status
+      - name: Clear Lock
         if: always()
         run: |
-          echo "Checking state files..."
-          if [ -f "terraform.tfstate" ]; then
-            echo "State file exists"
-            ls -lh terraform.tfstate
-          else
-            echo "No state file found"
-          fi
-          if [ -f "terraform.tfstate.backup" ]; then
-            echo "Backup state file exists"
-            ls -lh terraform.tfstate.backup
-          fi
-
-      - name: Check and Clear Locks
-        if: always()
-        run: |
-          echo "Checking for terraform state locks..."
-
-          # Check if lock exists
-          LOCK_EXISTS=$(aws dynamodb get-item \
-            --table-name terraform-state-lock \
-            --key '{"LockID": {"S": "demo-shop-terraform-state/prod/terraform.tfstate"}}' \
-            --output json)
-
-          if [ ! -z "$LOCK_EXISTS" ]; then
-            echo "Lock found, clearing..."
-            aws dynamodb delete-item \
-              --table-name terraform-state-lock \
-              --key '{"LockID": {"S": "demo-shop-terraform-state/prod/terraform.tfstate"}}'
-            echo "Lock cleared"
-          else
-            echo "No lock found, skipping"
-          fi
+          echo "Clearing terraform state lock..."
+          aws dynamodb delete-item \
+          --table-name terraform-state-lock \
+          --key '{"LockID": {"S": "demo-shop-terraform-state/prod/terraform.tfstate"}}'
 
       - name: Cleanup Sensitive Files
         if: always()
