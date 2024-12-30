@@ -10,7 +10,8 @@ permissions:
   deployments: write
 
 env:
-  TF_LOG: DEBUG
+  TF_LOG: ERROR
+  TF_LOG_PATH: terraform.log
   TF_VAR_keycloak_ssh_public_key_path: './.secrets/keycloak_ssh_public_key'
   TF_VAR_keycloak_ssh_private_key_path: './.secrets/keycloak_ssh_private_key'
   TF_VAR_keycloak_server_cert_path: './.secrets/keycloak_server_cert.pem'
