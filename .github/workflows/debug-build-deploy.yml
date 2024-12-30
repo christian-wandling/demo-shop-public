@@ -198,7 +198,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           pattern: '*-artifact'
-          path: ./artifacts
+          path: .ops/terraform/environments/prod/artifacts
 
       - name: Debug file structure
         run: |
