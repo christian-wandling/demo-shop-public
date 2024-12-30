@@ -19,6 +19,11 @@ terraform {
       source  = "mrparkers/keycloak"
       version = "~> 4.4.0"
     }
+
+    github = {
+      source  = "integrations/github"
+      version = "6.2.2"
+    }
   }
 
   required_version = ">= 1.10.0"

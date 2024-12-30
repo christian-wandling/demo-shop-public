@@ -1,54 +1,33 @@
 #!/bin/bash
 
-
-export RUNNER_ALLOW_RUNASROOT="1"
-
 LOG_FILE="${log_file_path}"
-
 sudo mkdir -p "$(dirname "$LOG_FILE")"
 sudo touch "$LOG_FILE"
 sudo chown "${user}:${user}" "$LOG_FILE"
-
 ${logger}
 
 log_info "Starting user data script..."
 
 # Install dependencies
-log_info "Installing updates and Docker..."
+log_info "Installing updates and basic dependencies..."
 if ! yum update -y; then
     log_error "Failed to update system"
     exit 1
 fi
 
-if ! yum install -y docker git libicu dotnet-runtime-6.0; then
+if ! yum install -y git libicu dotnet-runtime-6.0; then
     log_error "Failed to install required packages"
-    exit 1
-fi
-
-# Setup Docker
-log_info "Starting Docker service..."
-if ! systemctl start docker; then
-    log_error "Failed to start Docker"
-    exit 1
-fi
-
-if ! systemctl enable docker; then
-    log_error "Failed to enable Docker"
-    exit 1
-fi
-
-# Configure user
-log_info "Adding user to docker group..."
-if ! usermod -aG docker "${user}"; then
-    log_error "Failed to add user to docker group"
     exit 1
 fi
 
 # Setup runner
 log_info "Setting up runner directory..."
-rm -rf actions-runner
-if ! mkdir actions-runner && cd actions-runner; then
-    log_error "Failed to create/enter runner directory"
+rm -rf /home/${user}/actions-runner
+mkdir -p /home/${user}/actions-runner
+chown ${user}:${user} /home/${user}/actions-runner
+
+if ! cd /home/${user}/actions-runner; then
+    log_error "Failed to access runner directory"
     exit 1
 fi
 
@@ -65,15 +44,17 @@ if ! tar xzf ./actions-runner-linux-x64-2.321.0.tar.gz; then
     exit 1
 fi
 
+chown -R ${user}:${user} .
+
 # Configure and start runner
 log_info "Configuring runner..."
-if ! ./config.sh --url "${url}" --token "${token}"; then
+if ! sudo -u ${user} ./config.sh --url "${url}" --token "${token}"; then
     log_error "Failed to configure runner"
     exit 1
 fi
 
 log_info "Starting runner..."
-if ! ./run.sh; then
+if ! sudo -u ${user} ./run.sh; then
     log_error "Failed to start runner"
     exit 1
 fi

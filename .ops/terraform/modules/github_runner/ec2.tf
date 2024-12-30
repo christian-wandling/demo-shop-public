@@ -1,5 +1,5 @@
 resource "aws_instance" "github_runner" {
-  ami           = "ami-0e5ec0326a194d2c9"
+  ami           = "ami-0e54671bdf3c8ed8d"
   instance_type = "t2.micro"
   monitoring    = false
   subnet_id     = var.subnet_id_1
@@ -26,8 +26,8 @@ resource "aws_instance" "github_runner" {
   user_data = templatefile("${path.module}/scripts/user_data.sh.tftpl", {
     user          = var.user
     logger        = var.logger
-    token         = var.github_token
-    url           = var.repository_url
+    token         = data.github_actions_registration_token.runner.token
+    url           = "https://github.com/${var.github_org}/${var.github_repo}"
     log_file_path = "/var/log/user_data.log"
   })
 

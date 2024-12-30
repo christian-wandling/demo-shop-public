@@ -18,11 +18,12 @@ resource "aws_security_group" "github_runner_sg" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "github_runner_ingress_ssh" {
+  count = length(var.allowed_cidr_blocks)
   security_group_id = aws_security_group.github_runner_sg.id
   from_port         = 22
   to_port           = 22
   ip_protocol       = "tcp"
-  cidr_ipv4         = var.allowed_cidr_blocks[0]
+  cidr_ipv4         = var.allowed_cidr_blocks[count.index]
   description       = "Allow SSH access"
 
   tags = merge(

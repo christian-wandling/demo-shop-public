@@ -123,14 +123,20 @@ variable "github_runner_ssh_private_key_path" {
   type        = string
 }
 
-variable "github_token" {
-  description = "The token for github"
+variable "github_org" {
+  description = "The org of the github repo"
   type        = string
   sensitive   = true
 }
 
-variable "repository_url" {
-  description = "The url of the github repository"
+variable "github_repo" {
+  description = "The github repo"
+  type        = string
+  sensitive   = true
+}
+
+variable "github_token" {
+  description = "The github token"
   type        = string
   sensitive   = true
 }

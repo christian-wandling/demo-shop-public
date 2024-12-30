@@ -19,11 +19,6 @@ variable "additional_tags" {
   default = {}
 }
 
-variable "github_token" {
-  description = "GitHub Runner Token"
-  sensitive   = true
-}
-
 variable "vpc_id" {
   description = "Id of the VPC"
   type        = string
@@ -39,11 +34,6 @@ variable "github_runner_ssh_public_key_path" {
   type        = string
 }
 
-variable "github_runner_ssh_private_key_path" {
-  description = "The path of the private SSH key for the github runner"
-  type        = string
-}
-
 variable "user" {
   description = "Name of the user in ec2"
   type        = string
@@ -53,12 +43,6 @@ variable "logger" {
   description = "Name of the user in ec2"
   type        = string
   sensitive = true
-}
-
-variable "repository_url" {
-  description = "The url of the github repository"
-  type        = string
-  sensitive   = true
 }
 
 variable "postgres_sg" {
@@ -73,6 +57,18 @@ variable "keycloak_sg" {
 
 variable "cloudflare_zone_id" {
   description = "The id of the zone that will be used by the Cloudflare account"
+  type        = string
+  sensitive   = true
+}
+
+variable "github_org" {
+  description = "The org of the github repo"
+  type        = string
+  sensitive   = true
+}
+
+variable "github_repo" {
+  description = "The github_repo"
   type        = string
   sensitive   = true
 }

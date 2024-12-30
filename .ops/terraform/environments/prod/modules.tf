@@ -115,12 +115,11 @@ module "github_runner" {
   source                             = "../../modules/github_runner"
   allowed_cidr_blocks                = var.allowed_cidr_blocks
   environment                        = var.environment
-  github_runner_ssh_private_key_path = var.github_runner_ssh_private_key_path
   github_runner_ssh_public_key_path  = var.github_runner_ssh_public_key_path
-  github_token                       = var.github_token
   identifier_prefix                  = var.project_name
-  repository_url                     = var.repository_url
   cloudflare_zone_id                 = var.cloudflare_zone_id
+  github_org                         = var.github_org
+  github_repo                        = var.github_repo
   logger                             = local.logger
   user                               = local.user
   vpc_id                             = module.networking.vpc_id
