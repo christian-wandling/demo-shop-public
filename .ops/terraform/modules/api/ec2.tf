@@ -48,7 +48,7 @@ resource "terraform_data" "api_deploy" {
     keycloak_realm            = var.keycloak_realm
     keycloak_url              = var.keycloak_address
     script_hash = filesha256("${path.module}/scripts/deploy.sh.tftpl"),
-    image_hash = filesha256(var.api_docker_image_path),
+    image_hash = var.api_docker_image_path && filesha256(var.api_docker_image_path),
   }
 
   connection {
