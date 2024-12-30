@@ -191,6 +191,13 @@ jobs:
             terraform.tfstate.backup
           retention-days: 5
 
+      - name: Clear stuck locks
+        if: failure()
+        run: |
+          aws dynamodb delete-item \
+            --table-name terraform-state-lock \
+            --key '{"LockID": {"S": "demo-shop-terraform-state/prod/terraform.tfstate"}}'
+
       - name: Cleanup Sensitive Files
         if: always()
         run: |
@@ -341,6 +348,13 @@ jobs:
             terraform.tfstate
             terraform.tfstate.backup
           retention-days: 5
+
+      - name: Clear stuck locks
+        if: failure()
+        run: |
+          aws dynamodb delete-item \
+            --table-name terraform-state-lock \
+            --key '{"LockID": {"S": "demo-shop-terraform-state/prod/terraform.tfstate"}}'
 
       - name: Cleanup Sensitive Files
         if: always()
