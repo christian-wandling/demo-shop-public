@@ -198,7 +198,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           pattern: '*-artifact'
-          path: .ops/terraform/environments/prod/artifacts
+          path: ./artifacts
 
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502
