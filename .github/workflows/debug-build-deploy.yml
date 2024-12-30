@@ -164,12 +164,10 @@ jobs:
         if: success()
         timeout-minutes: 30
         run: |
-          set -x  # Debug output
-          chmod +x ../../../scripts/terraform-services.sh
-          ../../../scripts/terraform-services.sh || {
-            echo "Script exited with code: $?"
-            exit 1
-          }
+          chmod +x ../../../scripts/terraform-infra.sh
+          ../../../scripts/terraform-infra.sh
+          TF_EXIT=$?
+          echo "tf_exit_code=$TF_EXIT" >> $GITHUB_ENV
 
       - name: Upload Terraform Logs
         if: always()
