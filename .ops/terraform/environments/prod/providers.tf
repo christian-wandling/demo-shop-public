@@ -19,8 +19,7 @@ provider "cloudflare" {
 }
 
 provider "keycloak" {
-  alias         = "keycloak-main"
-  client_timeout = "10s"  # shorter timeout
+  client_timeout = 30
   initial_login = false
   client_id     = "admin-cli"
   username      = data.aws_ssm_parameter.keycloak_admin.value
