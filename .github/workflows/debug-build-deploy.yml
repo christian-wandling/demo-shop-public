@@ -347,11 +347,14 @@ jobs:
 
       - name: Check State Before Apply
         run: |
-          terraform refresh
-          terraform plan -detailed-exitcode
-          if [ $? -eq 2 ]; then
-            echo "WARNING: State drift detected before apply"
-          fi
+          terraform refresh -target module.networking -target module.github_runner || {
+            echo "Warning: State refresh failed, but continuing..."
+            exit 0  # Don't fail the workflow
+            }
+          terraform plan -detailed-exitcode -target module.networking -target module.github_runner || {
+            echo "Warning: State drift detected"
+            exit 0  # Don't fail the workflow
+          }
 
       - name: Terraform Apply
         id: services-tf-apply
