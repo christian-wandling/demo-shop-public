@@ -200,6 +200,18 @@ jobs:
           pattern: '*-artifact'
           path: ./artifacts
 
+      - name: Debug file structure
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Listing current directory:"
+          ls -la
+          echo "Listing artifacts directory:"
+          ls -la ./artifacts || echo "artifacts dir not found"
+          echo "Listing frontend-artifact directory:"
+          ls -la ./artifacts/frontend-artifact || echo "frontend-artifact dir not found"
+          echo "Full path check:"
+          readlink -f ./artifacts/frontend-artifact/demo-shop-api.tar || echo "file not found"
+
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502
         with:
