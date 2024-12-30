@@ -43,7 +43,7 @@ resource "terraform_data" "frontend_deploy" {
   triggers_replace = {
     instance_id = aws_instance.frontend.id
     script_hash = filesha256("${path.module}/scripts/deploy.sh.tftpl")
-    image_hash  = fileexists(var.frontend_docker_image_path) && filesha256(var.frontend_docker_image_path)
+    image_hash  = fileexists(var.frontend_docker_image_path) ? filesha256(var.frontend_docker_image_path) : null
     cert_hash   = cloudflare_origin_ca_certificate.frontend_cert.certificate
     key_hash    = tls_private_key.frontend_private_key.private_key_pem
   }
