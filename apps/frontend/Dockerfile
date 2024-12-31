@@ -6,7 +6,7 @@ RUN npm ci --ignore-scripts
 
 
 FROM docker.io/node:lts-alpine AS build
-RUN apk add --no-cache gettext-base
+RUN apk add --no-cache gettext
 ARG KEYCLOAK_URL
 ARG KEYCLOAK_REALM
 ARG KEYCLOAK_CLIENT_UI
