@@ -128,6 +128,8 @@ module "github_runner" {
   subnet_id_1                       = module.networking.subnet_id_1
   keycloak_sg                       = module.keycloak.keycloak_sg
   postgres_sg                       = module.database.postgres_sg
+  api_sg                            = module.api.api_sg
+  frontend_sg                       = module.frontend.frontend_sg
 }
 
 module "networking" {

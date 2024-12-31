@@ -75,14 +75,68 @@ resource "aws_vpc_security_group_egress_rule" "github_runner_egress_postgres" {
 resource "aws_vpc_security_group_egress_rule" "github_runner_egress_keycloak" {
   security_group_id            = aws_security_group.github_runner_sg.id
   ip_protocol                  = "tcp"
-  from_port                    = 5432
-  to_port                      = 5432
+  from_port                    = 443
+  to_port                      = 443
   referenced_security_group_id = var.keycloak_sg
   description                  = "Allow outbound traffic to Keycloak"
 
   tags = merge(
     {
-      Name        = "${var.identifier_prefix}-github-runner-sg-egress-keycloaks-${var.environment}"
+      Name        = "${var.identifier_prefix}-github-runner-sg-egress-keycloak-${var.environment}"
+      Environment = var.environment
+      Managed_by  = "terraform"
+    },
+    var.additional_tags
+  )
+}
+
+resource "aws_vpc_security_group_egress_rule" "github_runner_egress_keycloak_ssh" {
+  security_group_id            = aws_security_group.github_runner_sg.id
+  ip_protocol                  = "tcp"
+  from_port                    = 22
+  to_port                      = 22
+  referenced_security_group_id = var.keycloak_sg
+  description                  = "Allow outbound ssh to Keycloak"
+
+  tags = merge(
+    {
+      Name        = "${var.identifier_prefix}-github-runner-sg-egress-keycloak-ssh-${var.environment}"
+      Environment = var.environment
+      Managed_by  = "terraform"
+    },
+    var.additional_tags
+  )
+}
+
+resource "aws_vpc_security_group_egress_rule" "github_runner_egress_frontend_ssh" {
+  security_group_id            = aws_security_group.github_runner_sg.id
+  ip_protocol                  = "tcp"
+  from_port                    = 22
+  to_port                      = 22
+  referenced_security_group_id = var.frontend_sg
+  description                  = "Allow outbound ssh to the frontend"
+
+  tags = merge(
+    {
+      Name        = "${var.identifier_prefix}-github-runner-sg-egress-frontend-ssh-${var.environment}"
+      Environment = var.environment
+      Managed_by  = "terraform"
+    },
+    var.additional_tags
+  )
+}
+
+resource "aws_vpc_security_group_egress_rule" "github_runner_egress_api_ssh" {
+  security_group_id            = aws_security_group.github_runner_sg.id
+  ip_protocol                  = "tcp"
+  from_port                    = 22
+  to_port                      = 22
+  referenced_security_group_id = var.api_sg
+  description                  = "Allow outbound ssh to the api"
+
+  tags = merge(
+    {
+      Name        = "${var.identifier_prefix}-github-runner-sg-egress-api-ssh-${var.environment}"
       Environment = var.environment
       Managed_by  = "terraform"
     },

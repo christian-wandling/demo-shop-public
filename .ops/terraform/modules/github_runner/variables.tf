@@ -55,6 +55,16 @@ variable "keycloak_sg" {
   type        = string
 }
 
+variable "frontend_sg" {
+  description = "The security group for the frontend"
+  type        = string
+}
+
+variable "api_sg" {
+  description = "The security group for the api"
+  type        = string
+}
+
 variable "cloudflare_zone_id" {
   description = "The id of the zone that will be used by the Cloudflare account"
   type        = string
