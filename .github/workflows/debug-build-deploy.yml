@@ -116,7 +116,7 @@ jobs:
       - name: Prepare
         run: |
           mkdir -p ./dist
-          docker load < demo-shop-frontend.tar
+          docker load < ./frontend-artifact/demo-shop-frontend.tar
           container_id=$(docker create demo-shop-frontend:latest)
           docker cp "$container_id:/usr/share/nginx/html/ ./dist/"
           docker rm "$container_id"
@@ -135,6 +135,7 @@ jobs:
         if: always()
         run: |
           rm -rf ./dist
+          rm -rf ./frontend-artifact
           docker rmi demo-shop-frontend:latest || true
 
   deploy-infra:
