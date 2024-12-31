@@ -6,13 +6,18 @@ RUN npm ci --ignore-scripts
 
 
 FROM docker.io/node:lts-alpine AS build
-ARG SENTRY_ORG
-ARG SENTRY_DEMO_SHOP_UI_PROJECT
-RUN apk add --no-cache gettext
+RUN apk add --no-cache gettext-base
+ARG KEYCLOAK_URL
+ARG KEYCLOAK_REALM
+ARG KEYCLOAK_CLIENT_UI
+ARG SENTRY_DEMO_SHOP_UI_DSN
+ARG SENTRY_TRUSTED_DOMAIN
 WORKDIR /app
 COPY . .
 COPY --from=dev /app/node_modules ./node_modules
-RUN npx nx build frontend
+COPY apps/frontend/src/environments/environment.ts /environment.template.ts
+RUN envsubst < /environment.template.ts > apps/frontend/src/environments/environment.ts \
+    && npx nx build frontend
 
 
 FROM nginx:alpine AS prod

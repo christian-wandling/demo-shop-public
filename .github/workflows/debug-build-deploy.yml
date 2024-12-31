@@ -43,7 +43,8 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_DEMO_SHOP_API_PROJECT: ${{ secrets.SENTRY_DEMO_SHOP_API_PROJECT }}
-        run: docker build \
+        run: |
+          docker build \
           --platform linux/amd64 \
           --build-arg SENTRY_AUTH_TOKEN="${SENTRY_AUTH_TOKEN}" \
           --build-arg SENTRY_ORG="${SENTRY_ORG}" \
@@ -85,7 +86,8 @@ jobs:
           KEYCLOAK_CLIENT_UI: ${{ secrets.KEYCLOAK_CLIENT_UI }}
           SENTRY_DEMO_SHOP_UI_DSN: ${{ secrets.SENTRY_DEMO_SHOP_UI_DSN }}
           SENTRY_TRUSTED_DOMAIN: ${{ secrets.SENTRY_TRUSTED_DOMAIN }}
-        run: docker build \
+        run: |
+          docker build \
           --platform linux/amd64 \
           -f apps/frontend/Dockerfile \
           -t demo-shop-frontend:latest .
@@ -118,7 +120,6 @@ jobs:
         with:
           pattern: 'frontend-artifact'
           path: .
-        continue-on-error: false
 
       - name: Prepare
         run: |
