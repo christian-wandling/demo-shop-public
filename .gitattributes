@@ -1,0 +1,2 @@
+*.sh text eol=lf executable
+*.bash text eol=lf executable

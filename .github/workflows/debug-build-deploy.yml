@@ -28,16 +28,21 @@ jobs:
   build-api:
     #    if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: .ops/terraform/environments/prod
+
     steps:
       - uses: actions/checkout@v4
+
       - name: Build Api
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_DEMO_SHOP_API_PROJECT: ${{ secrets.SENTRY_DEMO_SHOP_API_PROJECT }}
-        run: |
-          chmod +x .ops/scripts/build-api.sh
-          ./.ops/scripts/build-api.sh
+        run: ./scripts/build-api.sh
+
       - name: Upload API artifact
         uses: actions/upload-artifact@v4
         with:
@@ -48,8 +53,14 @@ jobs:
   build-frontend:
     #    if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: .ops/terraform/environments/prod
+
     steps:
       - uses: actions/checkout@v4
+
       - name: Build Frontend
         env:
           KEYCLOAK_URL: ${{ secrets.KEYCLOAK_URL }}
@@ -57,17 +68,15 @@ jobs:
           KEYCLOAK_CLIENT_UI: ${{ secrets.KEYCLOAK_CLIENT_UI }}
           SENTRY_DEMO_SHOP_UI_DSN: ${{ secrets.SENTRY_DEMO_SHOP_UI_DSN }}
           SENTRY_TRUSTED_DOMAIN: ${{ secrets.SENTRY_TRUSTED_DOMAIN }}
-        run: |
-          chmod +x .ops/scripts/build-frontend.sh
-          ./.ops/scripts/build-frontend.sh
+        run: ./scripts/build-frontend.sh
+
       - name: Upload Sourcemaps
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.SENTRY_DEMO_SHOP_UI_PROJECT }}
-        run: |
-          chmod +x .ops/scripts/upload-sourcemaps.sh
-          ./.ops/scripts/upload-sourcemaps.sh
+        run: ./scripts/upload-sourcemaps.sh
+
       - name: Upload Frontend artifact
         uses: actions/upload-artifact@v4
         with:
@@ -105,6 +114,7 @@ jobs:
 
     steps:
       - name: Start Deployment
+        id: start-deployment
         uses: bobheadxi/deployments@648679e8e4915b27893bd7dbc35cb504dc915bc8
         with:
           step: start
@@ -124,43 +134,30 @@ jobs:
 
       - name: Setup SSH Keys and Certs
         env:
-          API_SSH_PRIVATE_KEY: ${{ secrets.API_SSH_PRIVATE_KEY }}
-          API_SSH_PUBLIC_KEY: ${{ secrets.API_SSH_PUBLIC_KEY }}
           RUNNER_SSH_PRIVATE_KEY: ${{ secrets.RUNNER_SSH_PRIVATE_KEY }}
           RUNNER_SSH_PUBLIC_KEY: ${{ secrets.RUNNER_SSH_PUBLIC_KEY }}
-          FRONTEND_SSH_PRIVATE_KEY: ${{ secrets.FRONTEND_SSH_PRIVATE_KEY }}
-          FRONTEND_SSH_PUBLIC_KEY: ${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}
-          KEYCLOAK_SSH_PRIVATE_KEY: ${{ secrets.KEYCLOAK_SSH_PRIVATE_KEY }}
-          KEYCLOAK_SSH_PUBLIC_KEY: ${{ secrets.KEYCLOAK_SSH_PUBLIC_KEY }}
-          KEYCLOAK_SERVER_CERT: ${{ secrets.KEYCLOAK_SERVER_CERT }}
-          KEYCLOAK_SERVER_KEY: ${{ secrets.KEYCLOAK_SERVER_KEY }}
-          DH_PARAM: ${{ secrets.DH_PARAM }}
-        run: |
-          chmod +x ../../../scripts/setup-keys.sh
-          ../../../scripts/setup-keys.sh
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
+        run: ./scripts/setup-keys.sh
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
 
-      - name: Run Terraform
-        id: terraform-infra
-        run: |
-          chmod +x ../../../scripts/terraform-infra.sh
-          ../../../scripts/terraform-infra.sh
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan -target module.networking -target module.github_runner -out=tfplan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -target module.networking -target module.github_runner -auto-approve tfplan
 
       - name: Cleanup Sensitive Files
-        if: always()
-        run: |
-          chmod +x ../../../scripts/cleanup.sh
-          ../../../scripts/cleanup.sh
+        run: ./scripts/cleanup.sh
 
   deploy-services:
     needs: [deploy-infra]
-    if: needs.deploy-infra.result == 'success'
     runs-on: self-hosted
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
@@ -213,22 +210,27 @@ jobs:
           KEYCLOAK_SERVER_CERT: ${{ secrets.KEYCLOAK_SERVER_CERT }}
           KEYCLOAK_SERVER_KEY: ${{ secrets.KEYCLOAK_SERVER_KEY }}
           DH_PARAM: ${{ secrets.DH_PARAM }}
-        run: |
-          chmod +x ../../../scripts/setup-keys.sh
-          ../../../scripts/setup-keys.sh
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
+        run: ./scripts/setup-keys.sh
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
 
-      - name: Run Terraform
-        id: terraform-services
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+
+      - name: Terraform Apply
         run: |
-          chmod +x ../../../scripts/terraform-services.sh
-          ../../../scripts/terraform-services.sh
+          terraform apply -auto-approve tfplan
+
+      - name: Terraform Output Frontend Url
+        id: deployment-url
+        run: echo "url=$(terraform output -raw frontend_url)" >> $GITHUB_OUTPUT
 
       - name: Update Deployment Status
         if: always()
@@ -239,11 +241,9 @@ jobs:
           env: production
           status: ${{ job.status }}
           deployment_id: ${{ needs.deploy-infra.outputs.deployment }}
-          env_url: ${{ steps.terraform-services.outputs.url }}
+          env_url: ${{ steps.deployment-url.outputs.url }}
           auto_inactive: true
 
       - name: Cleanup Sensitive Files
         if: always()
-        run: |
-          chmod +x ../../../scripts/cleanup.sh
-          ../../../scripts/cleanup.sh
+        run: ./scripts/cleanup.sh
