@@ -5,14 +5,9 @@ on:
 
 permissions:
   contents: read
-  actions: write
   id-token: write
-  deployments: write
 
 env:
-  ACTIONS_STEP_DEBUG: ${{ secrets.ACTIONS_STEP_DEBUG }}
-  TF_LOG: ERROR
-  TF_LOG_PATH: terraform.log
   TF_VAR_keycloak_ssh_public_key_path: './.secrets/keycloak_ssh_public_key'
   TF_VAR_keycloak_ssh_private_key_path: './.secrets/keycloak_ssh_private_key'
   TF_VAR_keycloak_server_cert_path: './.secrets/keycloak_server_cert.pem'
@@ -48,9 +43,6 @@ jobs:
           path: demo-shop-api.tar
           retention-days: 1
 
-      - name: Check if artifact file exists
-        run: ls -la demo-shop-api.tar
-
   build-frontend:
     #    if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
@@ -81,15 +73,10 @@ jobs:
           path: demo-shop-frontend.tar
           retention-days: 1
 
-      - name: Check if artifact file exists
-        run: ls -la demo-shop-frontend.tar
-
   deploy-infra:
-    timeout-minutes: 45
     needs: [build-api, build-frontend]
     runs-on: ubuntu-latest
-    environment:
-      name: production
+    environment: production
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
       cancel-in-progress: false
@@ -113,12 +100,10 @@ jobs:
     defaults:
       run:
         working-directory: .ops/terraform/environments/prod
-        shell: bash
 
     steps:
       - name: Start Deployment
         uses: bobheadxi/deployments@648679e8e4915b27893bd7dbc35cb504dc915bc8
-        id: start-deployment
         with:
           step: start
           token: ${{ github.token }}
@@ -160,29 +145,9 @@ jobs:
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
 
       - name: Run Terraform
-        id: infra-terraform
-        if: success()
-        timeout-minutes: 30
         run: |
-          chmod +x ../../../scripts/terraform-infra.sh
-          ../../../scripts/terraform-infra.sh
-          TF_EXIT=$?
-          echo "tf_exit_code=$TF_EXIT" >> $GITHUB_ENV
-
-      - name: Upload Terraform Logs
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: terraform-logs
-          path: terraform.log
-
-      - name: Clear Lock
-        if: always()
-        run: |
-          echo "Clearing terraform state lock..."
-          aws dynamodb delete-item \
-            --table-name terraform-state-lock \
-            --key '{"LockID": {"S": "demo-shop-terraform-state/prod/terraform.tfstate"}}'
+          chmod +x ../../../scripts/terraform-services.sh
+          ../../../scripts/terraform-services.sh'
 
       - name: Cleanup Sensitive Files
         if: always()
@@ -190,16 +155,7 @@ jobs:
           chmod +x ../../../scripts/cleanup.sh
           ../../../scripts/cleanup.sh
 
-      - name: Check Status
-        if: always()
-        run: |
-          if [ "${{ env.tf_exit_code }}" != "0" ]; then
-            echo "Terraform operation failed with exit code ${{ env.tf_exit_code }}"
-            exit 1
-          fi
-
   deploy-services:
-    timeout-minutes: 45
     needs: [deploy-infra]
     if: needs.deploy-infra.result == 'success'
     runs-on: self-hosted
@@ -224,13 +180,11 @@ jobs:
     defaults:
       run:
         working-directory: .ops/terraform/environments/prod
-        shell: bash
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Download artifacts
-        id: download-artifacts
         uses: actions/download-artifact@v4
         with:
           pattern: '*-artifact'
@@ -267,113 +221,10 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
 
-      - name: Check Resources Before
-        run: |
-          echo "::group::Pre-deployment Resource Check"
-          echo "::debug::Disk Space:"
-          df -h
-
-          echo "::debug::Memory Usage:"
-          free -h
-
-          echo "::debug::CPU Load:"
-          uptime
-
-          echo "::debug::Process Count:"
-          ps aux | wc -l
-          echo "::endgroup::"
-
       - name: Run Terraform
-        id: services-terraform
-        if: success()
-        timeout-minutes: 30
         run: |
-          # Enable debug for both bash and GitHub Actions
-          set -x
-          echo "::debug::Starting Terraform execution"
-
-          # Add timestamp for tracking
-          echo "::debug::Start time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
-
           chmod +x ../../../scripts/terraform-services.sh
-
-          # Run with error capture
-          if ! ../../../scripts/terraform-services.sh; then
-            EXIT_CODE=$?
-            echo "::error::Terraform script failed with exit code: $EXIT_CODE"
-            echo "::debug::End time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
-            echo "::group::Last Terraform operations"
-            tail -n 50 terraform.log || true
-            echo "::endgroup::"
-            exit $EXIT_CODE
-          fi
-
-          echo "::debug::End time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
-
-      - name: Run Terraform
-        id: services-terraform
-        if: success()
-        timeout-minutes: 30
-        run: |
-          set -x
-          echo "::debug::Starting Terraform execution"
-          echo "::debug::Start time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
-
-          # Set process monitoring
-          echo "::debug::Process Tree before execution:"
-          ps auxf
-
-          # Run with process tracking
-          (
-            trap 'echo "::debug::Received signal in subshell"' SIGTERM SIGINT
-            chmod +x ../../../scripts/terraform-services.sh
-            ../../../scripts/terraform-services.sh &
-            TF_PID=$!
-
-            echo "::debug::Terraform process ID: $TF_PID"
-
-            wait $TF_PID
-            EXIT_CODE=$?
-            echo "::debug::Process $TF_PID exited with code $EXIT_CODE"
-          )
-          FINAL_EXIT=$?
-
-          echo "::debug::Process Tree after execution:"
-          ps auxf
-
-          echo "::debug::Process exit details:"
-          echo "::debug::Final exit code: $FINAL_EXIT"
-          echo "::debug::End time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
-
-          if [ $FINAL_EXIT -ne 0 ]; then
-            echo "::group::Process Information"
-            echo "::debug::Last system messages:"
-            dmesg | tail -n 50 || true
-            echo "::debug::Process tree at failure:"
-            pstree -p || true
-            echo "::endgroup::"
-
-            exit $FINAL_EXIT
-          fi
-        env:
-          RUNNER_DEBUG: '1'
-          ACTIONS_RUNNER_DEBUG: 'true'
-          ACTIONS_STEP_DEBUG: 'true'
-
-      - name: Upload Terraform Logs
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: terraform-logs
-          path: terraform.log
-
-      - name: Clear Lock
-        if: always()
-        run: |
-          echo "Clearing terraform state lock..."
-          aws dynamodb delete-item \
-          --table-name terraform-state-lock \
-          --key '{"LockID": {"S": "demo-shop-terraform-state/prod/terraform.tfstate"}}'
+          ../../../scripts/terraform-services.sh
 
       - name: Update Deployment Status
         if: always()
@@ -392,11 +243,3 @@ jobs:
         run: |
           chmod +x ../../../scripts/cleanup.sh
           ../../../scripts/cleanup.sh
-
-      - name: Check Status
-        if: always()
-        run: |
-          if [ "${{ env.tf_exit_code }}" != "0" ]; then
-            echo "Terraform operation failed with exit code ${{ env.tf_exit_code }}"
-            exit 1
-          fi

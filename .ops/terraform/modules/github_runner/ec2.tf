@@ -23,6 +23,12 @@ resource "aws_instance" "github_runner" {
     encrypted   = true
   }
 
+  lifecycle {
+    ignore_changes = [
+      user_data
+    ]
+  }
+
   user_data = templatefile("${path.module}/scripts/user_data.sh.tftpl", {
     user          = var.user
     logger        = var.logger
