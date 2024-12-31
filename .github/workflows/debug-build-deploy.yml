@@ -5,7 +5,9 @@ on:
 
 permissions:
   contents: read
+  actions: write
   id-token: write
+  deployments: write
 
 env:
   TF_VAR_keycloak_ssh_public_key_path: './.secrets/keycloak_ssh_public_key'
@@ -145,9 +147,10 @@ jobs:
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
 
       - name: Run Terraform
+        id: terraform-infra
         run: |
-          chmod +x ../../../scripts/terraform-services.sh
-          ../../../scripts/terraform-services.sh'
+          chmod +x ../../../scripts/terraform-infra.sh
+          ../../../scripts/terraform-infra.sh
 
       - name: Cleanup Sensitive Files
         if: always()
@@ -222,6 +225,7 @@ jobs:
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
 
       - name: Run Terraform
+        id: terraform-services
         run: |
           chmod +x ../../../scripts/terraform-services.sh
           ../../../scripts/terraform-services.sh
@@ -235,7 +239,7 @@ jobs:
           env: production
           status: ${{ job.status }}
           deployment_id: ${{ needs.deploy-infra.outputs.deployment }}
-          env_url: ${{ steps.services-terraform.outputs.url }}
+          env_url: ${{ steps.terraform-services.outputs.url }}
           auto_inactive: true
 
       - name: Cleanup Sensitive Files
