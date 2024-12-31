@@ -97,3 +97,8 @@ variable "api_address" {
   sensitive   = true
 }
 
+variable "github_runner_sg" {
+  description = "The security group for the github runner"
+  type        = string
+}
+

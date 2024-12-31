@@ -82,6 +82,7 @@ module "api" {
   keycloak_sg               = module.keycloak.keycloak_sg
   frontend_sg               = module.frontend.frontend_sg
   frontend_address          = module.frontend.frontend_address
+  github_runner_sg          = module.github_runner.github_runner_sg
 }
 
 module "frontend" {
@@ -109,6 +110,7 @@ module "frontend" {
   subnet_id_1                   = module.networking.subnet_id_1
   vpc_id                        = module.networking.vpc_id
   api_address                   = module.api.api_private_ip
+  github_runner_sg              = module.github_runner.github_runner_sg
 }
 
 module "github_runner" {

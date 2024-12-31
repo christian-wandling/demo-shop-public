@@ -174,3 +174,21 @@ resource "aws_vpc_security_group_ingress_rule" "frontend_ingress_https_cloudflar
     var.additional_tags
   )
 }
+
+resource "aws_vpc_security_group_ingress_rule" "frontend_ingress_github_runner_ssh" {
+  security_group_id = aws_security_group.frontend_sg.id
+  ip_protocol       = "tcp"
+  from_port         = 22
+  to_port           = 22
+  referenced_security_group_id = var.github_runner_sg
+  description       = "Allow SSH from the github runner"
+
+  tags = merge(
+    {
+      Name        = "${var.identifier_prefix}-frontend-sg-ingress-github-runner-ssh-${var.environment}"
+      Environment = var.environment
+      Managed_by  = "terraform"
+    },
+    var.additional_tags
+  )
+}
