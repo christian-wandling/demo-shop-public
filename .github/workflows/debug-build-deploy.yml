@@ -149,7 +149,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
+      group: production
       cancel-in-progress: false
     outputs:
       deployment: ${{ steps.start-deployment.outputs.deployment_id }}
@@ -225,7 +225,7 @@ jobs:
     needs: [deploy-infra]
     runs-on: self-hosted
     concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
+      group: production
       cancel-in-progress: false
     env:
       TF_VAR_aws_region: ${{ secrets.AWS_REGION }}
