@@ -114,28 +114,29 @@ module "frontend" {
 }
 
 module "github_runner" {
-  source                            = "../../modules/github_runner"
-  allowed_cidr_blocks               = var.allowed_cidr_blocks
-  environment                       = var.environment
-  github_runner_ssh_public_key_path = var.github_runner_ssh_public_key_path
-  identifier_prefix                 = var.project_name
-  cloudflare_zone_id                = var.cloudflare_zone_id
-  github_org                        = var.github_org
-  github_repo                       = var.github_repo
-  logger                            = local.logger
-  user                              = local.user
-  vpc_id                            = module.networking.vpc_id
-  subnet_id_1                       = module.networking.subnet_id_1
-  keycloak_sg                       = module.keycloak.keycloak_sg
-  postgres_sg                       = module.database.postgres_sg
-  api_sg                            = module.api.api_sg
-  frontend_sg                       = module.frontend.frontend_sg
-  api_ssh_private_key_path          = var.api_ssh_private_key_path
-  frontend_ssh_private_key_path     = var.frontend_ssh_private_key_path
-  keycloak_ssh_private_key_path     = var.keycloak_ssh_private_key_path
-  api_public_ip                    = module.api.api_private_ip
-  frontend_public_ip               = module.frontend.frontend_public_ip
-  keycloak_public_ip               = module.keycloak.keycloak_public_ip
+  source                             = "../../modules/github_runner"
+  allowed_cidr_blocks                = var.allowed_cidr_blocks
+  environment                        = var.environment
+  github_runner_ssh_public_key_path  = var.github_runner_ssh_public_key_path
+  github_runner_ssh_private_key_path = var.github_runner_ssh_private_key_path
+  api_ssh_private_key_path           = var.api_ssh_private_key_path
+  frontend_ssh_private_key_path      = var.frontend_ssh_private_key_path
+  keycloak_ssh_private_key_path      = var.keycloak_ssh_private_key_path
+  identifier_prefix                  = var.project_name
+  cloudflare_zone_id                 = var.cloudflare_zone_id
+  github_org                         = var.github_org
+  github_repo                        = var.github_repo
+  logger                             = local.logger
+  user                               = local.user
+  vpc_id                             = module.networking.vpc_id
+  subnet_id_1                        = module.networking.subnet_id_1
+  keycloak_sg                        = module.keycloak.keycloak_sg
+  keycloak_public_ip                 = module.keycloak.keycloak_public_ip
+  postgres_sg                        = module.database.postgres_sg
+  api_sg                             = module.api.api_sg
+  api_public_ip                      = module.api.api_private_ip
+  frontend_sg                        = module.frontend.frontend_sg
+  frontend_public_ip                 = module.frontend.frontend_public_ip
 }
 
 module "networking" {
