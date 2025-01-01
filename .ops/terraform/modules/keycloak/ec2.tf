@@ -108,7 +108,7 @@ resource "terraform_data" "keycloak_health_check" {
 
   provisioner "local-exec" {
     command = <<-EOF
-      until curl -k --fail https://sso.example.com/auth/realms/master || [ $SECONDS -gt 300 ]; do
+      until curl -k --fail ${local.health_check_url} || [ $SECONDS -gt 300 ]; do
         echo "Waiting for Keycloak..."
         sleep 10
       done
