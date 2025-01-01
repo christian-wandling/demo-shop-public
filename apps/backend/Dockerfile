@@ -25,8 +25,15 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
 EXPOSE 3000
-RUN adduser -D appuser && chown -R appuser:appuser /app
-USER appuser
+
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
 COPY --from=build /app/dist/apps/backend ./
 COPY --from=build /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=build /app/prisma ./prisma
+COPY --from=build /app/node_modules/@prisma ./node_modules/@prisma
+
+RUN chown -R appuser:appgroup /app
+USER appuser
+
 CMD ["dumb-init", "node", "main.js"]
