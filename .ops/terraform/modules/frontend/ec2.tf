@@ -46,7 +46,6 @@ resource "terraform_data" "frontend_deploy" {
     image_hash  = fileexists(var.frontend_docker_image_path) ? filesha256(var.frontend_docker_image_path) : null
     cert_hash   = cloudflare_origin_ca_certificate.frontend_cert.certificate
     key_hash    = tls_private_key.frontend_private_key.private_key_pem
-    container_name = local.container_name
   }
 
   connection {
@@ -112,6 +111,7 @@ resource "terraform_data" "frontend_deploy" {
         cert_destination = local.cert_destination
         key_destination  = local.key_destination
         api_url          = var.api_address
+        container_name   = local.container_name
       })
     ]
   }
