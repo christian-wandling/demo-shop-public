@@ -35,10 +35,6 @@ jobs:
           fetch-depth: 0
 
       - name: Build Docker image
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_DEMO_SHOP_API_PROJECT: ${{ secrets.SENTRY_DEMO_SHOP_API_PROJECT }}
         run: |
           docker build \
           --platform linux/amd64 \
@@ -72,16 +68,15 @@ jobs:
           fetch-depth: 0
 
       - name: Build Docker
-        env:
-          KEYCLOAK_URL: ${{ secrets.KEYCLOAK_URL }}
-          KEYCLOAK_REALM: ${{ secrets.KEYCLOAK_REALM }}
-          KEYCLOAK_CLIENT_UI: ${{ secrets.KEYCLOAK_CLIENT_UI }}
-          SENTRY_DEMO_SHOP_UI_DSN: ${{ secrets.SENTRY_DEMO_SHOP_UI_DSN }}
-          SENTRY_TRUSTED_DOMAIN: ${{ secrets.SENTRY_TRUSTED_DOMAIN }}
         run: |
           docker build \
           --platform linux/amd64 \
-          -f apps/frontend/Dockerfile \
+          --build-arg KEYCLOAK_URL=${{ secrets.KEYCLOAK_URL }} \
+          --build-arg KEYCLOAK_REALM=${{ secrets.KEYCLOAK_REALM }} \
+          --build-arg KEYCLOAK_CLIENT_UI=${{ secrets.KEYCLOAK_CLIENT_UI }} \
+          --build-arg SENTRY_DEMO_SHOP_UI_DSN=${{ secrets.SENTRY_DEMO_SHOP_UI_DSN }} \
+          --build-arg SENTRY_TRUSTED_DOMAIN=${{ secrets.SENTRY_TRUSTED_DOMAIN }} \
+            -f apps/frontend/Dockerfile \
           -t demo-shop-frontend:latest .
 
       - name: Save docker image to file
