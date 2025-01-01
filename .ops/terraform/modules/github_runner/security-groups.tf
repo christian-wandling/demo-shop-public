@@ -143,3 +143,12 @@ resource "aws_vpc_security_group_egress_rule" "github_runner_egress_api_ssh" {
     var.additional_tags
   )
 }
+
+resource "aws_security_group_rule" "temp_ssh" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks       = ["${chomp(data.http.my_ip.response_body)}/32"]
+  security_group_id = aws_security_group.github_runner_sg.id
+}

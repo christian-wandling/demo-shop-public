@@ -103,3 +103,10 @@ resource "aws_instance" "github_runner" {
   )
 }
 
+resource "terraform_data" "remove_ssh" {
+  depends_on = [aws_instance.github_runner]
+
+  provisioner "local-exec" {
+    command = "aws ec2 revoke-security-group-ingress --group-id ${aws_security_group.github_runner_sg.id} --protocol tcp --port 22 --cidr ${chomp(data.http.my_ip.response_body)}/32"
+  }
+}
