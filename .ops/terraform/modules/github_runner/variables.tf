@@ -15,7 +15,7 @@ variable "identifier_prefix" {
 
 variable "additional_tags" {
   description = "Additional tags for append"
-  type    = map(string)
+  type = map(string)
   default = {}
 }
 
@@ -42,7 +42,7 @@ variable "user" {
 variable "logger" {
   description = "Name of the user in ec2"
   type        = string
-  sensitive = true
+  sensitive   = true
 }
 
 variable "postgres_sg" {
@@ -81,6 +81,36 @@ variable "github_repo" {
   description = "The github_repo"
   type        = string
   sensitive   = true
+}
+
+variable "keycloak_ssh_private_key_path" {
+  description = "The path of the private SSH key for keycloak"
+  type        = string
+}
+
+variable "frontend_ssh_private_key_path" {
+  description = "The path of the private SSH key for the frontend"
+  type        = string
+}
+
+variable "api_ssh_private_key_path" {
+  description = "The path of the private SSH key for the api"
+  type        = string
+}
+
+variable "keycloak_public_ip" {
+  description = "The public ip for keycloak"
+  type        = string
+}
+
+variable "frontend_public_ip" {
+  description = "The public ip for the frontend"
+  type        = string
+}
+
+variable "api_public_ip" {
+  description = "The public ip for the api"
+  type        = string
 }
 
 

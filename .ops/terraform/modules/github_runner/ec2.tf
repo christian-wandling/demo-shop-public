@@ -29,6 +29,55 @@ resource "aws_instance" "github_runner" {
     ]
   }
 
+  provisioner "file" {
+    content = <<-EOF
+    Host ${var.keycloak_public_ip}
+      IdentityFile ~/.ssh/keycloak_key
+      User ec2-user
+
+    Host ${var.api_public_ip}
+      IdentityFile ~/.ssh/api_key
+      User ec2-user
+
+    Host ${var.frontend_public_ip}
+      IdentityFile ~/.ssh/frontend_key
+      User ec2-user
+  EOF
+    destination = "/home/ec2-user/.ssh/config"
+  }
+
+  provisioner "file" {
+    content     = file(var.keycloak_ssh_private_key_path)
+    destination = "/home/ec2-user/.ssh/keycloak_key"
+  }
+
+  provisioner "file" {
+    content     = file(var.api_ssh_private_key_path)
+    destination = "/home/ec2-user/.ssh/api_key"
+  }
+
+  provisioner "file" {
+    content     = file(var.frontend_ssh_private_key_path)
+    destination = "/home/ec2-user/.ssh/frontend_key"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo chmod 600 /home/ec2-user/.ssh/keycloak_key",
+      "sudo chmod 600 /home/ec2-user/.ssh/api_key",
+      "sudo chmod 600 /home/ec2-user/.ssh/frontend_key",
+      "sudo chmod 600 /home/ec2-user/.ssh/config"
+    ]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo ssh-keyscan ${var.keycloak_public_ip} >> ~/.ssh/known_hosts",
+      "sudo ssh-keyscan ${var.frontend_public_ip} >> ~/.ssh/known_hosts",
+      "sudo ssh-keyscan ${var.api_public_ip} >> ~/.ssh/known_hosts"
+    ]
+  }
+
   user_data = templatefile("${path.module}/scripts/user_data.sh.tftpl", {
     user          = var.user
     logger        = var.logger

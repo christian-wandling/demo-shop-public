@@ -130,6 +130,12 @@ module "github_runner" {
   postgres_sg                       = module.database.postgres_sg
   api_sg                            = module.api.api_sg
   frontend_sg                       = module.frontend.frontend_sg
+  api_ssh_private_key_path          = var.api_ssh_private_key_path
+  frontend_ssh_private_key_path     = var.frontend_ssh_private_key_path
+  keycloak_ssh_private_key_path     = var.keycloak_ssh_private_key_path
+  api_public_ip                    = module.api.api_private_ip
+  frontend_public_ip               = module.frontend.frontend_public_ip
+  keycloak_public_ip               = module.keycloak.keycloak_public_ip
 }
 
 module "networking" {
