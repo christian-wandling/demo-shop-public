@@ -70,6 +70,7 @@ resource "terraform_data" "api_deploy" {
         logger                    = var.logger
         log_file_path             = "/var/log/deploy.log"
         database_url              = local.database_url
+        container_name            = local.container_name
         keycloak_realm_public_key = var.keycloak_realm_public_key
         keycloak_client_api       = var.keycloak_client_api
         keycloak_realm            = var.keycloak_realm
@@ -98,7 +99,7 @@ resource "terraform_data" "db_migrations" {
 
   provisioner "remote-exec" {
     inline = [
-      "docker exec demo-shop-api npx prisma migrate deploy || exit 1"
+      "docker exec ${local.container_name} npx prisma migrate deploy || exit 1"
     ]
   }
 }

@@ -39,7 +39,7 @@ if ! sudo docker run -d \
         -e KEYCLOAK_REALM_PUBLIC_KEY="${keycloak_realm_public_key}" \
         -e SENTRY_DEMO_SHOP_API_DSN="${sentry_demo_shop_api_dsn}" \
         -e FRONTEND_URL="${frontend_url}" \
-        demo-shop-api:latest; then
+        ${container_name}; then
 
     log_error "Failed to start Api container"
     exit 1

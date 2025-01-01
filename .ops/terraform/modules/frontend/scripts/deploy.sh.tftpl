@@ -35,7 +35,7 @@ if ! sudo docker run -d \
         -v ${cert_destination}:/etc/ssl/certs:ro \
         -v ${key_destination}:/etc/ssl/keys:ro \
         -e API_URL="${api_url}" \
-        demo-shop-frontend:latest; then
+        ${container_name}; then
 
     log_error "Failed to start Frontend container"
     exit 1
