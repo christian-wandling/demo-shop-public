@@ -23,14 +23,20 @@ RUN envsubst < /environment.template.ts > apps/frontend/src/environments/environ
 FROM nginx:alpine AS prod
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
-RUN adduser -D appuser && \
-    chown -R appuser:appuser /usr/share/nginx/html && \
-    chown -R appuser:appuser /var/cache/nginx && \
-    chown -R appuser:appuser /var/log/nginx && \
-    chown -R appuser:appuser /etc/nginx/conf.d
+
+RUN mkdir -p /tmp/nginx \
+    && adduser -D appuser \
+    && chown -R appuser:appuser /usr/share/nginx/html \
+    && chown -R appuser:appuser /var/cache/nginx \
+    && chown -R appuser:appuser /var/log/nginx \
+    && chown -R appuser:appuser /etc/nginx/conf.d \
+    && chown -R appuser:appuser /tmp/nginx \
+    && sed -i 's|pid.*|pid /tmp/nginx/nginx.pid;|' /etc/nginx/nginx.conf \
+    && rm /etc/nginx/conf.d/default.conf
+
 COPY --from=build /app/dist/apps/frontend/browser ./
 COPY static/error-pages /usr/share/nginx/html/error-pages
 COPY nginx.conf.template /etc/nginx/templates/demo-shop.conf.template
-RUN rm /etc/nginx/conf.d/default.conf
+
 USER appuser
 CMD ["nginx", "-g", "daemon off;"]

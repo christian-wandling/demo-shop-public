@@ -6,3 +6,6 @@ GET http://localhost:3000/api/v1/products/1
 
 ### GET products by id - ERROR Not found
 GET http://localhost:3000/api/v1/products/a
+
+### [prod] GET all products
+GET https://demo-shop.wandling.dev/api/v1/products
