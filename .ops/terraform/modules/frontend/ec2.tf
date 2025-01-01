@@ -50,7 +50,7 @@ resource "terraform_data" "frontend_deploy" {
 
   connection {
     type = "ssh"
-    host = aws_instance.frontend.public_ip
+    host = var.is_local ? aws_eip.frontend.public_ip : aws_eip.frontend.private_ip
     user = var.user
     private_key = file(var.frontend_ssh_private_key_path)
   }

@@ -103,17 +103,17 @@ variable "api_ssh_private_key_path" {
   type        = string
 }
 
-variable "keycloak_public_ip" {
+variable "keycloak_private_ip" {
   description = "The public ip for keycloak"
   type        = string
 }
 
-variable "frontend_public_ip" {
+variable "frontend_private_ip" {
   description = "The public ip for the frontend"
   type        = string
 }
 
-variable "api_public_ip" {
+variable "api_private_ip" {
   description = "The public ip for the api"
   type        = string
 }

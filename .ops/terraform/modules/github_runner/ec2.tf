@@ -38,15 +38,15 @@ resource "aws_instance" "github_runner" {
 
   provisioner "file" {
     content = <<-EOF
-    Host ${var.keycloak_public_ip}
+    Host ${var.keycloak_private_ip}
       IdentityFile ~/.ssh/keycloak_key
       User ec2-user
 
-    Host ${var.api_public_ip}
+    Host ${var.api_private_ip}
       IdentityFile ~/.ssh/api_key
       User ec2-user
 
-    Host ${var.frontend_public_ip}
+    Host ${var.frontend_private_ip}
       IdentityFile ~/.ssh/frontend_key
       User ec2-user
   EOF
@@ -79,9 +79,9 @@ resource "aws_instance" "github_runner" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo ssh-keyscan ${var.keycloak_public_ip} >> ~/.ssh/known_hosts",
-      "sudo ssh-keyscan ${var.frontend_public_ip} >> ~/.ssh/known_hosts",
-      "sudo ssh-keyscan ${var.api_public_ip} >> ~/.ssh/known_hosts"
+      "sudo ssh-keyscan ${var.keycloak_private_ip} >> ~/.ssh/known_hosts",
+      "sudo ssh-keyscan ${var.frontend_private_ip} >> ~/.ssh/known_hosts",
+      "sudo ssh-keyscan ${var.api_private_ip} >> ~/.ssh/known_hosts"
     ]
   }
 

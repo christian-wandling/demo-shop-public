@@ -131,12 +131,12 @@ module "github_runner" {
   vpc_id                             = module.networking.vpc_id
   subnet_id_1                        = module.networking.subnet_id_1
   keycloak_sg                        = module.keycloak.keycloak_sg
-  keycloak_public_ip                 = module.keycloak.keycloak_public_ip
+  keycloak_private_ip                = module.keycloak.keycloak_private_ip
   postgres_sg                        = module.database.postgres_sg
   api_sg                             = module.api.api_sg
-  api_public_ip                      = module.api.api_private_ip
+  api_private_ip                     = module.api.api_private_ip
   frontend_sg                        = module.frontend.frontend_sg
-  frontend_public_ip                 = module.frontend.frontend_public_ip
+  frontend_private_ip                = module.frontend.frontend_private_ip
 }
 
 module "networking" {

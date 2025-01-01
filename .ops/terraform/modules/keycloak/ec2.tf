@@ -55,7 +55,7 @@ resource "terraform_data" "keycloak_deploy" {
 
   connection {
     type = "ssh"
-    host = aws_eip.keycloak.public_ip
+    host = var.is_local ? aws_eip.keycloak.public_ip : aws_eip.keycloak.private_ip
     user = var.user
     private_key = file(var.keycloak_ssh_private_key_path)
   }

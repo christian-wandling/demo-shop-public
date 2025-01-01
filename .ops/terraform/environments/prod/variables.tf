@@ -140,3 +140,9 @@ variable "github_token" {
   type        = string
   sensitive   = true
 }
+
+variable "is_local" {
+  description = "True if running from local machine, false if running from runner"
+  type        = bool
+  default     = false
+}

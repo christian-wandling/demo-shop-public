@@ -102,3 +102,9 @@ variable "github_runner_sg" {
   type        = string
 }
 
+variable "is_local" {
+  description = "True if running from local machine, false if running from runner"
+  type        = bool
+  default     = false
+}
+

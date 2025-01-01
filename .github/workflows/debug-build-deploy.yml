@@ -144,7 +144,7 @@ jobs:
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          role-to-assume: ${{ secrets.AWS_RcomOLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
           audience: sts.amazonaws.com
 

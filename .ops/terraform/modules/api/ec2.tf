@@ -53,7 +53,7 @@ resource "terraform_data" "api_deploy" {
 
   connection {
     type = "ssh"
-    host = aws_instance.api.public_ip
+    host = var.is_local ? aws_instance.api.public_ip : aws_instance.api.private_ip
     user = var.user
     private_key = file(var.api_ssh_private_key_path)
   }

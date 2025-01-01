@@ -8,7 +8,7 @@ output "frontend_address" {
   value       = local.frontend_domain
 }
 
-output "frontend_public_ip" {
-  description = "The public ip address of the frontend server"
-  value       = aws_eip.frontend.public_ip
+output "frontend_private_ip" {
+  description = "The private ip address of the frontend server"
+  value       = aws_eip.frontend.private_ip
 }
