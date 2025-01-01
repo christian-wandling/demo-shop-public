@@ -151,8 +151,17 @@ jobs:
       - name: Setup SSH Keys and Certs
         run: |
           mkdir -p .secrets
+          echo "${{ secrets.API_SSH_PRIVATE_KEY }}" > ./.secrets/api_ssh_private_key
+          echo "${{ secrets.API_SSH_PUBLIC_KEY }}" > ./.secrets/api_ssh_public_key
           echo "${{ secrets.RUNNER_SSH_PRIVATE_KEY }}" > ./.secrets/github_runner_ssh_private_key
           echo "${{ secrets.RUNNER_SSH_PUBLIC_KEY }}" > ./.secrets/github_runner_ssh_public_key
+          echo "${{ secrets.FRONTEND_SSH_PRIVATE_KEY }}" > ./.secrets/frontend_ssh_private_key
+          echo "${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}" > ./.secrets/frontend_ssh_public_key
+          echo "${{ secrets.KEYCLOAK_SSH_PRIVATE_KEY }}" > ./.secrets/keycloak_ssh_private_key
+          echo "${{ secrets.KEYCLOAK_SSH_PUBLIC_KEY }}" > ./.secrets/keycloak_ssh_public_key
+          echo "${{ secrets.KEYCLOAK_SERVER_CERT }}" > ./.secrets/keycloak_server_cert.pem
+          echo "${{ secrets.KEYCLOAK_SERVER_KEY }}" > ./.secrets/keycloak_server_key.pem
+          echo "${{ secrets.DH_PARAM }}" > ./.secrets/dhparam.pem
           chmod 600 ./.secrets/*
 
       - name: Setup Terraform
