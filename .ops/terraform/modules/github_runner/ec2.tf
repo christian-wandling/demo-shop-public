@@ -29,6 +29,13 @@ resource "aws_instance" "github_runner" {
     ]
   }
 
+  connection {
+    type        = "ssh"
+    user        = var.user
+    host        = self.public_ip
+    private_key = file(var.github_runner_ssh_private_key_path)
+  }
+
   provisioner "file" {
     content = <<-EOF
     Host ${var.keycloak_public_ip}
