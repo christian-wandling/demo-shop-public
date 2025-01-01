@@ -112,3 +112,37 @@ variable "sentry_demo_shop_api_dsn" {
   type        = string
   sensitive   = true
 }
+
+variable "github_runner_ssh_public_key_path" {
+  description = "The path of the public SSH key for the github runner"
+  type        = string
+}
+
+variable "github_runner_ssh_private_key_path" {
+  description = "The path of the private SSH key for the github runner"
+  type        = string
+}
+
+variable "github_org" {
+  description = "The org of the github repo"
+  type        = string
+  sensitive   = true
+}
+
+variable "github_repo" {
+  description = "The github repo"
+  type        = string
+  sensitive   = true
+}
+
+variable "github_token" {
+  description = "The github token"
+  type        = string
+  sensitive   = true
+}
+
+variable "is_local" {
+  description = "True if running from local machine, false if running from runner"
+  type        = bool
+  default     = false
+}

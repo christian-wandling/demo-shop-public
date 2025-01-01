@@ -1,5 +1,5 @@
 resource "aws_instance" "api" {
-  ami           = "ami-0e5ec0326a194d2c9"
+  ami           = "ami-0e54671bdf3c8ed8d"
   instance_type = "t2.micro"
   monitoring    = false
   subnet_id     = var.subnet_id_1
@@ -47,20 +47,20 @@ resource "terraform_data" "api_deploy" {
     keycloak_client_api       = var.keycloak_client_api
     keycloak_realm            = var.keycloak_realm
     keycloak_url              = var.keycloak_address
-    script_hash = filesha256("${path.module}/scripts/deploy.sh.tftpl"),
-    image_hash = filesha256(var.api_docker_image_path),
+    script_hash = filesha256("${path.module}/scripts/deploy.sh.tftpl")
+    image_hash                = fileexists(var.api_docker_image_path) ? filesha256(var.api_docker_image_path) : null
   }
 
   connection {
     type = "ssh"
-    host = aws_instance.api.public_ip
+    host = var.is_local ? aws_instance.api.public_ip : aws_instance.api.private_ip
     user = var.user
     private_key = file(var.api_ssh_private_key_path)
   }
 
   provisioner "file" {
     source      = var.api_docker_image_path
-    destination = "/home/ec2-user/demo-shop-api.tar"
+    destination = "/home/ec2-user/${local.docker_file_name}"
   }
 
   provisioner "remote-exec" {
@@ -70,6 +70,9 @@ resource "terraform_data" "api_deploy" {
         logger                    = var.logger
         log_file_path             = "/var/log/deploy.log"
         database_url              = local.database_url
+        docker_container_name     = local.docker_container_name
+        docker_file_name          = local.docker_file_name
+        docker_image_name         = local.docker_image_name
         keycloak_realm_public_key = var.keycloak_realm_public_key
         keycloak_client_api       = var.keycloak_client_api
         keycloak_realm            = var.keycloak_realm
@@ -82,24 +85,23 @@ resource "terraform_data" "api_deploy" {
 }
 
 
-# resource "terraform_data" "db_migrations" {
-#   depends_on = [terraform_data.api_deploy]
-#
-#   triggers_replace = {
-#     instance_id = aws_instance.api.id
-#     database_url = local.database_url
-#   }
-#
-#   connection {
-#     type        = "ssh"
-#     host        = aws_instance.api.public_ip
-#     user        = var.user
-#     private_key = file(var.api_ssh_private_key_path)
-#   }
-#
-#   provisioner "remote-exec" {
-#     inline = [
-#       "docker exec demo-shop-api npx prisma migrate deploy"
-#     ]
-#   }
-# }
+resource "terraform_data" "db_migrations" {
+  depends_on = [terraform_data.api_deploy]
+
+  triggers_replace = {
+    deploy_id = terraform_data.api_deploy.id
+  }
+
+  connection {
+    type = "ssh"
+    host = var.is_local ? aws_instance.api.public_ip : aws_instance.api.private_ip
+    user = var.user
+    private_key = file(var.api_ssh_private_key_path)
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "docker exec ${local.docker_container_name} npx prisma migrate deploy || exit 1"
+    ]
+  }
+}

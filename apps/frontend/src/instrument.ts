@@ -23,7 +23,7 @@ if (environment.sentry.enabled) {
     tracesSampleRate: environment.production ? 0.5 : 1.0,
 
     // Set `tracePropagationTargets` to control for which URLs trace propagation should be enabled
-    tracePropagationTargets: ['localhost'],
+    tracePropagationTargets: ['localhost', 'https://demo-shop.wandling.dev'],
 
     // Capture Replay for 10% of all sessions,
     // plus for 100% of sessions with an error
@@ -32,7 +32,7 @@ if (environment.sentry.enabled) {
     replaysSessionSampleRate: 0.1,
     replaysOnErrorSampleRate: environment.production ? 0.2 : 1.0,
     beforeSend(event) {
-      const isTrustedDomain = event.request?.url?.startsWith('$SENTRY_TRUSTED_DOMAIN');
+      const isTrustedDomain = event.request?.url?.startsWith(environment?.sentry?.trustedDomain);
       const isNotHealthCheck = !event.request?.url?.includes('health-check');
 
       if (isTrustedDomain && isNotHealthCheck) {

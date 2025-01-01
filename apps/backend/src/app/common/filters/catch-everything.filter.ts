@@ -29,10 +29,10 @@ export class CatchEverythingFilter implements ExceptionFilter {
     };
 
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
-
-    if (process.env.NODE_ENV === 'production') {
-      return;
-    }
+    //
+    // if (process.env.NODE_ENV === 'production') {
+    //   return;
+    // }
 
     Logger.error(`${exceptionPrefix} Exception: ${exception?.['message']}`, exception?.['stack']);
   }

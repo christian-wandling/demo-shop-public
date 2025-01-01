@@ -12,6 +12,12 @@ resource "keycloak_realm" "demo_shop" {
 
   ssl_required          = "external"
   access_token_lifespan = "300s"
+
+  depends_on = [
+    terraform_data.keycloak_health_check,
+    aws_vpc_security_group_ingress_rule.keycloak_ingress_github_runner,
+    aws_vpc_security_group_ingress_rule.keycloak_ingress_https_allowed_ranges,
+  ]
 }
 
 resource "keycloak_openid_client" "demo_shop_ui" {
@@ -30,6 +36,12 @@ resource "keycloak_openid_client" "demo_shop_ui" {
   web_origins = [
     "https://${var.frontend_address}"
   ]
+
+  depends_on = [
+    terraform_data.keycloak_health_check,
+    aws_vpc_security_group_ingress_rule.keycloak_ingress_github_runner,
+    aws_vpc_security_group_ingress_rule.keycloak_ingress_https_allowed_ranges,
+  ]
 }
 
 resource "keycloak_openid_client" "demo_shop_api" {
@@ -39,16 +51,34 @@ resource "keycloak_openid_client" "demo_shop_api" {
   enabled               = true
   access_type           = "BEARER-ONLY"
   standard_flow_enabled = false
+
+  depends_on = [
+    terraform_data.keycloak_health_check,
+    aws_vpc_security_group_ingress_rule.keycloak_ingress_github_runner,
+    aws_vpc_security_group_ingress_rule.keycloak_ingress_https_allowed_ranges,
+  ]
 }
 
 resource "keycloak_role" "buy_products" {
-  realm_id  = keycloak_realm.demo_shop.id
-  name      = "buy_products"
+  realm_id = keycloak_realm.demo_shop.id
+  name     = "buy_products"
+
+  depends_on = [
+    terraform_data.keycloak_health_check,
+    aws_vpc_security_group_ingress_rule.keycloak_ingress_github_runner,
+    aws_vpc_security_group_ingress_rule.keycloak_ingress_https_allowed_ranges,
+  ]
 }
 
 resource "keycloak_default_roles" "default_roles" {
   realm_id = keycloak_realm.demo_shop.id
   default_roles = [
     keycloak_role.buy_products.name
+  ]
+
+  depends_on = [
+    terraform_data.keycloak_health_check,
+    aws_vpc_security_group_ingress_rule.keycloak_ingress_github_runner,
+    aws_vpc_security_group_ingress_rule.keycloak_ingress_https_allowed_ranges,
   ]
 }

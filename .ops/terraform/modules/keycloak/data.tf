@@ -10,4 +10,8 @@ data "keycloak_realm_keys" "keycloak_realm_keys" {
   realm_id = keycloak_realm.demo_shop.id
   algorithms = ["AES", "RS256"]
   status     = ["ACTIVE", "PASSIVE"]
+
+  depends_on = [
+    aws_instance.keycloak
+  ]
 }

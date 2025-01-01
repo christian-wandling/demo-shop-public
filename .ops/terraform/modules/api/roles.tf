@@ -40,7 +40,7 @@ resource "aws_iam_instance_profile" "api_profile" {
 
 resource "aws_iam_role_policy" "api_ssm_policy" {
   name = "api-ssm-policy"
-  role = aws_iam_role.api_role.id
+  role = aws_iam_role.api_role.name
 
   policy = jsonencode({
     Version = "2012-10-17"

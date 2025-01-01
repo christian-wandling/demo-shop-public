@@ -1,0 +1,83 @@
+#!/bin/bash
+
+LOG_FILE="${log_file_path}"
+sudo mkdir -p "$(dirname "$LOG_FILE")"
+sudo touch "$LOG_FILE"
+sudo chown "${user}:${user}" "$LOG_FILE"
+${logger}
+
+log_info "Starting user data script..."
+
+# Install dependencies
+log_info "Installing updates and basic dependencies..."
+if ! yum update -y; then
+    log_error "Failed to update system"
+    exit 1
+fi
+
+if ! yum install -y git libicu dotnet-runtime-6.0; then
+    log_error "Failed to install required packages"
+    exit 1
+fi
+
+# Setup runner
+log_info "Setting up runner directory..."
+rm -rf /home/${user}/actions-runner
+mkdir -p /home/${user}/actions-runner
+chown ${user}:${user} /home/${user}/actions-runner
+
+if ! cd /home/${user}/actions-runner; then
+    log_error "Failed to access runner directory"
+    exit 1
+fi
+
+# Download and extract runner
+log_info "Downloading runner..."
+if ! curl -o actions-runner-linux-x64-2.321.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.321.0/actions-runner-linux-x64-2.321.0.tar.gz; then
+    log_error "Failed to download runner"
+    exit 1
+fi
+
+log_info "Extracting runner..."
+if ! tar xzf ./actions-runner-linux-x64-2.321.0.tar.gz; then
+    log_error "Failed to extract runner"
+    exit 1
+fi
+
+chown -R ${user}:${user} .
+
+# Configure and start runner
+log_info "Configuring runner..."
+if ! sudo -u ${user} ./config.sh \
+    --url "${url}" \
+    --token "${token}" \
+    --unattended \
+    --work "_work"; then
+    log_error "Failed to configure runner"
+    cat /home/${user}/actions-runner/.runner >> ${log_file_path}
+    exit 1
+fi
+
+log_info "Installing runner as a service..."
+if ! sudo ./svc.sh install ${user}; then
+    log_error "Failed to install runner service"
+    systemctl status actions.runner.* >> ${log_file_path}
+    exit 1
+fi
+
+log_info "Starting runner service..."
+if ! sudo ./svc.sh start; then
+    log_error "Failed to start runner service"
+    systemctl status actions.runner.* >> ${log_file_path}
+    journalctl -u actions.runner.* >> ${log_file_path}
+    exit 1
+fi
+
+sleep 5
+if ! systemctl is-active --quiet actions.runner.*; then
+    log_error "Runner service is not active"
+    systemctl status actions.runner.* >> ${log_file_path}
+    exit 1
+fi
+
+log_success "User data script completed successfully"

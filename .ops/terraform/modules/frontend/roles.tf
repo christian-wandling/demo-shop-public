@@ -40,7 +40,7 @@ resource "aws_iam_instance_profile" "frontend_profile" {
 
 resource "aws_iam_role_policy" "frontend_ssm_policy" {
   name = "frontend-ssm-policy"
-  role = aws_iam_role.frontend_role.id
+  role = aws_iam_role.frontend_role.name
 
   policy = jsonencode({
     Version = "2012-10-17"

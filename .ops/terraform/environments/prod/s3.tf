@@ -1,4 +1,4 @@
-resource "aws_s3_bucket" "cdn"  {
+resource "aws_s3_bucket" "cdn" {
   bucket = local.cdn_address
 
   tags = merge(
@@ -44,7 +44,7 @@ resource "aws_s3_bucket_cors_configuration" "demo_shop" {
 }
 
 resource "aws_s3_bucket_policy" "demo_shop_public_read" {
-  bucket = aws_s3_bucket.cdn.id
+  bucket     = aws_s3_bucket.cdn.id
   depends_on = [aws_s3_bucket_public_access_block.demo_shop]
 
   policy = jsonencode({
@@ -58,17 +58,17 @@ resource "aws_s3_bucket_policy" "demo_shop_public_read" {
         Resource  = "${aws_s3_bucket.cdn.arn}/*"
         Condition = {
           IpAddress = {
-            "aws:SourceIp": local.cloudflare_ips
+            "aws:SourceIp" : local.cloudflare_ips
           }
         }
       },
       {
-        Sid       = "AllowIAMUserAccess"
-        Effect    = "Allow"
+        Sid    = "AllowIAMUserAccess"
+        Effect = "Allow"
         Principal = {
           AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
         }
-        Action   = ["s3:PutObject", "s3:GetObject", "s3:ListBucket"]
+        Action = ["s3:PutObject", "s3:GetObject", "s3:ListBucket"]
         Resource = [
           aws_s3_bucket.cdn.arn,
           "${aws_s3_bucket.cdn.arn}/*"

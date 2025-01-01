@@ -20,7 +20,6 @@ async function bootstrap() {
 
   app.use(helmet());
   app.useGlobalFilters(new CatchEverythingFilter(httpAdapterHost));
-  app.setGlobalPrefix(globalPrefix);
   app.enableCors({
     origin: [process.env.FRONTEND_URL],
   });
@@ -28,6 +27,7 @@ async function bootstrap() {
     type: VersioningType.URI,
     defaultVersion: '1',
   });
+  app.setGlobalPrefix(globalPrefix);
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

@@ -101,7 +101,7 @@ resource "aws_vpc_security_group_egress_rule" "api_egress_postgres" {
 
   tags = merge(
     {
-      Name        = "${var.identifier_prefix}-keycloak-sg-egress-postgress-${var.environment}"
+      Name        = "${var.identifier_prefix}-api-sg-egress-postgress-${var.environment}"
       Environment = var.environment
       Managed_by  = "terraform"
     },
@@ -134,4 +134,22 @@ resource "aws_vpc_security_group_egress_rule" "api_egress_keycloak" {
   to_port                     = 443
   referenced_security_group_id = var.keycloak_sg
   description                 = "Allow traffic to keycloak"
+}
+
+resource "aws_vpc_security_group_ingress_rule" "api_ingress_github_runner_ssh" {
+  security_group_id = aws_security_group.api_sg.id
+  ip_protocol       = "tcp"
+  from_port         = 22
+  to_port           = 22
+  referenced_security_group_id = var.github_runner_sg
+  description       = "Allow SSH from the github runner"
+
+  tags = merge(
+    {
+      Name        = "${var.identifier_prefix}-api-sg-ingress-github-runner-ssh-${var.environment}"
+      Environment = var.environment
+      Managed_by  = "terraform"
+    },
+    var.additional_tags
+  )
 }

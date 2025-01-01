@@ -97,3 +97,14 @@ variable "api_address" {
   sensitive   = true
 }
 
+variable "github_runner_sg" {
+  description = "The security group for the github runner"
+  type        = string
+}
+
+variable "is_local" {
+  description = "True if running from local machine, false if running from runner"
+  type        = bool
+  default     = false
+}
+
