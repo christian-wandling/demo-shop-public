@@ -103,5 +103,19 @@ resource "terraform_data" "keycloak_deploy" {
   }
 }
 
+resource "terraform_data" "keycloak_health_check" {
+  input = aws_instance.keycloak.id
+
+  provisioner "local-exec" {
+    command = <<-EOF
+      until curl -k --fail https://sso.example.com/auth/realms/master || [ $SECONDS -gt 300 ]; do
+        echo "Waiting for Keycloak..."
+        sleep 10
+      done
+      [ $SECONDS -le 300 ]
+    EOF
+  }
+}
+
 
 

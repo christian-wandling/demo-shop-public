@@ -14,7 +14,7 @@ resource "keycloak_realm" "demo_shop" {
   access_token_lifespan = "300s"
 
   depends_on = [
-    terraform_data.keycloak_deploy,
+    terraform_data.keycloak_health_check,
     aws_vpc_security_group_ingress_rule.keycloak_ingress_github_runner,
     aws_vpc_security_group_ingress_rule.keycloak_ingress_https_allowed_ranges,
   ]
@@ -38,7 +38,7 @@ resource "keycloak_openid_client" "demo_shop_ui" {
   ]
 
   depends_on = [
-    terraform_data.keycloak_deploy,
+    terraform_data.keycloak_health_check,
     aws_vpc_security_group_ingress_rule.keycloak_ingress_github_runner,
     aws_vpc_security_group_ingress_rule.keycloak_ingress_https_allowed_ranges,
   ]
@@ -53,7 +53,7 @@ resource "keycloak_openid_client" "demo_shop_api" {
   standard_flow_enabled = false
 
   depends_on = [
-    terraform_data.keycloak_deploy,
+    terraform_data.keycloak_health_check,
     aws_vpc_security_group_ingress_rule.keycloak_ingress_github_runner,
     aws_vpc_security_group_ingress_rule.keycloak_ingress_https_allowed_ranges,
   ]
@@ -64,7 +64,7 @@ resource "keycloak_role" "buy_products" {
   name     = "buy_products"
 
   depends_on = [
-    terraform_data.keycloak_deploy,
+    terraform_data.keycloak_health_check,
     aws_vpc_security_group_ingress_rule.keycloak_ingress_github_runner,
     aws_vpc_security_group_ingress_rule.keycloak_ingress_https_allowed_ranges,
   ]
@@ -77,7 +77,7 @@ resource "keycloak_default_roles" "default_roles" {
   ]
 
   depends_on = [
-    terraform_data.keycloak_deploy,
+    terraform_data.keycloak_health_check,
     aws_vpc_security_group_ingress_rule.keycloak_ingress_github_runner,
     aws_vpc_security_group_ingress_rule.keycloak_ingress_https_allowed_ranges,
   ]
