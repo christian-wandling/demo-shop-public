@@ -40,7 +40,7 @@ resource "aws_iam_instance_profile" "keycloak_profile" {
 
 resource "aws_iam_role_policy" "keycloak_ssm_policy" {
   name = "keycloak-ssm-policy"
-  role = aws_iam_role.keycloak_role.id
+  role = aws_iam_role.keycloak_role.name
 
   policy = jsonencode({
     Version = "2012-10-17"

@@ -38,7 +38,7 @@ resource "aws_iam_instance_profile" "github_runner_profile" {
   )
 }
 
-resource "aws_iam_role_policy_attachment" "existing_policy" {
+resource "aws_iam_role_policy_attachment" "github_runner_deployment_policy_attachment" {
   role       = aws_iam_role.github_runner_role.name
   policy_arn = "arn:aws:iam::273354635589:policy/TerraformDeploymentPolicy"
 }
