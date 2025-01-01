@@ -64,7 +64,7 @@ resource "terraform_data" "frontend_deploy" {
 
   provisioner "file" {
     source      = var.frontend_docker_image_path
-    destination = "/home/ec2-user/demo-shop-frontend.tar"
+    destination = "/home/ec2-user/${local.docker_file_name}"
   }
 
   provisioner "file" {
@@ -105,13 +105,15 @@ resource "terraform_data" "frontend_deploy" {
   provisioner "remote-exec" {
     inline = [
       templatefile("${path.module}/scripts/deploy.sh.tftpl", {
-        user             = var.user
-        logger           = var.logger
-        log_file_path    = "/var/log/deploy.log"
-        cert_destination = local.cert_destination
-        key_destination  = local.key_destination
-        api_url          = var.api_address
-        container_name   = local.container_name
+        user                  = var.user
+        logger                = var.logger
+        log_file_path         = "/var/log/deploy.log"
+        cert_destination      = local.cert_destination
+        key_destination       = local.key_destination
+        api_url               = var.api_address
+        docker_container_name = local.docker_container_name
+        docker_file_name      = local.docker_file_name
+        docker_image_name     = local.docker_image_name
       })
     ]
   }

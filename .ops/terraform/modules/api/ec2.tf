@@ -60,7 +60,7 @@ resource "terraform_data" "api_deploy" {
 
   provisioner "file" {
     source      = var.api_docker_image_path
-    destination = "/home/ec2-user/demo-shop-api.tar"
+    destination = "/home/ec2-user/${local.docker_file_name}"
   }
 
   provisioner "remote-exec" {
@@ -70,7 +70,9 @@ resource "terraform_data" "api_deploy" {
         logger                    = var.logger
         log_file_path             = "/var/log/deploy.log"
         database_url              = local.database_url
-        container_name            = local.container_name
+        docker_container_name     = local.docker_container_name
+        docker_file_name          = local.docker_file_name
+        docker_image_name         = local.docker_image_name
         keycloak_realm_public_key = var.keycloak_realm_public_key
         keycloak_client_api       = var.keycloak_client_api
         keycloak_realm            = var.keycloak_realm
@@ -99,7 +101,7 @@ resource "terraform_data" "db_migrations" {
 
   provisioner "remote-exec" {
     inline = [
-      "docker exec ${local.container_name} npx prisma migrate deploy || exit 1"
+      "docker exec ${local.docker_container_name} npx prisma migrate deploy || exit 1"
     ]
   }
 }
