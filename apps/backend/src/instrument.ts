@@ -3,6 +3,13 @@ import { nodeProfilingIntegration } from '@sentry/profiling-node';
 
 const isProd = process.env.NODE_ENV === 'production';
 
+// Before Sentry.init
+console.log('Sentry initialization debug:', {
+  NODE_ENV: process.env.NODE_ENV,
+  DSN: process.env.SENTRY_DEMO_SHOP_API_DSN?.substring(0, 10) + '...', // truncated for security
+  integrations: [nodeProfilingIntegration(), Sentry.prismaIntegration()].map(i => i.name),
+});
+
 Sentry.init({
   environment: process.env.NODE_ENV,
   dsn: process.env.SENTRY_DEMO_SHOP_API_DSN,
@@ -22,3 +29,8 @@ Sentry.init({
     }
   },
 });
+
+// After Sentry.init
+console.log('Sentry config:', Sentry.getCurrentHub().getClient()?.getOptions());
+
+Sentry.captureException(new Error('Sentry test error'));

@@ -48,7 +48,7 @@ resource "terraform_data" "api_deploy" {
     keycloak_realm            = var.keycloak_realm
     keycloak_url              = var.keycloak_address
     script_hash = filesha256("${path.module}/scripts/deploy.sh.tftpl")
-    image_hash                = fileexists(var.api_docker_image_path) ? filesha256(var.api_docker_image_path): null
+    image_hash                = fileexists(var.api_docker_image_path) ? filesha256(var.api_docker_image_path) : null
   }
 
   connection {
@@ -82,24 +82,23 @@ resource "terraform_data" "api_deploy" {
 }
 
 
-# resource "terraform_data" "db_migrations" {
-#   depends_on = [terraform_data.api_deploy]
-#
-#   triggers_replace = {
-#     instance_id = aws_instance.api.id
-#     database_url = local.database_url
-#   }
-#
-#   connection {
-#     type        = "ssh"
-#     host        = aws_instance.api.public_ip
-#     user        = var.user
-#     private_key = file(var.api_ssh_private_key_path)
-#   }
-#
-#   provisioner "remote-exec" {
-#     inline = [
-#       "docker exec demo-shop-api npx prisma migrate deploy"
-#     ]
-#   }
-# }
+resource "terraform_data" "db_migrations" {
+  depends_on = [terraform_data.api_deploy]
+
+  triggers_replace = {
+    deploy_id = terraform_data.api_deploy.id
+  }
+
+  connection {
+    type = "ssh"
+    host = var.is_local ? aws_instance.api.public_ip : aws_instance.api.private_ip
+    user = var.user
+    private_key = file(var.api_ssh_private_key_path)
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "docker exec demo-shop-api npx prisma migrate deploy || exit 1"
+    ]
+  }
+}

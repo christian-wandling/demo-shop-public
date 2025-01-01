@@ -130,7 +130,7 @@ jobs:
           token: ${{ github.token }}
           env: production
           ref: ${{ github.sha }}
-          description: 'Starting deployment'
+          desc: 'Starting deployment'
 
       - uses: actions/checkout@v4
         with:
@@ -274,6 +274,7 @@ jobs:
           deployment_id: ${{ needs.deploy-infra.outputs.deployment }}
           env_url: ${{ steps.deployment-url.outputs.url }}
           auto_inactive: true
+          desc: 'Update deployment status'
 
       - name: Cleanup
         if: always()

@@ -9,3 +9,5 @@ GET http://localhost:3000/api/v1/products/a
 
 ### [prod] GET all products
 GET https://demo-shop.wandling.dev/api/v1/products
+
+GET https://demo-shop.wandling.dev/api/v1/get-sentry
