@@ -58,12 +58,18 @@ jobs:
         working-directory: .ops/terraform/environments/prod
 
     steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ secrets.CW_DEPLOY_BOT_ID }}
+          private-key: ${{ secrets.CW_DEPLOY_BOT_KEY }}
+
       - name: Start Deployment
         id: start-deployment
         uses: bobheadxi/deployments@648679e8e4915b27893bd7dbc35cb504dc915bc8
         with:
           step: start
-          token: ${{ github.token }}
+          token: ${{ steps.app-token.outputs.token }}
           env: production
           ref: ${{ github.sha }}
           desc: 'Starting deployment'
@@ -71,6 +77,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502
@@ -142,9 +149,16 @@ jobs:
         working-directory: .ops/terraform/environments/prod
 
     steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ secrets.CW_DEPLOY_BOT_ID }}
+          private-key: ${{ secrets.CW_DEPLOY_BOT_KEY }}
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Download artifacts
         uses: dawidd6/action-download-artifact@80620a5d27ce0ae443b965134db88467fc607b43
@@ -205,7 +219,7 @@ jobs:
         uses: bobheadxi/deployments@648679e8e4915b27893bd7dbc35cb504dc915bc8
         with:
           step: finish
-          token: ${{ github.token }}
+          token: ${{ steps.app-token.outputs.token }}
           env: production
           status: ${{ job.status }}
           deployment_id: ${{ needs.deploy-infra.outputs.deployment }}
@@ -225,9 +239,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ secrets.CW_DEPLOY_BOT_ID }}
+          private-key: ${{ secrets.CW_DEPLOY_BOT_KEY }}
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Download artifact
         uses: actions/download-artifact@v4

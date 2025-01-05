@@ -1,4 +1,5 @@
 name: Version
+
 on:
   workflow_run:
     workflows: [CI]
@@ -22,18 +23,25 @@ jobs:
     permissions:
       contents: write
     steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ secrets.CW_DEPLOY_BOT_ID }}
+          private-key: ${{ secrets.CW_DEPLOY_BOT_KEY }}
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
 
       - name: Configure Git
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git config --global user.name 'CW Deploy Bot'
+          git config --global user.email 'noreply@github.com'
 
       - name: Create new version
         if: ${{ !inputs.dry_run }}
