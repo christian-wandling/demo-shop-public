@@ -1,6 +1,21 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file.
+
+### 0.3.1 (2025-01-05)
+
+
+### Features
+
+* **backend:** update errors to be more descriptive ([92b1dcd](https://github.com/christian-wandling/demo-shop-public/commit/92b1dcd725967b9f1c36ce85f52e4c08d2dc203e))
+
+
+### Bug Fixes
+
+* **cart:** fix checkout form autocomplete labels ([#8](https://github.com/christian-wandling/demo-shop-public/issues/8)) ([0403740](https://github.com/christian-wandling/demo-shop-public/commit/0403740e2325b445e3e7a704c14d3a17a4c6e9fb))
+* fix deployment issues ([9e04f26](https://github.com/christian-wandling/demo-shop-public/commit/9e04f268265480f36aed35fc9f712a16a352a982))
+* fix issues raised by sonar ([#7](https://github.com/christian-wandling/demo-shop-public/issues/7)) ([719248d](https://github.com/christian-wandling/demo-shop-public/commit/719248d755ac2e54ea445c6c4915d7a10e34f25c))
+* fix keycloak deployment ([8082279](https://github.com/christian-wandling/demo-shop-public/commit/8082279bc9454273d5a041b2e6e26262ab4aa01f))
 
 ## [0.3.0](https://github.com/christian-wandling/demo-shop/compare/v0.2.0...v0.3.0) (2024-11-05)
 
