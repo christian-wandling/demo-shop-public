@@ -5,23 +5,29 @@ addEventListener('fetch', event => {
 async function handleRequest(request) {
   const response = await fetch(request);
   const newResponse = new Response(response.body, response);
+  const cloudflareInsights = "https://*.cloudflareinsights.com";
+  const cloudflare = "https://cdnjs.cloudflare.com";
+  const host = `https://*.${domain}`
+  const sentry = `https://*.sentry.io;`
 
   newResponse.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
   newResponse.headers.set('X-Content-Type-Options', 'nosniff');
 
   newResponse.headers.set('X-XSS-Protection', '1; mode=block');
-newResponse.headers.set(
-  'Content-Security-Policy',
-  `default-src 'self'; \
-   script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.cloudflareinsights.com https://*.${domain} https://cdnjs.cloudflare.com; \
-   style-src 'self' 'unsafe-inline' https://*.${domain} https://cdnjs.cloudflare.com; \
-   object-src 'none'; \
-   base-uri 'self' https://*.${domain}; \
-   img-src 'self' https://*.cloudflareinsights.com https://*.${domain} https://cdnjs.cloudflare.com data:; \
-   font-src 'self' data:; \
-   frame-src 'self' https://*.cloudflareinsights.com https://*.${domain}; \
-   connect-src 'self' https://*.cloudflareinsights.com https://*.${domain} https://cdnjs.cloudflare.com;`
-);
+  newResponse.headers.set(
+    'Content-Security-Policy',
+    `default-src 'self'; \
+     worker-src 'self' $${cloudflareInsights}.com blob:;  \
+     script-src 'self' 'unsafe-inline' 'unsafe-eval' $${cloudflareInsights} $${host} $${cloudflare}; \
+     style-src 'self' 'unsafe-inline' $${host} $${cloudflare}; \
+     object-src 'none'; \
+     base-uri 'self' $${host}; \
+     img-src 'self' $${cloudflareInsights} $${host} $${cloudflare} data:; \
+     font-src 'self' data:; \
+     frame-src 'self' $${cloudflareInsights} $${host}; \
+     connect-src 'self' $${cloudflareInsights} $${host} $${cloudflare} $${sentry}; \
+     frame-ancestors 'self' $${host}`
+  );
   newResponse.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   newResponse.headers.set('Permissions-Policy', 'geolocation=(), microphone=()');
 

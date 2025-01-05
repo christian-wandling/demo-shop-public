@@ -9,39 +9,39 @@ sudo chown "${user}:${user}" "$LOG_FILE"
 ${logger}
 
 log_info "Stopping existing Frontend container if running..."
-if docker ps -q -f name=frontend | grep -q .; then
-    sudo docker stop frontend --time 30
+if docker ps -q -f name=${docker_container_name} | grep -q .; then
+    sudo docker stop ${docker_container_name} --time 30
     log_info "Frontend container stopped"
 else
     log_debug "No existing Frontend container running"
 fi
 
 log_info "Removing existing Frontend container if exists..."
-if ! sudo docker rm frontend 2>/dev/null; then
+if ! sudo docker rm ${docker_container_name} 2>/dev/null; then
     log_debug "No existing container to remove"
 fi
 
 log_info "Load Frontend docker image..."
-if ! sudo docker load < demo-shop-frontend.tar; then
+if ! sudo docker load < ${docker_file_name}; then
     log_error "Failed to load Frontend docker image"
     exit 1
 fi
 
 log_info "Starting new Frontend container..."
 if ! sudo docker run -d \
-        --name frontend \
+        --name ${docker_container_name} \
         --restart unless-stopped \
         -p 443:443 \
         -v ${cert_destination}:/etc/ssl/certs:ro \
         -v ${key_destination}:/etc/ssl/keys:ro \
         -e API_URL="${api_url}" \
-        demo-shop-frontend:latest; then
+        ${docker_image_name}; then
 
     log_error "Failed to start Frontend container"
     exit 1
 fi
 
-if sudo docker ps | grep -q frontend; then
+if sudo docker ps | grep -q ${docker_container_name}; then
     log_success "Frontend container successfully deployed"
 else
     log_fatal "Frontend container failed to start properly"

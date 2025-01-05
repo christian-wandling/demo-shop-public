@@ -1,5 +1,5 @@
 resource "aws_instance" "keycloak" {
-  ami           = "ami-0e5ec0326a194d2c9"
+  ami           = "ami-0e54671bdf3c8ed8d"
   instance_type = "t2.micro"
   monitoring    = false
   subnet_id     = var.subnet_id_1
@@ -48,14 +48,14 @@ resource "terraform_data" "keycloak_deploy" {
     kc_db_username          = data.aws_ssm_parameter.kc_db_username.value
     keycloak_admin          = var.keycloak_admin
     keycloak_admin_password = var.keycloak_admin_password
-    script_hash = filesha256("${path.module}/scripts/deploy.sh.tftpl"),
-    cert_hash = cloudflare_origin_ca_certificate.keycloak_cert.certificate
-    key_hash  = tls_private_key.keycloak_private_key.private_key_pem
+    script_hash = filesha256("${path.module}/scripts/deploy.sh.tftpl")
+    cert_hash               = cloudflare_origin_ca_certificate.keycloak_cert.certificate
+    key_hash                = tls_private_key.keycloak_private_key.private_key_pem
   }
 
   connection {
     type = "ssh"
-    host = aws_eip.keycloak.public_ip
+    host = var.is_local ? aws_eip.keycloak.public_ip : aws_eip.keycloak.private_ip
     user = var.user
     private_key = file(var.keycloak_ssh_private_key_path)
   }
@@ -100,6 +100,20 @@ resource "terraform_data" "keycloak_deploy" {
         log_file_path           = "/var/log/deploy.log"
       }),
     ]
+  }
+}
+
+resource "terraform_data" "keycloak_health_check" {
+  input = aws_instance.keycloak.id
+
+  provisioner "local-exec" {
+    command = <<-EOF
+      until curl -k --fail "https://${local.kc_domain}" || [ $SECONDS -gt 300 ]; do
+        echo "Waiting for Keycloak..."
+        sleep 10
+      done
+      [ $SECONDS -le 300 ]
+    EOF
   }
 }
 

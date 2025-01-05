@@ -8,6 +8,11 @@ output "keycloak_address" {
   value       = local.kc_domain
 }
 
+output "keycloak_private_ip" {
+  description = "The private ip of the keycloak server"
+  value       = aws_eip.keycloak.private_ip
+}
+
 output "keycloak_realm_public_key" {
   description = "The public key of the keycloak realm"
   value = data.keycloak_realm_keys.keycloak_realm_keys.keys[0].public_key

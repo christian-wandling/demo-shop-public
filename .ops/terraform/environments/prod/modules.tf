@@ -16,6 +16,7 @@ module "database" {
   vpc_id              = module.networking.vpc_id
   keycloak_sg         = module.keycloak.keycloak_sg
   api_sg              = module.api.api_sg
+  github_runner_sg    = module.github_runner.github_runner_sg
 }
 
 module "keycloak" {
@@ -48,6 +49,7 @@ module "keycloak" {
   postgres_sg                   = module.database.postgres_sg
   frontend_sg                   = module.frontend.frontend_sg
   frontend_address              = module.frontend.frontend_address
+  github_runner_sg              = module.github_runner.github_runner_sg
 }
 
 module "api" {
@@ -80,6 +82,7 @@ module "api" {
   keycloak_sg               = module.keycloak.keycloak_sg
   frontend_sg               = module.frontend.frontend_sg
   frontend_address          = module.frontend.frontend_address
+  github_runner_sg          = module.github_runner.github_runner_sg
 }
 
 module "frontend" {
@@ -107,6 +110,33 @@ module "frontend" {
   subnet_id_1                   = module.networking.subnet_id_1
   vpc_id                        = module.networking.vpc_id
   api_address                   = module.api.api_private_ip
+  github_runner_sg              = module.github_runner.github_runner_sg
+}
+
+module "github_runner" {
+  source                             = "../../modules/github_runner"
+  allowed_cidr_blocks                = var.allowed_cidr_blocks
+  environment                        = var.environment
+  github_runner_ssh_public_key_path  = var.github_runner_ssh_public_key_path
+  github_runner_ssh_private_key_path = var.github_runner_ssh_private_key_path
+  api_ssh_private_key_path           = var.api_ssh_private_key_path
+  frontend_ssh_private_key_path      = var.frontend_ssh_private_key_path
+  keycloak_ssh_private_key_path      = var.keycloak_ssh_private_key_path
+  identifier_prefix                  = var.project_name
+  cloudflare_zone_id                 = var.cloudflare_zone_id
+  github_org                         = var.github_org
+  github_repo                        = var.github_repo
+  logger                             = local.logger
+  user                               = local.user
+  vpc_id                             = module.networking.vpc_id
+  subnet_id_1                        = module.networking.subnet_id_1
+  keycloak_sg                        = module.keycloak.keycloak_sg
+  keycloak_private_ip                = module.keycloak.keycloak_private_ip
+  postgres_sg                        = module.database.postgres_sg
+  api_sg                             = module.api.api_sg
+  api_private_ip                     = module.api.api_private_ip
+  frontend_sg                        = module.frontend.frontend_sg
+  frontend_private_ip                = module.frontend.frontend_private_ip
 }
 
 module "networking" {

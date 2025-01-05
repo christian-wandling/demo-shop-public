@@ -128,6 +128,42 @@ resource "aws_vpc_security_group_ingress_rule" "keycloak_ingress_frontend" {
   )
 }
 
+resource "aws_vpc_security_group_ingress_rule" "keycloak_ingress_github_runner" {
+  security_group_id = aws_security_group.keycloak_sg.id
+  ip_protocol       = "tcp"
+  from_port         = 443
+  to_port           = 443
+  referenced_security_group_id = var.github_runner_sg
+  description       = "Allow traffic from the github runner"
+
+  tags = merge(
+    {
+      Name        = "${var.identifier_prefix}-keycloak-sg-ingress-github-runner-${var.environment}"
+      Environment = var.environment
+      Managed_by  = "terraform"
+    },
+    var.additional_tags
+  )
+}
+
+resource "aws_vpc_security_group_ingress_rule" "keycloak_ingress_github_runner_ssh" {
+  security_group_id = aws_security_group.keycloak_sg.id
+  ip_protocol       = "tcp"
+  from_port         = 22
+  to_port           = 22
+  referenced_security_group_id = var.github_runner_sg
+  description       = "Allow SSH from the github runner"
+
+  tags = merge(
+    {
+      Name        = "${var.identifier_prefix}-keycloak-sg-ingress-github-runner-ssh-${var.environment}"
+      Environment = var.environment
+      Managed_by  = "terraform"
+    },
+    var.additional_tags
+  )
+}
+
 resource "aws_vpc_security_group_egress_rule" "keycloak_egress_frontend" {
   security_group_id            = aws_security_group.keycloak_sg.id
   ip_protocol                 = "tcp"

@@ -1,5 +1,5 @@
 resource "aws_instance" "frontend" {
-  ami           = "ami-0e5ec0326a194d2c9"
+  ami           = "ami-0e54671bdf3c8ed8d"
   instance_type = "t2.micro"
   monitoring    = false
   subnet_id     = var.subnet_id_1
@@ -42,15 +42,15 @@ resource "aws_instance" "frontend" {
 resource "terraform_data" "frontend_deploy" {
   triggers_replace = {
     instance_id = aws_instance.frontend.id
-    script_hash = filesha256("${path.module}/scripts/deploy.sh.tftpl"),
-    image_hash = filesha256(var.frontend_docker_image_path),
+    script_hash = filesha256("${path.module}/scripts/deploy.sh.tftpl")
+    image_hash  = fileexists(var.frontend_docker_image_path) ? filesha256(var.frontend_docker_image_path) : null
     cert_hash   = cloudflare_origin_ca_certificate.frontend_cert.certificate
     key_hash    = tls_private_key.frontend_private_key.private_key_pem
   }
 
   connection {
     type = "ssh"
-    host = aws_instance.frontend.public_ip
+    host = var.is_local ? aws_eip.frontend.public_ip : aws_eip.frontend.private_ip
     user = var.user
     private_key = file(var.frontend_ssh_private_key_path)
   }
@@ -64,7 +64,7 @@ resource "terraform_data" "frontend_deploy" {
 
   provisioner "file" {
     source      = var.frontend_docker_image_path
-    destination = "/home/ec2-user/demo-shop-frontend.tar"
+    destination = "/home/ec2-user/${local.docker_file_name}"
   }
 
   provisioner "file" {
@@ -105,12 +105,15 @@ resource "terraform_data" "frontend_deploy" {
   provisioner "remote-exec" {
     inline = [
       templatefile("${path.module}/scripts/deploy.sh.tftpl", {
-        user             = var.user
-        logger           = var.logger
-        log_file_path    = "/var/log/deploy.log"
-        cert_destination = local.cert_destination
-        key_destination  = local.key_destination
-        api_url          = var.api_address
+        user                  = var.user
+        logger                = var.logger
+        log_file_path         = "/var/log/deploy.log"
+        cert_destination      = local.cert_destination
+        key_destination       = local.key_destination
+        api_url               = var.api_address
+        docker_container_name = local.docker_container_name
+        docker_file_name      = local.docker_file_name
+        docker_image_name     = local.docker_image_name
       })
     ]
   }

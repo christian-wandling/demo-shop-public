@@ -1,4 +1,4 @@
-name: pr
+name: PR
 
 on:
   pull_request:
@@ -9,40 +9,37 @@ permissions:
   contents: read
 
 jobs:
-  pr:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # Cache node_modules
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: 'npm'
-
-      - run: npm ci --legacy-peer-deps --ignore-scripts
+      - run: npm ci --ignore-scripts
 
       - run: npx prisma generate
 
-      - uses: nrwl/nx-set-shas@v4
+      - uses: nrwl/nx-set-shas@e2e6dc8bce4b0387a05eb687735c39c41580b792
 
-      - name: lint
+      - name: Lint
         run: npx nx affected -t lint --configuration=ci --base=origin/main
 
-      - name: test
+      - name: Test
         run: npx nx affected -t test --configuration=ci --codeCoverage --base=origin/main
 
-      - name: build
+      - name: Build
         run: npx nx affected -t build --base=origin/main
 
-      #      - name: e2e
+      #      - name: E2E
       #        run: npx nx affected --parallel 1 -t e2e --base=origin/main
 
-      # Run quality gate
-      - name: sonarcloud
-        uses: SonarSource/sonarcloud-github-action@master
+      - name: Sonar
+        uses: SonarSource/sonarqube-scan-action@bfd4e558cda28cda6b5defafb9232d191be8c203
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

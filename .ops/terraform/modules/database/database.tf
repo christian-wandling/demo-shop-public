@@ -16,7 +16,9 @@ resource "postgresql_role" "api_db_user" {
   idle_in_transaction_session_timeout = 0
   statement_timeout                   = 0
   depends_on = [
-    aws_db_instance.postgres
+    aws_db_instance.postgres,
+    aws_vpc_security_group_ingress_rule.postgres_ingress_terraform,
+    aws_vpc_security_group_ingress_rule.postgres_ingres_github_runner,
   ]
 }
 
@@ -38,7 +40,9 @@ resource "postgresql_role" "keycloak_db_user" {
   idle_in_transaction_session_timeout = 0
   statement_timeout                   = 0
   depends_on = [
-    aws_db_instance.postgres
+    aws_db_instance.postgres,
+    aws_vpc_security_group_ingress_rule.postgres_ingress_terraform,
+    aws_vpc_security_group_ingress_rule.postgres_ingres_github_runner,
   ]
 }
 
@@ -50,7 +54,9 @@ resource "postgresql_database" "keycloak" {
   connection_limit  = -1
   allow_connections = true
   depends_on = [
-    aws_db_instance.postgres
+    aws_db_instance.postgres,
+    aws_vpc_security_group_ingress_rule.postgres_ingress_terraform,
+    aws_vpc_security_group_ingress_rule.postgres_ingres_github_runner,
   ]
 }
 
@@ -62,7 +68,9 @@ resource "postgresql_grant" "keycloak_privileges" {
   privileges = ["CONNECT", "CREATE", "TEMPORARY"]
   with_grant_option = false
   depends_on = [
-    aws_db_instance.postgres
+    aws_db_instance.postgres,
+    aws_vpc_security_group_ingress_rule.postgres_ingress_terraform,
+    aws_vpc_security_group_ingress_rule.postgres_ingres_github_runner,
   ]
 }
 
@@ -74,7 +82,9 @@ resource "postgresql_grant" "keycloak_schema_privileges" {
   privileges = ["USAGE", "CREATE"]
   with_grant_option = false
   depends_on = [
-    aws_db_instance.postgres
+    aws_db_instance.postgres,
+    aws_vpc_security_group_ingress_rule.postgres_ingress_terraform,
+    aws_vpc_security_group_ingress_rule.postgres_ingres_github_runner,
   ]
 }
 
@@ -86,7 +96,10 @@ resource "postgresql_grant" "app_privileges" {
   privileges = ["CONNECT", "CREATE", "TEMPORARY"]
   with_grant_option = false
   depends_on = [
-    aws_db_instance.postgres
+    aws_db_instance.postgres,
+    aws_vpc_security_group_ingress_rule.postgres_ingress_terraform,
+    aws_vpc_security_group_ingress_rule.postgres_ingres_github_runner,
+
   ]
 }
 
@@ -98,6 +111,8 @@ resource "postgresql_grant" "app_schema_privileges" {
   privileges = ["USAGE", "CREATE"]
   with_grant_option = false
   depends_on = [
-    aws_db_instance.postgres
+    aws_db_instance.postgres,
+    aws_vpc_security_group_ingress_rule.postgres_ingress_terraform,
+    aws_vpc_security_group_ingress_rule.postgres_ingres_github_runner,
   ]
 }

@@ -9,27 +9,27 @@ sudo chown "${user}:${user}" "$LOG_FILE"
 ${logger}
 
 log_info "Stopping existing Api container if running..."
-if docker ps -q -f name=api | grep -q .; then
-    sudo docker stop api --time 30
+if docker ps -q -f name=${docker_container_name} | grep -q .; then
+    sudo docker stop ${docker_container_name} --time 30
     log_info "Api container stopped"
 else
     log_debug "No existing Api container running"
 fi
 
 log_info "Removing existing Api container if exists..."
-if ! sudo docker rm api 2>/dev/null; then
+if ! sudo docker rm ${docker_container_name} 2>/dev/null; then
     log_debug "No existing container to remove"
 fi
 
 log_info "Load Api docker image..."
-if ! sudo docker load < demo-shop-api.tar; then
+if ! sudo docker load < ${docker_file_name}; then
     log_error "Failed to load Api docker image"
     exit 1
 fi
 
 log_info "Starting new Api container..."
 if ! sudo docker run -d \
-        --name api \
+        --name ${docker_container_name} \
         --restart unless-stopped \
         -p 3000:3000 \
         -e DATABASE_URL="${database_url}" \
@@ -39,13 +39,13 @@ if ! sudo docker run -d \
         -e KEYCLOAK_REALM_PUBLIC_KEY="${keycloak_realm_public_key}" \
         -e SENTRY_DEMO_SHOP_API_DSN="${sentry_demo_shop_api_dsn}" \
         -e FRONTEND_URL="${frontend_url}" \
-        demo-shop-api:latest; then
+        ${docker_image_name}; then
 
     log_error "Failed to start Api container"
     exit 1
 fi
 
-if sudo docker ps | grep -q api; then
+if sudo docker ps | grep -q ${docker_container_name}; then
     log_success "Api container successfully deployed"
 else
     log_fatal "Api container failed to start properly"
