@@ -1,0 +1,51 @@
+name: Version
+on:
+  workflow_dispatch:
+    inputs:
+      prerelease:
+        type: boolean
+        description: 'Create prerelease'
+        default: false
+      dry_run:
+        type: boolean
+        description: 'Dry run'
+        default: true
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Create new version
+        if: ${{ !inputs.dry_run }}
+        run: |
+          ARGS=""
+          if [ "${{ inputs.prerelease }}" = "true" ]; then
+            ARGS="--prerelease"
+          fi
+          touch CHANGELOG.md
+          npx standard-version $ARGS --infile CHANGELOG.md --commit-all
+          git push --follow-tags origin main
+
+      - name: Dry run
+        if: ${{ inputs.dry_run }}
+        run: npx standard-version --dry-run
