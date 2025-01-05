@@ -1,11 +1,8 @@
 name: Build
 on:
-  workflow_run:
-    workflows: [Version]
-    types:
-      - completed
-    branches:
-      - main
+  push:
+    tags:
+      - 'v*'
 
 permissions:
   contents: read

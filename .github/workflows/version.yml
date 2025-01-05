@@ -1,5 +1,4 @@
 name: Version
-
 on:
   workflow_run:
     workflows: [CI]
@@ -14,14 +13,12 @@ on:
   push:
     branches:
       - main
-
 jobs:
   version:
     if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pull-requests: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -39,19 +36,9 @@ jobs:
       - name: Create new version
         if: ${{ !inputs.dry_run }}
         run: |
-          git checkout -b version-update
           touch CHANGELOG.md
           npx standard-version --infile CHANGELOG.md --commit-all
-
-      - name: Create Pull Request
-        if: ${{ !inputs.dry_run }}
-        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f
-        with:
-          branch: version-update
-          title: 'chore: version update'
-          body: 'Automated version update'
-          commit-message: 'chore: version update'
-          delete-branch: true
+          git push --follow-tags origin main
 
       - name: Dry run
         if: ${{ inputs.dry_run }}
