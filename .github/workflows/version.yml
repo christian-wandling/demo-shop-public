@@ -6,23 +6,17 @@ on:
       - completed
   workflow_dispatch:
     inputs:
-      prerelease:
-        type: boolean
-        description: 'Create prerelease'
-        default: false
       dry_run:
         type: boolean
         description: 'Dry run'
-        default: true
+        default: false
   push:
     branches:
       - main
-  pull_request:
-    types: [opened, synchronize, reopened]
 
 jobs:
   version:
-    if: github.event.workflow_run.conclusion == 'success'
+    #    if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -43,12 +37,8 @@ jobs:
       - name: Create new version
         if: ${{ !inputs.dry_run }}
         run: |
-          ARGS=""
-          if [ "${{ inputs.prerelease }}" = "true" ]; then
-            ARGS="--prerelease"
-          fi
           touch CHANGELOG.md
-          npx standard-version $ARGS --infile CHANGELOG.md --commit-all
+          npx standard-version --infile CHANGELOG.md --commit-all
           git push --follow-tags origin HEAD
 
       - name: Dry run
