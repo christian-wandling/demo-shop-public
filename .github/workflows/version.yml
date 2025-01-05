@@ -1,5 +1,9 @@
 name: Version
 on:
+  workflow_run:
+    workflows: [CI]
+    types:
+      - completed
   workflow_dispatch:
     inputs:
       prerelease:
@@ -18,6 +22,7 @@ on:
 
 jobs:
   version:
+    if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -44,7 +49,7 @@ jobs:
           fi
           touch CHANGELOG.md
           npx standard-version $ARGS --infile CHANGELOG.md --commit-all
-          git push --follow-tags origin main
+          git push --follow-tags origin HEAD
 
       - name: Dry run
         if: ${{ inputs.dry_run }}
