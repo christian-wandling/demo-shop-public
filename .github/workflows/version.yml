@@ -10,9 +10,11 @@ on:
         type: boolean
         description: 'Dry run'
         default: false
-#  push:
-#    branches:
-#      - main
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
   version:
