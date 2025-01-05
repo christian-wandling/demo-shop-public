@@ -10,9 +10,9 @@ on:
         type: boolean
         description: 'Dry run'
         default: false
-  push:
-    branches:
-      - main
+#  push:
+#    branches:
+#      - main
 
 jobs:
   version:

@@ -250,6 +250,7 @@ jobs:
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.SENTRY_DEMO_SHOP_UI_PROJECT }}
         with:
+          version: ${{ fromJson(readFile('package.json')).version }}
           environment: production
           sourcemaps: './dist'
           ignore_missing: true

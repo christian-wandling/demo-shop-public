@@ -2,7 +2,7 @@ name: Deployment Notification
 
 on:
   workflow_run:
-    workflows: ['Deploy Infrastructure']
+    workflows: [Deploy]
     types:
       - completed
 

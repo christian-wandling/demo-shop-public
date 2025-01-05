@@ -3,6 +3,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { NxAppWebpackPlugin } = require('@nx/webpack/app-plugin');
 const { join } = require('path');
 const nodeExternals = require('webpack-node-externals');
+const { version } = require('../../package.json');
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -28,6 +29,7 @@ module.exports = {
       authToken: process.env.SENTRY_AUTH_TOKEN,
       org: process.env.SENTRY_ORG,
       project: process.env.SENTRY_DEMO_SHOP_API_PROJECT,
+      release: version,
       telemetry: false,
     }),
     new CopyWebpackPlugin({
