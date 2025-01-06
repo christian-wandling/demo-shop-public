@@ -1,11 +1,8 @@
-name: Deploy
+name: CD
 on:
-  workflow_run:
-    workflows: [Build]
-    types:
-      - completed
-    branches:
-      - main
+  push:
+    tags:
+      - 'v*'
 
 permissions:
   contents: read
@@ -29,8 +26,87 @@ env:
   TF_VAR_frontend_docker_image_path: './artifacts/frontend-artifact/demo-shop-frontend.tar'
 
 jobs:
+  build-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ secrets.CW_DEPLOY_BOT_ID }}
+          private-key: ${{ secrets.CW_DEPLOY_BOT_KEY }}
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Build Docker image
+        run: |
+          docker build \
+          --platform linux/amd64 \
+          --build-arg SENTRY_AUTH_TOKEN="${SENTRY_AUTH_TOKEN}" \
+          --build-arg SENTRY_ORG="${SENTRY_ORG}" \
+          --build-arg SENTRY_DEMO_SHOP_API_PROJECT="${SENTRY_DEMO_SHOP_API_PROJECT}" \
+          -f apps/backend/Dockerfile \
+          -t demo-shop-api:latest .
+
+      - name: Save docker image to file
+        run: docker save demo-shop-api:latest | tee demo-shop-api.tar > /dev/null
+
+      - name: Upload API artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-artifact
+          path: demo-shop-api.tar
+          retention-days: 1
+
+      - name: Cleanup
+        if: always()
+        run: docker rmi demo-shop-api:latest || true
+
+  build-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ secrets.CW_DEPLOY_BOT_ID }}
+          private-key: ${{ secrets.CW_DEPLOY_BOT_KEY }}
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Build Docker
+        run: |
+          docker build \
+          --platform linux/amd64 \
+          --build-arg KEYCLOAK_URL=${{ secrets.KEYCLOAK_URL }} \
+          --build-arg KEYCLOAK_REALM=${{ secrets.KEYCLOAK_REALM }} \
+          --build-arg KEYCLOAK_CLIENT_UI=${{ secrets.KEYCLOAK_CLIENT_UI }} \
+          --build-arg SENTRY_DEMO_SHOP_UI_DSN=${{ secrets.SENTRY_DEMO_SHOP_UI_DSN }} \
+          --build-arg SENTRY_TRUSTED_DOMAIN=${{ secrets.SENTRY_TRUSTED_DOMAIN }} \
+            -f apps/frontend/Dockerfile \
+          -t demo-shop-frontend:latest .
+
+      - name: Save docker image to file
+        run: docker save demo-shop-frontend:latest | tee demo-shop-frontend.tar > /dev/null
+
+      - name: Upload Frontend artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-artifact
+          path: demo-shop-frontend.tar
+          retention-days: 1
+
+      - name: Cleanup
+        if: always()
+        run: docker rmi demo-shop-frontend:latest || true
+
   deploy-infra:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    needs: [build-api, build-frontend]
     runs-on: ubuntu-latest
     environment: production
     concurrency:
@@ -58,12 +134,18 @@ jobs:
         working-directory: .ops/terraform/environments/prod
 
     steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ secrets.CW_DEPLOY_BOT_ID }}
+          private-key: ${{ secrets.CW_DEPLOY_BOT_KEY }}
+
       - name: Start Deployment
         id: start-deployment
         uses: bobheadxi/deployments@648679e8e4915b27893bd7dbc35cb504dc915bc8
         with:
           step: start
-          token: ${{ github.token }}
+          token: ${{ steps.app-token.outputs.token }}
           env: production
           ref: ${{ github.sha }}
           desc: 'Starting deployment'
@@ -71,6 +153,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502
@@ -113,8 +196,8 @@ jobs:
       - name: Cleanup
         if: always()
         run: |
-          rm -rf ./.secrets
-          rm -f tfplan
+          rm -rf ./.secrets || true
+          rm -f tfplan || true
 
   deploy-services:
     needs: [deploy-infra]
@@ -142,14 +225,20 @@ jobs:
         working-directory: .ops/terraform/environments/prod
 
     steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ secrets.CW_DEPLOY_BOT_ID }}
+          private-key: ${{ secrets.CW_DEPLOY_BOT_KEY }}
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Download artifacts
-        uses: dawidd6/action-download-artifact@80620a5d27ce0ae443b965134db88467fc607b43
+        uses: actions/download-artifact@v4
         with:
-          workflow: Build
           pattern: '*-artifact'
           path: .ops/terraform/environments/prod/artifacts
         continue-on-error: false
@@ -205,7 +294,7 @@ jobs:
         uses: bobheadxi/deployments@648679e8e4915b27893bd7dbc35cb504dc915bc8
         with:
           step: finish
-          token: ${{ github.token }}
+          token: ${{ steps.app-token.outputs.token }}
           env: production
           status: ${{ job.status }}
           deployment_id: ${{ needs.deploy-infra.outputs.deployment }}
@@ -216,18 +305,25 @@ jobs:
       - name: Cleanup
         if: always()
         run: |
-          rm -rf ./.secrets
-          rm -rf ./artifacts
-          rm -f tfplan
+          rm -rf ./.secrets || true
+          rm -rf ./artifacts || true
+          rm -f tfplan || true
 
   upload-frontend-sourcemaps:
     needs: [deploy-services]
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ secrets.CW_DEPLOY_BOT_ID }}
+          private-key: ${{ secrets.CW_DEPLOY_BOT_KEY }}
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Download artifact
         uses: actions/download-artifact@v4
@@ -243,6 +339,10 @@ jobs:
           docker cp "$container_id:/usr/share/nginx/html/" ./dist/
           docker rm "$container_id"
 
+      - name: Get version
+        id: version
+        run: echo "version=$(jq -r .version package.json)" >> $GITHUB_OUTPUT
+
       - name: Create Sentry release
         uses: getsentry/action-release@e769183448303de84c5a06aaaddf9da7be26d6c7
         env:
@@ -250,7 +350,7 @@ jobs:
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.SENTRY_DEMO_SHOP_UI_PROJECT }}
         with:
-          version: ${{ fromJson(readFile('package.json')).version }}
+          version: ${{ steps.version.outputs.version }}
           environment: production
           sourcemaps: './dist'
           ignore_missing: true
@@ -258,6 +358,6 @@ jobs:
       - name: Cleanup
         if: always()
         run: |
-          rm -rf ./dist
-          rm -rf ./frontend-artifact
+          rm -rf ./dist || true
+          rm -rf ./frontend-artifact || true
           docker rmi demo-shop-frontend:latest || true
