@@ -5,7 +5,6 @@
   "scripts": {
     "cm": "cz",
     "start": "docker-compose up -d",
-    "deploy:prod": ".ops/scripts/deploy-prod.sh",
     "rebuild": "docker-compose up -d --build --remove-orphans",
     "start:local": "npx nx run-many --parallel --target=serve --projects=frontend,backend",
     "openapi:generate": "openapi-generator generate -g typescript-angular -o libs/api -i http://localhost:3000/api/json -c open-api.yaml",
