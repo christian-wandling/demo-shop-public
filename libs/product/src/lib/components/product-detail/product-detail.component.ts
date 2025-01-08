@@ -22,7 +22,7 @@ export class ProductDetailComponent {
   readonly #cartFacade = inject(CartFacade);
   readonly addButtonEnabled = this.#cartFacade.getHasShoppingSession();
 
-  addToCart(id: string): void {
+  addToCart(id: number): void {
     this.#cartFacade.addItem(id);
   }
 }

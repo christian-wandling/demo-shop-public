@@ -11,8 +11,8 @@ import { OrderStatus } from './order-status';
 import { OrderItemDTO } from './order-item-dto';
 
 export interface OrderDTO {
-  readonly id: string;
-  readonly userId: string;
+  readonly id: number;
+  readonly userId: number;
   readonly items: Array<OrderItemDTO>;
   readonly amount: number;
   status: OrderStatus;

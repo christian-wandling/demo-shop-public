@@ -9,7 +9,7 @@ describe('UserFacade', () => {
   let userStore: any;
 
   const user: UserDTO = {
-    id: 'id',
+    id: 1,
     email: 'email',
     firstname: 'firstname',
     lastname: 'lastname',

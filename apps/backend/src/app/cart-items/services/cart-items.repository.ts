@@ -9,7 +9,7 @@ import { CartItemsRepositoryModel } from '../models/cart-items-repository.model'
 export class CartItemsRepository implements CartItemsRepositoryModel {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(item: CreateCartItemDTO, shoppingSessionId: string): Promise<HydratedCartItem> {
+  create(item: CreateCartItemDTO, shoppingSessionId: number): Promise<HydratedCartItem> {
     return this.prisma.cartItem.create({
       data: {
         quantity: 1,
@@ -34,7 +34,7 @@ export class CartItemsRepository implements CartItemsRepositoryModel {
     });
   }
 
-  update(id: string, dto: UpdateCartItemDTO, shoppingSessionId: string): Promise<HydratedCartItem> {
+  update(id: number, dto: UpdateCartItemDTO, shoppingSessionId: number): Promise<HydratedCartItem> {
     return this.prisma.cartItem.update({
       where: {
         id: Number(id),
@@ -53,7 +53,7 @@ export class CartItemsRepository implements CartItemsRepositoryModel {
     });
   }
 
-  remove(id: string, shoppingSessionId: string): Promise<CartItem> {
+  remove(id: number, shoppingSessionId: number): Promise<CartItem> {
     return this.prisma.cartItem.delete({
       where: {
         id: Number(id),

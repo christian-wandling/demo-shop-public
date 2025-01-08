@@ -93,7 +93,7 @@ describe('ProductsRepository', () => {
     it('should find a product by id with categories and images', async () => {
       jest.spyOn(prismaService.product, 'findUniqueOrThrow').mockResolvedValue(mockProduct);
 
-      const result = await repository.find('1');
+      const result = await repository.find(1);
 
       expect(result).toEqual(mockProduct);
       expect(prismaService.product.findUniqueOrThrow).toHaveBeenCalledWith({
@@ -108,7 +108,7 @@ describe('ProductsRepository', () => {
     it('should throw error when product is not found', async () => {
       jest.spyOn(prismaService.product, 'findUniqueOrThrow').mockRejectedValue(new Error('Product not found'));
 
-      await expect(repository.find('999')).rejects.toThrow('Product not found');
+      await expect(repository.find(999)).rejects.toThrow('Product not found');
       expect(prismaService.product.findUniqueOrThrow).toHaveBeenCalledWith({
         where: { id: 999 },
         include: {

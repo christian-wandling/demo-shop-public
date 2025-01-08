@@ -21,9 +21,9 @@ describe('MonitoringFacade', () => {
 
   describe('setUser', () => {
     it('should set the user in sentryService', () => {
-      facade.setUser({ id: 'id' });
+      facade.setUser({ id: 1 });
 
-      expect(Sentry.setUser).toHaveBeenCalledWith({ id: 'id', ip_address: 'none' });
+      expect(Sentry.setUser).toHaveBeenCalledWith({ id: 1, ip_address: 'none' });
     });
 
     it('should handle undefined', () => {

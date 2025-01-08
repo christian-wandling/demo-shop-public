@@ -31,7 +31,7 @@ export class ShoppingSessionsController {
 
   @CustomDelete({ path: ':id' })
   async removeShoppingSession(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken
   ): Promise<void> {
     await this.shoppingSessionsService.remove(id, decodedToken.email);

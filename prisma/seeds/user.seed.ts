@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv';
 import * as process from 'node:process';
 
 interface keycloakUserId {
-  id: string;
+  id: number;
   firstName: string;
   lastName: string;
   email: string;

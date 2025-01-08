@@ -10,7 +10,7 @@ describe('ProductsController', () => {
 
   const mockProducts: ProductDTO[] = [
     {
-      id: '1',
+      id: 1,
       name: 'Test Product',
       price: 19.99,
       description: 'description',
@@ -61,7 +61,7 @@ describe('ProductsController', () => {
   });
 
   describe('getAllProducts', () => {
-    it('should return a product by id', async () => {
+    it('should return all products', async () => {
       const result = await controller.getAllProducts();
 
       expect(result).toEqual(mockProducts);
@@ -82,16 +82,16 @@ describe('ProductsController', () => {
 
   describe('getProduct', () => {
     it('should return a product by id', async () => {
-      const id = '1';
+      const id = 1;
       const result = await controller.getProduct(id);
 
       expect(result).toEqual(mockProducts[0]);
-      expect(productsService.find).toHaveBeenCalledWith('1');
+      expect(productsService.find).toHaveBeenCalledWith(1);
       expect(productsService.find).toHaveBeenCalledTimes(1);
     });
 
     it('should throw an error if product is not found', async () => {
-      const id = 'non-existent';
+      const id = undefined;
       jest.spyOn(productsService, 'find').mockRejectedValueOnce(new Error('Product not found'));
 
       await expect(controller.getProduct(id)).rejects.toThrow('Product not found');

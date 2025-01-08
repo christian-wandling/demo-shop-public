@@ -10,16 +10,16 @@ describe('OrderFacade', () => {
 
   const mockOrders: OrderDTO[] = [
     {
-      id: '1',
-      userId: '1',
+      id: 1,
+      userId: 1,
       items: [],
       amount: 0,
       status: OrderStatus.Created,
       created: new Date().toString(),
     },
     {
-      id: '2',
-      userId: '1',
+      id: 2,
+      userId: 1,
       items: [],
       amount: 0,
       status: OrderStatus.Created,
@@ -62,7 +62,7 @@ describe('OrderFacade', () => {
   });
 
   it('should return the order entity from the store', () => {
-    const order = orderFacade.find('123');
+    const order = orderFacade.find(123);
 
     expect(order()).toEqual(mockOrders[0]);
   });

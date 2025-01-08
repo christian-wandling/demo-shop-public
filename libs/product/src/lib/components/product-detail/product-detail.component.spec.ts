@@ -14,7 +14,7 @@ describe('ProductDetailComponent', () => {
   let cartFacade: CartFacade;
 
   const mockProduct = signal({
-    id: '1',
+    id: 1,
     name: 'Product 1',
     price: 10,
     description: '',
@@ -36,7 +36,7 @@ describe('ProductDetailComponent', () => {
           useValue: {
             snapshot: {
               params: {
-                id: '1',
+                id: 1,
               },
             },
           },
@@ -96,8 +96,8 @@ describe('ProductDetailComponent', () => {
   });
 
   it('should add the item to the cart', () => {
-    component.addToCart('1');
+    component.addToCart(1);
 
-    expect(cartFacade.addItem).toHaveBeenCalledWith('1');
+    expect(cartFacade.addItem).toHaveBeenCalledWith(1);
   });
 });

@@ -56,7 +56,7 @@ export class CheckoutComponent {
 
   readonly #router = inject(Router);
 
-  removeItem(id: string): void {
+  removeItem(id: number): void {
     this.#cartFacade.removeItem(id);
   }
 

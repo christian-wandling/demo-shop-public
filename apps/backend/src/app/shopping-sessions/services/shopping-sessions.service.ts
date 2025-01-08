@@ -26,7 +26,7 @@ export class ShoppingSessionsService {
     return toShoppingSessionDTO(shoppingSession);
   }
 
-  async remove(id: string, email: string): Promise<void> {
+  async remove(id: number, email: string): Promise<void> {
     const shoppingSession = await this.shoppingSessionsRepository.remove(id, email);
 
     if (!shoppingSession) {

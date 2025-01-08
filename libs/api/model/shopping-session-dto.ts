@@ -10,7 +10,7 @@
 import { CartItemDTO } from './cart-item-dto';
 
 export interface ShoppingSessionDTO {
-  readonly id: string;
-  readonly userId: string;
+  readonly id: number;
+  readonly userId: number;
   readonly items: Array<CartItemDTO>;
 }

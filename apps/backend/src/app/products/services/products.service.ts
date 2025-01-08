@@ -11,7 +11,7 @@ export class ProductsService {
     return batchConvert(await this.productsRepository.all(), toProductDTO);
   }
 
-  async find(id: string): Promise<ProductDTO> {
+  async find(id: number): Promise<ProductDTO> {
     const product = await this.productsRepository.find(id);
 
     if (!product) {

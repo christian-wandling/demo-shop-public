@@ -20,7 +20,7 @@ export const OrderStore = signalStore(
     },
   }),
   withMethods(store => ({
-    getById(id: string) {
+    getById(id: number) {
       return computed(() => store.entityMap()[id]);
     },
     getSortedByStatusAndDate() {

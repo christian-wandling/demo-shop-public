@@ -8,7 +8,7 @@ import { ShoppingSessionDTO } from '../../shopping-sessions/dtos/shopping-sessio
 export class OrdersService {
   constructor(private readonly ordersRepository: OrdersRepository) {}
 
-  async find(id: string, email: string): Promise<OrderDTO> {
+  async find(id: number, email: string): Promise<OrderDTO> {
     const order = await this.ordersRepository.find(id, email);
 
     if (!order) {

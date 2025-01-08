@@ -14,8 +14,8 @@ describe('CartItemsController', () => {
   let shoppingSessionsService: ShoppingSessionsService;
 
   const mockCartItemDto: CartItemDTO = {
-    id: '123',
-    productId: '456',
+    id: 123,
+    productId: 456,
     quantity: 1,
     productName: 'Test Product',
     productThumbnail: 'https://example.com/image.jpg',
@@ -24,9 +24,9 @@ describe('CartItemsController', () => {
   };
 
   const mockShoppingSessionDto: ShoppingSessionDTO = {
-    id: '123',
+    id: 123,
     items: [],
-    userId: '789',
+    userId: 789,
   };
 
   const mockDecodedToken: DecodedToken = {
@@ -88,7 +88,7 @@ describe('CartItemsController', () => {
 
   describe('createCartItem', () => {
     const createDto: CreateCartItemDTO = {
-      productId: '1',
+      productId: 1,
     };
 
     it('should create a cart item successfully', async () => {
@@ -120,7 +120,7 @@ describe('CartItemsController', () => {
   });
 
   describe('updateCartItem', () => {
-    const cartItemId = 'item-123';
+    const cartItemId = 123;
     const updateDto: UpdateCartItemDTO = {
       quantity: 3,
     };
@@ -162,7 +162,7 @@ describe('CartItemsController', () => {
   });
 
   describe('removeCartItem', () => {
-    const cartItemId = 'item-123';
+    const cartItemId = 123;
 
     it('should remove a cart item successfully', async () => {
       jest.spyOn(shoppingSessionsService, 'findCurrentSessionForUser').mockResolvedValue(mockShoppingSessionDto);

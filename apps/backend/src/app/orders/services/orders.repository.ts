@@ -8,7 +8,7 @@ import { OrdersRepositoryModel } from '../models/orders-repository.model';
 export class OrdersRepository implements OrdersRepositoryModel {
   constructor(private readonly prisma: PrismaService) {}
 
-  find(id: string, email: string): Promise<HydratedOrder> {
+  find(id: number, email: string): Promise<HydratedOrder> {
     return this.prisma.order.findUniqueOrThrow({
       where: {
         id: Number(id),

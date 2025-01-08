@@ -172,25 +172,25 @@ export class ProductsApi {
    * @param reportProgress flag to report request and response progress.
    */
   public getProduct(
-    id: string,
+    id: number,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<ProductDTO>;
   public getProduct(
-    id: string,
+    id: number,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpResponse<ProductDTO>>;
   public getProduct(
-    id: string,
+    id: number,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpEvent<ProductDTO>>;
   public getProduct(
-    id: string,
+    id: number,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
@@ -238,7 +238,7 @@ export class ProductsApi {
       in: 'path',
       style: 'simple',
       explode: false,
-      dataType: 'string',
+      dataType: 'number',
       dataFormat: undefined,
     })}`;
     return this.httpClient.request<ProductDTO>('get', `${this.configuration.basePath}${localVarPath}`, {

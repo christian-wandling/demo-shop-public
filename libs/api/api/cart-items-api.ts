@@ -200,25 +200,25 @@ export class CartItemsApi {
    * @param reportProgress flag to report request and response progress.
    */
   public removeCartItem(
-    id: string,
+    id: number,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: undefined; context?: HttpContext; transferCache?: boolean }
   ): Observable<any>;
   public removeCartItem(
-    id: string,
+    id: number,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: undefined; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpResponse<any>>;
   public removeCartItem(
-    id: string,
+    id: number,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: undefined; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpEvent<any>>;
   public removeCartItem(
-    id: string,
+    id: number,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: undefined; context?: HttpContext; transferCache?: boolean }
@@ -273,7 +273,7 @@ export class CartItemsApi {
       in: 'path',
       style: 'simple',
       explode: false,
-      dataType: 'string',
+      dataType: 'number',
       dataFormat: undefined,
     })}`;
     return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`, {
@@ -294,28 +294,28 @@ export class CartItemsApi {
    * @param reportProgress flag to report request and response progress.
    */
   public updateCartItem(
-    id: string,
+    id: number,
     updateCartItemDTO: UpdateCartItemDTO,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<CartItemDTO>;
   public updateCartItem(
-    id: string,
+    id: number,
     updateCartItemDTO: UpdateCartItemDTO,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpResponse<CartItemDTO>>;
   public updateCartItem(
-    id: string,
+    id: number,
     updateCartItemDTO: UpdateCartItemDTO,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpEvent<CartItemDTO>>;
   public updateCartItem(
-    id: string,
+    id: number,
     updateCartItemDTO: UpdateCartItemDTO,
     observe: any = 'body',
     reportProgress: boolean = false,
@@ -381,7 +381,7 @@ export class CartItemsApi {
       in: 'path',
       style: 'simple',
       explode: false,
-      dataType: 'string',
+      dataType: 'number',
       dataFormat: undefined,
     })}`;
     return this.httpClient.request<CartItemDTO>('patch', `${this.configuration.basePath}${localVarPath}`, {

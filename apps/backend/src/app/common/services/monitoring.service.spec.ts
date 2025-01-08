@@ -23,7 +23,7 @@ describe('MonitoringService', () => {
   describe('setUser', () => {
     it('should call Sentry.setUser with user data and ip_address set to none', () => {
       const mockUser: MonitoredUser = {
-        id: '123',
+        id: 123,
       };
 
       service.setUser(mockUser);

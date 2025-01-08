@@ -70,7 +70,7 @@ describe('OrdersRepository', () => {
     it('should find an order by id and email', async () => {
       jest.spyOn(prismaService.order, 'findUniqueOrThrow').mockResolvedValue(mockOrder);
 
-      const result = await repository.find('1', 'test@example.com');
+      const result = await repository.find(1, 'test@example.com');
 
       expect(prismaService.order.findUniqueOrThrow).toHaveBeenCalledWith({
         where: {
@@ -89,7 +89,7 @@ describe('OrdersRepository', () => {
     it('should throw an error when order is not found', async () => {
       jest.spyOn(prismaService.order, 'findUniqueOrThrow').mockRejectedValue(new Error('Not found'));
 
-      await expect(repository.find('1', 'test@example.com')).rejects.toThrow('Not found');
+      await expect(repository.find(1, 'test@example.com')).rejects.toThrow('Not found');
     });
   });
 
@@ -142,12 +142,12 @@ describe('OrdersRepository', () => {
 
   describe('createFromShoppingSession', () => {
     const mockDto: ShoppingSessionDTO = {
-      id: '1',
-      userId: '1',
+      id: 1,
+      userId: 1,
       items: [
         {
-          id: '1',
-          productId: '1',
+          id: 1,
+          productId: 1,
           productName: 'Test Product',
           productThumbnail: 'thumbnail.jpg',
           quantity: 2,

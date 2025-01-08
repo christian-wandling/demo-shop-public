@@ -53,7 +53,7 @@ export class ShoppingSessionsRepository implements ShoppingSessionsRepositoryMod
     });
   }
 
-  remove(id: string, email: string): Promise<ShoppingSession> {
+  remove(id: number, email: string): Promise<ShoppingSession> {
     return this.prisma.shoppingSession.delete({
       where: {
         id: Number(id),

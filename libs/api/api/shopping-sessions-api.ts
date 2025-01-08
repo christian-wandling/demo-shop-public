@@ -255,25 +255,25 @@ export class ShoppingSessionsApi {
    * @param reportProgress flag to report request and response progress.
    */
   public removeShoppingSession(
-    id: string,
+    id: number,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: undefined; context?: HttpContext; transferCache?: boolean }
   ): Observable<any>;
   public removeShoppingSession(
-    id: string,
+    id: number,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: undefined; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpResponse<any>>;
   public removeShoppingSession(
-    id: string,
+    id: number,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: undefined; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpEvent<any>>;
   public removeShoppingSession(
-    id: string,
+    id: number,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: undefined; context?: HttpContext; transferCache?: boolean }
@@ -328,7 +328,7 @@ export class ShoppingSessionsApi {
       in: 'path',
       style: 'simple',
       explode: false,
-      dataType: 'string',
+      dataType: 'number',
       dataFormat: undefined,
     })}`;
     return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`, {

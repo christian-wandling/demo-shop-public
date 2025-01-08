@@ -9,7 +9,7 @@
  */
 
 export interface OrderItemDTO {
-  readonly productId: string;
+  readonly productId: number;
   readonly productName: string;
   readonly productThumbnail: string;
   readonly quantity: number;

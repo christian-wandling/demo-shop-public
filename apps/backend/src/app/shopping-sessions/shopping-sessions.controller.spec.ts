@@ -11,8 +11,8 @@ describe('ShoppingSessionsController', () => {
   let shoppingSessionsService: ShoppingSessionsService;
 
   const shoppingSessionDTO: ShoppingSessionDTO = {
-    id: '1',
-    userId: '1',
+    id: 1,
+    userId: 1,
     items: [],
   };
 
@@ -133,7 +133,7 @@ describe('ShoppingSessionsController', () => {
 
   describe('removeShoppingSession', () => {
     it('should delete a shopping session by id and email', async () => {
-      const id = '1';
+      const id = 1;
 
       const result = await controller.removeShoppingSession(id, mockDecodedToken);
 
@@ -143,7 +143,7 @@ describe('ShoppingSessionsController', () => {
     });
 
     it('should throw an error if shopping session is not found', async () => {
-      const id = '1';
+      const id = 1;
       jest.spyOn(shoppingSessionsService, 'remove').mockRejectedValueOnce(new Error('ShoppingSession not found'));
 
       await expect(controller.removeShoppingSession(id, mockDecodedToken)).rejects.toThrow('ShoppingSession not found');

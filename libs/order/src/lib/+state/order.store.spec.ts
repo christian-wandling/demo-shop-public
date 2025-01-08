@@ -9,26 +9,26 @@ describe('OrderStore', () => {
 
   const mockOrders: OrderDTO[] = [
     {
-      id: '1',
+      id: 1,
       status: OrderStatus.Created,
       created: '2024-01-01T10:00:00Z',
-      userId: 'userId',
+      userId: 1,
       items: [],
       amount: 0,
     },
     {
-      id: '2',
+      id: 2,
       status: OrderStatus.Created,
       created: '2024-01-02T10:00:00Z',
-      userId: 'userId',
+      userId: 1,
       items: [],
       amount: 0,
     },
     {
-      id: '3',
+      id: 3,
       status: OrderStatus.Completed,
       created: '2024-01-03T10:00:00Z',
-      userId: 'userId',
+      userId: 1,
       items: [],
       amount: 0,
     },
@@ -63,7 +63,7 @@ describe('OrderStore', () => {
 
   describe('getById', () => {
     it('should return the correct order by id', () => {
-      const order = store.getById('1');
+      const order = store.getById(1);
       expect(order()).toEqual(mockOrders[0]);
     });
 

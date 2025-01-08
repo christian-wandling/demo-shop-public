@@ -10,7 +10,7 @@ describe('ProductFacade', () => {
 
   const mockProducts: ProductDTO[] = [
     {
-      id: '1',
+      id: 1,
       name: 'Product 1',
       price: 10,
       description: '',
@@ -18,7 +18,7 @@ describe('ProductFacade', () => {
       images: [],
     },
     {
-      id: '2',
+      id: 2,
       name: 'Product 2',
       price: 20,
       description: '',

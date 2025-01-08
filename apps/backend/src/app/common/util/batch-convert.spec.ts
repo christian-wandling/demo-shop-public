@@ -3,19 +3,19 @@ import { batchConvert } from './batch-convert';
 describe('batchConvert', () => {
   it('should handle transformations', () => {
     interface Order {
-      id: string;
+      id: number;
       amount: number;
     }
 
     interface ProcessedOrder {
-      orderId: string;
+      orderId: number;
       total: number;
       tax: number;
     }
 
     const orders: Order[] = [
-      { id: 'A1', amount: 100 },
-      { id: 'A2', amount: 200 },
+      { id: 11, amount: 100 },
+      { id: 12, amount: 200 },
     ];
 
     const processOrder = (order: Order): ProcessedOrder => ({
@@ -27,8 +27,8 @@ describe('batchConvert', () => {
     const result = batchConvert<ProcessedOrder, Order>(orders, processOrder);
 
     expect(result).toEqual([
-      { orderId: 'A1', total: 100, tax: 10 },
-      { orderId: 'A2', total: 200, tax: 20 },
+      { orderId: 11, total: 100, tax: 10 },
+      { orderId: 12, total: 200, tax: 20 },
     ]);
   });
 

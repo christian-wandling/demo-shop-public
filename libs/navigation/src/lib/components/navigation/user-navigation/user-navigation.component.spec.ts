@@ -18,7 +18,7 @@ describe('UserNavigationComponent', () => {
     },
     email: 'email',
     firstname: 'firstname',
-    id: 'id',
+    id: 1,
     lastname: 'lastname',
     phone: 'phone',
   });

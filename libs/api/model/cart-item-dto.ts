@@ -9,8 +9,8 @@
  */
 
 export interface CartItemDTO {
-  readonly id: string;
-  readonly productId: string;
+  readonly id: number;
+  readonly productId: number;
   readonly productName: string;
   readonly productThumbnail: string;
   readonly quantity: number;

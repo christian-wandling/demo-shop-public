@@ -9,8 +9,8 @@ describe('CartItemStore', () => {
   let mockCartItemsApi: CartItemsApi;
 
   const mockCartItems = [
-    { id: '1', productId: 'p1', quantity: 2, totalPrice: 20, price: 10 },
-    { id: '2', productId: 'p2', quantity: 1, totalPrice: 15, price: 15 },
+    { id: 1, productId: 1, quantity: 2, totalPrice: 20, price: 10 },
+    { id: 2, productId: 2, quantity: 1, totalPrice: 15, price: 15 },
   ];
 
   const mockShoppingSession = {
@@ -100,15 +100,15 @@ describe('CartItemStore', () => {
 
   describe('delete', () => {
     it('should throw error if no shopping session exists', async () => {
-      await expect(store.delete('1')).rejects.toThrow('Missing shopping session id');
+      await expect(store.delete(1)).rejects.toThrow('Missing shopping session id');
     });
 
     it('should delete cart item and reload session', async () => {
       await store.loadShoppingSession();
 
-      await store.delete('1');
+      await store.delete(1);
 
-      expect(mockCartItemsApi.removeCartItem).toHaveBeenCalledWith('1');
+      expect(mockCartItemsApi.removeCartItem).toHaveBeenCalledWith(1);
       expect(mockShoppingSessionsApi.getShoppingSessionOfCurrentUser).toHaveBeenCalledTimes(2);
     });
   });
@@ -116,16 +116,16 @@ describe('CartItemStore', () => {
   describe('update', () => {
     it('should throw error if no shopping session exists', async () => {
       const updateDto = { quantity: 2 };
-      await expect(store.update('1', updateDto)).rejects.toThrow('Missing shopping session id');
+      await expect(store.update(1, updateDto)).rejects.toThrow('Missing shopping session id');
     });
 
     it('should update cart item and reload session', async () => {
       await store.loadShoppingSession();
       const updateDto = { quantity: 2 };
 
-      await store.update('1', updateDto);
+      await store.update(1, updateDto);
 
-      expect(mockCartItemsApi.updateCartItem).toHaveBeenCalledWith('1', updateDto);
+      expect(mockCartItemsApi.updateCartItem).toHaveBeenCalledWith(1, updateDto);
       expect(mockShoppingSessionsApi.getShoppingSessionOfCurrentUser).toHaveBeenCalledTimes(2);
     });
   });
@@ -136,7 +136,7 @@ describe('CartItemStore', () => {
     });
 
     it('should return item by id if exists', () => {
-      const item = store.getItemById('1');
+      const item = store.getItemById(1);
       expect(item).toEqual(mockCartItems[0]);
     });
 
@@ -152,7 +152,7 @@ describe('CartItemStore', () => {
     });
 
     it('should return item by product id if exists', () => {
-      const item = store.getItemByProductId('p1');
+      const item = store.getItemByProductId(1);
       expect(item).toEqual(mockCartItems[0]);
     });
 

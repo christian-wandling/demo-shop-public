@@ -16,7 +16,7 @@ export class ProductsRepository implements ProductsRepositoryModel {
     });
   }
 
-  find(id: string): Promise<HydratedProduct> {
+  find(id: number): Promise<HydratedProduct> {
     return this.prisma.product.findUniqueOrThrow({
       where: { id: Number(id) },
       include: {

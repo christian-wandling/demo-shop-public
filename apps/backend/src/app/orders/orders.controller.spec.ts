@@ -3,7 +3,7 @@ import { OrdersController } from './orders.controller';
 import { OrdersService } from './services/orders.service';
 import { OrderDTO } from './dtos/order-dto';
 import { DecodeTokenPipe } from '../common/pipes/decode-token-pipe';
-import { ForbiddenException, NotFoundException, RequestMethod } from '@nestjs/common';
+import { ForbiddenException, RequestMethod } from '@nestjs/common';
 import { OrderStatus } from '@prisma/client';
 import { ShoppingSessionsService } from '../shopping-sessions/services/shopping-sessions.service';
 import { ShoppingSessionDTO } from '../shopping-sessions/dtos/shopping-session-dto';
@@ -15,8 +15,8 @@ describe('OrdersController', () => {
   let shoppingSessionsService: ShoppingSessionsService;
 
   const mockOrderDto: OrderDTO = {
-    id: '1',
-    userId: '1',
+    id: 1,
+    userId: 1,
     status: OrderStatus.CREATED,
     amount: 0,
     created: new Date(),
@@ -82,12 +82,12 @@ describe('OrdersController', () => {
 
   describe('createOrder', () => {
     const mockShoppingSessionDto: ShoppingSessionDTO = {
-      id: 'session123',
-      userId: '1',
+      id: 123,
+      userId: 1,
       items: [
         {
-          id: '1',
-          productId: 'prod1',
+          id: 1,
+          productId: 1,
           quantity: 2,
           productName: '',
           productThumbnail: '',
@@ -160,7 +160,7 @@ describe('OrdersController', () => {
 
   describe('getOrder', () => {
     it('should return a order by id and email', async () => {
-      const id = '1';
+      const id = 1;
 
       const result = await controller.getOrder(id, mockDecodedToken);
 
@@ -170,7 +170,7 @@ describe('OrdersController', () => {
     });
 
     it('should throw an error if order is not found', async () => {
-      const id = '1';
+      const id = 1;
 
       jest.spyOn(ordersService, 'find').mockRejectedValueOnce(new Error('Order not found'));
 

@@ -20,7 +20,7 @@ export class CartFacade {
     return this.#cartStore.itemCount;
   }
 
-  addItem(productId: string): void {
+  addItem(productId: number): void {
     const item = this.#cartStore.getItemByProductId(productId);
 
     if (item) {
@@ -32,11 +32,11 @@ export class CartFacade {
     }
   }
 
-  updateItem(id: string, quantity: number): void {
+  updateItem(id: number, quantity: number): void {
     this.#cartStore.update(id, { quantity });
   }
 
-  removeItem(id: string): void {
+  removeItem(id: number): void {
     const item = this.#cartStore.getItemById(id);
 
     if (item && item.quantity > 1) {

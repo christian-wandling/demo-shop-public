@@ -2,13 +2,14 @@ import { ApiProperty, ApiResponseProperty } from '@nestjs/swagger';
 import { HydratedProduct } from '../entities/hydrated-product';
 import { ImageDTO, toImageDTO } from './image-dto';
 import { batchConvert } from '../../common/util/batch-convert';
-import { ArrayMinSize, IsNumber, Min, MinLength, ValidateNested } from 'class-validator';
+import { ArrayMinSize, IsInt, IsNumber, Min, MinLength, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class ProductDTO {
   @ApiResponseProperty()
-  @MinLength(1)
-  id: string;
+  @IsInt()
+  @Min(1)
+  id: number;
   @ApiResponseProperty()
   @MinLength(1)
   name: string;
@@ -33,7 +34,7 @@ export const toProductDTO = (product: HydratedProduct): ProductDTO => {
   const images = batchConvert(product.images, toImageDTO);
 
   return {
-    id: product.id.toString(),
+    id: product.id,
     name: product.name,
     description: product.description,
     categories,

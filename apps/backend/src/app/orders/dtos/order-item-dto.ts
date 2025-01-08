@@ -4,8 +4,9 @@ import { IsInt, IsNumber, IsUrl, Min, MinLength } from 'class-validator';
 
 export class OrderItemDTO {
   @ApiResponseProperty()
-  @MinLength(1)
-  productId: string;
+  @IsInt()
+  @Min(1)
+  productId: number;
   @ApiResponseProperty()
   @MinLength(1)
   productName: string;
@@ -28,7 +29,7 @@ export class OrderItemDTO {
 
 export const toOrderItemDTO = (item: OrderItem): OrderItemDTO => {
   return {
-    productId: item.productId.toString(),
+    productId: item.productId,
     productName: item.productName,
     productThumbnail: item.productThumbnail,
     quantity: item.quantity,

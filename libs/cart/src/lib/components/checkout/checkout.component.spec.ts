@@ -10,7 +10,7 @@ import { provideRouter, Router } from '@angular/router';
 
 describe('CheckoutComponent', () => {
   const user = signal({
-    id: '1',
+    id: 1,
     email: 'john@doe.com',
     firstname: 'John',
     lastname: 'Doe',
@@ -98,7 +98,7 @@ describe('CheckoutComponent', () => {
   });
 
   it('should remove an item', () => {
-    const id = '1';
+    const id = 1;
 
     component.removeItem(id);
 

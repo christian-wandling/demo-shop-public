@@ -23,8 +23,8 @@ describe('ShoppingSessionsService', () => {
 
   const mockSessionDTO: ShoppingSessionDTO = {
     items: [],
-    userId: '1',
-    id: '1',
+    userId: 1,
+    id: 1,
   };
 
   beforeEach(async () => {
@@ -95,7 +95,7 @@ describe('ShoppingSessionsService', () => {
   });
 
   describe('remove', () => {
-    const mockId = '123';
+    const mockId = 123;
 
     it('should successfully remove a shopping session', async () => {
       repository.remove.mockResolvedValue(mockHydratedSession);

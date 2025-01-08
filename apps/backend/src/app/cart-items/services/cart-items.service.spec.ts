@@ -42,8 +42,8 @@ describe('CartItemsService', () => {
   };
 
   const mockCartItemDto: CartItemDTO = {
-    id: '123',
-    productId: '456',
+    id: 123,
+    productId: 456,
     quantity: 1,
     productName: 'Test Product',
     productThumbnail: 'https://example.com/image.jpg',
@@ -78,9 +78,9 @@ describe('CartItemsService', () => {
 
   describe('create', () => {
     const createDto: CreateCartItemDTO = {
-      productId: '123',
+      productId: 123,
     };
-    const sessionId = 'session-1';
+    const sessionId = 1;
 
     it('should create a cart item successfully', async () => {
       mockRepository.create.mockResolvedValue(mockHydratedCartItem);
@@ -102,8 +102,8 @@ describe('CartItemsService', () => {
     const updateDto: UpdateCartItemDTO = {
       quantity: 3,
     };
-    const itemId = '1';
-    const sessionId = 'session-1';
+    const itemId = 1;
+    const sessionId = 1;
 
     it('should update a cart item successfully', async () => {
       const updatedCartItem = { ...mockHydratedCartItem, quantity: 3 };
@@ -124,8 +124,8 @@ describe('CartItemsService', () => {
   });
 
   describe('remove', () => {
-    const itemId = '1';
-    const sessionId = 'session-1';
+    const itemId = 1;
+    const sessionId = 1;
 
     it('should remove a cart item successfully', async () => {
       mockRepository.remove.mockResolvedValue(mockHydratedCartItem);
