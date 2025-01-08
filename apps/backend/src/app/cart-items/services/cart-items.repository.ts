@@ -15,12 +15,12 @@ export class CartItemsRepository implements CartItemsRepositoryModel {
         quantity: 1,
         product: {
           connect: {
-            id: Number(item.productId),
+            id: item.productId,
           },
         },
         shoppingSession: {
           connect: {
-            id: Number(shoppingSessionId),
+            id: shoppingSessionId,
           },
         },
       },
@@ -37,8 +37,8 @@ export class CartItemsRepository implements CartItemsRepositoryModel {
   update(id: number, dto: UpdateCartItemDTO, shoppingSessionId: number): Promise<HydratedCartItem> {
     return this.prisma.cartItem.update({
       where: {
-        id: Number(id),
-        shoppingSessionId: Number(shoppingSessionId),
+        id,
+        shoppingSessionId,
       },
       data: {
         quantity: dto.quantity,
@@ -56,8 +56,8 @@ export class CartItemsRepository implements CartItemsRepositoryModel {
   remove(id: number, shoppingSessionId: number): Promise<CartItem> {
     return this.prisma.cartItem.delete({
       where: {
-        id: Number(id),
-        shoppingSessionId: Number(shoppingSessionId),
+        id,
+        shoppingSessionId,
       },
     });
   }
