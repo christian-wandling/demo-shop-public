@@ -41,17 +41,17 @@ services:
       - NODE_ENV=development
       - NX_DAEMON=false
       - NX_REJECT_UNKNOWN_LOCAL_CACHE=0
-      - DATABASE_URL
       - KEYCLOAK_REALM
       - KEYCLOAK_CLIENT_API
       - KEYCLOAK_REALM_PUBLIC_KEY
       - KEYCLOAK_URL
-      - POSTGRES_HOST=db
       - SENTRY_AUTH_TOKEN
       - SENTRY_ORG
       - SENTRY_TRUSTED_DOMAIN
       - SENTRY_DEMO_SHOP_API_DSN
       - SENTRY_DEMO_SHOP_API_PROJECT
+      - POSTGRES_HOST=db
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}?schema=public
     volumes:
       - .:/app:cached
       - /app/node_modules
@@ -66,6 +66,7 @@ services:
     working_dir: /usr/src/app
     environment:
       - POSTGRES_HOST=db
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}?schema=public
     volumes:
       - ./:/usr/src/app
     command: >
