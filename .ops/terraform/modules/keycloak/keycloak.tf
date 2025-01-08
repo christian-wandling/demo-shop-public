@@ -17,6 +17,10 @@ resource "keycloak_realm" "demo_shop" {
     terraform_data.keycloak_health_check,
     aws_vpc_security_group_ingress_rule.keycloak_ingress_github_runner,
     aws_vpc_security_group_ingress_rule.keycloak_ingress_https_allowed_ranges,
+    cloudflare_record.keycloak,
+    cloudflare_worker_route.keycloak_security_headers_route,
+    cloudflare_zone_settings_override.keycloak_settings,
+    cloudflare_origin_ca_certificate.keycloak_cert
   ]
 }
 
@@ -41,6 +45,10 @@ resource "keycloak_openid_client" "demo_shop_ui" {
     terraform_data.keycloak_health_check,
     aws_vpc_security_group_ingress_rule.keycloak_ingress_github_runner,
     aws_vpc_security_group_ingress_rule.keycloak_ingress_https_allowed_ranges,
+    cloudflare_record.keycloak,
+    cloudflare_worker_route.keycloak_security_headers_route,
+    cloudflare_zone_settings_override.keycloak_settings,
+    cloudflare_origin_ca_certificate.keycloak_cert
   ]
 }
 
@@ -56,6 +64,10 @@ resource "keycloak_openid_client" "demo_shop_api" {
     terraform_data.keycloak_health_check,
     aws_vpc_security_group_ingress_rule.keycloak_ingress_github_runner,
     aws_vpc_security_group_ingress_rule.keycloak_ingress_https_allowed_ranges,
+    cloudflare_record.keycloak,
+    cloudflare_worker_route.keycloak_security_headers_route,
+    cloudflare_zone_settings_override.keycloak_settings,
+    cloudflare_origin_ca_certificate.keycloak_cert
   ]
 }
 
@@ -67,6 +79,10 @@ resource "keycloak_role" "buy_products" {
     terraform_data.keycloak_health_check,
     aws_vpc_security_group_ingress_rule.keycloak_ingress_github_runner,
     aws_vpc_security_group_ingress_rule.keycloak_ingress_https_allowed_ranges,
+    cloudflare_record.keycloak,
+    cloudflare_worker_route.keycloak_security_headers_route,
+    cloudflare_zone_settings_override.keycloak_settings,
+    cloudflare_origin_ca_certificate.keycloak_cert
   ]
 }
 
@@ -80,5 +96,9 @@ resource "keycloak_default_roles" "default_roles" {
     terraform_data.keycloak_health_check,
     aws_vpc_security_group_ingress_rule.keycloak_ingress_github_runner,
     aws_vpc_security_group_ingress_rule.keycloak_ingress_https_allowed_ranges,
+    cloudflare_record.keycloak,
+    cloudflare_worker_route.keycloak_security_headers_route,
+    cloudflare_zone_settings_override.keycloak_settings,
+    cloudflare_origin_ca_certificate.keycloak_cert
   ]
 }
