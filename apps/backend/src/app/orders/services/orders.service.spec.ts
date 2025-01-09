@@ -6,6 +6,7 @@ import { ShoppingSessionDTO } from '../../shopping-sessions/dtos/shopping-sessio
 import { HydratedOrder } from '../entities/hydrated-order';
 import { OrderDTO } from '../dtos/order-dto';
 import { OrderStatus } from '@prisma/client';
+import { CreateOrderDto } from '../dtos/create-order-dto';
 
 describe('OrdersService', () => {
   let service: OrdersService;
@@ -37,6 +38,12 @@ describe('OrdersService', () => {
     items: [],
   };
 
+  const mockCreateOrderDto: CreateOrderDto = {
+    userId: 1,
+    shoppingSessionId: 123,
+    items: [],
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -46,7 +53,7 @@ describe('OrdersService', () => {
           useValue: {
             find: jest.fn(),
             findManyByUser: jest.fn(),
-            createFromShoppingSession: jest.fn(),
+            create: jest.fn(),
           },
         },
       ],
@@ -92,20 +99,20 @@ describe('OrdersService', () => {
     });
   });
 
-  describe('createFromShoppingSession', () => {
+  describe('create', () => {
     it('should create and return new order from shopping session', async () => {
-      repository.createFromShoppingSession.mockResolvedValue(mockOrder);
+      repository.create.mockResolvedValue(mockOrder);
 
-      const result = await service.createFromShoppingSession(mockShoppingSession);
+      const result = await service.create(mockShoppingSession);
 
       expect(result).toEqual(mockOrderDto);
-      expect(repository.createFromShoppingSession).toHaveBeenCalledWith(mockShoppingSession);
+      expect(repository.create).toHaveBeenCalledWith(mockCreateOrderDto);
     });
 
     it('should throw the right exception when creation fails', async () => {
-      repository.createFromShoppingSession.mockResolvedValue(null);
+      repository.create.mockResolvedValue(null);
 
-      await expect(service.createFromShoppingSession(mockShoppingSession)).rejects.toThrow(BadRequestException);
+      await expect(service.create(mockShoppingSession)).rejects.toThrow(BadRequestException);
     });
   });
 });

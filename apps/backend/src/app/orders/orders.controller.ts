@@ -26,7 +26,7 @@ export class OrdersController {
       throw new ForbiddenException('No active shopping session found. Please login to start a new shopping session.');
     }
 
-    return this.ordersService.createFromShoppingSession(shoppingSession);
+    return this.ordersService.create(shoppingSession);
   }
 
   @CustomGet({ res: OrderDTO, isArray: true })

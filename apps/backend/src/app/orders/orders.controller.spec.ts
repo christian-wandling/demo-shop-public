@@ -39,7 +39,7 @@ describe('OrdersController', () => {
           useValue: {
             find: jest.fn().mockResolvedValue(mockOrderDto),
             findByUser: jest.fn().mockResolvedValue([mockOrderDto]),
-            createFromShoppingSession: jest.fn().mockResolvedValue(mockOrderDto),
+            create: jest.fn().mockResolvedValue(mockOrderDto),
           },
         },
         {
@@ -103,7 +103,7 @@ describe('OrdersController', () => {
       const result = await controller.createOrder(mockDecodedToken);
 
       expect(shoppingSessionsService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.email);
-      expect(ordersService.createFromShoppingSession).toHaveBeenCalledWith(mockShoppingSessionDto);
+      expect(ordersService.create).toHaveBeenCalledWith(mockShoppingSessionDto);
       expect(result).toEqual(mockOrderDto);
     });
 
@@ -113,18 +113,18 @@ describe('OrdersController', () => {
       await expect(controller.createOrder(mockDecodedToken)).rejects.toThrow(ForbiddenException);
 
       expect(shoppingSessionsService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.email);
-      expect(ordersService.createFromShoppingSession).not.toHaveBeenCalled();
+      expect(ordersService.create).not.toHaveBeenCalled();
     });
 
     it('should propagate errors from OrdersService', async () => {
       const error = new Error('Failed to create order');
-      jest.spyOn(ordersService, 'createFromShoppingSession').mockRejectedValue(error);
+      jest.spyOn(ordersService, 'create').mockRejectedValue(error);
       jest.spyOn(shoppingSessionsService, 'findCurrentSessionForUser').mockResolvedValue(mockShoppingSessionDto);
 
       await expect(controller.createOrder(mockDecodedToken)).rejects.toThrow(error);
 
       expect(shoppingSessionsService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.email);
-      expect(ordersService.createFromShoppingSession).toHaveBeenCalledWith(mockShoppingSessionDto);
+      expect(ordersService.create).toHaveBeenCalledWith(mockShoppingSessionDto);
     });
 
     it('should have the correct path', () => {
