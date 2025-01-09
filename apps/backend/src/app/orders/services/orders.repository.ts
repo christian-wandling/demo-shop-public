@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../common/services/prisma.service';
 import { HydratedOrder } from '../entities/hydrated-order';
-import { ShoppingSessionDTO } from '../../shopping-sessions/dtos/shopping-session-dto';
 import { OrdersRepositoryModel } from '../models/orders-repository.model';
+import { CreateOrderDto } from '../dtos/create-order-dto';
 
 @Injectable()
 export class OrdersRepository implements OrdersRepositoryModel {
@@ -35,7 +35,7 @@ export class OrdersRepository implements OrdersRepositoryModel {
     });
   }
 
-  async createFromShoppingSession(dto: ShoppingSessionDTO): Promise<HydratedOrder> {
+  async create(dto: CreateOrderDto): Promise<HydratedOrder> {
     const [hydratedOrder] = await this.prisma.$transaction([
       this.prisma.order.create({
         data: {
@@ -61,7 +61,7 @@ export class OrdersRepository implements OrdersRepositoryModel {
       }),
       this.prisma.shoppingSession.delete({
         where: {
-          id: dto.id,
+          id: dto.shoppingSessionId,
         },
       }),
     ]);

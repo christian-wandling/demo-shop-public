@@ -5,6 +5,7 @@ import { ShoppingSessionDTO } from '../../shopping-sessions/dtos/shopping-sessio
 import { HydratedOrder } from '../entities/hydrated-order';
 import { Decimal } from '@prisma/client/runtime/library';
 import { OrderStatus, ShoppingSession } from '@prisma/client';
+import { CreateOrderDto } from '../dtos/create-order-dto';
 
 describe('OrdersRepository', () => {
   let repository: OrdersRepository;
@@ -140,9 +141,9 @@ describe('OrdersRepository', () => {
     });
   });
 
-  describe('createFromShoppingSession', () => {
-    const mockDto: ShoppingSessionDTO = {
-      id: 1,
+  describe('create', () => {
+    const mockDto: CreateOrderDto = {
+      shoppingSessionId: 1,
       userId: 1,
       items: [
         {
@@ -189,7 +190,7 @@ describe('OrdersRepository', () => {
       updatedAt: undefined,
     };
 
-    it('should create an order from shopping session and delete the session', async () => {
+    it('should create an order and delete the current shopping session', async () => {
       const mockCreateOperation = {
         data: {
           user: {
@@ -225,7 +226,7 @@ describe('OrdersRepository', () => {
       jest.spyOn(prismaService.shoppingSession, 'delete').mockResolvedValue(mockShoppingSession);
       jest.spyOn(prismaService, '$transaction').mockResolvedValue([mockCreatedOrder]);
 
-      const result = await repository.createFromShoppingSession(mockDto);
+      const result = await repository.create(mockDto);
 
       expect(prismaService.order.create).toHaveBeenCalledWith(mockCreateOperation);
       expect(prismaService.$transaction).toHaveBeenCalled();
@@ -236,7 +237,7 @@ describe('OrdersRepository', () => {
     it('should throw an error if transaction fails', async () => {
       prismaService.$transaction.mockRejectedValue(new Error('Transaction failed'));
 
-      await expect(repository.createFromShoppingSession(mockDto)).rejects.toThrow('Transaction failed');
+      await expect(repository.create(mockDto)).rejects.toThrow('Transaction failed');
     });
   });
 });
