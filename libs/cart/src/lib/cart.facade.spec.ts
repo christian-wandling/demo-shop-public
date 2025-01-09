@@ -10,8 +10,8 @@ describe('CartFacade', () => {
 
   const mockCartItems: CartItemDTO[] = [
     {
-      id: '1',
-      productId: 'prod1',
+      id: 1,
+      productId: 1,
       quantity: 2,
       productName: '',
       productThumbnail: '',
@@ -19,8 +19,8 @@ describe('CartFacade', () => {
       totalPrice: 0,
     },
     {
-      id: '2',
-      productId: 'prod2',
+      id: 2,
+      productId: 2,
       quantity: 1,
       productName: '',
       productThumbnail: '',
@@ -72,51 +72,51 @@ describe('CartFacade', () => {
 
   describe('addItem', () => {
     it('should update quantity when item exists', () => {
-      const existingItem = { id: '1', productId: 'prod1', quantity: 2 };
+      const existingItem = { id: 1, productId: 1, quantity: 2 };
       cartStore.getItemByProductId.mockReturnValue(existingItem);
 
-      facade.addItem('prod1');
+      facade.addItem(1);
 
-      expect(cartStore.update).toHaveBeenCalledWith('1', { quantity: 3 });
+      expect(cartStore.update).toHaveBeenCalledWith(1, { quantity: 3 });
       expect(cartStore.create).not.toHaveBeenCalled();
     });
 
     it('should create new item when item does not exist', () => {
       cartStore.getItemByProductId.mockReturnValue(null);
 
-      facade.addItem('prod3');
+      facade.addItem(3);
 
-      expect(cartStore.create).toHaveBeenCalledWith({ productId: 'prod3' });
+      expect(cartStore.create).toHaveBeenCalledWith({ productId: 3 });
       expect(cartStore.update).not.toHaveBeenCalled();
     });
   });
 
   describe('updateItem', () => {
     it('should update item quantity', () => {
-      facade.updateItem('1', 5);
+      facade.updateItem(1, 5);
 
-      expect(cartStore.update).toHaveBeenCalledWith('1', { quantity: 5 });
+      expect(cartStore.update).toHaveBeenCalledWith(1, { quantity: 5 });
     });
   });
 
   describe('removeItem', () => {
     it('should decrease quantity when item quantity > 1', () => {
-      const existingItem = { id: '1', productId: 'prod1', quantity: 2 };
+      const existingItem = { id: 1, productId: 1, quantity: 2 };
       cartStore.getItemById.mockReturnValue(existingItem);
 
-      facade.removeItem('1');
+      facade.removeItem(1);
 
-      expect(cartStore.update).toHaveBeenCalledWith('1', { quantity: 1 });
+      expect(cartStore.update).toHaveBeenCalledWith(1, { quantity: 1 });
       expect(cartStore.delete).not.toHaveBeenCalled();
     });
 
     it('should delete item when quantity is 1', () => {
-      const existingItem = { id: '1', productId: 'prod1', quantity: 1 };
+      const existingItem = { id: 1, productId: 1, quantity: 1 };
       cartStore.getItemById.mockReturnValue(existingItem);
 
-      facade.removeItem('1');
+      facade.removeItem(1);
 
-      expect(cartStore.delete).toHaveBeenCalledWith('1');
+      expect(cartStore.delete).toHaveBeenCalledWith(1);
       expect(cartStore.update).not.toHaveBeenCalled();
     });
   });

@@ -10,7 +10,7 @@ describe('UserStore', () => {
   let monitoringFacade: MonitoringFacade;
 
   const user: UserDTO = {
-    id: 'id',
+    id: 1,
     email: 'email',
     firstname: 'firstname',
     lastname: 'lastname',
@@ -66,7 +66,7 @@ describe('UserStore', () => {
     it('should update Sentry user when store user changes', async () => {
       await store.fetchCurrentUser();
 
-      expect(monitoringFacade.setUser).toHaveBeenCalledWith({ id: 'id' });
+      expect(monitoringFacade.setUser).toHaveBeenCalledWith({ id: 1 });
     });
   });
 });

@@ -4,5 +4,5 @@ import { ShoppingSession } from '@prisma/client';
 export interface ShoppingSessionsRepositoryModel {
   find(email: string): Promise<HydratedShoppingSession>;
   create(email: string): Promise<HydratedShoppingSession>;
-  remove(id: string, email: string): Promise<ShoppingSession>;
+  remove(id: number, email: string): Promise<ShoppingSession>;
 }

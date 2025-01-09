@@ -15,7 +15,7 @@ describe('ProductDTO', () => {
   describe('validation', () => {
     it('should pass validation with valid data', async () => {
       const productDto = plainToInstance(ProductDTO, {
-        id: '123',
+        id: 123,
         name: 'Test Product',
         description: 'Test Description',
         categories: ['category1', 'category2'],
@@ -29,7 +29,7 @@ describe('ProductDTO', () => {
 
     it('should fail validation with empty id', async () => {
       const productDto = plainToInstance(ProductDTO, {
-        id: '',
+        id: undefined,
         name: 'Test Product',
         description: 'Test Description',
         categories: ['category1'],
@@ -44,7 +44,7 @@ describe('ProductDTO', () => {
 
     it('should fail validation with invalid price', async () => {
       const productDto = plainToInstance(ProductDTO, {
-        id: '123',
+        id: 123,
         name: 'Test Product',
         description: 'Test Description',
         categories: ['category1'],
@@ -59,7 +59,7 @@ describe('ProductDTO', () => {
 
     it('should fail validation with empty categories array', async () => {
       const productDto = plainToInstance(ProductDTO, {
-        id: '123',
+        id: 123,
         name: 'Test Product',
         description: 'Test Description',
         categories: [],
@@ -106,7 +106,7 @@ describe('ProductDTO', () => {
       };
 
       const expectedDto: ProductDTO = {
-        id: '123',
+        id: 123,
         name: 'Test Product',
         description: 'Test Description',
         categories: ['category1', 'category2'],

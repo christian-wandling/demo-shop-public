@@ -22,23 +22,23 @@ describe('OrderListComponent', () => {
     },
     email: 'email',
     firstname: 'firstname',
-    id: 'id',
+    id: 1,
     lastname: 'lastname',
     phone: 'phone',
   };
 
   const orders: OrderDTO[] = [
     {
-      id: '1',
-      userId: '1',
+      id: 1,
+      userId: 1,
       items: [],
       amount: 0,
       status: OrderStatus.Created,
       created: new UTCDate(2020, 0, 1).toString(),
     },
     {
-      id: '2',
-      userId: '1',
+      id: 2,
+      userId: 1,
       items: [],
       amount: 0,
       status: OrderStatus.Created,

@@ -31,7 +31,7 @@ describe('PrintInvoiceService', () => {
   const mockDoc = new jsPDF('p', 'mm', 'A4', true);
 
   const mockOrder: OrderDTO = {
-    id: '12345',
+    id: 12345,
     created: new Date('2024-01-01').toString(),
     items: [
       {
@@ -39,17 +39,17 @@ describe('PrintInvoiceService', () => {
         quantity: 2,
         unitPrice: 10.99,
         totalPrice: 21.98,
-        productId: '',
+        productId: 1,
         productThumbnail: '',
       },
     ],
     amount: 21.98,
-    userId: '12345',
+    userId: 12345,
     status: OrderStatus.Created,
   };
 
   const mockUser: UserDTO = {
-    id: '12345',
+    id: 12345,
     firstname: 'John',
     lastname: 'Doe',
     email: 'john@example.com',

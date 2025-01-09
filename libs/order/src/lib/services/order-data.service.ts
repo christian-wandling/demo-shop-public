@@ -14,7 +14,7 @@ export class OrderDataService implements DataService<OrderDTO, OrderFilter> {
     return firstValueFrom(this.#ordersApi.getOrdersOfCurrentUser());
   }
 
-  loadById(id: string): Promise<OrderDTO> {
+  loadById(id: number): Promise<OrderDTO> {
     return firstValueFrom(this.#ordersApi.getOrder(id));
   }
 

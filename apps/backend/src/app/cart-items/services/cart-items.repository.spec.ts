@@ -52,9 +52,9 @@ describe('CartItemsRepository', () => {
   describe('create', () => {
     it('should create a cart item with correct data', async () => {
       const createCartItemDTO: CreateCartItemDTO = {
-        productId: '1',
+        productId: 1,
       };
-      const shoppingSessionId = '1';
+      const shoppingSessionId = 1;
       mockPrismaService.cartItem.create.mockResolvedValue(mockCartItem);
 
       const result = await repository.create(createCartItemDTO, shoppingSessionId);
@@ -86,9 +86,9 @@ describe('CartItemsRepository', () => {
 
     it('should throw an error if creation fails', async () => {
       const createCartItemDTO: CreateCartItemDTO = {
-        productId: '1',
+        productId: 1,
       };
-      const shoppingSessionId = '1';
+      const shoppingSessionId = 1;
       const error = new Error('Creation failed');
       mockPrismaService.cartItem.create.mockRejectedValue(error);
 
@@ -101,8 +101,8 @@ describe('CartItemsRepository', () => {
       const updateCartItemDTO: UpdateCartItemDTO = {
         quantity: 2,
       };
-      const id = '1';
-      const shoppingSessionId = '1';
+      const id = 1;
+      const shoppingSessionId = 1;
       const updatedCartItem = { ...mockCartItem, quantity: 2 };
       mockPrismaService.cartItem.update.mockResolvedValue(updatedCartItem);
 
@@ -131,8 +131,8 @@ describe('CartItemsRepository', () => {
       const updateCartItemDTO: UpdateCartItemDTO = {
         quantity: 2,
       };
-      const id = '1';
-      const shoppingSessionId = '1';
+      const id = 1;
+      const shoppingSessionId = 1;
       const error = new Error('Update failed');
       mockPrismaService.cartItem.update.mockRejectedValue(error);
 
@@ -142,8 +142,8 @@ describe('CartItemsRepository', () => {
 
   describe('remove', () => {
     it('should remove a cart item with correct id and shopping session id', async () => {
-      const id = '1';
-      const shoppingSessionId = '1';
+      const id = 1;
+      const shoppingSessionId = 1;
       mockPrismaService.cartItem.delete.mockResolvedValue(mockCartItem);
 
       const result = await repository.remove(id, shoppingSessionId);
@@ -158,8 +158,8 @@ describe('CartItemsRepository', () => {
     });
 
     it('should throw an error if removal fails', async () => {
-      const id = '1';
-      const shoppingSessionId = '1';
+      const id = 1;
+      const shoppingSessionId = 1;
       const error = new Error('Removal failed');
       mockPrismaService.cartItem.delete.mockRejectedValue(error);
 

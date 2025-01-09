@@ -7,7 +7,7 @@ import { firstValueFrom } from 'rxjs';
 
 interface AdditionalState {
   showCart: boolean;
-  shoppingSessionId: string | null;
+  shoppingSessionId: number | null;
 }
 
 const initialState: AdditionalState = { showCart: false, shoppingSessionId: null };
@@ -37,7 +37,7 @@ export const CartStore = signalStore(
       await firstValueFrom(cartItemsApi.createCartItem(dto));
       await this.loadShoppingSession();
     },
-    async delete(id: string): Promise<void> {
+    async delete(id: number): Promise<void> {
       if (!store.shoppingSessionId()) {
         throw new Error('Missing shopping session id');
       }
@@ -45,7 +45,7 @@ export const CartStore = signalStore(
       await firstValueFrom(cartItemsApi.removeCartItem(id));
       await this.loadShoppingSession();
     },
-    async update(id: string, entity: UpdateCartItemDTO): Promise<void> {
+    async update(id: number, entity: UpdateCartItemDTO): Promise<void> {
       if (!store.shoppingSessionId()) {
         throw new Error('Missing shopping session id');
       }
@@ -53,10 +53,10 @@ export const CartStore = signalStore(
       await firstValueFrom(cartItemsApi.updateCartItem(id, entity));
       await this.loadShoppingSession();
     },
-    getItemById(id: string): CartItemDTO | undefined {
+    getItemById(id: number): CartItemDTO | undefined {
       return store.entityMap()[id];
     },
-    getItemByProductId(productId: string): CartItemDTO | undefined {
+    getItemByProductId(productId: number): CartItemDTO | undefined {
       return store.entities().find(item => item.productId === productId);
     },
     setShowCart(showCart: boolean): void {

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { OrdersService } from './orders.service';
 import { OrdersRepository } from './orders.repository';
-import { NotFoundException, InternalServerErrorException, BadRequestException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { ShoppingSessionDTO } from '../../shopping-sessions/dtos/shopping-session-dto';
 import { HydratedOrder } from '../entities/hydrated-order';
 import { OrderDTO } from '../dtos/order-dto';
@@ -26,14 +26,14 @@ describe('OrdersService', () => {
     amount: 0,
     created: new Date(),
     status: OrderStatus.CREATED,
-    userId: '1',
-    id: '123',
+    userId: 1,
+    id: 123,
     items: [],
   };
 
   const mockShoppingSession: ShoppingSessionDTO = {
-    userId: '1',
-    id: 'session123',
+    userId: 1,
+    id: 123,
     items: [],
   };
 
@@ -60,16 +60,16 @@ describe('OrdersService', () => {
     it('should return an order when found', async () => {
       repository.find.mockResolvedValue(mockOrder);
 
-      const result = await service.find('123', 'test@example.com');
+      const result = await service.find(123, 'test@example.com');
 
       expect(result).toEqual(mockOrderDto);
-      expect(repository.find).toHaveBeenCalledWith('123', 'test@example.com');
+      expect(repository.find).toHaveBeenCalledWith(123, 'test@example.com');
     });
 
     it('should throw the right exception when order is not found', async () => {
       repository.find.mockResolvedValue(null);
 
-      await expect(service.find('123', 'test@example.com')).rejects.toThrow(NotFoundException);
+      await expect(service.find(123, 'test@example.com')).rejects.toThrow(NotFoundException);
     });
   });
 

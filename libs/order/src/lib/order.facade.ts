@@ -17,7 +17,7 @@ export class OrderFacade {
     }
   }
 
-  find(id: string): Signal<OrderDTO> {
+  find(id: number): Signal<OrderDTO> {
     return this.#orderStore.getById(id);
   }
 

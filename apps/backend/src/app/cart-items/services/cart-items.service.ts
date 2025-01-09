@@ -6,7 +6,7 @@ import { CartItemsRepository } from './cart-items.repository';
 export class CartItemsService {
   constructor(private readonly cartItemRepository: CartItemsRepository) {}
 
-  async create(dto: CreateCartItemDTO, shoppingSessionId: string): Promise<CartItemDTO> {
+  async create(dto: CreateCartItemDTO, shoppingSessionId: number): Promise<CartItemDTO> {
     const cartItem = await this.cartItemRepository.create(dto, shoppingSessionId);
 
     if (!cartItem) {
@@ -16,7 +16,7 @@ export class CartItemsService {
     return toCartItemDto(cartItem);
   }
 
-  async update(id: string, dto: UpdateCartItemDTO, shoppingSessionId: string): Promise<CartItemDTO> {
+  async update(id: number, dto: UpdateCartItemDTO, shoppingSessionId: number): Promise<CartItemDTO> {
     const cartItem = await this.cartItemRepository.update(id, dto, shoppingSessionId);
 
     if (!cartItem) {
@@ -26,7 +26,7 @@ export class CartItemsService {
     return toCartItemDto(cartItem);
   }
 
-  async remove(id: string, shoppingSessionId: string): Promise<void> {
+  async remove(id: number, shoppingSessionId: number): Promise<void> {
     const cartItem = await this.cartItemRepository.remove(id, shoppingSessionId);
 
     if (!cartItem) {

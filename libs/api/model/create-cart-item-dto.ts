@@ -9,5 +9,5 @@
  */
 
 export interface CreateCartItemDTO {
-  productId: string;
+  productId: number;
 }

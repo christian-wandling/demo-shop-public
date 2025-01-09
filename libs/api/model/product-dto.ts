@@ -10,7 +10,7 @@
 import { ImageDTO } from './image-dto';
 
 export interface ProductDTO {
-  readonly id: string;
+  readonly id: number;
   readonly name: string;
   readonly description: string;
   readonly categories: Array<string>;

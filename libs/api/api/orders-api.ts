@@ -179,25 +179,25 @@ export class OrdersApi {
    * @param reportProgress flag to report request and response progress.
    */
   public getOrder(
-    id: string,
+    id: number,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<OrderDTO>;
   public getOrder(
-    id: string,
+    id: number,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpResponse<OrderDTO>>;
   public getOrder(
-    id: string,
+    id: number,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpEvent<OrderDTO>>;
   public getOrder(
-    id: string,
+    id: number,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
@@ -252,7 +252,7 @@ export class OrdersApi {
       in: 'path',
       style: 'simple',
       explode: false,
-      dataType: 'string',
+      dataType: 'number',
       dataFormat: undefined,
     })}`;
     return this.httpClient.request<OrderDTO>('get', `${this.configuration.basePath}${localVarPath}`, {

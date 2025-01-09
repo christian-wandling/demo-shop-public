@@ -13,5 +13,5 @@ import { CartItemDTO } from '@demo-shop/api';
 export class CartItemsComponent {
   readonly items = input.required<CartItemDTO[]>();
 
-  removeItem = output<string>();
+  removeItem = output<number>();
 }

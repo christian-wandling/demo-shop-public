@@ -17,7 +17,7 @@ describe('UsersController', () => {
     firstname: 'firstname',
     lastname: 'lastname',
     phone: 'phone',
-    id: '1',
+    id: 1,
     email: 'test@example.com',
   };
 

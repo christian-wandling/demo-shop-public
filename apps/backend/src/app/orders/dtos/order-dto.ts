@@ -3,16 +3,18 @@ import { OrderItemDTO, toOrderItemDTO } from './order-item-dto';
 import { HydratedOrder } from '../entities/hydrated-order';
 import { batchConvert } from '../../common/util/batch-convert';
 import { $Enums } from '@prisma/client';
-import { ArrayMinSize, IsDate, IsEnum, IsNumber, Min, MinLength, ValidateNested } from 'class-validator';
+import { ArrayMinSize, IsDate, IsEnum, IsInt, IsNumber, Min, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class OrderDTO {
   @ApiResponseProperty()
-  @MinLength(1)
-  id: string;
+  @IsInt()
+  @Min(1)
+  id: number;
   @ApiResponseProperty()
-  @MinLength(1)
-  userId: string;
+  @IsInt()
+  @Min(1)
+  userId: number;
   @ApiProperty({ isArray: true, type: OrderItemDTO, readOnly: true })
   @ValidateNested({ each: true })
   @ArrayMinSize(1)
@@ -35,8 +37,8 @@ export const toOrderDto = (order: HydratedOrder): OrderDTO => {
   const amount = order.items.reduce((acc, curr) => acc + curr.quantity * Number(curr.price), 0);
 
   return {
-    id: order.id.toString(),
-    userId: order.userId.toString(),
+    id: order.id,
+    userId: order.userId,
     items,
     amount,
     status: order.status,

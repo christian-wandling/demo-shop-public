@@ -1,3 +1,3 @@
 export interface MonitoredUser {
-  id?: string;
+  id?: number;
 }

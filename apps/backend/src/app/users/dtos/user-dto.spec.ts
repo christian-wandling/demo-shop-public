@@ -8,7 +8,7 @@ describe('UserDTO', () => {
 
   beforeEach(() => {
     validUserData = {
-      id: '1',
+      id: 1,
       email: 'test@example.com',
       firstname: 'John',
       lastname: 'Doe',
@@ -100,7 +100,7 @@ describe('UserDTO', () => {
       const result = toUserDTO(mockUser);
 
       expect(result).toEqual({
-        id: '1',
+        id: 1,
         email: 'test@example.com',
         firstname: 'John',
         lastname: 'Doe',

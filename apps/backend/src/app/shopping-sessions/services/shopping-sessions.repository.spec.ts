@@ -150,7 +150,7 @@ describe('ShoppingSessionsRepository', () => {
     it('should remove a shopping session', async () => {
       jest.spyOn(prismaService.shoppingSession, 'delete').mockResolvedValue(mockSession);
 
-      const result = await repository.remove(mockSessionId.toString(), mockEmail);
+      const result = await repository.remove(mockSessionId, mockEmail);
 
       expect(prismaService.shoppingSession.delete).toHaveBeenCalledWith({
         where: {
@@ -166,7 +166,7 @@ describe('ShoppingSessionsRepository', () => {
     it('should throw an error when session is not found', async () => {
       jest.spyOn(prismaService.shoppingSession, 'delete').mockRejectedValue(new Error('Session not found'));
 
-      await expect(repository.remove(mockSessionId.toString(), mockEmail)).rejects.toThrow('Session not found');
+      await expect(repository.remove(mockSessionId, mockEmail)).rejects.toThrow('Session not found');
     });
   });
 });

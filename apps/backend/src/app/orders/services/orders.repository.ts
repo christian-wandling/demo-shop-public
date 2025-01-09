@@ -8,10 +8,10 @@ import { OrdersRepositoryModel } from '../models/orders-repository.model';
 export class OrdersRepository implements OrdersRepositoryModel {
   constructor(private readonly prisma: PrismaService) {}
 
-  find(id: string, email: string): Promise<HydratedOrder> {
+  find(id: number, email: string): Promise<HydratedOrder> {
     return this.prisma.order.findUniqueOrThrow({
       where: {
-        id: Number(id),
+        id,
         user: {
           email,
         },
@@ -40,12 +40,12 @@ export class OrdersRepository implements OrdersRepositoryModel {
       this.prisma.order.create({
         data: {
           user: {
-            connect: { id: Number(dto.userId) },
+            connect: { id: dto.userId },
           },
           items: {
             createMany: {
               data: dto.items.map(item => ({
-                productId: Number(item.productId),
+                productId: item.productId,
                 productName: item.productName,
                 productThumbnail: item.productThumbnail,
                 quantity: item.quantity,
@@ -61,7 +61,7 @@ export class OrdersRepository implements OrdersRepositoryModel {
       }),
       this.prisma.shoppingSession.delete({
         where: {
-          id: Number(dto.id),
+          id: dto.id,
         },
       }),
     ]);

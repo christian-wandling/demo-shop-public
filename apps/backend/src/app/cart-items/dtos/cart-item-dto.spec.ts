@@ -8,8 +8,8 @@ describe('CartItemDTO', () => {
 
   beforeEach(() => {
     dto = new CartItemDTO();
-    dto.id = '123';
-    dto.productId = '456';
+    dto.id = 123;
+    dto.productId = 456;
     dto.productName = 'Test Product';
     dto.productThumbnail = 'https://example.com/image.jpg';
     dto.quantity = 2;
@@ -23,14 +23,14 @@ describe('CartItemDTO', () => {
   });
 
   it('should fail validation with empty id', async () => {
-    dto.id = '';
+    dto.id = undefined;
     const errors = await validate(dto);
     expect(errors.length).toBeGreaterThan(0);
     expect(errors[0].property).toBe('id');
   });
 
   it('should fail validation with empty productId', async () => {
-    dto.productId = '';
+    dto.productId = undefined;
     const errors = await validate(dto);
     expect(errors.length).toBeGreaterThan(0);
     expect(errors[0].property).toBe('productId');
@@ -109,7 +109,7 @@ describe('CreateCartItemDTO', () => {
 
   beforeEach(() => {
     dto = new CreateCartItemDTO();
-    dto.productId = '123';
+    dto.productId = 123;
   });
 
   it('should pass validation with valid productId', async () => {
@@ -118,7 +118,7 @@ describe('CreateCartItemDTO', () => {
   });
 
   it('should fail validation with empty productId', async () => {
-    dto.productId = '';
+    dto.productId = undefined;
     const errors = await validate(dto);
     expect(errors.length).toBeGreaterThan(0);
   });
@@ -160,8 +160,8 @@ describe('toCartItemDto', () => {
     const result = toCartItemDto(mockHydratedItem);
 
     expect(result).toEqual({
-      id: '123',
-      productId: '456',
+      id: 123,
+      productId: 456,
       productName: 'Test Product',
       productThumbnail: 'https://example.com/image.jpg',
       quantity: 2,

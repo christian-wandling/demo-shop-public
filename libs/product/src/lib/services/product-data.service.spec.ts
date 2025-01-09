@@ -9,7 +9,7 @@ describe('ProductDataService', () => {
 
   const mockProducts: ProductDTO[] = [
     {
-      id: '1',
+      id: 1,
       name: 'Product 1',
       description: '',
       categories: [],
@@ -17,7 +17,7 @@ describe('ProductDataService', () => {
       price: 0,
     },
     {
-      id: '2',
+      id: 2,
       name: 'Product 2',
       description: '',
       categories: [],
@@ -56,10 +56,10 @@ describe('ProductDataService', () => {
   });
 
   it('should get a product by id', async () => {
-    const product = await service.loadById('1');
+    const product = await service.loadById(1);
 
     expect(product).toEqual(mockProducts[0]);
-    expect(productsApi.getProduct).toHaveBeenCalledWith('1');
+    expect(productsApi.getProduct).toHaveBeenCalledWith(1);
   });
 
   it('should throw an error when calling not implemented functions', async () => {

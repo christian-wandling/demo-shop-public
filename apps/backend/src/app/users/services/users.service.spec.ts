@@ -35,7 +35,7 @@ describe('UsersService', () => {
   };
 
   const mockUserDto: UserDTO = {
-    id: '1',
+    id: 1,
     email: 'john.doe@email.com',
     firstname: 'john',
     lastname: 'doe',

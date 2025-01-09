@@ -19,7 +19,7 @@ export class ProductsController {
   }
 
   @CustomGet({ path: ':id', res: ProductDTO })
-  getProduct(@Param('id') id: string): Promise<ProductDTO> {
+  getProduct(@Param('id') id: number): Promise<ProductDTO> {
     return this.productsService.find(id);
   }
 }

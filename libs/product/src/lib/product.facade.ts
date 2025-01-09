@@ -21,7 +21,7 @@ export class ProductFacade {
     return this.#store.filter;
   }
 
-  getById(id: string): Signal<ProductDTO> {
+  getById(id: number): Signal<ProductDTO> {
     return this.#store.getById(id);
   }
 

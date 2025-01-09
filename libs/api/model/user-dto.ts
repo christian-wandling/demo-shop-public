@@ -10,7 +10,7 @@
 import { AddressDTO } from './address-dto';
 
 export interface UserDTO {
-  readonly id: string;
+  readonly id: number;
   readonly email: string;
   readonly firstname: string;
   readonly lastname: string;

@@ -10,16 +10,16 @@ describe('OrderDataService', () => {
 
   const mockOrders: OrderDTO[] = [
     {
-      id: '1',
-      userId: '1',
+      id: 1,
+      userId: 1,
       items: [],
       amount: 0,
       status: OrderStatus.Created,
       created: new Date().toString(),
     },
     {
-      id: '2',
-      userId: '1',
+      id: 2,
+      userId: 1,
       items: [],
       amount: 0,
       status: OrderStatus.Created,
@@ -58,10 +58,10 @@ describe('OrderDataService', () => {
   });
 
   it('should get an order by id', async () => {
-    const order = await service.loadById('1');
+    const order = await service.loadById(1);
 
     expect(order).toEqual(mockOrders[0]);
-    expect(ordersApi.getOrder).toHaveBeenCalledWith('1');
+    expect(ordersApi.getOrder).toHaveBeenCalledWith(1);
   });
 
   it('should create an order', async () => {

@@ -22,8 +22,8 @@ describe('CartComponent', () => {
 
   const mockCartItems: CartItemDTO[] = [
     {
-      id: 'id',
-      productId: 'productId',
+      id: 1,
+      productId: 1,
       productName: 'productName',
       productThumbnail: 'productThumbnail',
       quantity: 1,
@@ -31,8 +31,8 @@ describe('CartComponent', () => {
       totalPrice: 1,
     },
     {
-      id: 'id2',
-      productId: 'productId2',
+      id: 2,
+      productId: 2,
       productName: 'productName2',
       productThumbnail: 'productThumbnail2',
       quantity: 2,
@@ -93,7 +93,7 @@ describe('CartComponent', () => {
   });
 
   it('should remove an item', () => {
-    const id = '1';
+    const id = 1;
 
     component.removeItem(id);
 

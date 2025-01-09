@@ -8,7 +8,7 @@ describe('OrderItemDTO', () => {
 
   beforeEach(() => {
     dto = {
-      productId: 'prod123',
+      productId: 123,
       productName: 'Test Product',
       productThumbnail: 'https://example.com/image.jpg',
       quantity: 2,
@@ -25,9 +25,10 @@ describe('OrderItemDTO', () => {
 
     describe('productId', () => {
       it('should fail validation when empty', async () => {
-        dto.productId = '';
+        dto.productId = undefined;
         const errors = await validate(Object.assign(new OrderItemDTO(), dto));
-        expect(errors[0].constraints).toHaveProperty('minLength');
+        expect(errors[0].constraints).toHaveProperty('isInt');
+        expect(errors[0].constraints).toHaveProperty('min');
       });
     });
 
@@ -110,7 +111,7 @@ describe('toOrderItemDTO', () => {
     const result = toOrderItemDTO(orderItem);
 
     expect(result).toEqual({
-      productId: '123',
+      productId: 123,
       productName: 'Test Product',
       productThumbnail: 'https://example.com/image.jpg',
       quantity: 2,

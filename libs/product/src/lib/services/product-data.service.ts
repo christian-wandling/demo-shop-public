@@ -14,7 +14,7 @@ export class ProductDataService implements DataService<ProductDTO, ProductFilter
     return firstValueFrom(this.#productsApi.getAllProducts());
   }
 
-  loadById(id: string): Promise<ProductDTO> {
+  loadById(id: number): Promise<ProductDTO> {
     return firstValueFrom(this.#productsApi.getProduct(id));
   }
 

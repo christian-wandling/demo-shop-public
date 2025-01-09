@@ -21,7 +21,7 @@ export class CartComponent {
   readonly totalPrice = this.#cartFacade.getTotalPrice();
   readonly showCart = this.#cartFacade.getShowCart();
 
-  removeItem(id: string): void {
+  removeItem(id: number): void {
     this.#cartFacade.removeItem(id);
   }
 

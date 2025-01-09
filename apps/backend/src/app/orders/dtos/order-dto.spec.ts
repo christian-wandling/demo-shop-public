@@ -9,11 +9,11 @@ describe('OrderDTO', () => {
   describe('validation', () => {
     it('should pass validation with valid data', async () => {
       const orderData: OrderDTO = {
-        id: '123',
-        userId: '456',
+        id: 123,
+        userId: 456,
         items: [
           {
-            productId: '101',
+            productId: 101,
             quantity: 2,
             unitPrice: 29.99,
             productName: 'productName',
@@ -33,8 +33,8 @@ describe('OrderDTO', () => {
 
     it('should fail validation with empty items array', async () => {
       const orderData: OrderDTO = {
-        id: '123',
-        userId: '456',
+        id: 123,
+        userId: 456,
         items: [], // Invalid: array must have at least one item
         amount: 100,
         status: OrderStatus.CREATED,
@@ -50,8 +50,8 @@ describe('OrderDTO', () => {
 
     it('should fail validation with missing items array', async () => {
       const orderData = {
-        id: '123',
-        userId: '456',
+        id: 123,
+        userId: 456,
         amount: 100,
         status: OrderStatus.CREATED,
         created: new Date(),
@@ -65,11 +65,11 @@ describe('OrderDTO', () => {
 
     it('should fail validation with empty id', async () => {
       const orderData = {
-        id: '', // Invalid
-        userId: '456',
+        id: undefined, // Invalid
+        userId: 456,
         items: [
           {
-            productId: '101',
+            productId: 101,
             quantity: 2,
             unitPrice: 29.99,
             productName: 'productName',
@@ -90,11 +90,11 @@ describe('OrderDTO', () => {
 
     it('should fail validation with invalid amount', async () => {
       const orderData = {
-        id: '123',
-        userId: '456',
+        id: 123,
+        userId: 456,
         items: [
           {
-            productId: '101',
+            productId: 101,
             quantity: 2,
             unitPrice: 29.99,
             productName: 'productName',
@@ -115,11 +115,11 @@ describe('OrderDTO', () => {
 
     it('should fail validation with invalid status', async () => {
       const orderData = {
-        id: '123',
-        userId: '456',
+        id: 123,
+        userId: 456,
         items: [
           {
-            productId: '101',
+            productId: 101,
             quantity: 2,
             unitPrice: 29.99,
             productName: 'productName',
@@ -170,11 +170,11 @@ describe('OrderDTO', () => {
       const result = toOrderDto(mockHydratedOrder);
 
       expect(result).toEqual({
-        id: '123',
-        userId: '456',
+        id: 123,
+        userId: 456,
         items: [
           {
-            productId: '101',
+            productId: 101,
             quantity: 2,
             unitPrice: 29.99,
             productName: '',

@@ -24,14 +24,14 @@ describe('OrderDetailComponent', () => {
     },
     email: 'email',
     firstname: 'firstname',
-    id: 'id',
+    id: 1,
     lastname: 'lastname',
     phone: 'phone',
   };
 
   const mockOrder: OrderDTO = {
-    id: '1',
-    userId: '1',
+    id: 1,
+    userId: 1,
     items: [],
     amount: 0,
     status: OrderStatus.Created,
@@ -49,7 +49,7 @@ describe('OrderDetailComponent', () => {
           useValue: {
             snapshot: {
               params: {
-                id: 'id',
+                id: 1,
               },
             },
           },

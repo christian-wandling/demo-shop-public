@@ -38,7 +38,7 @@ export class OrdersController {
 
   @CustomGet({ path: ':id', res: OrderDTO })
   getOrder(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken
   ): Promise<OrderDTO> {
     return this.ordersService.find(id, decodedToken.email);

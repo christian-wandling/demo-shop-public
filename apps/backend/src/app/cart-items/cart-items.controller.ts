@@ -35,7 +35,7 @@ export class CartItemsController {
 
   @CustomPatch({ path: ':id', body: UpdateCartItemDTO, res: CartItemDTO })
   async updateCartItem(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() dto: UpdateCartItemDTO,
     @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken
   ): Promise<CartItemDTO> {
@@ -50,7 +50,7 @@ export class CartItemsController {
 
   @CustomDelete({ path: ':id' })
   async removeCartItem(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken
   ): Promise<void> {
     const shoppingSession = await this.shoppingSessionsService.findCurrentSessionForUser(decodedToken.email);

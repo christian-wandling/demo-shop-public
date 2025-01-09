@@ -14,8 +14,8 @@ describe('ShoppingSessionDTO', () => {
   describe('Validation', () => {
     it('should validate a valid DTO', async () => {
       const dto = plainToInstance(ShoppingSessionDTO, {
-        id: 'valid-id',
-        userId: 'valid-user-id',
+        id: 1,
+        userId: 1,
         items: [],
       });
 
@@ -25,8 +25,8 @@ describe('ShoppingSessionDTO', () => {
 
     it('should fail validation with empty id', async () => {
       const dto = plainToInstance(ShoppingSessionDTO, {
-        id: '',
-        userId: 'valid-user-id',
+        id: undefined,
+        userId: 1,
         items: [],
       });
 
@@ -37,8 +37,8 @@ describe('ShoppingSessionDTO', () => {
 
     it('should fail validation with empty userId', async () => {
       const dto = plainToInstance(ShoppingSessionDTO, {
-        id: 'valid-id',
-        userId: '',
+        id: 1,
+        userId: undefined,
         items: [],
       });
 
@@ -49,12 +49,12 @@ describe('ShoppingSessionDTO', () => {
 
     it('should validate nested cart items', async () => {
       const dto = plainToInstance(ShoppingSessionDTO, {
-        id: 'valid-id',
-        userId: 'valid-user-id',
+        id: 1,
+        userId: 1,
         items: [
           {
-            id: '', // Invalid empty id
-            productId: 'product-1',
+            id: undefined, // Invalid empty id
+            productId: 1,
             quantity: 1,
             price: 10.99,
           },
@@ -80,8 +80,8 @@ describe('ShoppingSessionDTO', () => {
       const result = toShoppingSessionDTO(mockSession);
 
       expect(result).toEqual({
-        id: '1',
-        userId: '1',
+        id: 1,
+        userId: 1,
         items: [],
       });
     });

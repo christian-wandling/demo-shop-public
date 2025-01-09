@@ -33,7 +33,7 @@ describe('ProductsService', () => {
   };
 
   const mockProductDTO: ProductDTO = {
-    id: '1',
+    id: 1,
     name: 'Test Product',
     price: 19.99,
     description: 'description',
@@ -85,17 +85,17 @@ describe('ProductsService', () => {
     it('should return a product DTO when product exists', async () => {
       repository.find.mockResolvedValue(mockProduct);
 
-      const result = await service.find('1');
+      const result = await service.find(1);
 
       expect(result).toEqual(mockProductDTO);
-      expect(repository.find).toHaveBeenCalledWith('1');
+      expect(repository.find).toHaveBeenCalledWith(1);
     });
 
     it('should throw the right exception when product does not exist', async () => {
       repository.find.mockResolvedValue(null);
 
-      await expect(service.find('1')).rejects.toThrow(NotFoundException);
-      expect(repository.find).toHaveBeenCalledWith('1');
+      await expect(service.find(1)).rejects.toThrow(NotFoundException);
+      expect(repository.find).toHaveBeenCalledWith(1);
     });
   });
 });

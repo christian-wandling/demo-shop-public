@@ -4,11 +4,13 @@ import { IsInt, IsNumber, IsUrl, Min, MinLength } from 'class-validator';
 
 export class CartItemDTO {
   @ApiResponseProperty()
-  @MinLength(1)
-  id: string;
+  @IsInt()
+  @Min(1)
+  id: number;
   @ApiResponseProperty()
-  @MinLength(1)
-  productId: string;
+  @IsInt()
+  @Min(1)
+  productId: number;
   @ApiResponseProperty()
   @MinLength(1)
   productName: string;
@@ -38,16 +40,17 @@ export class UpdateCartItemDTO {
 
 export class CreateCartItemDTO {
   @ApiProperty()
-  @MinLength(1)
-  productId: string;
+  @IsInt()
+  @Min(1)
+  productId: number;
 }
 
 export const toCartItemDto = (item: HydratedCartItem): CartItemDTO => {
   const productThumbnail = item.product.images?.[0]?.uri;
 
   return {
-    id: item.id.toString(),
-    productId: item.productId.toString(),
+    id: item.id,
+    productId: item.productId,
     productName: item.product.name,
     productThumbnail,
     quantity: item.quantity,

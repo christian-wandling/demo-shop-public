@@ -9,7 +9,7 @@ describe('ProductStore', () => {
 
   const mockEntities: ProductDTO[] = [
     {
-      id: '1',
+      id: 1,
       name: 'Product 1',
       categories: ['Electronics'],
       description: '',
@@ -17,7 +17,7 @@ describe('ProductStore', () => {
       price: 0,
     },
     {
-      id: '2',
+      id: 2,
       name: 'Product 2',
       categories: ['Furniture'],
       description: '',
@@ -25,7 +25,7 @@ describe('ProductStore', () => {
       price: 0,
     },
     {
-      id: '3',
+      id: 3,
       name: 'Product 3',
       categories: ['Electronics'],
       description: '',
@@ -81,7 +81,7 @@ describe('ProductStore', () => {
   });
 
   it('should get an entity by ID and update selection', () => {
-    const entity = productStore.getById('1');
+    const entity = productStore.getById(1);
 
     expect(entity()).toEqual(mockEntities[0]);
   });
