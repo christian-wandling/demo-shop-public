@@ -1,7 +1,7 @@
 import { ApiResponseProperty } from '@nestjs/swagger';
 import { HydratedUser } from '../entities/hydrated-user';
 import { AddressDTO, toAddressDTO } from './address-dto';
-import { IsEmail, IsInt, IsPhoneNumber, IsString, Min, MinLength } from 'class-validator';
+import { IsEmail, IsInt, IsPhoneNumber, Min, MinLength } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class UserDTO {
