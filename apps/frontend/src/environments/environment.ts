@@ -1,14 +1,14 @@
 export const environment = {
-  name: 'production',
-  production: true,
+  name: 'development',
+  production: false,
   keycloak: {
-    url: '$KEYCLOAK_URL',
-    realm: '$KEYCLOAK_REALM',
-    clientId: '$KEYCLOAK_CLIENT_UI',
+    url: 'http://localhost:8080',
+    realm: 'demo_shop',
+    clientId: 'demo_shop_ui',
   },
   sentry: {
-    enabled: true,
-    dsn: '$SENTRY_DEMO_SHOP_UI_DSN',
-    trustedDomain: '$SENTRY_TRUSTED_DOMAIN',
+    enabled: false,
+    dsn: '',
+    trustedDomain: '',
   },
 };

@@ -15,8 +15,8 @@ ARG SENTRY_TRUSTED_DOMAIN
 WORKDIR /app
 COPY . .
 COPY --from=dev /app/node_modules ./node_modules
-COPY apps/frontend/src/environments/environment.ts /environment.template.ts
-RUN envsubst < /environment.template.ts > apps/frontend/src/environments/environment.ts \
+COPY apps/frontend/src/environments/environment.production.ts /environment.template.ts
+RUN envsubst < /environment.template.ts > apps/frontend/src/environments/environment.production.ts \
     && npx nx build frontend
 
 

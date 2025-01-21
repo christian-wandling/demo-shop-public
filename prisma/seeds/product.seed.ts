@@ -1,6 +1,6 @@
 import { Image, PrismaClient, Product } from '@prisma/client';
 import { faker } from '@faker-js/faker';
-import { generateDescription } from './ai-generate';
+// import { generateDescription } from './ai-generate';
 
 const getHasProducts = async (prisma: PrismaClient) => {
   const product = await prisma.product.findFirst();
@@ -45,7 +45,8 @@ export const seedProducts = async (prisma: PrismaClient): Promise<Array<Product 
       data: {
         name,
         price: faker.number.int({ min: 1, max: 20 }) * 10 - 1,
-        description: await generateDescription(name),
+        // description: await generateDescription(name),
+        description: faker.commerce.productDescription(),
         categories: {
           connect: [category],
         },

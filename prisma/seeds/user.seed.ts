@@ -3,8 +3,8 @@ import { faker } from '@faker-js/faker';
 import * as dotenv from 'dotenv';
 import * as process from 'node:process';
 
-interface keycloakUserId {
-  id: number;
+interface UserIdentity {
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -100,7 +100,7 @@ const getKeycloakAdminToken = async (): Promise<KeycloakAdminUser> => {
   }
 };
 
-const getKeycloakUserIds = async (): Promise<keycloakUserId[]> => {
+const getKeycloakUserIds = async (): Promise<UserIdentity[]> => {
   const { access_token } = await getKeycloakAdminToken();
   const keycloakUrl = process.env.KEYCLOAK_URL as string;
   const keycloakRealm = process.env.KEYCLOAK_REALM as string;
