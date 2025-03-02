@@ -35,21 +35,24 @@ export class CheckoutComponent {
       }),
       phone: this.#fb.control(this.user()?.phone ?? '', { validators: Validators.required, nonNullable: true }),
       address: this.#fb.group<CheckoutAddressForm>({
-        country: this.#fb.control(this.user()?.address.country ?? '', {
+        country: this.#fb.control(this.user()?.address?.country ?? '', {
           validators: Validators.required,
           nonNullable: true,
         }),
-        street: this.#fb.control(this.user()?.address.street ?? '', {
+        street: this.#fb.control(this.user()?.address?.street ?? '', {
           validators: Validators.required,
           nonNullable: true,
         }),
-        apartment: this.#fb.control(this.user()?.address.apartment ?? '', {
+        apartment: this.#fb.control(this.user()?.address?.apartment ?? '', {
           validators: Validators.required,
           nonNullable: true,
         }),
-        city: this.#fb.control(this.user()?.address.city ?? '', { validators: Validators.required, nonNullable: true }),
-        region: this.#fb.control(this.user()?.address.region ?? ''),
-        zip: this.#fb.control(this.user()?.address.zip ?? '', { validators: Validators.required, nonNullable: true }),
+        city: this.#fb.control(this.user()?.address?.city ?? '', {
+          validators: Validators.required,
+          nonNullable: true,
+        }),
+        region: this.#fb.control(this.user()?.address?.region ?? ''),
+        zip: this.#fb.control(this.user()?.address?.zip ?? '', { validators: Validators.required, nonNullable: true }),
       }),
     })
   );

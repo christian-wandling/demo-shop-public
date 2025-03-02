@@ -25,7 +25,7 @@ async function bootstrap() {
   });
   app.enableVersioning({
     type: VersioningType.URI,
-    defaultVersion: '1',
+    defaultVersion: 'v1',
   });
   app.setGlobalPrefix(globalPrefix);
   app.useGlobalPipes(

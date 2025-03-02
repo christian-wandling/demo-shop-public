@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CartComponent } from './cart.component';
 import { CartFacade } from '../../cart.facade';
 import { Component, Input, signal } from '@angular/core';
-import { CartItemDTO } from '@demo-shop/api';
+import { CartItemResponse } from '@demo-shop/api';
 import { provideRouter } from '@angular/router';
 import { CartItemsComponent } from '../shared/cart-items/cart-items.component';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
@@ -17,10 +17,10 @@ describe('CartComponent', () => {
 
   @Component({ standalone: true, selector: 'lib-cart-items', template: '' })
   class CartItemsStubComponent {
-    @Input() items: CartItemDTO[] = [];
+    @Input() items: CartItemResponse[] = [];
   }
 
-  const mockCartItems: CartItemDTO[] = [
+  const mockCartItems: CartItemResponse[] = [
     {
       id: 1,
       productId: 1,

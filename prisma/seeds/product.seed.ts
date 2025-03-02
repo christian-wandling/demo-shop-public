@@ -45,10 +45,9 @@ export const seedProducts = async (prisma: PrismaClient): Promise<Array<Product 
       data: {
         name,
         price: faker.number.int({ min: 1, max: 20 }) * 10 - 1,
-        // description: await generateDescription(name),
         description: faker.commerce.productDescription(),
         categories: {
-          connect: [category],
+          create: [{ category_id: category.id }],
         },
         images: {
           connect: [image],

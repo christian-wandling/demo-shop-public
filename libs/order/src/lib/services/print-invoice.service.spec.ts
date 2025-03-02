@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { PrintInvoiceService } from './print-invoice.service';
 import { jsPDF } from 'jspdf';
-import { OrderDTO, OrderStatus, UserDTO } from '@demo-shop/api';
+import { OrderResponse, OrderStatus, UserResponse } from '@demo-shop/api';
 import { columns, companyData, createDrawOptions, paymentTerms } from '../config/print-invoice.config';
 
 jest.mock('jspdf', () => {
@@ -30,7 +30,7 @@ describe('PrintInvoiceService', () => {
   let service: PrintInvoiceService;
   const mockDoc = new jsPDF('p', 'mm', 'A4', true);
 
-  const mockOrder: OrderDTO = {
+  const mockOrder: OrderResponse = {
     id: 12345,
     created: new Date('2024-01-01').toString(),
     items: [
@@ -48,7 +48,7 @@ describe('PrintInvoiceService', () => {
     status: OrderStatus.Created,
   };
 
-  const mockUser: UserDTO = {
+  const mockUser: UserResponse = {
     id: 12345,
     firstname: 'John',
     lastname: 'Doe',

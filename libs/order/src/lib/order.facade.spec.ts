@@ -2,13 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { OrderFacade } from './order.facade';
 import { OrderStore } from './+state/order.store';
 import { signal } from '@angular/core';
-import { OrderDTO, OrderStatus } from '@demo-shop/api';
+import { OrderResponse, OrderStatus } from '@demo-shop/api';
 
 describe('OrderFacade', () => {
   let orderFacade: OrderFacade;
   let orderStore: any;
 
-  const mockOrders: OrderDTO[] = [
+  const mockOrders: OrderResponse[] = [
     {
       id: 1,
       userId: 1,

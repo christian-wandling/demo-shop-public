@@ -8,119 +8,151 @@ datasource db {
 }
 
 model User {
-  id               Int               @id @default(autoincrement())
-  keycloakUserId   String            @unique
-  email            String            @unique
-  firstname        String
-  lastname         String
-  phone            String?
-  address          Address?
-  shoppingSessions ShoppingSession[]
-  orders           Order[]
-  deleted          Boolean           @default(false)
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
-  deletedAt        DateTime?
+  id                Int               @id @default(autoincrement())
+  keycloak_user_id  String            @unique
+  email             String            @unique
+  firstname         String
+  lastname          String
+  phone             String?
+  address           Address?
+  shopping_sessions ShoppingSession[]
+  orders            Order[]
+  deleted           Boolean           @default(false)
+  deleted_at        DateTime?
+  created_at        DateTime          @default(now())
+  updated_at        DateTime          @updatedAt
+
+  @@map("user")
 }
 
 model Address {
-  id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int      @unique
-  street    String
-  apartment String
-  city      String
-  zip       String
-  region    String?
-  country   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id    Int      @unique
+  street     String
+  apartment  String
+  city       String
+  zip        String
+  region     String?
+  country    String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("address")
 }
 
 model ShoppingSession {
-  id        Int        @id @default(autoincrement())
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  cartItems CartItem[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id         Int        @id @default(autoincrement())
+  user       User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id    Int
+  cart_items CartItem[]
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+
+  @@map("shopping_session")
 }
 
 model CartItem {
-  id                Int             @id @default(autoincrement())
-  shoppingSession   ShoppingSession @relation(fields: [shoppingSessionId], references: [id], onDelete: Cascade)
-  shoppingSessionId Int
-  product           Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId         Int
-  quantity          Int
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
+  id                  Int             @id @default(autoincrement())
+  shopping_session    ShoppingSession @relation(fields: [shopping_session_id], references: [id], onDelete: Cascade)
+  shopping_session_id Int
+  product             Product         @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  product_id          Int
+  quantity            Int
+  created_at          DateTime        @default(now())
+  updated_at          DateTime        @updatedAt
+
+  @@unique([shopping_session_id, product_id])
+  @@map("cart_item")
 }
 
 model Product {
-  id          Int        @id @default(autoincrement())
+  id          Int               @id @default(autoincrement())
   name        String
-  categories  Category[]
+  categories  CategoryProduct[]
   images      Image[]
-  cartItems   CartItem[]
-  price       Decimal
+  cart_items  CartItem[]
+  price       Decimal           @db.Decimal(20, 2)
   description String
-  deleted     Boolean    @default(false)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  deletedAt   DateTime?
+  deleted     Boolean           @default(false)
+  created_at  DateTime          @default(now())
+  updated_at  DateTime          @updatedAt
+  deleted_at  DateTime?
+
+  @@map("product")
 }
 
 model Category {
-  id        Int       @id @default(autoincrement())
-  name      String    @unique
-  product   Product[]
-  deleted   Boolean   @default(false)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
+  id         Int               @id @default(autoincrement())
+  name       String            @unique
+  deleted    Boolean           @default(false)
+  created_at DateTime          @default(now())
+  updated_at DateTime          @updatedAt
+  deleted_at DateTime?
+  products   CategoryProduct[]
+
+  @@map("category")
+}
+
+model CategoryProduct {
+  category    Category @relation(fields: [category_id], references: [id])
+  category_id Int
+  product     Product  @relation(fields: [product_id], references: [id])
+  product_id  Int
+
+  @@id([category_id, product_id])
+  @@map("category_product")
 }
 
 model Image {
-  id        Int       @id @default(autoincrement())
-  name      String
-  uri       String    @unique
-  product   Product?  @relation(fields: [productId], references: [id])
-  productId Int?
-  deleted   Boolean   @default(false)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
+  id         Int       @id @default(autoincrement())
+  name       String
+  uri        String    @unique
+  product    Product?  @relation(fields: [product_id], references: [id])
+  product_id Int?
+  deleted    Boolean   @default(false)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  @@map("image")
 }
 
 model Order {
-  id        Int         @id @default(autoincrement())
-  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  items     OrderItem[]
-  status    OrderStatus
-  deleted   Boolean     @default(false)
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  deletedAt DateTime?
+  id          Int         @id @default(autoincrement())
+  user        User        @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id     Int
+  order_items OrderItem[]
+  status      OrderStatus
+  deleted     Boolean     @default(false)
+  created_at  DateTime    @default(now())
+  updated_at  DateTime    @updatedAt
+  deleted_at  DateTime?
+
+  @@map("order")
 }
 
 model OrderItem {
-  id               Int       @id @default(autoincrement())
-  order            Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  orderId          Int
-  productId        Int
-  productName      String
-  productThumbnail String
-  quantity         Int
-  price            Decimal
-  deleted          Boolean   @default(false)
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
-  deletedAt        DateTime?
+  id                Int       @id @default(autoincrement())
+  order             Order     @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  order_id          Int
+  product_id        Int
+  product_name      String
+  product_thumbnail String
+  quantity          Int
+  price             Decimal   @db.Decimal(20, 2)
+  deleted           Boolean   @default(false)
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
+  deleted_at        DateTime?
+
+  @@unique([order_id, product_id])
+  @@map("order_item")
 }
 
 enum OrderStatus {
-  CREATED
-  COMPLETED
+  Created   @map("created")
+  Completed @map("completed")
+
+  @@map("order_status")
 }

@@ -1,6 +1,6 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { CartStore } from './+state/cart.store';
-import { CartItemDTO } from '@demo-shop/api';
+import { CartItemResponse } from '@demo-shop/api';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +8,7 @@ import { CartItemDTO } from '@demo-shop/api';
 export class CartFacade {
   readonly #cartStore = inject(CartStore);
 
-  getAll(): Signal<CartItemDTO[]> {
+  getAll(): Signal<CartItemResponse[]> {
     return this.#cartStore.entities;
   }
 

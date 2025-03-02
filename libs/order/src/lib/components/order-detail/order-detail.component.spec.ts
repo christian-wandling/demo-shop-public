@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OrderDetailComponent } from './order-detail.component';
 import { UserFacade } from '@demo-shop/user';
-import { OrderDTO, OrderStatus } from '@demo-shop/api';
+import { OrderResponse, OrderStatus } from '@demo-shop/api';
 import { signal } from '@angular/core';
 import { OrderFacade } from '../../order.facade';
 import { ActivatedRoute } from '@angular/router';
@@ -29,7 +29,7 @@ describe('OrderDetailComponent', () => {
     phone: 'phone',
   };
 
-  const mockOrder: OrderDTO = {
+  const mockOrder: OrderResponse = {
     id: 1,
     userId: 1,
     items: [],

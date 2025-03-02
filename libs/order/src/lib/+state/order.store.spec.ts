@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { OrderStore } from './order.store';
 import { OrderDataService } from '../services/order-data.service';
-import { OrderDTO, OrderStatus } from '@demo-shop/api';
+import { OrderResponse, OrderStatus } from '@demo-shop/api';
 
 describe('OrderStore', () => {
   let store: any;
   let mockDataService: OrderDataService;
 
-  const mockOrders: OrderDTO[] = [
+  const mockOrders: OrderResponse[] = [
     {
       id: 1,
       status: OrderStatus.Created,

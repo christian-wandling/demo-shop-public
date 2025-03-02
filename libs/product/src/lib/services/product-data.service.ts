@@ -2,35 +2,36 @@ import { inject, Injectable } from '@angular/core';
 import { DataService } from '@angular-architects/ngrx-toolkit';
 import { ProductFilter } from '../models/product-filter';
 import { firstValueFrom } from 'rxjs';
-import { ProductDTO, ProductsApi } from '@demo-shop/api';
+import { ProductApi, ProductResponse } from '@demo-shop/api';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProductDataService implements DataService<ProductDTO, ProductFilter> {
-  readonly #productsApi = inject(ProductsApi);
+export class ProductDataService implements DataService<ProductResponse, ProductFilter> {
+  readonly #productApi = inject(ProductApi);
 
-  load(filter: ProductFilter): Promise<ProductDTO[]> {
-    return firstValueFrom(this.#productsApi.getAllProducts());
+  async load(filter: ProductFilter): Promise<ProductResponse[]> {
+    const res = await firstValueFrom(this.#productApi.getAllProducts());
+    return res.items ?? [];
   }
 
-  loadById(id: number): Promise<ProductDTO> {
-    return firstValueFrom(this.#productsApi.getProduct(id));
+  loadById(id: number): Promise<ProductResponse> {
+    return firstValueFrom(this.#productApi.getProductById(id));
   }
 
-  create(entity: ProductDTO): Promise<ProductDTO> {
+  create(entity: ProductResponse): Promise<ProductResponse> {
     return Promise.reject(new Error('Not implemented'));
   }
 
-  delete(entity: ProductDTO): Promise<void> {
+  delete(entity: ProductResponse): Promise<void> {
     return Promise.reject(new Error('Not implemented'));
   }
 
-  update(entity: ProductDTO): Promise<ProductDTO> {
+  update(entity: ProductResponse): Promise<ProductResponse> {
     return Promise.reject(new Error('Not implemented'));
   }
 
-  updateAll(entity: ProductDTO[]): Promise<ProductDTO[]> {
+  updateAll(entity: ProductResponse[]): Promise<ProductResponse[]> {
     return Promise.reject(new Error('Not implemented'));
   }
 }

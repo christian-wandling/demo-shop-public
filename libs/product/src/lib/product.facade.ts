@@ -1,7 +1,7 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { ProductStore } from './+state/product.store';
 import { ProductFilter } from './models/product-filter';
-import { ProductDTO } from '@demo-shop/api';
+import { ProductResponse } from '@demo-shop/api';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,7 @@ export class ProductFacade {
     this.#store.load();
   }
 
-  getFiltered(): Signal<ProductDTO[]> {
+  getFiltered(): Signal<ProductResponse[]> {
     return this.#store.filteredEntities;
   }
 
@@ -21,7 +21,7 @@ export class ProductFacade {
     return this.#store.filter;
   }
 
-  getById(id: number): Signal<ProductDTO> {
+  getById(id: number): Signal<ProductResponse> {
     return this.#store.getById(id);
   }
 

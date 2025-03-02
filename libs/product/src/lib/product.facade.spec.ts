@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { ProductFacade } from './product.facade';
 import { ProductStore } from './+state/product.store';
-import { ProductDTO } from '@demo-shop/api';
+import { ProductResponse } from '@demo-shop/api';
 import { signal } from '@angular/core';
 
 describe('ProductFacade', () => {
   let facade: ProductFacade;
   let store: any;
 
-  const mockProducts: ProductDTO[] = [
+  const mockProducts: ProductResponse[] = [
     {
       id: 1,
       name: 'Product 1',
@@ -16,6 +16,10 @@ describe('ProductFacade', () => {
       description: '',
       categories: [],
       images: [],
+      thumbnail: {
+        name: 'name',
+        uri: 'uri',
+      },
     },
     {
       id: 2,
@@ -24,6 +28,10 @@ describe('ProductFacade', () => {
       description: '',
       categories: [],
       images: [],
+      thumbnail: {
+        name: 'name',
+        uri: 'uri',
+      },
     },
   ];
 

@@ -3,11 +3,11 @@ import { UserNavigationComponent } from './user-navigation.component';
 import { AuthFacade } from '@demo-shop/auth';
 import { UserFacade } from '@demo-shop/user';
 import { signal } from '@angular/core';
-import { UserDTO } from '@demo-shop/api';
+import { UserResponse } from '@demo-shop/api';
 import { CartFacade } from '@demo-shop/cart';
 
 describe('UserNavigationComponent', () => {
-  const user = signal<UserDTO>({
+  const user = signal<UserResponse>({
     address: {
       street: 'street',
       apartment: 'apartment',

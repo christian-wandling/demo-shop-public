@@ -1,6 +1,6 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { UserStore } from './+state/user.store';
-import { UserDTO } from '@demo-shop/api';
+import { UserResponse } from '@demo-shop/api';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,7 @@ export class UserFacade {
     await this.#userStore.fetchCurrentUser();
   }
 
-  getCurrentUser(): Signal<UserDTO | undefined> {
+  getCurrentUser(): Signal<UserResponse | undefined> {
     return this.#userStore.user;
   }
 }

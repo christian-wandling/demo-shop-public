@@ -4,7 +4,7 @@ import { OrderFacade } from '../../order.facade';
 import { ActivatedRoute } from '@angular/router';
 import { UserFacade } from '@demo-shop/user';
 import { PrintInvoiceService } from '../../services/print-invoice.service';
-import { OrderDTO, UserDTO } from '@demo-shop/api';
+import { OrderResponse, UserResponse } from '@demo-shop/api';
 
 @Component({
   selector: 'lib-order-detail',
@@ -22,7 +22,7 @@ export class OrderDetailComponent {
   readonly order = this.#orderFacade.find(this.#activatedRoute.snapshot.params['id']);
   readonly #printInvoiceService = inject(PrintInvoiceService);
 
-  printPdf(order: OrderDTO, user: UserDTO | undefined): void {
+  printPdf(order: OrderResponse, user: UserResponse | undefined): void {
     if (!user) {
       console.error('Could not find user');
       return;

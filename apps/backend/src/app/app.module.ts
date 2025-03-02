@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ProductsModule } from './products/products.module';
+import { ProductModule } from './product/product.module';
 import { ConfigModule } from '@nestjs/config';
-import { UsersModule } from './users/users.module';
-import { OrdersModule } from './orders/orders.module';
+import { UserModule } from './user/user.module';
+import { OrderModule } from './order/order.module';
 import { CommonModule } from './common/common.module';
-import { ShoppingSessionsModule } from './shopping-sessions/shopping-sessions.module';
-import { CartItemsModule } from './cart-items/cart-items.module';
+import { ShoppingSessionModule } from './shopping-session/shopping-session.module';
+import { CartItemModule } from './cart-item/cart-item.module';
 import { JwtModule } from '@nestjs/jwt';
 import {
   AuthGuard,
@@ -43,11 +43,11 @@ import { AppController } from './app.controller';
       bearerOnly: true,
     }),
     CommonModule,
-    ProductsModule,
-    UsersModule,
-    CartItemsModule,
-    OrdersModule,
-    ShoppingSessionsModule,
+    ProductModule,
+    UserModule,
+    CartItemModule,
+    OrderModule,
+    ShoppingSessionModule,
   ],
   providers: [
     {

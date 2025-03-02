@@ -6,7 +6,7 @@ export const enableSwagger = app => {
     .addTag('demo-shop')
     .setTitle('Demo shop')
     .setDescription('The demo shop API description')
-    .setVersion('1.0')
+    .setVersion('v1')
     .addBearerAuth()
     .build();
 
@@ -16,7 +16,7 @@ export const enableSwagger = app => {
   });
 
   SwaggerModule.setup('api', app, document, {
-    jsonDocumentUrl: 'api/json',
+    jsonDocumentUrl: 'api/v1/swagger.json',
     swaggerOptions: {
       persistAuthorization: true,
     },
