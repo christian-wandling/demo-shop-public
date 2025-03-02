@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { ProductStore } from './product.store';
 import { ProductDataService } from '../services/product-data.service';
-import { ProductDTO } from '@demo-shop/api';
+import { ProductResponse } from '@demo-shop/api';
 
 describe('ProductStore', () => {
   let productStore: any;
   let productDataService: ProductDataService;
 
-  const mockEntities: ProductDTO[] = [
+  const mockEntities: ProductResponse[] = [
     {
       id: 1,
       name: 'Product 1',
@@ -15,6 +15,10 @@ describe('ProductStore', () => {
       description: '',
       images: [],
       price: 0,
+      thumbnail: {
+        name: 'name',
+        uri: 'uri',
+      },
     },
     {
       id: 2,
@@ -23,6 +27,10 @@ describe('ProductStore', () => {
       description: '',
       images: [],
       price: 0,
+      thumbnail: {
+        name: 'name',
+        uri: 'uri',
+      },
     },
     {
       id: 3,
@@ -31,6 +39,10 @@ describe('ProductStore', () => {
       description: '',
       images: [],
       price: 0,
+      thumbnail: {
+        name: 'name',
+        uri: 'uri',
+      },
     },
   ];
 

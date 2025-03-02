@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductListComponent } from './product-list.component';
 import { ProductFacade } from '../../product.facade';
-import { ProductDTO } from '@demo-shop/api';
+import { ProductResponse } from '@demo-shop/api';
 import { signal } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
@@ -10,7 +10,7 @@ describe('ProductListComponent', () => {
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
 
-  const mockProducts: ProductDTO[] = [
+  const mockProducts: ProductResponse[] = [
     {
       id: 1,
       name: 'Product 1',
@@ -23,6 +23,10 @@ describe('ProductListComponent', () => {
           uri: 'uri',
         },
       ],
+      thumbnail: {
+        name: 'name',
+        uri: 'uri',
+      },
     },
     {
       id: 2,
@@ -36,6 +40,10 @@ describe('ProductListComponent', () => {
           uri: 'uri',
         },
       ],
+      thumbnail: {
+        name: 'name',
+        uri: 'uri',
+      },
     },
   ];
 

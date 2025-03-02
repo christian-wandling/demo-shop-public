@@ -51,7 +51,7 @@ export const seedOrders = async (
       .sort((a, b) => (a > b ? 1 : -1));
 
     for (let date of orderDates) {
-      const status: OrderStatus = moreThan2MonthsAgo(date) ? OrderStatus.COMPLETED : OrderStatus.CREATED;
+      const status: OrderStatus = moreThan2MonthsAgo(date) ? OrderStatus.Completed : OrderStatus.Created;
 
       const order: Order = await prisma.order.create({
         data: {
@@ -59,7 +59,7 @@ export const seedOrders = async (
             connect: user,
           },
           status,
-          createdAt: date,
+          created_at: date,
         },
       });
 
@@ -68,12 +68,12 @@ export const seedOrders = async (
       for (const orderedProduct of orderedProducts) {
         await prisma.orderItem.create({
           data: {
-            productId: orderedProduct.id,
-            productName: orderedProduct.name,
-            productThumbnail: orderedProduct.images[0]?.uri,
+            product_id: orderedProduct.id,
+            product_name: orderedProduct.name,
+            product_thumbnail: orderedProduct.images[0]?.uri,
             quantity: faker.number.int({ min: 1, max: 10 }),
             price: orderedProduct.price,
-            createdAt: date,
+            created_at: date,
             order: {
               connect: order,
             },

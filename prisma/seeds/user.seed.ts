@@ -42,9 +42,9 @@ export const seedUsers = async (prisma: PrismaClient): Promise<User[]> => {
       data: {
         firstname: keycloakUserId.firstName,
         lastname: keycloakUserId.lastName,
-        keycloakUserId: keycloakUserId.id,
+        keycloak_user_id: keycloakUserId.id,
         email: keycloakUserId.email,
-        phone: faker.phone.number(),
+        phone: faker.helpers.fromRegExp('+[0-9]{9}'),
         address: {
           create: {
             street: faker.location.streetAddress(),

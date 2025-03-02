@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OrderListComponent } from './order-list.component';
 import { UserFacade } from '@demo-shop/user';
 import { signal } from '@angular/core';
-import { OrderDTO, OrderStatus } from '@demo-shop/api';
+import { OrderResponse, OrderStatus } from '@demo-shop/api';
 import { OrderFacade } from '../../order.facade';
 import { provideRouter } from '@angular/router';
 import { UTCDate } from '@date-fns/utc';
@@ -27,7 +27,7 @@ describe('OrderListComponent', () => {
     phone: 'phone',
   };
 
-  const orders: OrderDTO[] = [
+  const orders: OrderResponse[] = [
     {
       id: 1,
       userId: 1,

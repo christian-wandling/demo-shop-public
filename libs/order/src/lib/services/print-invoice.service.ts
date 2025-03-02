@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { jsPDF } from 'jspdf';
-import { OrderDTO, UserDTO } from '@demo-shop/api';
+import { OrderResponse, UserResponse } from '@demo-shop/api';
 import { format } from 'date-fns/format';
 import { CompanyData } from '../models/company-data';
 import { PaymentTerms } from '../models/payment-terms';
@@ -12,7 +12,7 @@ import { columns, companyData, createDrawOptions, paymentTerms } from '../config
   providedIn: 'root',
 })
 export class PrintInvoiceService {
-  generatePdf(order: OrderDTO, user: UserDTO) {
+  generatePdf(order: OrderResponse, user: UserResponse) {
     const doc = new jsPDF('p', 'mm', 'A4', true);
     const drawOptions = createDrawOptions(doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight());
 
@@ -61,7 +61,7 @@ export class PrintInvoiceService {
     doc.text(companyData.email, options.pointer.x, options.pointer.y, { align: 'right' });
   }
 
-  addInvoiceDetails(doc: jsPDF, options: DrawOptions, order: OrderDTO): void {
+  addInvoiceDetails(doc: jsPDF, options: DrawOptions, order: OrderResponse): void {
     options.pointer.y += 22;
     doc.setFontSize(options.text.size.smaller);
     doc.setFont(options.text.font.default, 'bold');
@@ -73,7 +73,7 @@ export class PrintInvoiceService {
     doc.text(date, options.pointer.x, options.pointer.y, { align: 'right' });
   }
 
-  addCustomerInformation(doc: jsPDF, options: DrawOptions, user: UserDTO): void {
+  addCustomerInformation(doc: jsPDF, options: DrawOptions, user: UserResponse): void {
     options.pointer.x = options.border.left;
     options.pointer.y += 15;
     doc.setFontSize(options.text.size.smaller);
@@ -85,13 +85,13 @@ export class PrintInvoiceService {
     doc.text(`${user.firstname} ${user.lastname}`, options.pointer.x, options.pointer.y);
 
     options.pointer.y += 4;
-    doc.text(`${user.address.street} ${user.address.apartment}`, options.pointer.x, options.pointer.y);
+    doc.text(`${user.address?.street} ${user.address?.apartment}`, options.pointer.x, options.pointer.y);
 
     options.pointer.y += 4;
-    doc.text(`${user.address.city}, ${user.address.zip}`, options.pointer.x, options.pointer.y);
+    doc.text(`${user.address?.city}, ${user.address?.zip}`, options.pointer.x, options.pointer.y);
 
     options.pointer.y += 4;
-    doc.text(user.address.country, options.pointer.x, options.pointer.y);
+    doc.text(user.address?.country ?? '', options.pointer.x, options.pointer.y);
 
     options.pointer.y += 4;
     doc.text(user.email, options.pointer.x, options.pointer.y);
@@ -119,7 +119,7 @@ export class PrintInvoiceService {
     doc: jsPDF,
     options: DrawOptions,
     columns: PdfTableColumns,
-    order: OrderDTO,
+    order: OrderResponse,
     paymentTerms: PaymentTerms
   ): void {
     const limitForNewContent = options.border.bottom - 40;
@@ -143,7 +143,7 @@ export class PrintInvoiceService {
     });
   }
 
-  addTableFooter(doc: jsPDF, options: DrawOptions, columns: PdfTableColumns, order: OrderDTO) {
+  addTableFooter(doc: jsPDF, options: DrawOptions, columns: PdfTableColumns, order: OrderResponse) {
     options.pointer.y += 6;
     this.addLine(doc, options);
 

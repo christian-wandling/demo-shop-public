@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { CartFacade } from './cart.facade';
 import { CartStore } from './+state/cart.store';
-import { CartItemDTO } from '@demo-shop/api';
+import { CartItemResponse } from '@demo-shop/api';
 import { signal } from '@angular/core';
 
 describe('CartFacade', () => {
   let facade: CartFacade;
   let cartStore: any;
 
-  const mockCartItems: CartItemDTO[] = [
+  const mockCartItems: CartItemResponse[] = [
     {
       id: 1,
       productId: 1,

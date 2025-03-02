@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { CartItemDTO } from '@demo-shop/api';
+import { CartItemResponse } from '@demo-shop/api';
 
 @Component({
   selector: 'lib-cart-items',
@@ -11,7 +11,7 @@ import { CartItemDTO } from '@demo-shop/api';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartItemsComponent {
-  readonly items = input.required<CartItemDTO[]>();
+  readonly items = input.required<CartItemResponse[]>();
 
   removeItem = output<number>();
 }

@@ -2,7 +2,12 @@ import { patchState, signalStore, withComputed, withMethods, withState } from '@
 import { withCallState, withDevtools } from '@angular-architects/ngrx-toolkit';
 import { computed, inject } from '@angular/core';
 import { setAllEntities, withEntities } from '@ngrx/signals/entities';
-import { CartItemDTO, CartItemsApi, CreateCartItemDTO, ShoppingSessionsApi, UpdateCartItemDTO } from '@demo-shop/api';
+import {
+  AddCartItemRequest,
+  CartItemResponse,
+  ShoppingSessionApi,
+  UpdateCartItemQuantityRequest,
+} from '@demo-shop/api';
 import { firstValueFrom } from 'rxjs';
 
 interface AdditionalState {
@@ -17,24 +22,24 @@ export const CartStore = signalStore(
   withState<AdditionalState>(initialState),
   withCallState(),
   withDevtools('cart'),
-  withEntities<CartItemDTO>(),
+  withEntities<CartItemResponse>(),
   withComputed(store => ({
     totalPrice: computed(() => store.entities().reduce((acc, curr) => acc + curr.totalPrice, 0)),
     itemCount: computed(() => store.entities().reduce((acc, curr) => acc + curr.quantity, 0)),
     hasShoppingSession: computed(() => !!store.shoppingSessionId()),
   })),
-  withMethods((store, shoppingSessionsApi = inject(ShoppingSessionsApi), cartItemsApi = inject(CartItemsApi)) => ({
+  withMethods((store, shoppingSessionApi = inject(ShoppingSessionApi)) => ({
     async loadShoppingSession(): Promise<void> {
-      const shoppingSession = await firstValueFrom(shoppingSessionsApi.getShoppingSessionOfCurrentUser());
+      const shoppingSession = await firstValueFrom(shoppingSessionApi.getCurrentShoppingSession());
 
       patchState(store, setAllEntities(shoppingSession.items), { shoppingSessionId: shoppingSession.id });
     },
-    async create(dto: CreateCartItemDTO): Promise<void> {
+    async create(dto: AddCartItemRequest): Promise<void> {
       if (!store.shoppingSessionId()) {
         throw new Error('Missing shopping session id');
       }
 
-      await firstValueFrom(cartItemsApi.createCartItem(dto));
+      await firstValueFrom(shoppingSessionApi.addCartItem(dto));
       await this.loadShoppingSession();
     },
     async delete(id: number): Promise<void> {
@@ -42,21 +47,21 @@ export const CartStore = signalStore(
         throw new Error('Missing shopping session id');
       }
 
-      await firstValueFrom(cartItemsApi.removeCartItem(id));
+      await firstValueFrom(shoppingSessionApi.removeCartItem(id));
       await this.loadShoppingSession();
     },
-    async update(id: number, entity: UpdateCartItemDTO): Promise<void> {
+    async update(id: number, entity: UpdateCartItemQuantityRequest): Promise<void> {
       if (!store.shoppingSessionId()) {
         throw new Error('Missing shopping session id');
       }
 
-      await firstValueFrom(cartItemsApi.updateCartItem(id, entity));
+      await firstValueFrom(shoppingSessionApi.updateCartItemQuantity(id, entity));
       await this.loadShoppingSession();
     },
-    getItemById(id: number): CartItemDTO | undefined {
+    getItemById(id: number): CartItemResponse | undefined {
       return store.entityMap()[id];
     },
-    getItemByProductId(productId: number): CartItemDTO | undefined {
+    getItemByProductId(productId: number): CartItemResponse | undefined {
       return store.entities().find(item => item.productId === productId);
     },
     setShowCart(showCart: boolean): void {

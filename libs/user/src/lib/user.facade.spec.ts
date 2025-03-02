@@ -2,13 +2,13 @@ import { TestBed } from '@angular/core/testing';
 
 import { UserFacade } from './user.facade';
 import { UserStore } from './+state/user.store';
-import { UserDTO } from '@demo-shop/api';
+import { UserResponse } from '@demo-shop/api';
 
 describe('UserFacade', () => {
   let service: UserFacade;
   let userStore: any;
 
-  const user: UserDTO = {
+  const user: UserResponse = {
     id: 1,
     email: 'email',
     firstname: 'firstname',

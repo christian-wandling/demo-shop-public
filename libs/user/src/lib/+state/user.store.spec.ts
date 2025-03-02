@@ -1,15 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-import { UserDTO, UsersApi } from '@demo-shop/api';
+import { UserResponse, UserApi } from '@demo-shop/api';
 import { UserStore } from './user.store';
 import { of } from 'rxjs';
 import { MonitoringFacade } from '@demo-shop/monitoring';
 
 describe('UserStore', () => {
   let store: any;
-  let usersApi: UsersApi;
+  let userApi: UserApi;
   let monitoringFacade: MonitoringFacade;
 
-  const user: UserDTO = {
+  const user: UserResponse = {
     id: 1,
     email: 'email',
     firstname: 'firstname',
@@ -29,7 +29,7 @@ describe('UserStore', () => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: UsersApi,
+          provide: UserApi,
           useValue: {
             getCurrentUser: jest.fn().mockReturnValue(of(user)),
           },
@@ -42,7 +42,7 @@ describe('UserStore', () => {
         },
       ],
     });
-    usersApi = TestBed.inject(UsersApi);
+    userApi = TestBed.inject(UserApi);
     monitoringFacade = TestBed.inject(MonitoringFacade);
     store = TestBed.inject(UserStore);
   });
@@ -54,7 +54,7 @@ describe('UserStore', () => {
   it('should fetch the current user from the api', async () => {
     await store.fetchCurrentUser();
 
-    expect(usersApi.getCurrentUser).toHaveBeenCalled();
+    expect(userApi.getCurrentUser).toHaveBeenCalled();
     expect(store.user()).toEqual(user);
   });
 

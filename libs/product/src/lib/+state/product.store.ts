@@ -4,13 +4,13 @@ import { withEntities } from '@ngrx/signals/entities';
 import { ProductDataService } from '../services/product-data.service';
 import { computed } from '@angular/core';
 import { AllowedProductFilterTypes } from '../models/product-filter';
-import { ProductDTO } from '@demo-shop/api';
+import { ProductResponse } from '@demo-shop/api';
 
 export const ProductStore = signalStore(
   { providedIn: 'root' },
   withCallState(),
   withDevtools('products'),
-  withEntities<ProductDTO>(),
+  withEntities<ProductResponse>(),
   withDataService({
     dataServiceType: ProductDataService,
     filter: {},
@@ -29,7 +29,15 @@ export const ProductStore = signalStore(
       }
 
       return entities().filter(entity =>
-        filterValues.every(([key, filterValue]) => entity[key as AllowedProductFilterTypes].includes(filterValue))
+        filterValues.every(([key, filterValue]) => {
+          const value = entity[key as AllowedProductFilterTypes];
+
+          if (Array.isArray(value)) {
+            return value.some(item => item.toLowerCase().includes(filterValue.toLowerCase()));
+          }
+
+          return value.toLowerCase().includes(filterValue.toLowerCase());
+        })
       );
     }),
   })),

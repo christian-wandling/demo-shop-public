@@ -28,7 +28,7 @@ services:
     depends_on:
       - db
 
-  backend:
+  api:
     command: sh -c "npx prisma generate && npx nx serve backend --watch --host=0.0.0.0"
     build:
       context: .
@@ -114,7 +114,7 @@ services:
       - .env
       - ./secrets/sentry-config.txt
     environment:
-      - API_URL=http://backend:3000
+      - API_URL=http://api:3000
       - NODE_ENV=development
     ports:
       - '4200:4200'
@@ -124,8 +124,8 @@ services:
     networks:
       - frontend
       - shared
-    depends_on:
-      - backend
+#    depends_on:
+#      - api
 
 volumes:
   postgres_data:

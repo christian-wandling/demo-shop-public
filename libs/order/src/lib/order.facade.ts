@@ -1,6 +1,6 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { OrderStore } from './+state/order.store';
-import { OrderDTO } from '@demo-shop/api';
+import { OrderResponse } from '@demo-shop/api';
 
 @Injectable({
   providedIn: 'root',
@@ -10,22 +10,22 @@ export class OrderFacade {
 
   async createOrder(): Promise<void> {
     try {
-      await this.#orderStore.create({} as OrderDTO);
+      await this.#orderStore.create({} as OrderResponse);
     } catch (err: any) {
       console.error(err);
       throw new Error(err.message);
     }
   }
 
-  find(id: number): Signal<OrderDTO> {
+  find(id: number): Signal<OrderResponse> {
     return this.#orderStore.getById(id);
   }
 
-  getAll(): Signal<OrderDTO[]> {
+  getAll(): Signal<OrderResponse[]> {
     return this.#orderStore.entities;
   }
 
-  getSortedByStatusAndDate(): Signal<OrderDTO[]> {
+  getSortedByStatusAndDate(): Signal<OrderResponse[]> {
     return this.#orderStore.getSortedByStatusAndDate();
   }
 }

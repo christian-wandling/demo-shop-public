@@ -1,5 +1,5 @@
 /**
- * Demo shop
+ * Demo Shop API
  *
  *
  *
@@ -9,6 +9,6 @@
  */
 
 export enum OrderStatus {
-  Created = 'CREATED',
-  Completed = 'COMPLETED',
+  Created = 'Created',
+  Completed = 'Completed',
 }
