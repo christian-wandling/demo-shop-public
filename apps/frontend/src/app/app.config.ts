@@ -15,14 +15,7 @@ import * as Sentry from '@sentry/angular';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(
-      withFetch(),
-      withInterceptors([authInterceptor]),
-      withXsrfConfiguration({
-        cookieName: '__Host-psifi.x-csrf-token',
-        headerName: 'x-csrf-token',
-      })
-    ),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideRouter(appRoutes),
     provideAnimationsAsync(),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
