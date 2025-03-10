@@ -1,13 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { BadRequestException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { ShoppingSessionService } from './shopping-session.service';
 import { ShoppingSessionRepository } from './shopping-session.repository';
 import { ShoppingSessionResponse } from '../dtos/shopping-session-response';
 import { HydratedShoppingSession } from '../entities/hydrated-shopping-session';
-import { Decimal } from '@prisma/client/runtime/library';
+import { OrderService } from '../../order/services/order.service';
+import { OrderResponse } from '../../order/dtos/order-response';
+import { OrderStatus } from '@prisma/client';
 
 describe('ShoppingSessionsService', () => {
   let service: ShoppingSessionService;
+  let orderService: jest.Mocked<OrderService>;
   let repository: jest.Mocked<ShoppingSessionRepository>;
 
   const mockEmail = 'test@example.com';
@@ -27,11 +30,24 @@ describe('ShoppingSessionsService', () => {
     id: 1,
   };
 
+  const mockOrderDto: OrderResponse = {
+    id: 1,
+    userId: 1,
+    status: OrderStatus.Created,
+    amount: 0,
+    created: new Date(),
+    items: [],
+  };
+
   beforeEach(async () => {
     const repositoryMock = {
       create: jest.fn(),
       find: jest.fn(),
       remove: jest.fn(),
+    };
+
+    const orderServiceMock = {
+      create: jest.fn(),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -41,10 +57,15 @@ describe('ShoppingSessionsService', () => {
           provide: ShoppingSessionRepository,
           useValue: repositoryMock,
         },
+        {
+          provide: OrderService,
+          useValue: orderServiceMock,
+        },
       ],
     }).compile();
 
     service = module.get<ShoppingSessionService>(ShoppingSessionService);
+    orderService = module.get(OrderService);
     repository = module.get(ShoppingSessionRepository);
   });
 
@@ -109,6 +130,22 @@ describe('ShoppingSessionsService', () => {
       repository.remove.mockResolvedValue(null);
 
       await expect(service.remove(mockId, mockEmail)).rejects.toThrow(NotFoundException);
+    });
+  });
+
+  describe('checkout', () => {
+    it('should successfully checkout and create an order from a shopping session', async () => {
+      jest.spyOn(service, 'findCurrentSessionForUser').mockResolvedValue(mockSessionResponse);
+
+      await service.checkout(mockEmail);
+
+      expect(orderService.create).toHaveBeenCalledWith(mockSessionResponse);
+    });
+
+    it('should throw the right exception when repository returns null', async () => {
+      jest.spyOn(service, 'findCurrentSessionForUser').mockResolvedValue(null);
+
+      await expect(service.checkout(mockEmail)).rejects.toThrow(ForbiddenException);
     });
   });
 });
