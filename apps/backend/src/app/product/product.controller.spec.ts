@@ -4,9 +4,9 @@ import { ProductService } from './services/product.service';
 import { ProductResponse } from './dtos/product-response';
 import { RequestMethod } from '@nestjs/common';
 
-describe('ProductsController', () => {
+describe('ProductController', () => {
   let controller: ProductController;
-  let productsService: ProductService;
+  let productService: ProductService;
 
   const mockProducts: ProductResponse[] = [
     {
@@ -34,7 +34,7 @@ describe('ProductsController', () => {
     }).compile();
 
     controller = module.get(ProductController);
-    productsService = module.get(ProductService);
+    productService = module.get(ProductService);
   });
 
   afterEach(() => {
@@ -65,8 +65,8 @@ describe('ProductsController', () => {
       const result = await controller.getAllProducts();
 
       expect(result).toEqual(mockProducts);
-      expect(productsService.all).toHaveBeenCalled();
-      expect(productsService.all).toHaveBeenCalledTimes(1);
+      expect(productService.all).toHaveBeenCalled();
+      expect(productService.all).toHaveBeenCalledTimes(1);
     });
 
     it('should have the correct path', () => {
@@ -86,17 +86,17 @@ describe('ProductsController', () => {
       const result = await controller.getProductById(id);
 
       expect(result).toEqual(mockProducts[0]);
-      expect(productsService.find).toHaveBeenCalledWith(1);
-      expect(productsService.find).toHaveBeenCalledTimes(1);
+      expect(productService.find).toHaveBeenCalledWith(1);
+      expect(productService.find).toHaveBeenCalledTimes(1);
     });
 
     it('should throw an error if product is not found', async () => {
       const id = undefined;
-      jest.spyOn(productsService, 'find').mockRejectedValueOnce(new Error('Product not found'));
+      jest.spyOn(productService, 'find').mockRejectedValueOnce(new Error('Product not found'));
 
       await expect(controller.getProductById(id)).rejects.toThrow('Product not found');
-      expect(productsService.find).toHaveBeenCalledWith(id);
-      expect(productsService.find).toHaveBeenCalledTimes(1);
+      expect(productService.find).toHaveBeenCalledWith(id);
+      expect(productService.find).toHaveBeenCalledTimes(1);
     });
 
     it('should have the correct path', () => {

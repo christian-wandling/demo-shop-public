@@ -3,17 +3,17 @@ import { DecodeTokenPipe } from '../common/pipes/decode-token-pipe';
 import { CartItemController } from './cart-item.controller';
 import { CartItemService } from './services/cart-item.service';
 import { CartItemResponse } from './dtos/cart-item-response';
-import { ForbiddenException, NotFoundException, RequestMethod } from '@nestjs/common';
+import { ForbiddenException, RequestMethod } from '@nestjs/common';
 import { ShoppingSessionResponse } from '../shopping-session/dtos/shopping-session-response';
 import { ShoppingSessionService } from '../shopping-session/services/shopping-session.service';
 import { DecodedToken } from '../common/entities/decoded-token';
 import { UpdateCartItemQuantityRequest } from './dtos/update-cart-item-quantity-request';
 import { AddCartItemRequest } from './dtos/add-cart-item-request';
 
-describe('CartItemsController', () => {
+describe('CartItemController', () => {
   let controller: CartItemController;
-  let cartItemsService: CartItemService;
-  let shoppingSessionsService: ShoppingSessionService;
+  let cartItemService: CartItemService;
+  let shoppingSessionService: ShoppingSessionService;
 
   const mockCartItemDto: CartItemResponse = {
     id: 123,
@@ -63,8 +63,8 @@ describe('CartItemsController', () => {
       .compile();
 
     controller = module.get(CartItemController);
-    cartItemsService = module.get(CartItemService);
-    shoppingSessionsService = module.get(ShoppingSessionService);
+    cartItemService = module.get(CartItemService);
+    shoppingSessionService = module.get(ShoppingSessionService);
   });
 
   afterEach(() => {
@@ -94,18 +94,18 @@ describe('CartItemsController', () => {
     };
 
     it('should create a cart item successfully', async () => {
-      jest.spyOn(shoppingSessionsService, 'findCurrentSessionForUser').mockResolvedValue(mockShoppingSessionDto);
-      jest.spyOn(cartItemsService, 'create').mockResolvedValue(mockCartItemDto);
+      jest.spyOn(shoppingSessionService, 'findCurrentSessionForUser').mockResolvedValue(mockShoppingSessionDto);
+      jest.spyOn(cartItemService, 'create').mockResolvedValue(mockCartItemDto);
 
       const result = await controller.createCartItem(createDto, mockDecodedToken);
 
-      expect(shoppingSessionsService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.email);
-      expect(cartItemsService.create).toHaveBeenCalledWith(createDto, mockShoppingSessionDto.id);
+      expect(shoppingSessionService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.email);
+      expect(cartItemService.create).toHaveBeenCalledWith(createDto, mockShoppingSessionDto.id);
       expect(result).toEqual(mockCartItemDto);
     });
 
     it('should throw the right exception when no shopping session found', async () => {
-      jest.spyOn(shoppingSessionsService, 'findCurrentSessionForUser').mockResolvedValue(null);
+      jest.spyOn(shoppingSessionService, 'findCurrentSessionForUser').mockResolvedValue(null);
 
       await expect(controller.createCartItem(createDto, mockDecodedToken)).rejects.toThrow(ForbiddenException);
     });
@@ -128,16 +128,16 @@ describe('CartItemsController', () => {
     };
 
     it('should update a cart item successfully', async () => {
-      jest.spyOn(shoppingSessionsService, 'findCurrentSessionForUser').mockResolvedValue(mockShoppingSessionDto);
-      jest.spyOn(cartItemsService, 'update').mockResolvedValue({
+      jest.spyOn(shoppingSessionService, 'findCurrentSessionForUser').mockResolvedValue(mockShoppingSessionDto);
+      jest.spyOn(cartItemService, 'update').mockResolvedValue({
         ...mockCartItemDto,
         quantity: updateDto.quantity,
       });
 
       const result = await controller.updateCartItem(cartItemId, updateDto, mockDecodedToken);
 
-      expect(shoppingSessionsService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.email);
-      expect(cartItemsService.update).toHaveBeenCalledWith(cartItemId, updateDto, mockShoppingSessionDto.id);
+      expect(shoppingSessionService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.email);
+      expect(cartItemService.update).toHaveBeenCalledWith(cartItemId, updateDto, mockShoppingSessionDto.id);
       expect(result).toEqual({
         ...mockCartItemDto,
         quantity: updateDto.quantity,
@@ -145,7 +145,7 @@ describe('CartItemsController', () => {
     });
 
     it('should throw the right exception when no shopping session found', async () => {
-      jest.spyOn(shoppingSessionsService, 'findCurrentSessionForUser').mockResolvedValue(null);
+      jest.spyOn(shoppingSessionService, 'findCurrentSessionForUser').mockResolvedValue(null);
 
       await expect(controller.updateCartItem(cartItemId, updateDto, mockDecodedToken)).rejects.toThrow(
         ForbiddenException
@@ -167,17 +167,17 @@ describe('CartItemsController', () => {
     const cartItemId = 123;
 
     it('should remove a cart item successfully', async () => {
-      jest.spyOn(shoppingSessionsService, 'findCurrentSessionForUser').mockResolvedValue(mockShoppingSessionDto);
-      jest.spyOn(cartItemsService, 'remove').mockResolvedValue(undefined);
+      jest.spyOn(shoppingSessionService, 'findCurrentSessionForUser').mockResolvedValue(mockShoppingSessionDto);
+      jest.spyOn(cartItemService, 'remove').mockResolvedValue(undefined);
 
       await controller.removeCartItem(cartItemId, mockDecodedToken);
 
-      expect(shoppingSessionsService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.email);
-      expect(cartItemsService.remove).toHaveBeenCalledWith(cartItemId, mockShoppingSessionDto.id);
+      expect(shoppingSessionService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.email);
+      expect(cartItemService.remove).toHaveBeenCalledWith(cartItemId, mockShoppingSessionDto.id);
     });
 
     it('should throw the right exception when no shopping session found', async () => {
-      jest.spyOn(shoppingSessionsService, 'findCurrentSessionForUser').mockResolvedValue(null);
+      jest.spyOn(shoppingSessionService, 'findCurrentSessionForUser').mockResolvedValue(null);
 
       await expect(controller.removeCartItem(cartItemId, mockDecodedToken)).rejects.toThrow(ForbiddenException);
     });

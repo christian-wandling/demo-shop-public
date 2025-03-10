@@ -12,15 +12,15 @@ import { ProductListResponse } from './dtos/product-list-response';
 })
 @Public()
 export class ProductController {
-  constructor(private readonly productsService: ProductService) {}
+  constructor(private readonly productService: ProductService) {}
 
   @CustomGet({ res: ProductListResponse, isArray: true })
   getAllProducts(): Promise<ProductListResponse> {
-    return this.productsService.all();
+    return this.productService.all();
   }
 
   @CustomGet({ path: ':id', res: ProductResponse })
   getProductById(@Param('id') id: number): Promise<ProductResponse> {
-    return this.productsService.find(id);
+    return this.productService.find(id);
   }
 }

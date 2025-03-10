@@ -17,8 +17,8 @@ import { AddCartItemRequest } from './dtos/add-cart-item-request';
 @Auth({ roles: ['realm:buy_products'] })
 export class CartItemController {
   constructor(
-    private readonly shoppingSessionsService: ShoppingSessionService,
-    private readonly cartItemsService: CartItemService
+    private readonly shoppingSessionService: ShoppingSessionService,
+    private readonly cartItemService: CartItemService
   ) {}
 
   @CustomPost({ body: AddCartItemRequest, res: CartItemResponse })
@@ -26,13 +26,13 @@ export class CartItemController {
     @Body() dto: AddCartItemRequest,
     @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken
   ): Promise<CartItemResponse> {
-    const shoppingSession = await this.shoppingSessionsService.findCurrentSessionForUser(decodedToken.email);
+    const shoppingSession = await this.shoppingSessionService.findCurrentSessionForUser(decodedToken.email);
 
     if (!shoppingSession) {
       throw new ForbiddenException('No active shopping session found. Please login to start a new shopping session.');
     }
 
-    return this.cartItemsService.create(dto, shoppingSession.id);
+    return this.cartItemService.create(dto, shoppingSession.id);
   }
 
   @CustomPatch({ path: ':id', body: UpdateCartItemQuantityRequest, res: CartItemResponse })
@@ -41,13 +41,13 @@ export class CartItemController {
     @Body() dto: UpdateCartItemQuantityRequest,
     @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken
   ): Promise<CartItemResponse> {
-    const shoppingSession = await this.shoppingSessionsService.findCurrentSessionForUser(decodedToken.email);
+    const shoppingSession = await this.shoppingSessionService.findCurrentSessionForUser(decodedToken.email);
 
     if (!shoppingSession) {
       throw new ForbiddenException('No active shopping session found. Please login to start a new shopping session.');
     }
 
-    return this.cartItemsService.update(id, dto, shoppingSession.id);
+    return this.cartItemService.update(id, dto, shoppingSession.id);
   }
 
   @CustomDelete({ path: ':id' })
@@ -55,12 +55,12 @@ export class CartItemController {
     @Param('id') id: number,
     @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken
   ): Promise<void> {
-    const shoppingSession = await this.shoppingSessionsService.findCurrentSessionForUser(decodedToken.email);
+    const shoppingSession = await this.shoppingSessionService.findCurrentSessionForUser(decodedToken.email);
 
     if (!shoppingSession) {
       throw new ForbiddenException('No active shopping session found. Please login to start a new shopping session.');
     }
 
-    await this.cartItemsService.remove(id, shoppingSession.id);
+    await this.cartItemService.remove(id, shoppingSession.id);
   }
 }

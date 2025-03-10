@@ -2,7 +2,7 @@ import { ApplicationConfig, ErrorHandler, isDevMode, provideZoneChangeDetection,
 import { provideRouter, Router } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { provideHttpClient, withFetch, withInterceptors, withXsrfConfiguration } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideNavigation } from '@demo-shop/navigation';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouterStore, routerReducer } from '@ngrx/router-store';
