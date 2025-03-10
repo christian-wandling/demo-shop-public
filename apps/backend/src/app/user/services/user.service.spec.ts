@@ -6,9 +6,11 @@ import { HydratedUser } from '../entities/hydrated-user';
 import { DecodedToken } from '../../common/entities/decoded-token';
 import { UserIdentity } from '../dtos/user-identity';
 import { UserResponse } from '../dtos/user-response';
+import { MonitoringService } from '../../common/services/monitoring.service';
 
 describe('UsersService', () => {
   let service: UserService;
+  let monitoringService: MonitoringService;
   let repository: jest.Mocked<UserRepository>;
 
   const mockUser: HydratedUser = {
@@ -79,11 +81,18 @@ describe('UsersService', () => {
           provide: UserRepository,
           useValue: mockRepository,
         },
+        {
+          provide: MonitoringService,
+          useValue: {
+            setUser: jest.fn(),
+          },
+        },
       ],
     }).compile();
 
     service = module.get<UserService>(UserService);
     repository = module.get(UserRepository);
+    monitoringService = module.get(MonitoringService);
   });
 
   describe('getFromToken', () => {
@@ -103,6 +112,7 @@ describe('UsersService', () => {
       const result = await service.getFromToken(mockDecodedToken);
       expect(result).toEqual(mockUserDto);
       expect(repository.create).not.toHaveBeenCalled();
+      expect(monitoringService.setUser).toHaveBeenCalledWith({ id: mockUserDto.id });
     });
   });
 
@@ -112,6 +122,7 @@ describe('UsersService', () => {
 
       const result = await service.createUser(mockCreateUserDto);
       expect(result).toEqual(mockUserDto);
+      expect(monitoringService.setUser).toHaveBeenCalledWith({ id: mockUserDto.id });
     });
 
     it('should throw the right exception if user creation fails', async () => {
