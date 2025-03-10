@@ -7,6 +7,7 @@ import { CustomGet } from '../common/decorators/custom-get.decorator';
 import { CustomHeaders } from '../common/decorators/custom-headers.decorator';
 import { DecodeTokenPipe } from '../common/pipes/decode-token-pipe';
 import { DecodedToken } from '../common/entities/decoded-token';
+import { OrderResponse } from '../order/dtos/order-response';
 
 @CustomController({ path: 'shopping-sessions', version: '1' })
 @Auth({ roles: ['realm:buy_products'] })
@@ -25,5 +26,10 @@ export class ShoppingSessionController {
     @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken
   ): Promise<ShoppingSessionResponse> {
     return this.shoppingSessionsService.findCurrentSessionForUser(decodedToken.email);
+  }
+
+  @CustomPost({ path: 'checkout', body: undefined, res: OrderResponse })
+  async checkout(@CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken): Promise<OrderResponse> {
+    return this.shoppingSessionsService.checkout(decodedToken.email);
   }
 }
