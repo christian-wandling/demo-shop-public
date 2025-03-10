@@ -7,10 +7,9 @@ import { RequestMethod } from '@nestjs/common';
 import { DecodedToken } from '../common/entities/decoded-token';
 import { MonitoringService } from '../common/services/monitoring.service';
 
-describe('UsersController', () => {
+describe('UserController', () => {
   let controller: UserController;
-  let usersService: UserService;
-  let monitoringService: MonitoringService;
+  let userService: UserService;
 
   const mockUserDto: UserResponse = {
     address: undefined,
@@ -51,8 +50,7 @@ describe('UsersController', () => {
       .compile();
 
     controller = module.get(UserController);
-    usersService = module.get(UserService);
-    monitoringService = module.get(MonitoringService);
+    userService = module.get(UserService);
   });
 
   afterEach(() => {
@@ -78,36 +76,29 @@ describe('UsersController', () => {
 
   describe('getCurrentUser', () => {
     it('should return a user by email', async () => {
-      const result = await controller.getCurrentUser(mockDecodedToken);
+      const result = await controller.resolveCurrentUser(mockDecodedToken);
 
       expect(result).toEqual(mockUserDto);
-      expect(usersService.getFromToken).toHaveBeenCalledWith(mockDecodedToken);
-      expect(usersService.getFromToken).toHaveBeenCalledTimes(1);
+      expect(userService.getFromToken).toHaveBeenCalledWith(mockDecodedToken);
+      expect(userService.getFromToken).toHaveBeenCalledTimes(1);
     });
 
     it('should throw an error if user is not found', async () => {
-      jest.spyOn(usersService, 'getFromToken').mockRejectedValueOnce(new Error('User not found'));
+      jest.spyOn(userService, 'getFromToken').mockRejectedValueOnce(new Error('User not found'));
 
-      await expect(controller.getCurrentUser(mockDecodedToken)).rejects.toThrow('User not found');
-      expect(usersService.getFromToken).toHaveBeenCalledWith(mockDecodedToken);
-      expect(usersService.getFromToken).toHaveBeenCalledTimes(1);
-    });
-
-    it('should set the user id', async () => {
-      await controller.getCurrentUser(mockDecodedToken);
-
-      expect(monitoringService.setUser).toHaveBeenCalledWith({ id: mockUserDto.id });
-      expect(monitoringService.setUser).toHaveBeenCalledTimes(1);
+      await expect(controller.resolveCurrentUser(mockDecodedToken)).rejects.toThrow('User not found');
+      expect(userService.getFromToken).toHaveBeenCalledWith(mockDecodedToken);
+      expect(userService.getFromToken).toHaveBeenCalledTimes(1);
     });
 
     it('should have the correct path', () => {
-      const path = Reflect.getMetadata('path', UserController.prototype.getCurrentUser);
+      const path = Reflect.getMetadata('path', UserController.prototype.resolveCurrentUser);
       expect(path).toEqual('me');
     });
 
     it('should have the correct method', () => {
-      const method = Reflect.getMetadata('method', UserController.prototype.getCurrentUser);
-      expect(method).toEqual(RequestMethod.GET);
+      const method = Reflect.getMetadata('method', UserController.prototype.resolveCurrentUser);
+      expect(method).toEqual(RequestMethod.POST);
     });
   });
 });
