@@ -31,7 +31,7 @@ describe('UserStore', () => {
         {
           provide: UserApi,
           useValue: {
-            getCurrentUser: jest.fn().mockReturnValue(of(user)),
+            resolveCurrentUser: jest.fn().mockReturnValue(of(user)),
           },
         },
         {
@@ -54,7 +54,7 @@ describe('UserStore', () => {
   it('should fetch the current user from the api', async () => {
     await store.fetchCurrentUser();
 
-    expect(userApi.getCurrentUser).toHaveBeenCalled();
+    expect(userApi.resolveCurrentUser).toHaveBeenCalled();
     expect(store.user()).toEqual(user);
   });
 
