@@ -24,7 +24,11 @@
               <div class="w-8 h-8 bg-gray-800 text-white text-center leading-8">+{{ count - MAX_THUMBNAILS + 1 }}</div>
               } @else {
               <div class="relative w-8 h-8">
-                <img [ngSrc]="item.productThumbnail" fill="" [alt]="item.productName" />
+                <img
+                  [ngSrc]="item.productThumbnail"
+                  [alt]="item.productName"
+                  fill=""
+                  onerror="this.src='images/placeholder-image.jpg'" />
               </div>
               } } }
             </div>

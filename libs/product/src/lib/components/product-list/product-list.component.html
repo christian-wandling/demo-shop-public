@@ -8,6 +8,7 @@
         <img
           [ngSrc]="product.images[0]?.uri ?? ''"
           [alt]="product.name"
+          onerror="this.src='images/placeholder-image.jpg'"
           class="h-full w-full object-cover object-center group-hover:opacity-75"
           fill="" />
       </div>
