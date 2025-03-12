@@ -33,11 +33,7 @@ export const seedProducts = async (prisma: PrismaClient): Promise<Array<Product 
     const image = await prisma.image.create({
       data: {
         name,
-        uri: faker.image.urlLoremFlickr({
-          width: 320,
-          height: 320,
-          category: `product,${name.split(' ').reverse()[0]}`,
-        }),
+        uri: faker.image.urlPicsumPhotos(),
       },
     });
 
@@ -50,7 +46,7 @@ export const seedProducts = async (prisma: PrismaClient): Promise<Array<Product 
           create: [{ category_id: category.id }],
         },
         images: {
-          connect: [image],
+          connect: [{ id: image.id }],
         },
       },
       include: {

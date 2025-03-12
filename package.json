@@ -10,7 +10,7 @@
     "openapi:generate": "openapi-generator generate -g typescript-angular -o libs/api -i http://localhost:3000/api/v1/swagger.json -c open-api.yaml",
     "prepare": "husky",
     "prisma:generate": "npx prisma generate",
-    "prisma:migrate:dev": "npx prisma migrate dev --name initial-state",
+    "prisma:migrate:dev": "npx prisma migrate dev",
     "prisma:reseed:dev": "npm run prisma:reset && npm run prisma:seed",
     "prisma:reset": "npx prisma db push --force-reset",
     "prisma:seed": "npx prisma db seed",
