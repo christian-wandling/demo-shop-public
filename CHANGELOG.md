@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [0.3.16](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.15...v0.3.16) (2025-03-12)
+
+
+### Bug Fixes
+
+* fix broken image links by displaying a fallback image ([#48](https://github.com/christian-wandling/demo-shop-public/issues/48)) ([5374a97](https://github.com/christian-wandling/demo-shop-public/commit/5374a97869b50acdfd28d70f405578b9b34a7c70))
+
 ### [0.3.15](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.13...v0.3.15) (2025-03-12)
 
 ### [0.3.14](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.13...v0.3.14) (2025-03-12)
