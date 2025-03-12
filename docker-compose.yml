@@ -62,24 +62,6 @@ services:
       - backend
       - frontend
 
-  prisma:
-    image: docker.io/node:lts-alpine
-    working_dir: /usr/src/app
-    environment:
-      - POSTGRES_HOST=db
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}?schema=public
-    volumes:
-      - ./:/usr/src/app
-    command: >
-      sh -c "
-      npx prisma migrate dev &&
-      npx prisma db seed
-      "
-    depends_on:
-      - db
-    networks:
-      - backend
-
   keycloak:
     image: quay.io/keycloak/keycloak:23.0.6
     command: start-dev --import-realm

@@ -14,7 +14,7 @@ const uploadImageToS3 = async (fileName: string, blob: Blob) => {
     throw new Error('No blob provided');
   }
 
-  const bucketName = 'cdn.wandling.dev';
+  const bucketName = process.env.AWS_CDN_BUCKET_NAME;
 
   const key = `images/products/${fileName}`;
   const s3Client = new S3Client({ region: process.env.AWS_REGION });
@@ -59,16 +59,6 @@ export const generatePrompt = async (productName: string, description: string) =
   } else {
     console.error('No response from model');
   }
-};
-
-export const genI = async () => {
-  const str = `Create a product image for:
-
-                Product: Fancy computer
-                Description: Elevate your computing experience with the Fancy Computer, a sleek and powerful machine designed for the discerning user;
-  `;
-
-  await generateImage(str);
 };
 
 export const generateImage = async (prompt: string, retries = 3) => {
