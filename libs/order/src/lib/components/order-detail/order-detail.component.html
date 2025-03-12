@@ -30,7 +30,11 @@
       @for (item of order().items; track item.productId) {
       <li class="flex gap-x-6 py-5">
         <div class="relative w-16 h-16 flex-shrink">
-          <img [ngSrc]="item.productThumbnail" fill="" [alt]="item.productName" />
+          <img
+            [ngSrc]="item.productThumbnail"
+            [alt]="item.productName"
+            fill=""
+            onerror="this.src='images/placeholder-image.jpg'" />
         </div>
         <div class="flex min-w-0 gap-x-4 flex-grow">
           <div class="min-w-0 flex-auto">

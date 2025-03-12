@@ -4,7 +4,12 @@
       @for (item of items(); track item.id) {
       <li class="flex py-6">
         <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-          <img [ngSrc]="item.productThumbnail" [height]="96" [width]="96" [alt]="item.productName" />
+          <img
+            [ngSrc]="item.productThumbnail"
+            [height]="96"
+            [width]="96"
+            [alt]="item.productName"
+            onerror="this.src='images/placeholder-image.jpg'" />
         </div>
 
         <div class="ml-4 flex flex-1 flex-col">
