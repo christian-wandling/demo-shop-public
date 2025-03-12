@@ -6,7 +6,8 @@ services:
       - POSTGRES_USER
       - POSTGRES_DB
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+      - ./.ops/docker/db/init-scripts:/docker-entrypoint-initdb.d
     networks:
       - backend
       - shared
@@ -27,7 +28,6 @@ services:
       - pgadmin_data:/var/lib/pgadmin
     depends_on:
       - db
-
   api:
     command: sh -c "npx prisma generate && npx nx serve backend --watch --host=0.0.0.0"
     build:
@@ -82,7 +82,7 @@ services:
 
   keycloak:
     image: quay.io/keycloak/keycloak:23.0.6
-    command: start-dev
+    command: start-dev --import-realm
     environment:
       - KC_DB=${KC_DB}
       - KC_DB_URL=${KC_DB_URL}
@@ -98,10 +98,13 @@ services:
       - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
     depends_on:
       - db
+    volumes:
+      - ./.ops/docker/keycloak/imports:/opt/keycloak/data/import
     ports:
       - '8080:8080'
     networks:
       - frontend
+      - backend
       - shared
 
   frontend:
@@ -124,8 +127,8 @@ services:
     networks:
       - frontend
       - shared
-#    depends_on:
-#      - api
+    depends_on:
+      - api
 
 volumes:
   postgres_data:
