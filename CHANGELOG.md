@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [0.3.17](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.16...v0.3.17) (2025-03-12)
+
+
+### Bug Fixes
+
+* fix data fetching for deep links ([#49](https://github.com/christian-wandling/demo-shop-public/issues/49)) ([634f627](https://github.com/christian-wandling/demo-shop-public/commit/634f627e38c4a5c34908f469bcf1d8dd54f6e541))
+
 ### [0.3.16](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.15...v0.3.16) (2025-03-12)
 
 
