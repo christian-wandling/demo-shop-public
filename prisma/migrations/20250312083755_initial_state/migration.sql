@@ -11,7 +11,7 @@ CREATE TABLE "user" (
     "phone" TEXT,
     "deleted" BOOLEAN NOT NULL DEFAULT false,
     "deleted_at" TIMESTAMP(3),
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT timezone('utc', now()),
     "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("id")
@@ -27,7 +27,7 @@ CREATE TABLE "address" (
     "zip" TEXT NOT NULL,
     "region" TEXT,
     "country" TEXT NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT timezone('utc', now()),
     "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "address_pkey" PRIMARY KEY ("id")
@@ -37,7 +37,7 @@ CREATE TABLE "address" (
 CREATE TABLE "shopping_session" (
     "id" SERIAL NOT NULL,
     "user_id" INTEGER NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT timezone('utc', now()),
     "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "shopping_session_pkey" PRIMARY KEY ("id")
@@ -49,7 +49,7 @@ CREATE TABLE "cart_item" (
     "shopping_session_id" INTEGER NOT NULL,
     "product_id" INTEGER NOT NULL,
     "quantity" INTEGER NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT timezone('utc', now()),
     "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "cart_item_pkey" PRIMARY KEY ("id")
@@ -62,7 +62,7 @@ CREATE TABLE "product" (
     "price" DECIMAL(20,2) NOT NULL,
     "description" TEXT NOT NULL,
     "deleted" BOOLEAN NOT NULL DEFAULT false,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT timezone('utc', now()),
     "updated_at" TIMESTAMP(3) NOT NULL,
     "deleted_at" TIMESTAMP(3),
 
@@ -74,7 +74,7 @@ CREATE TABLE "category" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "deleted" BOOLEAN NOT NULL DEFAULT false,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT timezone('utc', now()),
     "updated_at" TIMESTAMP(3) NOT NULL,
     "deleted_at" TIMESTAMP(3),
 
@@ -96,7 +96,7 @@ CREATE TABLE "image" (
     "uri" TEXT NOT NULL,
     "product_id" INTEGER,
     "deleted" BOOLEAN NOT NULL DEFAULT false,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT timezone('utc', now()),
     "updated_at" TIMESTAMP(3) NOT NULL,
     "deleted_at" TIMESTAMP(3),
 
@@ -109,7 +109,7 @@ CREATE TABLE "order" (
     "user_id" INTEGER NOT NULL,
     "status" "order_status" NOT NULL,
     "deleted" BOOLEAN NOT NULL DEFAULT false,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT timezone('utc', now()),
     "updated_at" TIMESTAMP(3) NOT NULL,
     "deleted_at" TIMESTAMP(3),
 
@@ -126,7 +126,7 @@ CREATE TABLE "order_item" (
     "quantity" INTEGER NOT NULL,
     "price" DECIMAL(20,2) NOT NULL,
     "deleted" BOOLEAN NOT NULL DEFAULT false,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT timezone('utc', now()),
     "updated_at" TIMESTAMP(3) NOT NULL,
     "deleted_at" TIMESTAMP(3),
 

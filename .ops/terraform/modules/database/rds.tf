@@ -15,7 +15,6 @@ resource "aws_db_instance" "postgres" {
   vpc_security_group_ids = [aws_security_group.postgres_sg.id]
   parameter_group_name = aws_db_parameter_group.postgres.name
 
-
   skip_final_snapshot                 = true
   publicly_accessible                 = true
   monitoring_interval = 0  # Disable enhanced monitoring
@@ -53,6 +52,11 @@ resource "aws_db_parameter_group" "postgres" {
   parameter {
     name  = "log_disconnections"
     value = "1"
+  }
+
+  parameter {
+    name  = "timezone"
+    value = "UTC"
   }
 
   tags = merge(
