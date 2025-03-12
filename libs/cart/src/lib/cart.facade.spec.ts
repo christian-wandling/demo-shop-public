@@ -1,12 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { CartFacade } from './cart.facade';
 import { CartStore } from './+state/cart.store';
-import { CartItemResponse } from '@demo-shop/api';
+import { CartItemResponse, OrderResponse, OrderStatus, ShoppingSessionApi } from '@demo-shop/api';
 import { signal } from '@angular/core';
+import { OrderFacade } from '@demo-shop/order';
+import { of } from 'rxjs';
 
 describe('CartFacade', () => {
   let facade: CartFacade;
   let cartStore: any;
+  let shoppingSessionApi: ShoppingSessionApi;
+  let orderFacade: OrderFacade;
 
   const mockCartItems: CartItemResponse[] = [
     {
@@ -29,6 +33,15 @@ describe('CartFacade', () => {
     },
   ];
 
+  const mockOrder: OrderResponse = {
+    id: 1,
+    userId: 1,
+    items: [],
+    amount: 0,
+    status: OrderStatus.Created,
+    created: new Date().toString(),
+  };
+
   beforeEach(() => {
     cartStore = {
       entities: signal(mockCartItems),
@@ -46,10 +59,17 @@ describe('CartFacade', () => {
     };
 
     TestBed.configureTestingModule({
-      providers: [CartFacade, { provide: CartStore, useValue: cartStore }],
+      providers: [
+        CartFacade,
+        { provide: CartStore, useValue: cartStore },
+        { provide: ShoppingSessionApi, useValue: { checkout: jest.fn().mockReturnValue(of(mockOrder)) } },
+        { provide: OrderFacade, useValue: { add: jest.fn() } },
+      ],
     });
 
     facade = TestBed.inject(CartFacade);
+    orderFacade = TestBed.inject(OrderFacade);
+    shoppingSessionApi = TestBed.inject(ShoppingSessionApi);
   });
 
   describe('getAll', () => {
@@ -146,6 +166,17 @@ describe('CartFacade', () => {
       await facade.loadShoppingSession();
 
       expect(cartStore.loadShoppingSession).toHaveBeenCalled();
+    });
+  });
+
+  describe('checkout', () => {
+    it('should checkout current shopping session', async () => {
+      const loadShoppingSession = jest.spyOn(facade, 'loadShoppingSession');
+      await facade.checkout();
+
+      expect(shoppingSessionApi.checkout).toHaveBeenCalled();
+      expect(orderFacade.add).toHaveBeenCalledWith(mockOrder);
+      expect(loadShoppingSession).toHaveBeenCalled();
     });
   });
 });

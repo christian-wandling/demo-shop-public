@@ -1,8 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { OrderDataService } from './order-data.service';
-import { OrderResponse, OrderApi, OrderStatus, OrderListResponse } from '@demo-shop/api';
+import { OrderApi, OrderStatus, OrderListResponse } from '@demo-shop/api';
 import { of } from 'rxjs';
-import spyOn = jest.spyOn;
 
 describe('OrderDataService', () => {
   let service: OrderDataService;
@@ -38,7 +37,6 @@ describe('OrderDataService', () => {
           useValue: {
             getAllOrdersOfCurrentUser: jest.fn().mockReturnValue(of(mockOrders)),
             getOrderById: jest.fn().mockReturnValue(of(mockOrders.items[0])),
-            createOrder: jest.fn().mockReturnValue(of(mockOrders.items[0])),
           },
         },
       ],
@@ -67,12 +65,9 @@ describe('OrderDataService', () => {
   });
 
   it('should create an order', async () => {
-    const load = spyOn(service, 'load');
-    const order = await service.create({} as OrderResponse);
+    const order = await service.create(mockOrders.items[0]);
 
     expect(order).toEqual(mockOrders.items[0]);
-    expect(orderApi.createOrder).toHaveBeenCalled();
-    expect(load).toHaveBeenCalledWith({});
   });
 
   it('should throw an error when calling not implemented functions', async () => {

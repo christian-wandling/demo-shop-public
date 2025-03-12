@@ -19,7 +19,7 @@ export const UserStore = signalStore(
   withDevtools('currentUser'),
   withMethods((store, userApi = inject(UserApi)) => ({
     async fetchCurrentUser(): Promise<void> {
-      const user = await firstValueFrom(userApi.getCurrentUser());
+      const user = await firstValueFrom(userApi.resolveCurrentUser());
       patchState(store, state => ({ ...state, user }));
     },
   })),

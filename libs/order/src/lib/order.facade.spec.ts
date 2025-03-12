@@ -48,19 +48,6 @@ describe('OrderFacade', () => {
     orderStore = TestBed.inject(OrderStore);
   });
 
-  it('should create an order successfully', async () => {
-    await orderFacade.createOrder();
-
-    expect(orderStore.create).toHaveBeenCalled();
-  });
-
-  it('should throw an error when creating an order fails', async () => {
-    jest.spyOn(console, 'error').mockImplementationOnce(() => undefined);
-    jest.spyOn(orderStore, 'create').mockRejectedValue(new Error('API error'));
-
-    await expect(orderFacade.createOrder()).rejects.toThrow('API error');
-  });
-
   it('should return the order entity from the store', () => {
     const order = orderFacade.find(123);
 

@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { DataService } from '@angular-architects/ngrx-toolkit';
 import { firstValueFrom } from 'rxjs';
 import { OrderFilter } from '../models/order-filter';
-import { OrderApi, OrderResponse } from '@demo-shop/api';
+import { OrderApi, OrderResponse, ShoppingSessionApi } from '@demo-shop/api';
 
 @Injectable({
   providedIn: 'root',
@@ -21,11 +21,7 @@ export class OrderDataService implements DataService<OrderResponse, OrderFilter>
   }
 
   async create(entity: OrderResponse): Promise<OrderResponse> {
-    const order = await firstValueFrom(this.#orderApi.createOrder());
-
-    await this.load({});
-
-    return order;
+    return entity;
   }
 
   delete(entity: OrderResponse): Promise<void> {

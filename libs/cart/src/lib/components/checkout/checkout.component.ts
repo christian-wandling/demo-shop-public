@@ -1,32 +1,46 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { CartFacade } from '../../cart.facade';
 import { FormErrorComponent } from '@demo-shop/shared';
 import { CartItemsComponent } from '../shared/cart-items/cart-items.component';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CheckoutAddressForm, CheckoutForm } from '../../models/checkout-form';
 import { UserFacade } from '@demo-shop/user';
-import { OrderFacade } from '@demo-shop/order';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'lib-checkout',
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage, CartItemsComponent, ReactiveFormsModule, FormErrorComponent],
+  imports: [CommonModule, CartItemsComponent, ReactiveFormsModule, FormErrorComponent],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutComponent {
+  readonly checkoutForm = computed(() => this.createCheckOutForm());
   readonly #cartFacade = inject(CartFacade);
   readonly items = this.#cartFacade.getAll();
   readonly price = this.#cartFacade.getTotalPrice();
-  readonly #orderFacade = inject(OrderFacade);
   readonly #userFacade = inject(UserFacade);
   readonly user = this.#userFacade.getCurrentUser();
   readonly #fb = inject(FormBuilder);
-  readonly checkoutForm = computed(() =>
-    this.#fb.group<CheckoutForm>({
+  readonly #router = inject(Router);
+
+  removeItem(id: number): void {
+    this.#cartFacade.removeItem(id);
+  }
+
+  async checkout(): Promise<void> {
+    try {
+      await this.#cartFacade.checkout();
+      this.#router.navigateByUrl('/products');
+    } catch (err: any) {
+      throw new Error(err.message);
+    }
+  }
+
+  createCheckOutForm(): FormGroup<CheckoutForm> {
+    return this.#fb.group<CheckoutForm>({
       firstname: this.#fb.control(this.user()?.firstname ?? '', { validators: Validators.required, nonNullable: true }),
       lastname: this.#fb.control(this.user()?.lastname ?? '', { validators: Validators.required, nonNullable: true }),
       email: this.#fb.control(this.user()?.email ?? '', {
@@ -54,24 +68,6 @@ export class CheckoutComponent {
         region: this.#fb.control(this.user()?.address?.region ?? ''),
         zip: this.#fb.control(this.user()?.address?.zip ?? '', { validators: Validators.required, nonNullable: true }),
       }),
-    })
-  );
-
-  readonly #router = inject(Router);
-
-  removeItem(id: number): void {
-    this.#cartFacade.removeItem(id);
-  }
-
-  async createOrder(): Promise<void> {
-    try {
-      await this.#orderFacade.createOrder();
-
-      await this.#cartFacade.loadShoppingSession();
-
-      this.#router.navigateByUrl('/products');
-    } catch (err: any) {
-      throw new Error(err.message);
-    }
+    });
   }
 }

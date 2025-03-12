@@ -8,13 +8,8 @@ import { OrderResponse } from '@demo-shop/api';
 export class OrderFacade {
   readonly #orderStore = inject(OrderStore);
 
-  async createOrder(): Promise<void> {
-    try {
-      await this.#orderStore.create({} as OrderResponse);
-    } catch (err: any) {
-      console.error(err);
-      throw new Error(err.message);
-    }
+  add(order: OrderResponse): void {
+    this.#orderStore.create(order);
   }
 
   find(id: number): Signal<OrderResponse> {
