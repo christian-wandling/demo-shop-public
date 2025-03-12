@@ -56,7 +56,7 @@ export const seedOrders = async (
       const order: Order = await prisma.order.create({
         data: {
           user: {
-            connect: user,
+            connect: { id: user.id },
           },
           status,
           created_at: date,
@@ -75,7 +75,7 @@ export const seedOrders = async (
             price: orderedProduct.price,
             created_at: date,
             order: {
-              connect: order,
+              connect: { id: order.id },
             },
           },
         });
