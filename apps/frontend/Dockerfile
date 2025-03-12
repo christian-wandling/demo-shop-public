@@ -36,7 +36,7 @@ RUN mkdir -p /tmp/nginx \
 
 COPY --from=build /app/dist/apps/frontend/browser ./
 COPY static/error-pages /usr/share/nginx/html/error-pages
-COPY nginx.conf.template /etc/nginx/templates/demo-shop.conf.template
+COPY .ops/nginx/nginx.conf.template /etc/nginx/templates/demo-shop.conf.template
 
 USER appuser
 CMD ["nginx", "-g", "daemon off;"]
