@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CheckoutComponent } from './checkout.component';
 import { CartFacade } from '../../cart.facade';
 import { signal } from '@angular/core';
-import { OrderFacade } from '@demo-shop/order';
 import { UserFacade } from '@demo-shop/user';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -27,7 +26,6 @@ describe('CheckoutComponent', () => {
 
   let component: CheckoutComponent;
   let fixture: ComponentFixture<CheckoutComponent>;
-  let orderFacade: OrderFacade;
   let cartFacade: CartFacade;
   let router: Router;
 
@@ -43,9 +41,9 @@ describe('CheckoutComponent', () => {
             getTotalPrice: jest.fn().mockReturnValue(signal(0)),
             removeItem: jest.fn().mockResolvedValue(undefined),
             loadShoppingSession: jest.fn().mockResolvedValue(undefined),
+            checkout: jest.fn(),
           },
         },
-        { provide: OrderFacade, useValue: { createOrder: jest.fn() } },
         {
           provide: UserFacade,
           useValue: {
@@ -56,7 +54,6 @@ describe('CheckoutComponent', () => {
       ],
     }).compileComponents();
 
-    orderFacade = TestBed.inject(OrderFacade);
     cartFacade = TestBed.inject(CartFacade);
     router = TestBed.inject(Router);
     fixture = TestBed.createComponent(CheckoutComponent);
@@ -108,10 +105,9 @@ describe('CheckoutComponent', () => {
   it('should create an order, then reload the shoppingSession and navigate to the products page', async () => {
     jest.spyOn(router, 'navigateByUrl');
 
-    await component.createOrder();
+    await component.checkout();
 
-    expect(orderFacade.createOrder).toHaveBeenCalled();
-    expect(cartFacade.loadShoppingSession).toHaveBeenCalled();
+    expect(cartFacade.checkout).toHaveBeenCalled();
     expect(router.navigateByUrl).toHaveBeenCalledWith('/products');
   });
 });

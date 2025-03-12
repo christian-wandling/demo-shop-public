@@ -30,7 +30,7 @@ export const CartStore = signalStore(
   })),
   withMethods((store, shoppingSessionApi = inject(ShoppingSessionApi)) => ({
     async loadShoppingSession(): Promise<void> {
-      const shoppingSession = await firstValueFrom(shoppingSessionApi.getCurrentShoppingSession());
+      const shoppingSession = await firstValueFrom(shoppingSessionApi.resolveCurrentShoppingSession());
 
       patchState(store, setAllEntities(shoppingSession.items), { shoppingSessionId: shoppingSession.id });
     },

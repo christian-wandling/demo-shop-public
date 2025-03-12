@@ -3,7 +3,7 @@ import { CartStore } from './cart.store';
 import { ShoppingSessionApi } from '@demo-shop/api';
 import { of } from 'rxjs';
 
-describe('CartItemStore', () => {
+describe('CartStore', () => {
   let store: any;
   let mockShoppingSessionApi: ShoppingSessionApi;
 
@@ -24,7 +24,7 @@ describe('CartItemStore', () => {
         {
           provide: ShoppingSessionApi,
           useValue: {
-            getCurrentShoppingSession: jest.fn().mockReturnValue(of(mockShoppingSession)),
+            resolveCurrentShoppingSession: jest.fn().mockReturnValue(of(mockShoppingSession)),
             addCartItem: jest.fn().mockReturnValue(of(mockCartItems[0])),
             removeCartItem: jest.fn().mockReturnValue(of({})),
             updateCartItemQuantity: jest.fn().mockReturnValue(of({})),
@@ -69,7 +69,7 @@ describe('CartItemStore', () => {
 
       expect(store.shoppingSessionId()).toBe('session1');
       expect(store.entities()).toEqual(mockCartItems);
-      expect(mockShoppingSessionApi.getCurrentShoppingSession).toHaveBeenCalled();
+      expect(mockShoppingSessionApi.resolveCurrentShoppingSession).toHaveBeenCalled();
     });
   });
 
@@ -87,7 +87,7 @@ describe('CartItemStore', () => {
       await store.create(createDto);
 
       expect(mockShoppingSessionApi.addCartItem).toHaveBeenCalledWith(createDto);
-      expect(mockShoppingSessionApi.getCurrentShoppingSession).toHaveBeenCalledTimes(2);
+      expect(mockShoppingSessionApi.resolveCurrentShoppingSession).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -102,7 +102,7 @@ describe('CartItemStore', () => {
       await store.delete(1);
 
       expect(mockShoppingSessionApi.removeCartItem).toHaveBeenCalledWith(1);
-      expect(mockShoppingSessionApi.getCurrentShoppingSession).toHaveBeenCalledTimes(2);
+      expect(mockShoppingSessionApi.resolveCurrentShoppingSession).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -119,7 +119,7 @@ describe('CartItemStore', () => {
       await store.update(1, updateDto);
 
       expect(mockShoppingSessionApi.updateCartItemQuantity).toHaveBeenCalledWith(1, updateDto);
-      expect(mockShoppingSessionApi.getCurrentShoppingSession).toHaveBeenCalledTimes(2);
+      expect(mockShoppingSessionApi.resolveCurrentShoppingSession).toHaveBeenCalledTimes(2);
     });
   });
 

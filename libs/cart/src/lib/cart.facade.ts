@@ -1,12 +1,16 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { CartStore } from './+state/cart.store';
-import { CartItemResponse } from '@demo-shop/api';
+import { CartItemResponse, OrderResponse, ShoppingSessionApi } from '@demo-shop/api';
+import { firstValueFrom } from 'rxjs';
+import { OrderFacade } from '@demo-shop/order';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartFacade {
   readonly #cartStore = inject(CartStore);
+  readonly #shoppingSessionApi = inject(ShoppingSessionApi);
+  readonly #orderFacade = inject(OrderFacade);
 
   getAll(): Signal<CartItemResponse[]> {
     return this.#cartStore.entities;
@@ -60,5 +64,17 @@ export class CartFacade {
 
   async loadShoppingSession(): Promise<void> {
     await this.#cartStore.loadShoppingSession();
+  }
+
+  async checkout(): Promise<void> {
+    try {
+      const res = await firstValueFrom(this.#shoppingSessionApi.checkout());
+      this.#orderFacade.add(res);
+
+      await this.loadShoppingSession();
+    } catch (err: any) {
+      console.error(err);
+      throw new Error(err.message);
+    }
   }
 }
