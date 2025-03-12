@@ -110,12 +110,12 @@ export class UserApi {
   }
 
   /**
-   * Get current user
-   * Get current user based on identity extracted from bearer token
+   * Resolve current user
+   * Resolve current user based on identity extracted from bearer token
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public getCurrentUser(
+  public resolveCurrentUser(
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -124,7 +124,7 @@ export class UserApi {
       transferCache?: boolean;
     }
   ): Observable<UserResponse>;
-  public getCurrentUser(
+  public resolveCurrentUser(
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -133,7 +133,7 @@ export class UserApi {
       transferCache?: boolean;
     }
   ): Observable<HttpResponse<UserResponse>>;
-  public getCurrentUser(
+  public resolveCurrentUser(
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -142,7 +142,7 @@ export class UserApi {
       transferCache?: boolean;
     }
   ): Observable<HttpEvent<UserResponse>>;
-  public getCurrentUser(
+  public resolveCurrentUser(
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -184,8 +184,8 @@ export class UserApi {
       }
     }
 
-    let localVarPath = `/v1/users/me`;
-    return this.httpClient.request<UserResponse>('get', `${this.configuration.basePath}${localVarPath}`, {
+    let localVarPath = `/api/v1/users/me`;
+    return this.httpClient.request<UserResponse>('post', `${this.configuration.basePath}${localVarPath}`, {
       context: localVarHttpContext,
       responseType: <any>responseType_,
       withCredentials: this.configuration.withCredentials,
@@ -283,7 +283,7 @@ export class UserApi {
       }
     }
 
-    let localVarPath = `/v1/users/me/address`;
+    let localVarPath = `/api/v1/users/me/address`;
     return this.httpClient.request<AddressResponse>('put', `${this.configuration.basePath}${localVarPath}`, {
       context: localVarHttpContext,
       body: updateUserAddressRequest,
@@ -383,7 +383,7 @@ export class UserApi {
       }
     }
 
-    let localVarPath = `/v1/users/me/phone`;
+    let localVarPath = `/api/v1/users/me/phone`;
     return this.httpClient.request<UserPhoneResponse>('patch', `${this.configuration.basePath}${localVarPath}`, {
       context: localVarHttpContext,
       body: updateUserPhoneRequest,

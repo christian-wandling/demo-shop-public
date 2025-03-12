@@ -178,7 +178,7 @@ export class ProductApi {
       }
     }
 
-    let localVarPath = `/v1/products`;
+    let localVarPath = `/api/v1/products`;
     return this.httpClient.request<ProductListResponse>('get', `${this.configuration.basePath}${localVarPath}`, {
       context: localVarHttpContext,
       responseType: <any>responseType_,
@@ -274,7 +274,7 @@ export class ProductApi {
       }
     }
 
-    let localVarPath = `/v1/products/${this.configuration.encodeParam({
+    let localVarPath = `/api/v1/products/${this.configuration.encodeParam({
       name: 'id',
       value: id,
       in: 'path',

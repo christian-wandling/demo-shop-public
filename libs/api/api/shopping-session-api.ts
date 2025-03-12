@@ -29,6 +29,8 @@ import { AddCartItemRequest } from '../model/add-cart-item-request';
 // @ts-ignore
 import { CartItemResponse } from '../model/cart-item-response';
 // @ts-ignore
+import { OrderResponse } from '../model/order-response';
+// @ts-ignore
 import { ShoppingSessionResponse } from '../model/shopping-session-response';
 // @ts-ignore
 import { UpdateCartItemQuantityRequest } from '../model/update-cart-item-quantity-request';
@@ -196,7 +198,7 @@ export class ShoppingSessionApi {
       }
     }
 
-    let localVarPath = `/v1/shopping-sessions/current/cart-items`;
+    let localVarPath = `/api/v1/shopping-sessions/current/cart-items`;
     return this.httpClient.request<CartItemResponse>('post', `${this.configuration.basePath}${localVarPath}`, {
       context: localVarHttpContext,
       body: addCartItemRequest,
@@ -210,12 +212,12 @@ export class ShoppingSessionApi {
   }
 
   /**
-   * Get current shopping session
-   * Get the shopping session of current user based on identity extracted from bearer token
+   * Checkout current shopping session
+   * Check out by creating an order from the current shopping session and deleting the shopping session afterwardds
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public getCurrentShoppingSession(
+  public checkout(
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -223,8 +225,8 @@ export class ShoppingSessionApi {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<ShoppingSessionResponse>;
-  public getCurrentShoppingSession(
+  ): Observable<OrderResponse>;
+  public checkout(
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -232,8 +234,8 @@ export class ShoppingSessionApi {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<HttpResponse<ShoppingSessionResponse>>;
-  public getCurrentShoppingSession(
+  ): Observable<HttpResponse<OrderResponse>>;
+  public checkout(
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -241,8 +243,8 @@ export class ShoppingSessionApi {
       context?: HttpContext;
       transferCache?: boolean;
     }
-  ): Observable<HttpEvent<ShoppingSessionResponse>>;
-  public getCurrentShoppingSession(
+  ): Observable<HttpEvent<OrderResponse>>;
+  public checkout(
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -284,8 +286,8 @@ export class ShoppingSessionApi {
       }
     }
 
-    let localVarPath = `/v1/shopping-sessions/current`;
-    return this.httpClient.request<ShoppingSessionResponse>('get', `${this.configuration.basePath}${localVarPath}`, {
+    let localVarPath = `/api/v1/shopping-sessions/checkout`;
+    return this.httpClient.request<OrderResponse>('post', `${this.configuration.basePath}${localVarPath}`, {
       context: localVarHttpContext,
       responseType: <any>responseType_,
       withCredentials: this.configuration.withCredentials,
@@ -380,7 +382,7 @@ export class ShoppingSessionApi {
       }
     }
 
-    let localVarPath = `/v1/shopping-sessions/current/cart-items/${this.configuration.encodeParam({
+    let localVarPath = `/api/v1/shopping-sessions/current/cart-items/${this.configuration.encodeParam({
       name: 'id',
       value: id,
       in: 'path',
@@ -390,6 +392,93 @@ export class ShoppingSessionApi {
       dataFormat: 'int32',
     })}`;
     return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      responseType: <any>responseType_,
+      withCredentials: this.configuration.withCredentials,
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * Resolve current shopping session
+   * Resolve current shopping session based on identity extracted from bearer token
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public resolveCurrentShoppingSession(
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable<ShoppingSessionResponse>;
+  public resolveCurrentShoppingSession(
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable<HttpResponse<ShoppingSessionResponse>>;
+  public resolveCurrentShoppingSession(
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable<HttpEvent<ShoppingSessionResponse>>;
+  public resolveCurrentShoppingSession(
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable<any> {
+    let localVarHeaders = this.defaultHeaders;
+
+    let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['text/plain', 'application/json', 'text/json'];
+      localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    let localVarHttpContext: HttpContext | undefined = options && options.context;
+    if (localVarHttpContext === undefined) {
+      localVarHttpContext = new HttpContext();
+    }
+
+    let localVarTransferCache: boolean | undefined = options && options.transferCache;
+    if (localVarTransferCache === undefined) {
+      localVarTransferCache = true;
+    }
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/api/v1/shopping-sessions/current`;
+    return this.httpClient.request<ShoppingSessionResponse>('post', `${this.configuration.basePath}${localVarPath}`, {
       context: localVarHttpContext,
       responseType: <any>responseType_,
       withCredentials: this.configuration.withCredentials,
@@ -501,7 +590,7 @@ export class ShoppingSessionApi {
       }
     }
 
-    let localVarPath = `/v1/shopping-sessions/current/cart-items/${this.configuration.encodeParam({
+    let localVarPath = `/api/v1/shopping-sessions/current/cart-items/${this.configuration.encodeParam({
       name: 'id',
       value: id,
       in: 'path',
