@@ -45,6 +45,7 @@ describe('ProductDetailComponent', () => {
           provide: ProductFacade,
           useValue: {
             getById: jest.fn().mockReturnValue(mockProduct),
+            fetchById: jest.fn(),
           },
         },
         {

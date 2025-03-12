@@ -1,4 +1,4 @@
-import { signalStore, withHooks, withMethods } from '@ngrx/signals';
+import { signalStore, withMethods } from '@ngrx/signals';
 import { withCallState, withDataService, withDevtools } from '@angular-architects/ngrx-toolkit';
 import { withEntities } from '@ngrx/signals/entities';
 import { OrderDataService } from '../services/order-data.service';
@@ -13,11 +13,6 @@ export const OrderStore = signalStore(
   withDataService({
     dataServiceType: OrderDataService,
     filter: {},
-  }),
-  withHooks({
-    onInit({ load }) {
-      load();
-    },
   }),
   withMethods(store => ({
     getById(id: number) {

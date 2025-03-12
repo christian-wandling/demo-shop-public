@@ -57,7 +57,7 @@ describe('ProductFacade', () => {
   });
 
   it('should load products', () => {
-    facade.load();
+    facade.fetchAll();
 
     expect(store.load).toHaveBeenCalled();
   });

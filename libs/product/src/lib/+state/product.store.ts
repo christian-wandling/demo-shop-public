@@ -1,10 +1,11 @@
-import { signalStore, withComputed, withHooks, withMethods } from '@ngrx/signals';
+import { patchState, signalStore, withComputed, withMethods } from '@ngrx/signals';
 import { withCallState, withDataService, withDevtools } from '@angular-architects/ngrx-toolkit';
-import { withEntities } from '@ngrx/signals/entities';
+import { addEntity, withEntities } from '@ngrx/signals/entities';
 import { ProductDataService } from '../services/product-data.service';
-import { computed } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { AllowedProductFilterTypes } from '../models/product-filter';
-import { ProductResponse } from '@demo-shop/api';
+import { ProductApi, ProductResponse } from '@demo-shop/api';
+import { firstValueFrom } from 'rxjs';
 
 export const ProductStore = signalStore(
   { providedIn: 'root' },
@@ -14,11 +15,6 @@ export const ProductStore = signalStore(
   withDataService({
     dataServiceType: ProductDataService,
     filter: {},
-  }),
-  withHooks({
-    onInit({ load }) {
-      load();
-    },
   }),
   withComputed(({ entities, filter }) => ({
     filteredEntities: computed(() => {
@@ -41,7 +37,11 @@ export const ProductStore = signalStore(
       );
     }),
   })),
-  withMethods(store => ({
+  withMethods((store, productApi = inject(ProductApi)) => ({
+    async fetchById(id: number) {
+      const product = await firstValueFrom(productApi.getProductById(id));
+      patchState(store, addEntity(product));
+    },
     getById(id: number) {
       return computed(() => store.entityMap()[id]);
     },

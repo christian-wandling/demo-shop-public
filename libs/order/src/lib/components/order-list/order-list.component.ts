@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { OrderFacade } from '../../order.facade';
 import { UserFacade } from '@demo-shop/user';
@@ -12,11 +12,15 @@ import { RouterLink } from '@angular/router';
   styleUrl: './order-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderListComponent {
+export class OrderListComponent implements OnInit {
   readonly MAX_THUMBNAILS = 5;
 
   readonly #userFacade = inject(UserFacade);
   readonly user = this.#userFacade.getCurrentUser();
   readonly #orderFacade = inject(OrderFacade);
   readonly orders = this.#orderFacade.getSortedByStatusAndDate();
+
+  ngOnInit() {
+    this.#orderFacade.fetchAll();
+  }
 }
