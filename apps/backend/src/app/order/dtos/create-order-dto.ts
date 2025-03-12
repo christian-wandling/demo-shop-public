@@ -1,7 +1,6 @@
-import { CartItemResponse } from '../../cart-item/dtos/cart-item-response';
 import { IsInt, Min, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ShoppingSessionResponse } from '../../shopping-session/dtos/shopping-session-response';
+import { CreateOrderItemDto } from './create-order-item-dto';
 
 export class CreateOrderDto {
   @IsInt()
@@ -11,14 +10,6 @@ export class CreateOrderDto {
   @Min(1)
   userId: number;
   @ValidateNested({ each: true })
-  @Type(() => CartItemResponse)
-  items: CartItemResponse[];
+  @Type(() => CreateOrderItemDto)
+  items: CreateOrderItemDto[];
 }
-
-export const toCreateOrderDto = (shoppingSessionDto: ShoppingSessionResponse): CreateOrderDto => {
-  return {
-    shoppingSessionId: shoppingSessionDto.id,
-    userId: shoppingSessionDto.userId,
-    items: shoppingSessionDto.items,
-  };
-};

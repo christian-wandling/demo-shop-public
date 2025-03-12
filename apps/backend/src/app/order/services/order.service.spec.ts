@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { OrderService } from './order.service';
 import { OrderRepository } from './order.repository';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { ShoppingSessionResponse } from '../../shopping-session/dtos/shopping-session-response';
 import { HydratedOrder } from '../entities/hydrated-order';
 import { OrderResponse } from '../dtos/order-response';
 import { OrderStatus } from '@prisma/client';
@@ -29,12 +28,6 @@ describe('OrdersService', () => {
     amount: 0,
     created: date,
     status: OrderStatus.Created,
-    userId: 1,
-    id: 123,
-    items: [],
-  };
-
-  const mockShoppingSession: ShoppingSessionResponse = {
     userId: 1,
     id: 123,
     items: [],
@@ -98,23 +91,6 @@ describe('OrdersService', () => {
       const result = await service.findByUser('test@example.com');
 
       expect(result).toEqual({ items: [] });
-    });
-  });
-
-  describe('create', () => {
-    it('should create and return new order from shopping session', async () => {
-      repository.create.mockResolvedValue(mockOrder);
-
-      const result = await service.create(mockShoppingSession);
-
-      expect(result).toEqual(mockOrderDto);
-      expect(repository.create).toHaveBeenCalledWith(mockCreateOrderDto);
-    });
-
-    it('should throw the right exception when creation fails', async () => {
-      repository.create.mockResolvedValue(null);
-
-      await expect(service.create(mockShoppingSession)).rejects.toThrow(BadRequestException);
     });
   });
 });

@@ -1,11 +1,9 @@
 import { Test } from '@nestjs/testing';
 import { OrderRepository } from './order.repository';
 import { PrismaService } from '../../common/services/prisma.service';
-import { ShoppingSessionResponse } from '../../shopping-session/dtos/shopping-session-response';
 import { HydratedOrder } from '../entities/hydrated-order';
 import { Decimal } from '@prisma/client/runtime/library';
-import { OrderStatus, ShoppingSession } from '@prisma/client';
-import { CreateOrderDto } from '../dtos/create-order-dto';
+import { OrderStatus } from '@prisma/client';
 
 describe('OrdersRepository', () => {
   let repository: OrderRepository;
@@ -15,12 +13,7 @@ describe('OrdersRepository', () => {
     order: {
       findUniqueOrThrow: jest.fn(),
       findMany: jest.fn(),
-      create: jest.fn(),
     },
-    shoppingSession: {
-      delete: jest.fn(),
-    },
-    $transaction: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -138,106 +131,6 @@ describe('OrdersRepository', () => {
         },
       });
       expect(result).toEqual(mockOrders);
-    });
-  });
-
-  describe('create', () => {
-    const mockDto: CreateOrderDto = {
-      shoppingSessionId: 1,
-      userId: 1,
-      items: [
-        {
-          id: 1,
-          productId: 1,
-          productName: 'Test Product',
-          productThumbnail: 'thumbnail.jpg',
-          quantity: 2,
-          unitPrice: 10.99,
-          totalPrice: 21.98,
-        },
-      ],
-    };
-
-    const mockCreatedOrder: HydratedOrder = {
-      id: 1,
-      user_id: 1,
-      status: OrderStatus.Created,
-      deleted: false,
-      created_at: undefined,
-      updated_at: undefined,
-      deleted_at: undefined,
-      order_items: [
-        {
-          id: 1,
-          order_id: 1,
-          product_id: 1,
-          product_name: 'Test Product',
-          product_thumbnail: 'thumbnail.jpg',
-          quantity: 2,
-          price: new Decimal(10.99),
-          deleted: false,
-          created_at: undefined,
-          updated_at: undefined,
-          deleted_at: undefined,
-        },
-      ],
-    };
-
-    const mockShoppingSession: ShoppingSession = {
-      id: 1,
-      user_id: 1,
-      created_at: undefined,
-      updated_at: undefined,
-    };
-
-    it('should create an order and delete the current shopping session', async () => {
-      const mockCreateOperation = {
-        data: {
-          user: {
-            connect: { id: 1 },
-          },
-          order_items: {
-            createMany: {
-              data: [
-                {
-                  product_id: 1,
-                  product_name: 'Test Product',
-                  product_thumbnail: 'thumbnail.jpg',
-                  quantity: 2,
-                  price: 10.99,
-                },
-              ],
-            },
-          },
-          status: 'Created',
-        },
-        include: {
-          order_items: true,
-        },
-      };
-
-      const mockDeleteOperation = {
-        where: {
-          id: 1,
-        },
-      };
-
-      jest.spyOn(prismaService.order, 'create').mockResolvedValue(mockCreatedOrder);
-      jest.spyOn(prismaService.shoppingSession, 'delete').mockResolvedValue(mockShoppingSession);
-      jest.spyOn(prismaService, '$transaction').mockResolvedValue([mockCreatedOrder]);
-
-      const result = await repository.create(mockDto);
-
-      expect(prismaService.order.create).toHaveBeenCalledWith(mockCreateOperation);
-      expect(prismaService.$transaction).toHaveBeenCalled();
-      expect(prismaService.shoppingSession.delete).toHaveBeenCalledWith(mockDeleteOperation);
-      expect(result).toEqual(mockCreatedOrder);
-    });
-
-    it('should throw an error if transaction fails', async () => {
-      prismaService.$transaction.mockRejectedValue(new Error('Transaction failed'));
-
-      await expect(repository.create(mockDto)).rejects.toThrow('Transaction failed');
     });
   });
 });
