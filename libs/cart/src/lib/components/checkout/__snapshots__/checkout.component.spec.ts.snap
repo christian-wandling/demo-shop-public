@@ -3,12 +3,14 @@
 exports[`CheckoutComponent should match the snapshot 1`] = `
 <lib-checkout
   checkoutForm={[Function Function]}
+  isCheckoutEnabled={[Function Function]}
+  isUpdateEnabled={[Function Function]}
   items={[Function Function]}
   price={[Function Function]}
   user={[Function Function]}
 >
   <div
-    class="bg-gray-100 m-10 p-10 rounded"
+    class="bg-gray-100 m-6 px-10 py-10 rounded"
   >
     <div
       class="flex items-start justify-between gap-8"
@@ -18,24 +20,22 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
         novalidate=""
       >
         <div
-          class="space-y-12"
+          class="space-y-8"
         >
-          <div
-            class="border-b border-gray-900/10 pb-12"
-          >
+          <div>
             <h2
               class="text-base font-semibold leading-7 text-gray-900"
             >
               Shipping information
             </h2>
             <div
-              class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-8"
+              class="mt-4 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-8"
             >
               <div
                 class="sm:col-span-4"
               >
                 <label
-                  class="required block text-sm font-medium leading-6 text-gray-900"
+                  class="required block text-sm font-medium leading-6 text-gray-500 disabled"
                   for="first-name"
                 >
                    First name 
@@ -45,7 +45,8 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                 >
                   <input
                     autocomplete="given-name"
-                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ng-untouched ng-pristine ng-valid"
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-500 bg-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ng-untouched ng-pristine"
+                    disabled=""
                     formcontrolname="firstname"
                     id="first-name"
                     name="first-name"
@@ -61,7 +62,7 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                 class="sm:col-span-4"
               >
                 <label
-                  class="required block text-sm font-medium leading-6 text-gray-900"
+                  class="required block text-sm font-medium leading-6 text-gray-500"
                   for="last-name"
                 >
                    Last name 
@@ -71,7 +72,8 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                 >
                   <input
                     autocomplete="family-name"
-                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ng-untouched ng-pristine ng-valid"
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-500 bg-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ng-untouched ng-pristine"
+                    disabled=""
                     formcontrolname="lastname"
                     id="last-name"
                     name="last-name"
@@ -87,7 +89,7 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                 class="sm:col-span-4"
               >
                 <label
-                  class="required block text-sm font-medium leading-6 text-gray-900"
+                  class="required block text-sm font-medium leading-6 text-gray-500"
                   for="email"
                 >
                    Email address 
@@ -97,7 +99,8 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                 >
                   <input
                     autocomplete="email"
-                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ng-untouched ng-pristine ng-valid"
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-500 bg-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ng-untouched ng-pristine"
+                    disabled=""
                     formcontrolname="email"
                     id="email"
                     name="email"
@@ -129,10 +132,6 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                     name="phone"
                   />
                 </div>
-                <lib-form-error
-                  class="text-xs text-red-600"
-                >
-                </lib-form-error>
               </div>
               <div
                 class="sm:col-span-4"
@@ -294,6 +293,12 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
             </div>
           </div>
         </div>
+        <button
+          class="btn-update float-right mt-10 max-w-60 flex w-full items-center justify-center rounded-md border border-transparent px-8 py-3 text-base font-medium bg-gray-200 text-gray-800 pointer-events-none"
+          disabled=""
+        >
+           Update 
+        </button>
       </form>
       <section>
         <h2
@@ -312,6 +317,63 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
               <ul
                 class="-my-6 divide-y divide-gray-200"
               >
+                <li
+                  class="flex py-6"
+                >
+                  <div
+                    class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200"
+                  >
+                    <img
+                      alt="productName"
+                      fetchpriority="auto"
+                      height="96"
+                      loading="lazy"
+                      ng-img="true"
+                      onerror="this.src='images/placeholder-image.jpg'"
+                      src="productThumbnail"
+                      width="96"
+                    />
+                  </div>
+                  <div
+                    class="ml-4 flex flex-1 flex-col"
+                  >
+                    <div>
+                      <div
+                        class="flex justify-between text-base font-medium text-gray-900"
+                      >
+                        <h3>
+                          <a>
+                            productName
+                          </a>
+                        </h3>
+                        <p
+                          class="ml-4"
+                        >
+                          $0.00
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      class="flex flex-1 items-end justify-between text-sm"
+                    >
+                      <p
+                        class="text-gray-500"
+                      >
+                        Qty 0
+                      </p>
+                      <div
+                        class="flex"
+                      >
+                        <button
+                          class="font-medium text-indigo-600 hover:text-indigo-500"
+                          type="button"
+                        >
+                           Remove 
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </li>
               </ul>
             </div>
           </div>
@@ -332,12 +394,12 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
         </div>
         <section>
           <div
-            class="mt-16 flex items-center justify-center gap-x-6"
+            class="mt-6 flex items-center justify-center gap-x-6"
           >
             <button
-              class="btn-checkout"
+              class="btn-checkout mt-6 max-w-60 flex w-full items-center justify-center rounded-md border border-transparent px-8 py-3 text-base font-medium bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
-              Checkout
+               Checkout 
             </button>
           </div>
         </section>

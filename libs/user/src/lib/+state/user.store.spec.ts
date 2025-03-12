@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { UserResponse, UserApi } from '@demo-shop/api';
+import { UserApi, UserResponse } from '@demo-shop/api';
 import { UserStore } from './user.store';
 import { of } from 'rxjs';
 import { MonitoringFacade } from '@demo-shop/monitoring';
+import { patchState } from '@ngrx/signals';
 
 describe('UserStore', () => {
   let store: any;
@@ -25,6 +26,9 @@ describe('UserStore', () => {
     },
   };
 
+  const updatePhoneRequest = { phone: 'newPhone' };
+  const updateAddressRequest = { ...user.address, street: 'newStreet' };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -32,6 +36,8 @@ describe('UserStore', () => {
           provide: UserApi,
           useValue: {
             resolveCurrentUser: jest.fn().mockReturnValue(of(user)),
+            updateCurrentUserPhone: jest.fn().mockReturnValue(of({ ...user, ...updatePhoneRequest })),
+            updateCurrentUserAddress: jest.fn().mockReturnValue(of(updateAddressRequest)),
           },
         },
         {
@@ -56,6 +62,34 @@ describe('UserStore', () => {
 
     expect(userApi.resolveCurrentUser).toHaveBeenCalled();
     expect(store.user()).toEqual(user);
+  });
+
+  it('should update the phone of the current user', async () => {
+    patchState(store, state => ({ ...state, user }));
+    await store.updateUserPhone(updatePhoneRequest);
+
+    expect(userApi.updateCurrentUserPhone).toHaveBeenCalledWith(updatePhoneRequest);
+    expect(store.user()).toEqual({ ...user, ...updatePhoneRequest });
+  });
+
+  it('should update the address of the current user', async () => {
+    patchState(store, state => ({ ...state, user }));
+    await store.updateUserAddress(updateAddressRequest);
+
+    expect(userApi.updateCurrentUserAddress).toHaveBeenCalledWith(updateAddressRequest);
+    expect(store.user()).toEqual({ ...user, address: updateAddressRequest });
+  });
+
+  describe('onInit', () => {
+    it('should set up effect to track user in Sentry when store initializes', () => {
+      expect(monitoringFacade.setUser).toHaveBeenCalledWith({ id: undefined });
+    });
+
+    it('should update Sentry user when store user changes', async () => {
+      await store.fetchCurrentUser();
+
+      expect(monitoringFacade.setUser).toHaveBeenCalledWith({ id: 1 });
+    });
   });
 
   describe('onInit', () => {

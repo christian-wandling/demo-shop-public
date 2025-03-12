@@ -4,7 +4,7 @@ export interface CheckoutForm {
   firstname: FormControl<string>;
   lastname: FormControl<string>;
   email: FormControl<string>;
-  phone: FormControl<string>;
+  phone?: FormControl<string | null>;
   address: FormGroup<CheckoutAddressForm>;
 }
 
