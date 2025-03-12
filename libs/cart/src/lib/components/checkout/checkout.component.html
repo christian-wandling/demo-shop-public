@@ -1,13 +1,13 @@
-<div class="bg-gray-100 m-10 p-10 rounded">
+<div class="bg-gray-100 m-6 px-10 py-10 rounded">
   <div class="flex items-start justify-between gap-8">
     <form [formGroup]="checkoutForm()">
-      <div class="space-y-12">
-        <div class="border-b border-gray-900/10 pb-12">
+      <div class="space-y-8">
+        <div>
           <h2 class="text-base font-semibold leading-7 text-gray-900">Shipping information</h2>
 
-          <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-8">
+          <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-8">
             <div class="sm:col-span-4">
-              <label for="first-name" class="required block text-sm font-medium leading-6 text-gray-900">
+              <label for="first-name" class="required block text-sm font-medium leading-6 text-gray-500 disabled">
                 First name
               </label>
               <div class="mt-2">
@@ -17,13 +17,13 @@
                   name="first-name"
                   id="first-name"
                   autocomplete="given-name"
-                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                  class="block w-full rounded-md border-0 py-1.5 text-gray-500 bg-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
               </div>
               <lib-form-error [errors]="checkoutForm().controls.firstname.errors" />
             </div>
 
             <div class="sm:col-span-4">
-              <label for="last-name" class="required block text-sm font-medium leading-6 text-gray-900">
+              <label for="last-name" class="required block text-sm font-medium leading-6 text-gray-500">
                 Last name
               </label>
               <div class="mt-2">
@@ -33,13 +33,13 @@
                   name="last-name"
                   id="last-name"
                   autocomplete="family-name"
-                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                  class="block w-full rounded-md border-0 py-1.5 text-gray-500 bg-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                 <lib-form-error [errors]="checkoutForm().controls.firstname.errors" />
               </div>
             </div>
 
             <div class="sm:col-span-4">
-              <label for="email" class="required block text-sm font-medium leading-6 text-gray-900">
+              <label for="email" class="required block text-sm font-medium leading-6 text-gray-500">
                 Email address
               </label>
               <div class="mt-2">
@@ -49,7 +49,7 @@
                   name="email"
                   type="email"
                   autocomplete="email"
-                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                  class="block w-full rounded-md border-0 py-1.5 text-gray-500 bg-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
               </div>
               <lib-form-error [errors]="checkoutForm().controls.email.errors" />
             </div>
@@ -64,7 +64,6 @@
                   autocomplete="tel"
                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
               </div>
-              <lib-form-error [errors]="checkoutForm().controls.phone.errors" />
             </div>
 
             <ng-container [formGroup]="checkoutForm().controls.address">
@@ -160,6 +159,17 @@
           </div>
         </div>
       </div>
+      <button
+        (click)="updateUser()"
+        [disabled]="!isUpdateEnabled()"
+        class="btn-update float-right mt-10 max-w-60 flex w-full items-center justify-center rounded-md border border-transparent px-8 py-3 text-base font-medium"
+        [ngClass]="{
+          'bg-gray-200 text-gray-800 pointer-events-none': !isUpdateEnabled(),
+          'bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2':
+            isUpdateEnabled()
+        }">
+        Update
+      </button>
     </form>
 
     <section>
@@ -172,8 +182,18 @@
       </div>
 
       <section>
-        <div class="mt-16 flex items-center justify-center gap-x-6">
-          <button class="btn-checkout" [disabled]="checkoutForm().invalid" (click)="checkout()">Checkout</button>
+        <div class="mt-6 flex items-center justify-center gap-x-6">
+          <button
+            (click)="checkout()"
+            [disabled]="!isCheckoutEnabled()"
+            class="btn-checkout mt-6 max-w-60 flex w-full items-center justify-center rounded-md border border-transparent px-8 py-3 text-base font-medium"
+            [ngClass]="{
+              'bg-gray-200 text-gray-800 pointer-events-none': !isCheckoutEnabled,
+              'bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2':
+                isCheckoutEnabled()
+            }">
+            Checkout
+          </button>
         </div>
       </section>
     </section>

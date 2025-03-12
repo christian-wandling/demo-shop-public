@@ -1,15 +1,12 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { ShoppingSessionResponse, toShoppingSessionResponse } from '../dtos/shopping-session-response';
 import { ShoppingSessionRepository } from './shopping-session.repository';
-import { OrderResponse } from '../../order/dtos/order-response';
-import { OrderService } from '../../order/services/order.service';
+import { OrderResponse, toOrderResponse } from '../../order/dtos/order-response';
+import { CreateOrderDto } from '../../order/dtos/create-order-dto';
 
 @Injectable()
 export class ShoppingSessionService {
-  constructor(
-    private readonly orderService: OrderService,
-    private readonly shoppingSessionsRepository: ShoppingSessionRepository
-  ) {}
+  constructor(private readonly shoppingSessionsRepository: ShoppingSessionRepository) {}
 
   async create(email: string): Promise<ShoppingSessionResponse> {
     const session = await this.shoppingSessionsRepository.create(email);
@@ -28,7 +25,25 @@ export class ShoppingSessionService {
       throw new ForbiddenException('No active shopping session found. Please login to start a new shopping session.');
     }
 
-    return this.orderService.create(shoppingSession);
+    const createOrder: CreateOrderDto = {
+      shoppingSessionId: shoppingSession.id,
+      userId: shoppingSession.userId,
+      items: shoppingSession.items.map(item => ({
+        product_id: item.productId,
+        product_name: item.productName,
+        product_thumbnail: item.productThumbnail,
+        quantity: item.quantity,
+        price: item.unitPrice,
+      })),
+    };
+
+    const order = await this.shoppingSessionsRepository.checkout(createOrder);
+
+    if (!order) {
+      throw new Error('Order could not be created');
+    }
+
+    return toOrderResponse(order);
   }
 
   async findCurrentSessionForUser(email: string): Promise<ShoppingSessionResponse> {

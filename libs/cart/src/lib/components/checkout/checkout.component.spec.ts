@@ -1,14 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CheckoutComponent } from './checkout.component';
 import { CartFacade } from '../../cart.facade';
-import { signal } from '@angular/core';
+import { signal, WritableSignal } from '@angular/core';
 import { UserFacade } from '@demo-shop/user';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { provideRouter, Router } from '@angular/router';
+import { CartItemResponse, UserResponse } from '@demo-shop/api';
 
 describe('CheckoutComponent', () => {
-  const user = signal({
+  const mockUser: WritableSignal<UserResponse> = signal({
     id: 1,
     email: 'john@doe.com',
     firstname: 'John',
@@ -24,9 +25,22 @@ describe('CheckoutComponent', () => {
     },
   });
 
+  const cartItems: WritableSignal<CartItemResponse[]> = signal([
+    {
+      id: 0,
+      productId: 0,
+      productName: 'productName',
+      productThumbnail: 'productThumbnail',
+      quantity: 0,
+      unitPrice: 0,
+      totalPrice: 0,
+    },
+  ]);
+
   let component: CheckoutComponent;
   let fixture: ComponentFixture<CheckoutComponent>;
   let cartFacade: CartFacade;
+  let userFacade: UserFacade;
   let router: Router;
 
   beforeEach(async () => {
@@ -37,7 +51,7 @@ describe('CheckoutComponent', () => {
         {
           provide: CartFacade,
           useValue: {
-            getAll: jest.fn().mockReturnValue(signal([])),
+            getAll: jest.fn().mockReturnValue(cartItems),
             getTotalPrice: jest.fn().mockReturnValue(signal(0)),
             removeItem: jest.fn().mockResolvedValue(undefined),
             loadShoppingSession: jest.fn().mockResolvedValue(undefined),
@@ -47,7 +61,9 @@ describe('CheckoutComponent', () => {
         {
           provide: UserFacade,
           useValue: {
-            getCurrentUser: jest.fn().mockReturnValue(user),
+            getCurrentUser: jest.fn().mockReturnValue(mockUser),
+            updateUserAddress: jest.fn(),
+            updateUserPhone: jest.fn(),
           },
         },
         provideRouter([]),
@@ -55,6 +71,7 @@ describe('CheckoutComponent', () => {
     }).compileComponents();
 
     cartFacade = TestBed.inject(CartFacade);
+    userFacade = TestBed.inject(UserFacade);
     router = TestBed.inject(Router);
     fixture = TestBed.createComponent(CheckoutComponent);
     component = fixture.componentInstance;
@@ -69,45 +86,125 @@ describe('CheckoutComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should fill the form with user data and display it', () => {
-    expect(component.checkoutForm().value).toEqual({ ...component.user(), id: undefined });
-    expect(fixture.debugElement.query(By.css('form'))).toBeTruthy();
+  describe('checkout form', () => {
+    it('should fill the form with user data and display it', () => {
+      expect(component.checkoutForm().value).toEqual({
+        phone: mockUser().phone,
+        address: mockUser().address,
+      });
+      expect(fixture.debugElement.query(By.css('form'))).toBeTruthy();
+    });
   });
 
-  it('should display the order ', () => {
-    expect(fixture.debugElement.query(By.css('lib-cart-items'))).toBeTruthy();
+  describe('update', () => {
+    it('should enable update if form is dirty and valid', () => {
+      component.checkoutForm().markAsDirty();
+      fixture.detectChanges();
+
+      const res = component.getUpdateEnabled();
+
+      expect(res()).toEqual(true);
+    });
+
+    it('should disable update if form is not dirty', () => {
+      component.checkoutForm().markAsPristine();
+      fixture.detectChanges();
+
+      const res = component.getUpdateEnabled();
+
+      expect(res()).toEqual(false);
+    });
   });
 
-  it('should enable the checkout button if the form is valid ', () => {
-    const btn = fixture.debugElement.query(By.css('.btn-checkout'));
+  describe('checkout', () => {
+    it('should enable checkout if all conditions are filled', () => {
+      const res = component.getCheckoutEnabled();
 
-    expect(btn.nativeElement.disabled).toBe(false);
+      expect(res()).toEqual(true);
+    });
+
+    it('should disable checkout if cart is empty', () => {
+      cartItems.set([]);
+      fixture.detectChanges();
+
+      const res = component.getCheckoutEnabled();
+
+      expect(res()).toEqual(false);
+    });
+
+    it('should disable checkout if user address is empty', () => {
+      mockUser.set({ ...mockUser(), address: undefined });
+
+      fixture.detectChanges();
+
+      const res = component.getCheckoutEnabled();
+
+      expect(res()).toEqual(false);
+    });
+
+    it('should disable checkout if form is dirty', () => {
+      component.checkoutForm().markAsDirty();
+      fixture.detectChanges();
+
+      const res = component.getCheckoutEnabled();
+
+      expect(res()).toEqual(false);
+    });
+
+    it('should start the checkout process', async () => {
+      jest.spyOn(router, 'navigateByUrl');
+
+      await component.checkout();
+
+      expect(cartFacade.checkout).toHaveBeenCalled();
+      expect(router.navigateByUrl).toHaveBeenCalledWith('/products');
+    });
   });
 
-  it('should disable the checkout button if the form is valid ', () => {
-    user.update(user => ({ ...user, email: 'email' }));
-    fixture.detectChanges();
+  describe('cart-items', () => {
+    it('should display the cart items', () => {
+      expect(fixture.debugElement.query(By.css('lib-cart-items'))).toBeTruthy();
+    });
 
-    const btn = fixture.debugElement.query(By.css('.btn-checkout'));
+    it('should remove an item', () => {
+      const id = 1;
 
-    expect(component.checkoutForm().invalid).toBe(true);
-    expect(btn?.nativeElement.disabled).toBe(true);
+      component.removeItem(id);
+
+      expect(cartFacade.removeItem).toHaveBeenCalledWith(id);
+    });
   });
 
-  it('should remove an item', () => {
-    const id = 1;
+  describe('update user', () => {
+    it('should update the phone if changed', async () => {
+      mockUser.set({ ...mockUser(), phone: '123' });
+      const ctrl = component.checkoutForm().controls.phone;
+      ctrl?.markAsDirty();
 
-    component.removeItem(id);
+      await component.updateUser();
 
-    expect(cartFacade.removeItem).toHaveBeenCalledWith(id);
-  });
+      expect(userFacade.updateUserPhone).toHaveBeenCalledWith({ phone: ctrl?.value });
+    });
 
-  it('should create an order, then reload the shoppingSession and navigate to the products page', async () => {
-    jest.spyOn(router, 'navigateByUrl');
+    it('should update the address if changed', async () => {
+      mockUser.set({
+        ...mockUser(),
+        address: {
+          street: 'street',
+          apartment: 'apartment',
+          city: 'city',
+          region: 'region',
+          zip: 'zip',
+          country: 'country',
+        },
+      });
+      const ctrl = component.checkoutForm().controls.address;
+      ctrl?.markAsDirty();
+      console.log(component.checkoutForm()?.value);
 
-    await component.checkout();
+      await component.updateUser();
 
-    expect(cartFacade.checkout).toHaveBeenCalled();
-    expect(router.navigateByUrl).toHaveBeenCalledWith('/products');
+      expect(userFacade.updateUserAddress).toHaveBeenCalledWith(ctrl?.value);
+    });
   });
 });

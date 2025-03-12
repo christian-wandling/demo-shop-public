@@ -2,8 +2,6 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { OrderRepository } from './order.repository';
 import { OrderResponse, toOrderResponse } from '../dtos/order-response';
 import { batchConvert } from '../../common/util/batch-convert';
-import { toCreateOrderDto } from '../dtos/create-order-dto';
-import { ShoppingSessionResponse } from '../../shopping-session/dtos/shopping-session-response';
 import { OrderListResponse } from '../dtos/order-list-response';
 
 @Injectable()
@@ -24,17 +22,5 @@ export class OrderService {
     return {
       items: batchConvert(await this.ordersRepository.findManyByUser(email), toOrderResponse),
     };
-  }
-
-  async create(shoppingSessionDto: ShoppingSessionResponse): Promise<OrderResponse> {
-    const createOrderDto = toCreateOrderDto(shoppingSessionDto);
-
-    const order = await this.ordersRepository.create(createOrderDto);
-
-    if (!order) {
-      throw new BadRequestException('Failed to create order');
-    }
-
-    return toOrderResponse(order);
   }
 }

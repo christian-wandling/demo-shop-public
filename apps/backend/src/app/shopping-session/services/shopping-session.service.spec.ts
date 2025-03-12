@@ -4,13 +4,13 @@ import { ShoppingSessionService } from './shopping-session.service';
 import { ShoppingSessionRepository } from './shopping-session.repository';
 import { ShoppingSessionResponse } from '../dtos/shopping-session-response';
 import { HydratedShoppingSession } from '../entities/hydrated-shopping-session';
-import { OrderService } from '../../order/services/order.service';
-import { OrderResponse } from '../../order/dtos/order-response';
+import { CreateOrderDto } from '../../order/dtos/create-order-dto';
+import { HydratedOrder } from '../../order/entities/hydrated-order';
 import { OrderStatus } from '@prisma/client';
+import { OrderResponse } from '../../order/dtos/order-response';
 
 describe('ShoppingSessionsService', () => {
   let service: ShoppingSessionService;
-  let orderService: jest.Mocked<OrderService>;
   let repository: jest.Mocked<ShoppingSessionRepository>;
 
   const mockEmail = 'test@example.com';
@@ -30,13 +30,24 @@ describe('ShoppingSessionsService', () => {
     id: 1,
   };
 
-  const mockOrderDto: OrderResponse = {
+  const mockHydratedOrder: HydratedOrder = {
     id: 1,
-    userId: 1,
+    user_id: 1,
     status: OrderStatus.Created,
+    order_items: [],
+    deleted: false,
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: new Date(),
+  };
+
+  const mockOrderResponse: OrderResponse = {
     amount: 0,
-    created: new Date(),
+    created: mockHydratedOrder.created_at,
+    id: 1,
     items: [],
+    status: OrderStatus.Created,
+    userId: 1,
   };
 
   beforeEach(async () => {
@@ -44,10 +55,7 @@ describe('ShoppingSessionsService', () => {
       create: jest.fn(),
       find: jest.fn(),
       remove: jest.fn(),
-    };
-
-    const orderServiceMock = {
-      create: jest.fn(),
+      checkout: jest.fn(),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -57,15 +65,10 @@ describe('ShoppingSessionsService', () => {
           provide: ShoppingSessionRepository,
           useValue: repositoryMock,
         },
-        {
-          provide: OrderService,
-          useValue: orderServiceMock,
-        },
       ],
     }).compile();
 
     service = module.get<ShoppingSessionService>(ShoppingSessionService);
-    orderService = module.get(OrderService);
     repository = module.get(ShoppingSessionRepository);
   });
 
@@ -134,18 +137,32 @@ describe('ShoppingSessionsService', () => {
   });
 
   describe('checkout', () => {
+    const mockCreateOrder: CreateOrderDto = {
+      shoppingSessionId: 1,
+      userId: 1,
+      items: [],
+    };
+
     it('should successfully checkout and create an order from a shopping session', async () => {
       jest.spyOn(service, 'findCurrentSessionForUser').mockResolvedValue(mockSessionResponse);
+      jest.spyOn(repository, 'checkout').mockResolvedValue(mockHydratedOrder);
 
-      await service.checkout(mockEmail);
+      const res = await service.checkout(mockEmail);
 
-      expect(orderService.create).toHaveBeenCalledWith(mockSessionResponse);
+      expect(repository.checkout).toHaveBeenCalledWith(mockCreateOrder);
+      expect(res).toEqual(mockOrderResponse);
     });
 
-    it('should throw the right exception when repository returns null', async () => {
+    it('should throw the right exception when findCurrentSessionForUser returns null', async () => {
       jest.spyOn(service, 'findCurrentSessionForUser').mockResolvedValue(null);
 
       await expect(service.checkout(mockEmail)).rejects.toThrow(ForbiddenException);
+    });
+
+    it('should throw the right exception when checkout returns null', async () => {
+      jest.spyOn(repository, 'checkout').mockResolvedValue(null);
+
+      await expect(service.checkout(mockEmail)).rejects.toThrow(Error);
     });
   });
 });

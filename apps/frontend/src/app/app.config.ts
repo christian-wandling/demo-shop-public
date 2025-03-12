@@ -39,7 +39,7 @@ export const appConfig: ApplicationConfig = {
     },
     provideApi(
       withConfiguration({
-        basePath: '/api',
+        basePath: '',
       })
     ),
     provideAuth({
