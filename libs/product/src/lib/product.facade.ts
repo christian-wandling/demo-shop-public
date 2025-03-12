@@ -9,8 +9,12 @@ import { ProductResponse } from '@demo-shop/api';
 export class ProductFacade {
   readonly #store = inject(ProductStore);
 
-  load(): void {
+  fetchAll(): void {
     this.#store.load();
+  }
+
+  fetchById(id: number): void {
+    this.#store.fetchById(id);
   }
 
   getFiltered(): Signal<ProductResponse[]> {

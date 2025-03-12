@@ -55,6 +55,7 @@ describe('ProductListComponent', () => {
           provide: ProductFacade,
           useValue: {
             getFiltered: jest.fn().mockReturnValue(signal(mockProducts)),
+            fetchAll: jest.fn(),
           },
         },
         provideRouter([]),

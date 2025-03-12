@@ -43,7 +43,13 @@ describe('OrderDetailComponent', () => {
       imports: [OrderDetailComponent],
       providers: [
         { provide: UserFacade, useValue: { getCurrentUser: jest.fn().mockReturnValue(signal(mockUser)) } },
-        { provide: OrderFacade, useValue: { find: jest.fn().mockReturnValue(signal(mockOrder)) } },
+        {
+          provide: OrderFacade,
+          useValue: {
+            find: jest.fn().mockReturnValue(signal(mockOrder)),
+            fetchById: jest.fn(),
+          },
+        },
         {
           provide: ActivatedRoute,
           useValue: {

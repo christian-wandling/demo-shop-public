@@ -51,7 +51,13 @@ describe('OrderListComponent', () => {
       imports: [OrderListComponent],
       providers: [
         { provide: UserFacade, useValue: { getCurrentUser: jest.fn().mockReturnValue(signal(user)) } },
-        { provide: OrderFacade, useValue: { getSortedByStatusAndDate: jest.fn().mockReturnValue(signal(orders)) } },
+        {
+          provide: OrderFacade,
+          useValue: {
+            getSortedByStatusAndDate: jest.fn().mockReturnValue(signal(orders)),
+            fetchAll: jest.fn(),
+          },
+        },
         provideRouter([]),
       ],
     }).compileComponents();

@@ -51,30 +51,32 @@ describe('OrderStore', () => {
     store = TestBed.inject(OrderStore);
   });
 
-  describe('initialization', () => {
-    it('should load orders on init', () => {
+  describe('load', () => {
+    it('should populate store with loaded orders', async () => {
+      await store.load();
+      console.log(store.entities());
       expect(mockDataService.load).toHaveBeenCalled();
-    });
-
-    it('should populate store with loaded orders', () => {
       expect(store.entities()).toEqual(mockOrders);
     });
   });
 
   describe('getById', () => {
-    it('should return the correct order by id', () => {
+    it('should return the correct order by id', async () => {
+      await store.load();
       const order = store.getById(1);
       expect(order()).toEqual(mockOrders[0]);
     });
 
-    it('should return undefined for non-existent id', () => {
+    it('should return undefined for non-existent id', async () => {
+      await store.load();
       const order = store.getById('non-existent');
       expect(order()).toBeUndefined();
     });
   });
 
   describe('getSortedByStatusAndDate', () => {
-    it('should sort Created orders first, then by date descending', () => {
+    it('should sort Created orders first, then by date descending', async () => {
+      await store.load();
       const sortedOrders = store.getSortedByStatusAndDate();
 
       expect(sortedOrders()).toEqual([

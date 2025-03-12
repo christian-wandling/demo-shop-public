@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ProductFacade } from '../../product.facade';
 import { RouterLink } from '@angular/router';
@@ -14,8 +14,12 @@ import { RouterLink } from '@angular/router';
     class: 'bg-white',
   },
 })
-export class ProductListComponent {
+export class ProductListComponent implements OnInit {
   readonly #productFacade = inject(ProductFacade);
 
   readonly products = this.#productFacade.getFiltered();
+
+  ngOnInit() {
+    this.#productFacade.fetchAll();
+  }
 }

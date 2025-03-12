@@ -8,6 +8,14 @@ import { OrderResponse } from '@demo-shop/api';
 export class OrderFacade {
   readonly #orderStore = inject(OrderStore);
 
+  fetchAll(): void {
+    this.#orderStore.load();
+  }
+
+  fetchById(id: number): void {
+    this.#orderStore.loadById(id);
+  }
+
   add(order: OrderResponse): void {
     this.#orderStore.create(order);
   }

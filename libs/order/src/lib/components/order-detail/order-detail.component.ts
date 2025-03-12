@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { OrderFacade } from '../../order.facade';
 import { ActivatedRoute } from '@angular/router';
@@ -14,13 +14,17 @@ import { OrderResponse, UserResponse } from '@demo-shop/api';
   styleUrl: './order-detail.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderDetailComponent {
+export class OrderDetailComponent implements OnInit {
   readonly #userFacade = inject(UserFacade);
   readonly user = this.#userFacade.getCurrentUser();
   readonly #orderFacade = inject(OrderFacade);
   readonly #activatedRoute = inject(ActivatedRoute);
   readonly order = this.#orderFacade.find(this.#activatedRoute.snapshot.params['id']);
   readonly #printInvoiceService = inject(PrintInvoiceService);
+
+  ngOnInit(): void {
+    this.#orderFacade.fetchById(this.#activatedRoute.snapshot.params['id']);
+  }
 
   printPdf(order: OrderResponse, user: UserResponse | undefined): void {
     if (!user) {

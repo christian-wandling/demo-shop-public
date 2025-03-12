@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { DataService } from '@angular-architects/ngrx-toolkit';
 import { firstValueFrom } from 'rxjs';
 import { OrderFilter } from '../models/order-filter';
-import { OrderApi, OrderResponse, ShoppingSessionApi } from '@demo-shop/api';
+import { OrderApi, OrderResponse } from '@demo-shop/api';
 
 @Injectable({
   providedIn: 'root',
