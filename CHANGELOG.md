@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [0.3.19](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.18...v0.3.19) (2025-03-13)
+
+
+### Features
+
+* **backend:** add endpoints for updating user address and phone ([#51](https://github.com/christian-wandling/demo-shop-public/issues/51)) ([f49f741](https://github.com/christian-wandling/demo-shop-public/commit/f49f741b9d69994c2a31f9a32e0fb2b72a5d96fd))
+
 ### [0.3.18](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.17...v0.3.18) (2025-03-12)
 
 ### [0.3.17](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.16...v0.3.17) (2025-03-12)
