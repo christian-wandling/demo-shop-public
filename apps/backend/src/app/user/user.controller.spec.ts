@@ -3,16 +3,23 @@ import { UserController } from './user.controller';
 import { UserService } from './services/user.service';
 import { UserResponse } from './dtos/user-response';
 import { DecodeTokenPipe } from '../common/pipes/decode-token-pipe';
-import { RequestMethod } from '@nestjs/common';
-import { DecodedToken } from '../common/entities/decoded-token';
+import { BadRequestException, NotFoundException, RequestMethod } from '@nestjs/common';
+import { DecodedToken } from '../common/models/decoded-token';
 import { MonitoringService } from '../common/services/monitoring.service';
 
 describe('UserController', () => {
   let controller: UserController;
   let userService: UserService;
 
-  const mockUserDto: UserResponse = {
-    address: undefined,
+  const mockUserResponse: UserResponse = {
+    address: {
+      street: 'street',
+      apartment: 'apartment',
+      city: 'city',
+      region: 'region',
+      zip: 'zip',
+      country: 'country',
+    },
     firstname: 'firstname',
     lastname: 'lastname',
     phone: 'phone',
@@ -34,7 +41,9 @@ describe('UserController', () => {
         {
           provide: UserService,
           useValue: {
-            getFromToken: jest.fn().mockResolvedValue(mockUserDto),
+            resolveCurrentUser: jest.fn().mockResolvedValue(mockUserResponse),
+            updateCurrentUserAddress: jest.fn().mockResolvedValue(mockUserResponse.address),
+            updateCurrentUserPhone: jest.fn().mockResolvedValue(mockUserResponse),
           },
         },
         {
@@ -74,21 +83,23 @@ describe('UserController', () => {
     });
   });
 
-  describe('getCurrentUser', () => {
-    it('should return a user by email', async () => {
+  describe('resolveCurrentUser', () => {
+    it('should resolve the current user', async () => {
       const result = await controller.resolveCurrentUser(mockDecodedToken);
 
-      expect(result).toEqual(mockUserDto);
-      expect(userService.getFromToken).toHaveBeenCalledWith(mockDecodedToken);
-      expect(userService.getFromToken).toHaveBeenCalledTimes(1);
+      expect(result).toEqual(mockUserResponse);
+      expect(userService.resolveCurrentUser).toHaveBeenCalledWith(mockDecodedToken);
+      expect(userService.resolveCurrentUser).toHaveBeenCalledTimes(1);
     });
 
     it('should throw an error if user is not found', async () => {
-      jest.spyOn(userService, 'getFromToken').mockRejectedValueOnce(new Error('User not found'));
+      jest
+        .spyOn(userService, 'resolveCurrentUser')
+        .mockRejectedValueOnce(new BadRequestException('Failed to create user'));
 
-      await expect(controller.resolveCurrentUser(mockDecodedToken)).rejects.toThrow('User not found');
-      expect(userService.getFromToken).toHaveBeenCalledWith(mockDecodedToken);
-      expect(userService.getFromToken).toHaveBeenCalledTimes(1);
+      await expect(controller.resolveCurrentUser(mockDecodedToken)).rejects.toThrow('Failed to create user');
+      expect(userService.resolveCurrentUser).toHaveBeenCalledWith(mockDecodedToken);
+      expect(userService.resolveCurrentUser).toHaveBeenCalledTimes(1);
     });
 
     it('should have the correct path', () => {
@@ -99,6 +110,72 @@ describe('UserController', () => {
     it('should have the correct method', () => {
       const method = Reflect.getMetadata('method', UserController.prototype.resolveCurrentUser);
       expect(method).toEqual(RequestMethod.POST);
+    });
+  });
+
+  describe('updateCurrentUserAddress', () => {
+    it('should update the address of current user', async () => {
+      const result = await controller.updateCurrentUserAddress(mockUserResponse.address, mockDecodedToken);
+
+      expect(result).toEqual(mockUserResponse.address);
+      expect(userService.updateCurrentUserAddress).toHaveBeenCalledWith(mockDecodedToken, mockUserResponse.address);
+      expect(userService.updateCurrentUserAddress).toHaveBeenCalledTimes(1);
+    });
+
+    it('should throw an error if user is not found', async () => {
+      jest
+        .spyOn(userService, 'updateCurrentUserAddress')
+        .mockRejectedValueOnce(new NotFoundException('User not found'));
+
+      await expect(controller.updateCurrentUserAddress(mockUserResponse.address, mockDecodedToken)).rejects.toThrow(
+        new NotFoundException('User not found')
+      );
+      expect(userService.updateCurrentUserAddress).toHaveBeenCalledWith(mockDecodedToken, mockUserResponse.address);
+      expect(userService.updateCurrentUserAddress).toHaveBeenCalledTimes(1);
+    });
+
+    it('should have the correct path', () => {
+      const path = Reflect.getMetadata('path', UserController.prototype.updateCurrentUserAddress);
+      expect(path).toEqual('me/address');
+    });
+
+    it('should have the correct method', () => {
+      const method = Reflect.getMetadata('method', UserController.prototype.updateCurrentUserAddress);
+      expect(method).toEqual(RequestMethod.PUT);
+    });
+  });
+
+  describe('updateCurrentUserPhone', () => {
+    it('should update the phone of current user', async () => {
+      const result = await controller.updateCurrentUserPhone({ phone: mockUserResponse.phone }, mockDecodedToken);
+
+      expect(result).toEqual(mockUserResponse);
+      expect(userService.updateCurrentUserPhone).toHaveBeenCalledWith(mockDecodedToken, {
+        phone: mockUserResponse.phone,
+      });
+      expect(userService.updateCurrentUserPhone).toHaveBeenCalledTimes(1);
+    });
+
+    it('should throw an error if user is not found', async () => {
+      jest.spyOn(userService, 'updateCurrentUserPhone').mockRejectedValueOnce(new NotFoundException('User not found'));
+
+      await expect(
+        controller.updateCurrentUserPhone({ phone: mockUserResponse.phone }, mockDecodedToken)
+      ).rejects.toThrow(new NotFoundException('User not found'));
+      expect(userService.updateCurrentUserPhone).toHaveBeenCalledWith(mockDecodedToken, {
+        phone: mockUserResponse.phone,
+      });
+      expect(userService.updateCurrentUserPhone).toHaveBeenCalledTimes(1);
+    });
+
+    it('should have the correct path', () => {
+      const path = Reflect.getMetadata('path', UserController.prototype.updateCurrentUserPhone);
+      expect(path).toEqual('me/phone');
+    });
+
+    it('should have the correct method', () => {
+      const method = Reflect.getMetadata('method', UserController.prototype.updateCurrentUserPhone);
+      expect(method).toEqual(RequestMethod.PATCH);
     });
   });
 });

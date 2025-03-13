@@ -12,6 +12,7 @@ describe('UsersRepository', () => {
     user: {
       findUnique: jest.fn(),
       create: jest.fn(),
+      update: jest.fn(),
     },
   };
 
@@ -67,16 +68,16 @@ describe('UsersRepository', () => {
   });
 
   describe('find', () => {
-    const email = 'test@example.com';
+    const keycloakId = 'keycloakId';
 
     it('should find a user by email with address included', async () => {
       mockPrismaService.user.findUnique.mockResolvedValue(mockUser);
 
-      const result = await usersRepository.find(email);
+      const result = await usersRepository.findByKeycloakId(keycloakId);
 
       expect(result).toEqual(mockUser);
       expect(prismaService.user.findUnique).toHaveBeenCalledWith({
-        where: { email, deleted: false },
+        where: { keycloak_user_id: keycloakId, deleted: false },
         include: { address: true },
       });
       expect(prismaService.user.findUnique).toHaveBeenCalledTimes(1);
@@ -85,9 +86,9 @@ describe('UsersRepository', () => {
     it('should throw when user is not found', async () => {
       mockPrismaService.user.findUnique.mockRejectedValue(new Error('User not found'));
 
-      await expect(usersRepository.find(email)).rejects.toThrow('User not found');
+      await expect(usersRepository.findByKeycloakId(keycloakId)).rejects.toThrow('User not found');
       expect(prismaService.user.findUnique).toHaveBeenCalledWith({
-        where: { email, deleted: false },
+        where: { keycloak_user_id: keycloakId, deleted: false },
         include: { address: true },
       });
     });
@@ -114,6 +115,59 @@ describe('UsersRepository', () => {
       mockPrismaService.user.create.mockRejectedValue(new Error('Database error'));
 
       await expect(usersRepository.create(dto)).rejects.toThrow('Database error');
+    });
+  });
+
+  describe('updateAddress', () => {
+    it('should update the address of a user and return the address of the user', async () => {
+      mockPrismaService.user.update.mockResolvedValue(mockUser);
+
+      const result = await usersRepository.updateAddress(mockUser, mockUser.address);
+      expect(result).toEqual(mockUser.address);
+      expect(mockPrismaService.user.update).toHaveBeenCalledWith({
+        where: {
+          id: mockUser.id,
+        },
+        data: {
+          address: {
+            upsert: {
+              create: mockUser.address,
+              update: mockUser.address,
+            },
+          },
+        },
+        include: { address: true },
+      });
+    });
+
+    it('should throw an error if updating address fails', async () => {
+      mockPrismaService.user.update.mockRejectedValue(new Error('Database error'));
+
+      await expect(usersRepository.updateAddress(mockUser, mockUser.address)).rejects.toThrow('Database error');
+    });
+  });
+
+  describe('updatePhone', () => {
+    it('should update the phone of a user and return the user', async () => {
+      mockPrismaService.user.update.mockResolvedValue(mockUser);
+
+      const result = await usersRepository.updatePhone(mockUser, { phone: mockUser.phone });
+      expect(result).toEqual(mockUser);
+      expect(mockPrismaService.user.update).toHaveBeenCalledWith({
+        where: {
+          id: mockUser.id,
+        },
+        data: {
+          phone: mockUser.phone,
+        },
+        include: { address: true },
+      });
+    });
+
+    it('should throw an error if updating phone fails', async () => {
+      mockPrismaService.user.update.mockRejectedValue(new Error('Database error'));
+
+      await expect(usersRepository.updatePhone(mockUser, { phone: mockUser.phone })).rejects.toThrow('Database error');
     });
   });
 });

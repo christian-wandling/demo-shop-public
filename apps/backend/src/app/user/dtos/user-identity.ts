@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString, IsUUID, MinLength } from 'class-validator';
-import { DecodedToken } from '../../common/entities/decoded-token';
+import { DecodedToken } from '../../common/models/decoded-token';
 
 export class UserIdentity {
   @ApiProperty()

@@ -1,6 +1,6 @@
 import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { DecodedToken } from '../entities/decoded-token';
+import { DecodedToken } from '../models/decoded-token';
 
 @Injectable()
 export class DecodeTokenPipe implements PipeTransform {
