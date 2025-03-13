@@ -4,7 +4,7 @@ import { ShoppingSessionController } from './shopping-session.controller';
 import { ShoppingSessionService } from './services/shopping-session.service';
 import { ShoppingSessionResponse } from './dtos/shopping-session-response';
 import { ForbiddenException, RequestMethod } from '@nestjs/common';
-import { DecodedToken } from '../common/entities/decoded-token';
+import { DecodedToken } from '../common/models/decoded-token';
 import { OrderResponse } from '../order/dtos/order-response';
 import { OrderStatus } from '@prisma/client';
 
@@ -83,7 +83,7 @@ describe('ShoppingSessionsController', () => {
       const result = await controller.createShoppingSession(mockDecodedToken);
 
       expect(result).toEqual(shoppingSessionResponse);
-      expect(shoppingSessionService.create).toHaveBeenCalledWith(mockDecodedToken.email);
+      expect(shoppingSessionService.create).toHaveBeenCalledWith(mockDecodedToken.sub);
       expect(shoppingSessionService.create).toHaveBeenCalledTimes(1);
     });
 
@@ -91,7 +91,7 @@ describe('ShoppingSessionsController', () => {
       jest.spyOn(shoppingSessionService, 'create').mockRejectedValueOnce(new Error('ShoppingSession not found'));
 
       await expect(controller.createShoppingSession(mockDecodedToken)).rejects.toThrow('ShoppingSession not found');
-      expect(shoppingSessionService.create).toHaveBeenCalledWith(mockDecodedToken.email);
+      expect(shoppingSessionService.create).toHaveBeenCalledWith(mockDecodedToken.sub);
       expect(shoppingSessionService.create).toHaveBeenCalledTimes(1);
     });
 
@@ -106,12 +106,12 @@ describe('ShoppingSessionsController', () => {
     });
   });
 
-  describe('getCurrentShoppingSession', () => {
+  describe('resolveShoppingSessionOfCurrentUser', () => {
     it('should return a shopping session by email', async () => {
-      const result = await controller.getShoppingSessionOfCurrentUser(mockDecodedToken);
+      const result = await controller.resolveShoppingSessionOfCurrentUser(mockDecodedToken);
 
       expect(result).toEqual(shoppingSessionResponse);
-      expect(shoppingSessionService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.email);
+      expect(shoppingSessionService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.sub);
       expect(shoppingSessionService.findCurrentSessionForUser).toHaveBeenCalledTimes(1);
     });
 
@@ -120,44 +120,31 @@ describe('ShoppingSessionsController', () => {
         .spyOn(shoppingSessionService, 'findCurrentSessionForUser')
         .mockRejectedValueOnce(new Error('ShoppingSession not found'));
 
-      await expect(controller.getShoppingSessionOfCurrentUser(mockDecodedToken)).rejects.toThrow(
+      await expect(controller.resolveShoppingSessionOfCurrentUser(mockDecodedToken)).rejects.toThrow(
         'ShoppingSession not found'
       );
-      expect(shoppingSessionService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.email);
+      expect(shoppingSessionService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.sub);
       expect(shoppingSessionService.findCurrentSessionForUser).toHaveBeenCalledTimes(1);
     });
 
     it('should have the correct path', () => {
-      const path = Reflect.getMetadata('path', ShoppingSessionController.prototype.getShoppingSessionOfCurrentUser);
+      const path = Reflect.getMetadata('path', ShoppingSessionController.prototype.resolveShoppingSessionOfCurrentUser);
       expect(path).toEqual('current');
     });
 
     it('should have the correct method', () => {
-      const method = Reflect.getMetadata('method', ShoppingSessionController.prototype.getShoppingSessionOfCurrentUser);
-      expect(method).toEqual(RequestMethod.GET);
+      const method = Reflect.getMetadata(
+        'method',
+        ShoppingSessionController.prototype.resolveShoppingSessionOfCurrentUser
+      );
+      expect(method).toEqual(RequestMethod.POST);
     });
   });
 
   describe('checkout', () => {
-    const mockShoppingSessionDto: ShoppingSessionResponse = {
-      id: 123,
-      userId: 1,
-      items: [
-        {
-          id: 1,
-          productId: 1,
-          quantity: 2,
-          productName: '',
-          productThumbnail: '',
-          unitPrice: 0,
-          totalPrice: 0,
-        },
-      ],
-    };
-
     it('should checkout an existing shopping session and return an order', async () => {
       const result = await controller.checkout(mockDecodedToken);
-      expect(shoppingSessionService.checkout).toHaveBeenCalledWith(mockDecodedToken.email);
+      expect(shoppingSessionService.checkout).toHaveBeenCalledWith(mockDecodedToken.sub);
       expect(result).toEqual(mockOrderDto);
     });
 
@@ -166,7 +153,7 @@ describe('ShoppingSessionsController', () => {
       jest.spyOn(shoppingSessionService, 'checkout').mockRejectedValue(error);
 
       await expect(controller.checkout(mockDecodedToken)).rejects.toThrow(error);
-      expect(shoppingSessionService.checkout).toHaveBeenCalledWith(mockDecodedToken.email);
+      expect(shoppingSessionService.checkout).toHaveBeenCalledWith(mockDecodedToken.sub);
     });
 
     it('should have the correct path', () => {

@@ -82,7 +82,7 @@ describe('ProductController', () => {
 
   describe('getProductById', () => {
     it('should return a product by id', async () => {
-      const id = 1;
+      const id = '1';
       const result = await controller.getProductById(id);
 
       expect(result).toEqual(mockProducts[0]);
@@ -95,7 +95,7 @@ describe('ProductController', () => {
       jest.spyOn(productService, 'find').mockRejectedValueOnce(new Error('Product not found'));
 
       await expect(controller.getProductById(id)).rejects.toThrow('Product not found');
-      expect(productService.find).toHaveBeenCalledWith(id);
+      expect(productService.find).toHaveBeenCalledWith(NaN);
       expect(productService.find).toHaveBeenCalledTimes(1);
     });
 

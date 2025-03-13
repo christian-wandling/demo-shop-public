@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtService } from '@nestjs/jwt';
 import { DecodeTokenPipe } from './decode-token-pipe';
-import { DecodedToken } from '../entities/decoded-token';
+import { DecodedToken } from '../models/decoded-token';
 
 describe('DecodeTokenPipe', () => {
   let pipe: DecodeTokenPipe;

@@ -1,5 +1,5 @@
 import { UserIdentity, fromDecodedToken } from './user-identity'; // Adjust the import path
-import { DecodedToken } from '../../common/entities/decoded-token';
+import { DecodedToken } from '../../common/models/decoded-token';
 
 describe('CreateUserResponse', () => {
   it('should create a valid CreateUserResponse instance', () => {

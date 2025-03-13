@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { CartItem } from '@prisma/client';
-import { PrismaService } from '../../common/services/prisma.service';
 import { HydratedCartItem } from '../entities/hydrated-cart-item';
 import { CartItemRepositoryModel } from '../models/cart-item-repository.model';
 import { UpdateCartItemQuantityRequest } from '../dtos/update-cart-item-quantity-request';
 import { AddCartItemRequest } from '../dtos/add-cart-item-request';
+import { PrismaService } from '../../common/services/prisma.service';
 
 @Injectable()
 export class CartItemRepository implements CartItemRepositoryModel {

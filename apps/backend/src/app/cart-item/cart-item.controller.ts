@@ -9,7 +9,7 @@ import { DecodeTokenPipe } from '../common/pipes/decode-token-pipe';
 import { ShoppingSessionService } from '../shopping-session/services/shopping-session.service';
 import { CustomDelete } from '../common/decorators/custom-delete.decorator';
 import { CustomPatch } from '../common/decorators/custom-patch.decorator';
-import { DecodedToken } from '../common/entities/decoded-token';
+import { DecodedToken } from '../common/models/decoded-token';
 import { UpdateCartItemQuantityRequest } from './dtos/update-cart-item-quantity-request';
 import { AddCartItemRequest } from './dtos/add-cart-item-request';
 
@@ -26,7 +26,7 @@ export class CartItemController {
     @Body() dto: AddCartItemRequest,
     @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken
   ): Promise<CartItemResponse> {
-    const shoppingSession = await this.shoppingSessionService.findCurrentSessionForUser(decodedToken.email);
+    const shoppingSession = await this.shoppingSessionService.findCurrentSessionForUser(decodedToken.sub);
 
     if (!shoppingSession) {
       throw new ForbiddenException('No active shopping session found. Please login to start a new shopping session.');
@@ -37,30 +37,30 @@ export class CartItemController {
 
   @CustomPatch({ path: ':id', body: UpdateCartItemQuantityRequest, res: CartItemResponse })
   async updateCartItem(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() dto: UpdateCartItemQuantityRequest,
     @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken
   ): Promise<CartItemResponse> {
-    const shoppingSession = await this.shoppingSessionService.findCurrentSessionForUser(decodedToken.email);
+    const shoppingSession = await this.shoppingSessionService.findCurrentSessionForUser(decodedToken.sub);
 
     if (!shoppingSession) {
       throw new ForbiddenException('No active shopping session found. Please login to start a new shopping session.');
     }
 
-    return this.cartItemService.update(id, dto, shoppingSession.id);
+    return this.cartItemService.update(Number(id), dto, shoppingSession.id);
   }
 
   @CustomDelete({ path: ':id' })
   async removeCartItem(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken
   ): Promise<void> {
-    const shoppingSession = await this.shoppingSessionService.findCurrentSessionForUser(decodedToken.email);
+    const shoppingSession = await this.shoppingSessionService.findCurrentSessionForUser(decodedToken.sub);
 
     if (!shoppingSession) {
       throw new ForbiddenException('No active shopping session found. Please login to start a new shopping session.');
     }
 
-    await this.cartItemService.remove(id, shoppingSession.id);
+    await this.cartItemService.remove(Number(id), shoppingSession.id);
   }
 }

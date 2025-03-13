@@ -11,7 +11,7 @@ describe('ShoppingSessionsRepository', () => {
   let repository: ShoppingSessionRepository;
   let prismaService: jest.Mocked<PrismaService>;
 
-  const mockEmail = 'test@example.com';
+  const mockKeycloakId = 'keycloakId';
   const mockSessionId = 1;
 
   const mockHydratedSession: HydratedShoppingSession = {
@@ -89,7 +89,7 @@ describe('ShoppingSessionsRepository', () => {
     it('should find the most recent shopping session for a user', async () => {
       jest.spyOn(prismaService.shoppingSession, 'findFirst').mockResolvedValue(mockHydratedSession);
 
-      const result = await repository.find(mockEmail);
+      const result = await repository.find(mockKeycloakId);
 
       expect(prismaService.shoppingSession.findFirst).toHaveBeenCalledWith({
         orderBy: {
@@ -97,7 +97,7 @@ describe('ShoppingSessionsRepository', () => {
         },
         where: {
           user: {
-            email: mockEmail,
+            keycloak_user_id: mockKeycloakId,
           },
         },
         include: {
@@ -118,7 +118,7 @@ describe('ShoppingSessionsRepository', () => {
     it('should return null when no session is found', async () => {
       jest.spyOn(prismaService.shoppingSession, 'findFirst').mockResolvedValue(null);
 
-      const result = await repository.find(mockEmail);
+      const result = await repository.find(mockKeycloakId);
 
       expect(result).toBeNull();
     });
@@ -128,12 +128,12 @@ describe('ShoppingSessionsRepository', () => {
     it('should create a new shopping session', async () => {
       jest.spyOn(prismaService.shoppingSession, 'create').mockResolvedValue(mockHydratedSession);
 
-      const result = await repository.create(mockEmail);
+      const result = await repository.create(mockKeycloakId);
 
       expect(prismaService.shoppingSession.create).toHaveBeenCalledWith({
         data: {
           user: {
-            connect: { email: mockEmail },
+            connect: { keycloak_user_id: mockKeycloakId },
           },
         },
         include: {
@@ -156,13 +156,13 @@ describe('ShoppingSessionsRepository', () => {
     it('should remove a shopping session', async () => {
       jest.spyOn(prismaService.shoppingSession, 'delete').mockResolvedValue(mockSession);
 
-      const result = await repository.remove(mockSessionId, mockEmail);
+      const result = await repository.remove(mockSessionId, mockKeycloakId);
 
       expect(prismaService.shoppingSession.delete).toHaveBeenCalledWith({
         where: {
           id: mockSessionId,
           user: {
-            email: mockEmail,
+            keycloak_user_id: mockKeycloakId,
           },
         },
       });
@@ -172,7 +172,7 @@ describe('ShoppingSessionsRepository', () => {
     it('should throw an error when session is not found', async () => {
       jest.spyOn(prismaService.shoppingSession, 'delete').mockRejectedValue(new Error('Session not found'));
 
-      await expect(repository.remove(mockSessionId, mockEmail)).rejects.toThrow('Session not found');
+      await expect(repository.remove(mockSessionId, mockKeycloakId)).rejects.toThrow('Session not found');
     });
   });
 

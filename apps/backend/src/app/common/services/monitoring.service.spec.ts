@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MonitoringService } from './monitoring.service';
 import * as Sentry from '@sentry/nestjs';
-import { MonitoredUser } from '../entities/monitored-user';
+import { MonitoredUser } from '../models/monitored-user';
 
 jest.mock('@sentry/nestjs', () => ({
   setUser: jest.fn(),
