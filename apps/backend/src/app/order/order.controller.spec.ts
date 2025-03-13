@@ -5,7 +5,7 @@ import { OrderResponse } from './dtos/order-response';
 import { DecodeTokenPipe } from '../common/pipes/decode-token-pipe';
 import { RequestMethod } from '@nestjs/common';
 import { OrderStatus } from '@prisma/client';
-import { DecodedToken } from '../common/entities/decoded-token';
+import { DecodedToken } from '../common/models/decoded-token';
 
 describe('OrdersController', () => {
   let controller: OrderController;
@@ -75,7 +75,7 @@ describe('OrdersController', () => {
       const result = await controller.getAllOrdersOfCurrentUser(mockDecodedToken);
 
       expect(result).toEqual([mockOrderDto]);
-      expect(orderService.findByUser).toHaveBeenCalledWith(mockDecodedToken.email);
+      expect(orderService.findByUser).toHaveBeenCalledWith(mockDecodedToken.sub);
       expect(orderService.findByUser).toHaveBeenCalledTimes(1);
     });
 
@@ -91,23 +91,23 @@ describe('OrdersController', () => {
   });
 
   describe('getOrderById', () => {
-    it('should return a order by id and email', async () => {
-      const id = 1;
+    it('should return a order by id and keycloakId', async () => {
+      const id = '1';
 
       const result = await controller.getOrderById(id, mockDecodedToken);
 
       expect(result).toEqual(mockOrderDto);
-      expect(orderService.find).toHaveBeenCalledWith(id, mockDecodedToken.email);
+      expect(orderService.find).toHaveBeenCalledWith(Number(id), mockDecodedToken.sub);
       expect(orderService.find).toHaveBeenCalledTimes(1);
     });
 
     it('should throw an error if order is not found', async () => {
-      const id = 1;
+      const id = '1';
 
       jest.spyOn(orderService, 'find').mockRejectedValueOnce(new Error('Order not found'));
 
       await expect(controller.getOrderById(id, mockDecodedToken)).rejects.toThrow('Order not found');
-      expect(orderService.find).toHaveBeenCalledWith(id, mockDecodedToken.email);
+      expect(orderService.find).toHaveBeenCalledWith(Number(id), mockDecodedToken.sub);
       expect(orderService.find).toHaveBeenCalledTimes(1);
     });
 

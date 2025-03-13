@@ -18,8 +18,8 @@ export class ShoppingSessionService {
     return toShoppingSessionResponse(session);
   }
 
-  async checkout(email: string): Promise<OrderResponse> {
-    const shoppingSession = await this.findCurrentSessionForUser(email);
+  async checkout(keycloakId: string): Promise<OrderResponse> {
+    const shoppingSession = await this.findCurrentSessionForUser(keycloakId);
 
     if (!shoppingSession) {
       throw new ForbiddenException('No active shopping session found. Please login to start a new shopping session.');
@@ -46,18 +46,18 @@ export class ShoppingSessionService {
     return toOrderResponse(order);
   }
 
-  async findCurrentSessionForUser(email: string): Promise<ShoppingSessionResponse> {
-    const shoppingSession = await this.shoppingSessionsRepository.find(email);
+  async findCurrentSessionForUser(keycloakId: string): Promise<ShoppingSessionResponse> {
+    const shoppingSession = await this.shoppingSessionsRepository.find(keycloakId);
 
     if (!shoppingSession) {
-      return this.create(email);
+      return this.create(keycloakId);
     }
 
     return toShoppingSessionResponse(shoppingSession);
   }
 
-  async remove(id: number, email: string): Promise<void> {
-    const shoppingSession = await this.shoppingSessionsRepository.remove(id, email);
+  async remove(id: number, keycloakId: string): Promise<void> {
+    const shoppingSession = await this.shoppingSessionsRepository.remove(id, keycloakId);
 
     if (!shoppingSession) {
       throw new NotFoundException(`Shopping session not found`);

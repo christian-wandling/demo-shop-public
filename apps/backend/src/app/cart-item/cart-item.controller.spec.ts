@@ -6,7 +6,7 @@ import { CartItemResponse } from './dtos/cart-item-response';
 import { ForbiddenException, RequestMethod } from '@nestjs/common';
 import { ShoppingSessionResponse } from '../shopping-session/dtos/shopping-session-response';
 import { ShoppingSessionService } from '../shopping-session/services/shopping-session.service';
-import { DecodedToken } from '../common/entities/decoded-token';
+import { DecodedToken } from '../common/models/decoded-token';
 import { UpdateCartItemQuantityRequest } from './dtos/update-cart-item-quantity-request';
 import { AddCartItemRequest } from './dtos/add-cart-item-request';
 
@@ -99,7 +99,7 @@ describe('CartItemController', () => {
 
       const result = await controller.createCartItem(createDto, mockDecodedToken);
 
-      expect(shoppingSessionService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.email);
+      expect(shoppingSessionService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.sub);
       expect(cartItemService.create).toHaveBeenCalledWith(createDto, mockShoppingSessionDto.id);
       expect(result).toEqual(mockCartItemDto);
     });
@@ -122,7 +122,7 @@ describe('CartItemController', () => {
   });
 
   describe('updateCartItem', () => {
-    const cartItemId = 123;
+    const cartItemId = '123';
     const updateDto: UpdateCartItemQuantityRequest = {
       quantity: 3,
     };
@@ -136,8 +136,8 @@ describe('CartItemController', () => {
 
       const result = await controller.updateCartItem(cartItemId, updateDto, mockDecodedToken);
 
-      expect(shoppingSessionService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.email);
-      expect(cartItemService.update).toHaveBeenCalledWith(cartItemId, updateDto, mockShoppingSessionDto.id);
+      expect(shoppingSessionService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.sub);
+      expect(cartItemService.update).toHaveBeenCalledWith(Number(cartItemId), updateDto, mockShoppingSessionDto.id);
       expect(result).toEqual({
         ...mockCartItemDto,
         quantity: updateDto.quantity,
@@ -164,7 +164,7 @@ describe('CartItemController', () => {
   });
 
   describe('removeCartItem', () => {
-    const cartItemId = 123;
+    const cartItemId = '123';
 
     it('should remove a cart item successfully', async () => {
       jest.spyOn(shoppingSessionService, 'findCurrentSessionForUser').mockResolvedValue(mockShoppingSessionDto);
@@ -172,8 +172,8 @@ describe('CartItemController', () => {
 
       await controller.removeCartItem(cartItemId, mockDecodedToken);
 
-      expect(shoppingSessionService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.email);
-      expect(cartItemService.remove).toHaveBeenCalledWith(cartItemId, mockShoppingSessionDto.id);
+      expect(shoppingSessionService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.sub);
+      expect(cartItemService.remove).toHaveBeenCalledWith(Number(cartItemId), mockShoppingSessionDto.id);
     });
 
     it('should throw the right exception when no shopping session found', async () => {

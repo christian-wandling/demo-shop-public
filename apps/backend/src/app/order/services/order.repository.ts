@@ -7,12 +7,12 @@ import { OrderRepositoryModel } from '../models/order-repository.model';
 export class OrderRepository implements OrderRepositoryModel {
   constructor(private readonly prisma: PrismaService) {}
 
-  find(id: number, email: string): Promise<HydratedOrder> {
+  find(id: number, keycloakId: string): Promise<HydratedOrder> {
     return this.prisma.order.findUniqueOrThrow({
       where: {
         id,
         user: {
-          email,
+          keycloak_user_id: keycloakId,
         },
       },
       include: {
@@ -21,11 +21,11 @@ export class OrderRepository implements OrderRepositoryModel {
     });
   }
 
-  findManyByUser(email: string): Promise<HydratedOrder[]> {
+  findManyByUser(keycloakId: string): Promise<HydratedOrder[]> {
     return this.prisma.order.findMany({
       where: {
         user: {
-          email,
+          keycloak_user_id: keycloakId,
         },
       },
       include: {

@@ -6,7 +6,7 @@ import { CustomController } from '../common/decorators/custom-controller.decorat
 import { CustomGet } from '../common/decorators/custom-get.decorator';
 import { CustomHeaders } from '../common/decorators/custom-headers.decorator';
 import { DecodeTokenPipe } from '../common/pipes/decode-token-pipe';
-import { DecodedToken } from '../common/entities/decoded-token';
+import { DecodedToken } from '../common/models/decoded-token';
 import { OrderListResponse } from './dtos/order-list-response';
 
 @CustomController({ path: 'orders', version: '1' })
@@ -18,14 +18,14 @@ export class OrderController {
   getAllOrdersOfCurrentUser(
     @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken
   ): Promise<OrderListResponse> {
-    return this.orderService.findByUser(decodedToken.email);
+    return this.orderService.findByUser(decodedToken.sub);
   }
 
   @CustomGet({ path: ':id', res: OrderResponse })
   getOrderById(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken
   ): Promise<OrderResponse> {
-    return this.orderService.find(id, decodedToken.email);
+    return this.orderService.find(Number(id), decodedToken.sub);
   }
 }

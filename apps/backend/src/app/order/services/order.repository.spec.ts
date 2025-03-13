@@ -16,6 +16,8 @@ describe('OrdersRepository', () => {
     },
   };
 
+  const mockKeycloakId = 'keycloakId';
+
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
@@ -64,13 +66,13 @@ describe('OrdersRepository', () => {
     it('should find an order by id and email', async () => {
       jest.spyOn(prismaService.order, 'findUniqueOrThrow').mockResolvedValue(mockOrder);
 
-      const result = await repository.find(1, 'test@example.com');
+      const result = await repository.find(1, mockKeycloakId);
 
       expect(prismaService.order.findUniqueOrThrow).toHaveBeenCalledWith({
         where: {
           id: 1,
           user: {
-            email: 'test@example.com',
+            keycloak_user_id: mockKeycloakId,
           },
         },
         include: {
@@ -83,7 +85,7 @@ describe('OrdersRepository', () => {
     it('should throw an error when order is not found', async () => {
       jest.spyOn(prismaService.order, 'findUniqueOrThrow').mockRejectedValue(new Error('Not found'));
 
-      await expect(repository.find(1, 'test@example.com')).rejects.toThrow('Not found');
+      await expect(repository.find(1, mockKeycloakId)).rejects.toThrow('Not found');
     });
   });
 
@@ -118,12 +120,12 @@ describe('OrdersRepository', () => {
     it('should find all orders for a user', async () => {
       jest.spyOn(prismaService.order, 'findMany').mockResolvedValue(mockOrders);
 
-      const result = await repository.findManyByUser('test@example.com');
+      const result = await repository.findManyByUser(mockKeycloakId);
 
       expect(prismaService.order.findMany).toHaveBeenCalledWith({
         where: {
           user: {
-            email: 'test@example.com',
+            keycloak_user_id: mockKeycloakId,
           },
         },
         include: {

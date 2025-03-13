@@ -6,7 +6,7 @@ import { CustomPost } from '../common/decorators/custom-post.decorator';
 import { CustomGet } from '../common/decorators/custom-get.decorator';
 import { CustomHeaders } from '../common/decorators/custom-headers.decorator';
 import { DecodeTokenPipe } from '../common/pipes/decode-token-pipe';
-import { DecodedToken } from '../common/entities/decoded-token';
+import { DecodedToken } from '../common/models/decoded-token';
 import { OrderResponse } from '../order/dtos/order-response';
 
 @CustomController({ path: 'shopping-sessions', version: '1' })
@@ -14,22 +14,22 @@ import { OrderResponse } from '../order/dtos/order-response';
 export class ShoppingSessionController {
   constructor(private readonly shoppingSessionsService: ShoppingSessionService) {}
 
-  @CustomPost({ body: undefined, res: ShoppingSessionResponse })
+  @CustomPost({ res: ShoppingSessionResponse })
   async createShoppingSession(
     @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken
   ): Promise<ShoppingSessionResponse> {
-    return this.shoppingSessionsService.create(decodedToken.email);
+    return this.shoppingSessionsService.create(decodedToken.sub);
   }
 
-  @CustomGet({ path: 'current', res: ShoppingSessionResponse })
-  async getShoppingSessionOfCurrentUser(
+  @CustomPost({ path: 'current', res: ShoppingSessionResponse })
+  async resolveShoppingSessionOfCurrentUser(
     @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken
   ): Promise<ShoppingSessionResponse> {
-    return this.shoppingSessionsService.findCurrentSessionForUser(decodedToken.email);
+    return this.shoppingSessionsService.findCurrentSessionForUser(decodedToken.sub);
   }
 
-  @CustomPost({ path: 'checkout', body: undefined, res: OrderResponse })
+  @CustomPost({ path: 'checkout', res: OrderResponse })
   async checkout(@CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken): Promise<OrderResponse> {
-    return this.shoppingSessionsService.checkout(decodedToken.email);
+    return this.shoppingSessionsService.checkout(decodedToken.sub);
   }
 }

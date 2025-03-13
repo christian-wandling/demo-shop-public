@@ -10,14 +10,14 @@ import { HydratedOrder } from '../../order/entities/hydrated-order';
 export class ShoppingSessionRepository implements ShoppingSessionRepositoryModel {
   constructor(private readonly prisma: PrismaService) {}
 
-  find(email: string): Promise<HydratedShoppingSession> {
+  find(keycloakId: string): Promise<HydratedShoppingSession> {
     return this.prisma.shoppingSession.findFirst({
       orderBy: {
         created_at: 'desc',
       },
       where: {
         user: {
-          email,
+          keycloak_user_id: keycloakId,
         },
       },
       include: {
@@ -34,11 +34,11 @@ export class ShoppingSessionRepository implements ShoppingSessionRepositoryModel
     });
   }
 
-  create(email: string): Promise<HydratedShoppingSession> {
+  create(keycloakId: string): Promise<HydratedShoppingSession> {
     return this.prisma.shoppingSession.create({
       data: {
         user: {
-          connect: { email },
+          connect: { keycloak_user_id: keycloakId },
         },
       },
       include: {
@@ -55,12 +55,12 @@ export class ShoppingSessionRepository implements ShoppingSessionRepositoryModel
     });
   }
 
-  remove(id: number, email: string): Promise<ShoppingSession> {
+  remove(id: number, keycloakId: string): Promise<ShoppingSession> {
     return this.prisma.shoppingSession.delete({
       where: {
         id,
         user: {
-          email,
+          keycloak_user_id: keycloakId,
         },
       },
     });
