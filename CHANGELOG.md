@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [0.3.20](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.19...v0.3.20) (2025-03-14)
+
+
+### Features
+
+* **order:** update styling of list and detail view ([#52](https://github.com/christian-wandling/demo-shop-public/issues/52)) ([54417dc](https://github.com/christian-wandling/demo-shop-public/commit/54417dc5fb4716daa25c31e6f7844705814e46d4))
+
 ### [0.3.19](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.18...v0.3.19) (2025-03-13)
 
 
