@@ -127,7 +127,7 @@ describe('NavigationComponent', () => {
 
   it('should initialize with default values', () => {
     expect(component.mobileMenuOpen()).toBeFalsy();
-    expect(component.selectedMenuItem()).toBe('clothing');
+    expect(component.selectedMenuItem()).toBe('products');
     expect(component.flyoutMenuOpen()).toBeFalsy();
   });
 

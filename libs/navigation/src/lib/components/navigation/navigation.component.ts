@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ImagePlaceholderComponent } from '@demo-shop/shared';
 import { NavigationService } from '../../services/navigation.service';
 import { NavigationType } from '../../enums/navigation-type';
@@ -16,7 +16,6 @@ import { CartIconComponent } from '@demo-shop/cart';
   imports: [
     CommonModule,
     RouterLink,
-    RouterLinkActive,
     NgOptimizedImage,
     ImagePlaceholderComponent,
     ProductSearchComponent,
@@ -34,7 +33,7 @@ import { CartIconComponent } from '@demo-shop/cart';
 })
 export class NavigationComponent {
   readonly mobileMenuOpen = signal(false);
-  readonly selectedMenuItem = signal('clothing');
+  readonly selectedMenuItem = signal('products');
   readonly flyoutMenuOpen = signal(false);
 
   readonly #productFacade = inject(ProductFacade);
