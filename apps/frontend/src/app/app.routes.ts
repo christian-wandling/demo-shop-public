@@ -22,9 +22,4 @@ export const appRoutes: Route[] = [
     loadChildren: () => import('@demo-shop/product').then(m => m.productRoutes),
     data: { pageTitle: 'Products', showInMenu: true },
   },
-  {
-    path: 'about',
-    loadComponent: () => import('./nx-welcome.component').then(m => m.NxWelcomeComponent),
-    data: { pageTitle: 'About', showInMenu: true },
-  },
 ];

@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { PermissionService, PermissionStrategy } from '@demo-shop/auth';
-import { FlyoutItem, NavigationItem, RouteItem } from '../models/navigation-item';
+import { NavigationItem, RouteItem } from '../models/navigation-item';
 import { NavigationType } from '../enums/navigation-type';
 
 @Injectable({
@@ -10,13 +10,12 @@ export class NavigationService {
   readonly #permissionService = inject(PermissionService);
 
   private readonly menuItems: NavigationItem[] = [
-    new FlyoutItem('products', 101),
+    new RouteItem('products', 101, {
+      route: 'products',
+    }),
     new RouteItem('orders', 102, {
       route: 'orders',
       permissionStrategy: PermissionStrategy.AUTHENTICATED,
-    }),
-    new RouteItem('about', 103, {
-      route: 'about',
     }),
   ];
 
