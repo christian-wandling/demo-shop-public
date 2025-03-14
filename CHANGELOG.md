@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [0.3.22](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.21...v0.3.22) (2025-03-14)
+
+
+### Features
+
+* **frontend:** add navigation to products from cart and checkout ([#54](https://github.com/christian-wandling/demo-shop-public/issues/54)) ([22daee8](https://github.com/christian-wandling/demo-shop-public/commit/22daee84d4e663b72cb357f68b66bd5e0ca3dde6))
+
 ### [0.3.21](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.20...v0.3.21) (2025-03-14)
 
 ### [0.3.20](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.19...v0.3.20) (2025-03-14)
