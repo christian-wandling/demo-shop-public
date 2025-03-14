@@ -529,7 +529,7 @@ exports[`NavigationComponent snapshots should match snapshot with mobile menu op
     />
   </dialog>
   <div
-    class="absolute h-screen z-40 flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl ng-trigger ng-trigger-animateSlideOver ng-animating"
+    class="absolute h-screen z-40 flex w-full max-w-xs flex-col overflow-y-auto bg-white px-6 p-2 shadow-xl ng-trigger ng-trigger-animateSlideOver ng-animating"
   >
     <div
       class="sticky z-20 top-0 flex px-4 pb-2 pt-5"
@@ -563,136 +563,14 @@ exports[`NavigationComponent snapshots should match snapshot with mobile menu op
       </button>
     </div>
     <div
-      class="mt-2"
-    >
-      <div
-        class="space-y-10 px-4 pb-8"
-      >
-        <div
-          class="grid grid-cols-2 gap-x-4"
-        >
-          <div
-            class="group relative text-sm"
-          >
-            <div
-              class="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75"
-            >
-              <lib-image-placeholder
-                text="N"
-              />
-            </div>
-            <a
-              class="mt-6 block font-medium text-gray-900"
-            >
-              <span
-                aria-hidden="true"
-                class="absolute inset-0 z-10"
-              />
-               New Items 
-            </a>
-            <p
-              aria-hidden="true"
-              class="mt-1"
-            >
-              Shop now
-            </p>
-          </div>
-          <div
-            class="group relative text-sm"
-          >
-            <div
-              class="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75"
-            >
-              <lib-image-placeholder
-                text="D"
-              />
-            </div>
-            <a
-              class="mt-6 block font-medium text-gray-900"
-            >
-              <span
-                aria-hidden="true"
-                class="absolute inset-0 z-10"
-              />
-               Deals 
-            </a>
-            <p
-              aria-hidden="true"
-              class="mt-1"
-            >
-              Shop now
-            </p>
-          </div>
-        </div>
-        <div>
-          <p
-            class="font-medium text-gray-900"
-            id="Flyout1-heading-mobile"
-            style=""
-          >
-            Flyout1
-          </p>
-          <ul
-            aria-labelledby="Flyout1-heading-mobile"
-            class="mt-6 mb-10 last:mb-0 flex flex-col space-y-6"
-            style=""
-          >
-            <li
-              class="flow-root"
-            >
-              <a
-                class="-m-2 block p-2 text-gray-500"
-              >
-                Sub1
-              </a>
-            </li>
-            
-            <li
-              class="flow-root"
-            >
-              <a
-                class="-m-2 block p-2 text-gray-500"
-              >
-                Browse All
-              </a>
-            </li>
-          </ul>
-          <p
-            class="font-medium text-gray-900"
-            id="Flyout2-heading-mobile"
-            style=""
-          >
-            Flyout2
-          </p>
-          <ul
-            aria-labelledby="Flyout2-heading-mobile"
-            class="mt-6 mb-10 last:mb-0 flex flex-col space-y-6"
-            style=""
-          >
-            
-            <li
-              class="flow-root"
-            >
-              <a
-                class="-m-2 block p-2 text-gray-500"
-              >
-                Browse All
-              </a>
-            </li>
-          </ul>
-          
-        </div>
-      </div>
-    </div>
-    <div
-      class="space-y-6 border-t border-gray-200 px-4 py-6"
+      class="flex-1 space-y-6 border-t border-gray-200 px-4 py-6"
     >
       <div
         class="flow-root"
         style=""
       >
         <a
-          class="-m-2 block p-2 font-medium text-gray-900"
+          class="-m-2 block p-2 font-medium text-gray-700 hover:text-gray-800 text-xl"
           href="/route1"
         >
            Route1 
@@ -703,7 +581,7 @@ exports[`NavigationComponent snapshots should match snapshot with mobile menu op
         style=""
       >
         <a
-          class="-m-2 block p-2 font-medium text-gray-900"
+          class="-m-2 block p-2 font-medium text-gray-700 hover:text-gray-800 text-xl"
           href="/route2"
         >
            Route2 
