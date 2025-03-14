@@ -15,8 +15,3 @@ export const animateSlideOver = trigger('animateSlideOver', [
     animate('300ms ease-in-out', style({ transform: 'translateX(-100%)' })),
   ]),
 ]);
-
-export const animateFlyoutMenu = trigger('animateFlyoutMenu', [
-  transition(':enter', [style({ opacity: 0 }), animate('200ms ease-out', style({ opacity: 1 }))]),
-  transition(':leave', [style({ opacity: 1 }), animate('150ms ease-in', style({ opacity: 0 }))]),
-]);
