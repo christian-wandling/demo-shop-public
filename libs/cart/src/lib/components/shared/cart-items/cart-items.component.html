@@ -3,12 +3,16 @@
     <ul class="-my-6 divide-y divide-gray-200">
       @for (item of items(); track item.id) {
       <li class="flex py-6">
-        <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+        <div
+          class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 group-hover:opacity-75 cursor-pointer"
+          routerLink="/products/{{ item.productId }}">
           <img
             [ngSrc]="item.productThumbnail"
             [height]="96"
             [width]="96"
             [alt]="item.productName"
+            [title]="item.productName"
+            class="h-full w-full object-cover object-center"
             onerror="this.src='images/placeholder-image.jpg'" />
         </div>
 

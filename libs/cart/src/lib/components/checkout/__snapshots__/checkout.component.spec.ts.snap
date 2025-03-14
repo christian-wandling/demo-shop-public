@@ -7,13 +7,14 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
   isUpdateEnabled={[Function Function]}
   items={[Function Function]}
   price={[Function Function]}
+  showShippingInformation={[Function Function]}
   user={[Function Function]}
 >
   <div
-    class="bg-gray-100 m-6 px-10 py-10 rounded"
+    class="bg-gray-100 sm:m-2 lg:m-6 p-4 sm:p-8 lg:p-10 sm:rounded"
   >
     <div
-      class="flex items-start justify-between gap-8"
+      class="flex flex-col lg:flex-row justify-between gap-8"
     >
       <form
         class="ng-untouched ng-pristine ng-valid"
@@ -23,16 +24,34 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
           class="space-y-8"
         >
           <div>
-            <h2
-              class="text-base font-semibold leading-7 text-gray-900"
-            >
-              Shipping information
-            </h2>
             <div
-              class="mt-4 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-8"
+              class="flex justify-between items-center p-4 bg-gray-100 cursor-pointer lg:pointer-events-none"
+            >
+              <h2
+                class="text-base font-semibold leading-7 text-gray-900"
+              >
+                Shipping information
+              </h2>
+              <svg
+                class="lg:hidden w-5 h-5 transition-transform duration-300 rotate-180"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M19 9l-7 7-7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </div>
+            <div
+              class="mt-4 lg:max-h-[1000px] grid md:grid-cols-8 gap-x-6 gap-y-4 transition-all duration-500 ease-in-out overflow-hidden max-h-[1000px]"
             >
               <div
-                class="sm:col-span-4"
+                class="md:col-span-4"
               >
                 <label
                   class="required block text-sm font-medium leading-6 text-gray-500 disabled"
@@ -59,7 +78,7 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                 </lib-form-error>
               </div>
               <div
-                class="sm:col-span-4"
+                class="md:col-span-4"
               >
                 <label
                   class="required block text-sm font-medium leading-6 text-gray-500"
@@ -86,7 +105,7 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                 </div>
               </div>
               <div
-                class="sm:col-span-4"
+                class="md:col-span-4"
               >
                 <label
                   class="required block text-sm font-medium leading-6 text-gray-500"
@@ -113,7 +132,7 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                 </lib-form-error>
               </div>
               <div
-                class="sm:col-span-4"
+                class="md:col-span-4"
               >
                 <label
                   class="required block text-sm font-medium leading-6 text-gray-900"
@@ -134,7 +153,7 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                 </div>
               </div>
               <div
-                class="sm:col-span-4"
+                class="md:col-span-4"
               >
                 <label
                   class="required block text-sm font-medium leading-6 text-gray-900"
@@ -169,7 +188,7 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                 </lib-form-error>
               </div>
               <div
-                class="col-span-5"
+                class="md:col-span-5"
               >
                 <label
                   class="required block text-sm font-medium leading-6 text-gray-900"
@@ -191,7 +210,7 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                 </div>
               </div>
               <div
-                class="col-span-3"
+                class="md:col-span-3"
               >
                 <label
                   class="required block text-sm font-medium leading-6 text-gray-900"
@@ -217,7 +236,7 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                 </lib-form-error>
               </div>
               <div
-                class="sm:col-span-3 sm:col-start-1"
+                class="md:col-span-3"
               >
                 <label
                   class="required block text-sm font-medium leading-6 text-gray-900"
@@ -243,7 +262,7 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                 </lib-form-error>
               </div>
               <div
-                class="sm:col-span-3"
+                class="md:col-span-3"
               >
                 <label
                   class="block text-sm font-medium leading-6 text-gray-900"
@@ -265,7 +284,7 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                 </div>
               </div>
               <div
-                class="sm:col-span-2"
+                class="md:col-span-2"
               >
                 <label
                   class="required block text-sm font-medium leading-6 text-gray-900"
@@ -290,15 +309,15 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                 >
                 </lib-form-error>
               </div>
+              <button
+                class="btn-update md:col-span-full float-right mt-6 lg:max-w-60 flex w-full items-center justify-center rounded-md border border-transparent px-8 py-3 text-base font-medium bg-gray-200 text-gray-800 pointer-events-none"
+                disabled=""
+              >
+                 Update 
+              </button>
             </div>
           </div>
         </div>
-        <button
-          class="btn-update float-right mt-10 max-w-60 flex w-full items-center justify-center rounded-md border border-transparent px-8 py-3 text-base font-medium bg-gray-200 text-gray-800 pointer-events-none"
-          disabled=""
-        >
-           Update 
-        </button>
       </form>
       <section>
         <h2
@@ -321,16 +340,19 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                   class="flex py-6"
                 >
                   <div
-                    class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200"
+                    class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 group-hover:opacity-75 cursor-pointer"
+                    tabindex="0"
                   >
                     <img
                       alt="productName"
+                      class="h-full w-full object-cover object-center"
                       fetchpriority="auto"
                       height="96"
                       loading="lazy"
                       ng-img="true"
                       onerror="this.src='images/placeholder-image.jpg'"
                       src="productThumbnail"
+                      title="productName"
                       width="96"
                     />
                   </div>
@@ -397,7 +419,7 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
             class="mt-6 flex items-center justify-center gap-x-6"
           >
             <button
-              class="btn-checkout mt-6 max-w-60 flex w-full items-center justify-center rounded-md border border-transparent px-8 py-3 text-base font-medium bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              class="btn-checkout mt-6 lg:max-w-60 flex w-full items-center justify-center rounded-md border border-transparent px-8 py-3 text-base font-medium bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
                Checkout 
             </button>

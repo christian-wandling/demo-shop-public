@@ -35,9 +35,14 @@ describe('permissionGuard', () => {
     expect(executeGuard({} as any, {} as any)).toBe(true);
   });
 
-  it('should return false if user is not authenticated', () => {
+  it('should redirect to base path if user is not authenticated', () => {
     jest.spyOn(permissionService, 'hasPermission').mockReturnValue(false);
+    const rootUrlTree = {
+      fragment: null,
+      queryParams: {},
+      root: { children: {}, parent: null, segments: [] },
+    };
 
-    expect(executeGuard({} as any, {} as any)).toBe(false);
+    expect(executeGuard({} as any, {} as any)).toEqual(rootUrlTree);
   });
 });

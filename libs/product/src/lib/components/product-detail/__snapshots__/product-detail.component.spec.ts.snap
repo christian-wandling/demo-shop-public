@@ -12,7 +12,7 @@ exports[`ProductDetailComponent should match the snapshot 1`] = `
       class="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8"
     >
       <div
-        class="aspect-h-1 aspect-w-1 hidden overflow-hidden rounded-lg lg:block"
+        class="aspect-h-1 aspect-w-1 overflow-hidden sm:rounded-lg lg:block"
       >
         <img
           alt="Product 1"
@@ -82,7 +82,7 @@ DebugElement {
       class="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8"
     >
       <div
-        class="aspect-h-1 aspect-w-1 hidden overflow-hidden rounded-lg lg:block"
+        class="aspect-h-1 aspect-w-1 overflow-hidden sm:rounded-lg lg:block"
       >
         <img
           alt="Product 1"

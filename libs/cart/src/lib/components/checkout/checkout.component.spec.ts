@@ -200,7 +200,6 @@ describe('CheckoutComponent', () => {
       });
       const ctrl = component.checkoutForm().controls.address;
       ctrl?.markAsDirty();
-      console.log(component.checkoutForm()?.value);
 
       await component.updateUser();
 
