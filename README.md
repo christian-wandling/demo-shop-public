@@ -9,14 +9,29 @@ A full-stack e-commerce application built for educational purposes using modern 
 - **Angular** - Progressive web framework
 - **TypeScript** - Type-safe JavaScript
 - **NgRx** - State Management
+- **HTML2Canvas/jsPDF** - Pdf generation
 - **Tailwind CSS** - Styling
 
 ### Backend
 
 - **NestJS** - Progressive Node.js framework
+- **NestJS Throttler** - Rate limiting
+- **OpenAPI/Swagger** - API documentation
 - **Prisma** - Modern ORM for database access
 - **PostgreSQL** - Relational database
 - **Keycloak** - Secure Authentication
+- **Sentry** - Monitoring
+
+### Testing
+
+- **Jest** - Unit testing
+
+### Dev workflow
+
+- **Commitlint/Commitizen** - Standardize commit messages
+- **Husky** - Pre-commit hooks
+- **ESLint/Lint-staged** - automatic linting
+- **Prettier** - automatic code formating
 
 ### DevOps & Infrastructure
 
