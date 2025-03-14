@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { PermissionService, PermissionStrategy } from '@demo-shop/auth';
 import { NavigationService } from './navigation.service';
 import { NavigationType } from '../enums/navigation-type';
-import { FlyoutItem, RouteItem } from '../models/navigation-item';
+import { RouteItem } from '../models/navigation-item';
 
 describe('NavigationService', () => {
   let service: NavigationService;
@@ -45,14 +45,6 @@ describe('NavigationService', () => {
       expect(items.length).toBe(1);
       expect(items[0]).toBeInstanceOf(RouteItem);
       expect(items[0].order).toBe(101);
-    });
-
-    it('should return flyout items when specified', () => {
-      permissionService.hasPermission.mockReturnValue(true);
-
-      const items = service.getFilteredItems(NavigationType.FLYOUT);
-
-      expect(items.length).toBe(0);
     });
 
     it('should return items sorted by order', () => {

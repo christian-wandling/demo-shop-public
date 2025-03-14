@@ -4,7 +4,7 @@ import { NavigationType } from '../enums/navigation-type';
 export abstract class NavigationItem {
   readonly type!: NavigationType;
 
-  constructor(
+  protected constructor(
     public label: string,
     public order: number,
     public options?: {
@@ -12,10 +12,6 @@ export abstract class NavigationItem {
     },
     public subItems?: RouteItem[]
   ) {}
-}
-
-export class FlyoutItem extends NavigationItem {
-  override readonly type: NavigationType = NavigationType.FLYOUT;
 }
 
 export class RouteItem extends NavigationItem {

@@ -9,19 +9,12 @@ import { ProductFacade, ProductSearchComponent } from '@demo-shop/product';
 import { Component, Input } from '@angular/core';
 import { CartIconComponent } from '@demo-shop/cart';
 import { UserNavigationComponent } from './user-navigation/user-navigation.component';
-import { ImagePlaceholderComponent } from '@demo-shop/shared';
-
 describe('NavigationComponent', () => {
   let component: NavigationComponent;
   let fixture: ComponentFixture<NavigationComponent>;
   let navigationService: NavigationService;
   let router: Router;
   let productFacade: ProductFacade;
-
-  @Component({ standalone: true, selector: 'lib-image-placeholder', template: '' })
-  class ImagePlaceholderStubComponent {
-    @Input() text = '';
-  }
 
   @Component({ standalone: true, selector: 'lib-product-search', template: '' })
   class ProductSearchStubComponent {}
@@ -31,31 +24,6 @@ describe('NavigationComponent', () => {
 
   @Component({ standalone: true, selector: 'lib-cart-icon', template: '' })
   class CartIconStubComponent {}
-
-  const mockFlyoutItems: NavigationItem[] = [
-    {
-      type: NavigationType.FLYOUT,
-      label: 'Flyout1',
-      order: 1,
-      subItems: [
-        {
-          type: NavigationType.ROUTE,
-          options: {
-            route: 'sub1',
-            permissionStrategy: undefined,
-            query: undefined,
-          },
-          label: 'Sub1',
-          order: 101,
-        },
-      ],
-    },
-    {
-      type: NavigationType.FLYOUT,
-      label: 'Flyout2',
-      order: 2,
-    },
-  ];
 
   const mockRouteItems = [
     {
@@ -91,7 +59,7 @@ describe('NavigationComponent', () => {
           useValue: {
             getFilteredItems: jest
               .fn()
-              .mockImplementation(type => (type === NavigationType.FLYOUT ? mockFlyoutItems : mockRouteItems)),
+              .mockImplementation(type => (type === NavigationType.ROUTE ? mockRouteItems : [])),
           },
         },
         { provide: ProductFacade, useValue: { setFilter: jest.fn() } },
@@ -100,15 +68,10 @@ describe('NavigationComponent', () => {
     })
       .overrideComponent(NavigationComponent, {
         remove: {
-          imports: [ImagePlaceholderComponent, ProductSearchComponent, UserNavigationComponent, CartIconComponent],
+          imports: [ProductSearchComponent, UserNavigationComponent, CartIconComponent],
         },
         add: {
-          imports: [
-            ImagePlaceholderStubComponent,
-            ProductSearchStubComponent,
-            UserNavigationStubComponent,
-            CartIconStubComponent,
-          ],
+          imports: [ProductSearchStubComponent, UserNavigationStubComponent, CartIconStubComponent],
         },
       })
       .compileComponents();
@@ -128,12 +91,6 @@ describe('NavigationComponent', () => {
   it('should initialize with default values', () => {
     expect(component.mobileMenuOpen()).toBeFalsy();
     expect(component.selectedMenuItem()).toBe('products');
-    expect(component.flyoutMenuOpen()).toBeFalsy();
-  });
-
-  it('should fetch flyout menu items on init', () => {
-    expect(navigationService.getFilteredItems).toHaveBeenCalledWith(NavigationType.FLYOUT);
-    expect(component.flyoutMenuItems).toEqual(mockFlyoutItems);
   });
 
   it('should fetch route menu items on init', () => {
@@ -167,12 +124,6 @@ describe('NavigationComponent', () => {
 
     it('should match snapshot with mobile menu open', () => {
       component.mobileMenuOpen.set(true);
-      fixture.detectChanges();
-      expect(fixture.nativeElement).toMatchSnapshot();
-    });
-
-    it('should match snapshot with flyout menu open', () => {
-      component.flyoutMenuOpen.set(true);
       fixture.detectChanges();
       expect(fixture.nativeElement).toMatchSnapshot();
     });
