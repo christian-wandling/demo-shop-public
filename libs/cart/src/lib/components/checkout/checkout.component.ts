@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CartFacade } from '../../cart.facade';
 import { FormErrorComponent } from '@demo-shop/shared';
@@ -28,6 +28,7 @@ export class CheckoutComponent {
   readonly user = this.#userFacade.getCurrentUser();
   readonly #fb = inject(FormBuilder);
   readonly #router = inject(Router);
+  readonly showShippingInformation = signal(window.innerWidth >= 768);
 
   removeItem(id: number): void {
     this.#cartFacade.removeItem(id);
