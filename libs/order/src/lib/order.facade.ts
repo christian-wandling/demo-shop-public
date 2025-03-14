@@ -13,7 +13,7 @@ export class OrderFacade {
   }
 
   fetchById(id: number): void {
-    this.#orderStore.loadById(id);
+    this.#orderStore.fetchById(id);
   }
 
   add(order: OrderResponse): void {

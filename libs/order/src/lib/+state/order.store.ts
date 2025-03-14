@@ -1,9 +1,10 @@
-import { signalStore, withMethods } from '@ngrx/signals';
+import { patchState, signalStore, withMethods } from '@ngrx/signals';
 import { withCallState, withDataService, withDevtools } from '@angular-architects/ngrx-toolkit';
-import { withEntities } from '@ngrx/signals/entities';
+import { addEntity, withEntities } from '@ngrx/signals/entities';
 import { OrderDataService } from '../services/order-data.service';
-import { OrderResponse, OrderStatus } from '@demo-shop/api';
-import { computed } from '@angular/core';
+import { OrderApi, OrderResponse, OrderStatus } from '@demo-shop/api';
+import { computed, inject } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 
 export const OrderStore = signalStore(
   { providedIn: 'root' },
@@ -14,7 +15,11 @@ export const OrderStore = signalStore(
     dataServiceType: OrderDataService,
     filter: {},
   }),
-  withMethods(store => ({
+  withMethods((store, orderApi = inject(OrderApi)) => ({
+    async fetchById(id: number) {
+      const order = await firstValueFrom(orderApi.getOrderById(id));
+      patchState(store, addEntity(order));
+    },
     getById(id: number) {
       return computed(() => store.entityMap()[id]);
     },

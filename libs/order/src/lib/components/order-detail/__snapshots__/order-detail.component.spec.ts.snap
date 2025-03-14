@@ -6,15 +6,42 @@ exports[`OrderDetailComponent should match the snapshot 1`] = `
   user={[Function Function]}
 >
   <div
-    class="mx-auto px-8 max-w-5xl"
+    class="mx-auto mb-8 px-8 max-w-5xl"
     id="invoice"
   >
     <section
-      class="py-8 flex justify-between items-center"
+      class="py-8 mb-2 flex justify-between items-end"
     >
       <div>
+        <div
+          class="flex flex-row gap-3 items-center justify-start"
+        >
+          <div
+            class="leading-none"
+          >
+            <div
+              class="text-xl leading-none font-semibold"
+            >
+              Order #1
+            </div>
+            <lib-date-time
+              class="h-3 text-xs leading-none text-gray-500"
+            >
+              <time
+                datetime="Wed Jan 1 2020 00:00:00 GMT+0000 (Coordinated Universal Time)"
+              >
+                Jan 01, 2020
+              </time>
+            </lib-date-time>
+          </div>
+          <lib-order-status
+            class="rounded-lg px-4 py-1.5 max-w-28 text-center text-white border border-slate-300 text-xs bg-orange-500"
+          >
+            Created
+          </lib-order-status>
+        </div>
         <h1
-          class="font-bold text-gray-700"
+          class="mt-5 text-s font-bold text-gray-700"
         >
           firstname lastname
         </h1>
@@ -32,26 +59,11 @@ exports[`OrderDetailComponent should match the snapshot 1`] = `
           </p>
         </div>
       </div>
-      <div
-        class="text-gray-700 text-xs flex flex-col items-end"
+      <button
+        class="btn-print w-44 flex items-center justify-center rounded-md border border-transparent mb-3 px-8 py-2 text-base font-medium bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2':"
       >
-        <h1
-          class="text-sm font-semibold"
-        >
-          Order #1
-        </h1>
-        <div>
-          2020-01-01 00:00
-        </div>
-        <div
-          class="rounded-md my-1 px-1 py-0.5 bg-gray-300 border border-slate-900 text-xs"
-        >
-           Created 
-        </div>
-        <button>
-          print pdf
-        </button>
-      </div>
+         Print 
+      </button>
     </section>
     <section>
       <ul
