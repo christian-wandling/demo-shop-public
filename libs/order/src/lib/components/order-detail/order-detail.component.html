@@ -1,35 +1,35 @@
-<div class="mx-auto px-8 max-w-5xl" id="invoice">
-  <section class="py-8 flex justify-between items-center">
-    @if (user()) {
+<div class="mx-auto mb-8 px-8 max-w-5xl" id="invoice">
+  <section class="py-8 mb-2 flex justify-between items-end">
+    @if (user() && order()) {
     <div>
-      <h1 class="font-bold text-gray-700">{{ user()?.firstname }} {{ user()?.lastname }}</h1>
+      <div class="flex flex-row gap-3 items-center justify-start">
+        <div class="leading-none">
+          <div class="text-xl leading-none font-semibold">Order #{{ order().id }}</div>
+          <lib-date-time [dateTime]="order().created" class="h-3 text-xs leading-none text-gray-500" />
+        </div>
+        <lib-order-status [status]="order().status" />
+      </div>
+
+      <h1 class="mt-5 text-s font-bold text-gray-700">{{ user()?.firstname }} {{ user()?.lastname }}</h1>
       <div class="text-xs text-gray-500">
         <p>{{ user()?.address?.street }} {{ user()?.address?.apartment }}</p>
         <p>{{ user()?.address?.zip }} {{ user()?.address?.city }}, {{ user()?.address?.region }}</p>
         <p>{{ user()?.address?.country }}</p>
       </div>
     </div>
-    @if (order()) {
-    <div class="text-gray-700 text-xs flex flex-col items-end">
-      <h1 class="text-sm font-semibold">Order #{{ order().id }}</h1>
-      <div>{{ order().created | date : 'YYYY-MM-dd HH:mm' : 'GMT' }}</div>
-      <div
-        class="rounded-md my-1 px-1 py-0.5 bg-gray-300 border border-slate-900 text-xs"
-        [ngClass]="{
-          'bg-green-900 text-white': order().status === 'Completed'
-        }">
-        {{ order().status | titlecase }}
-      </div>
-      <button (click)="printPdf(order(), user())">print pdf</button>
-    </div>
-    } }
+    <button
+      (click)="printPdf(order(), user())"
+      class="btn-print w-44 flex items-center justify-center rounded-md border border-transparent mb-3 px-8 py-2 text-base font-medium bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2':">
+      Print
+    </button>
+    }
   </section>
   <section>
     @if (order()) {
     <ul class="divide-y divide-gray-100">
       @for (item of order().items; track item.productId) {
       <li class="flex gap-x-6 py-5">
-        <div class="relative w-16 h-16 flex-shrink">
+        <div class="relative w-24 h-24 sm:rounded-lg flex-shrink">
           <img
             [ngSrc]="item.productThumbnail"
             [alt]="item.productName"

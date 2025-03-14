@@ -1,11 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { OrderStore } from './order.store';
 import { OrderDataService } from '../services/order-data.service';
-import { OrderResponse, OrderStatus } from '@demo-shop/api';
+import { OrderApi, OrderResponse, OrderStatus } from '@demo-shop/api';
 
 describe('OrderStore', () => {
   let store: any;
   let mockDataService: OrderDataService;
+  let oderApi: OrderApi;
 
   const mockOrders: OrderResponse[] = [
     {
@@ -44,6 +45,12 @@ describe('OrderStore', () => {
             load: jest.fn().mockResolvedValue(mockOrders),
           },
         },
+        {
+          provide: OrderApi,
+          useValue: {
+            loadById: jest.fn().mockResolvedValue(mockOrders[0]),
+          },
+        },
       ],
     });
 
@@ -54,7 +61,6 @@ describe('OrderStore', () => {
   describe('load', () => {
     it('should populate store with loaded orders', async () => {
       await store.load();
-      console.log(store.entities());
       expect(mockDataService.load).toHaveBeenCalled();
       expect(store.entities()).toEqual(mockOrders);
     });

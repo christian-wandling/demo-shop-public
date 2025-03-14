@@ -3,11 +3,13 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { OrderFacade } from '../../order.facade';
 import { UserFacade } from '@demo-shop/user';
 import { RouterLink } from '@angular/router';
+import { OrderStatusComponent } from '../shared/order-status/order-status.component';
+import { DateTimeComponent } from '@demo-shop/shared';
 
 @Component({
   selector: 'lib-order-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, NgOptimizedImage],
+  imports: [CommonModule, RouterLink, NgOptimizedImage, OrderStatusComponent, DateTimeComponent],
   templateUrl: './order-list.component.html',
   styleUrl: './order-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -5,11 +5,13 @@ import { ActivatedRoute } from '@angular/router';
 import { UserFacade } from '@demo-shop/user';
 import { PrintInvoiceService } from '../../services/print-invoice.service';
 import { OrderResponse, UserResponse } from '@demo-shop/api';
+import { OrderStatusComponent } from '../shared/order-status/order-status.component';
+import { DateTimeComponent } from '@demo-shop/shared';
 
 @Component({
   selector: 'lib-order-detail',
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage],
+  imports: [CommonModule, NgOptimizedImage, OrderStatusComponent, DateTimeComponent],
   templateUrl: './order-detail.component.html',
   styleUrl: './order-detail.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

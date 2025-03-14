@@ -1,5 +1,5 @@
-<div class="mx-auto px-8 max-w-5xl">
-  <section class="py-8">
+<div class="mx-auto px-8 max-w-7xl">
+  <section class="py-8 top-16 sticky z-10 bg-white border-b-2 border-gray-100">
     @if (user()) {
     <h1 class="font-bold text-gray-700">{{ user()?.firstname }} {{ user()?.lastname }}</h1>
     <div class="text-xs text-gray-500">
@@ -12,21 +12,27 @@
   <section>
     <ul class="divide-y divide-gray-100">
       @for (order of orders(); track order.id) {
-      <li class="flex justify-between gap-x-6 py-5">
-        <div class="flex min-w-0 gap-x-4">
+      <li
+        class="relative flex flex-col sm:flex-row justify-between gap-x-6 py-5 px-5 cursor-pointer hover:bg-slate-50"
+        routerLink="{{ order.id }}">
+        <lib-order-status [status]="order.status" class="absolute right-5 top-5" />
+        <div class="flex min-w-0 gap-x-3">
           <div class="min-w-0 flex-auto">
-            <p class="text-sm font-semibold leading-6 cursor-pointer hover:underline" routerLink="{{ order.id }}">
-              Order #{{ order.id }}
-            </p>
-            <div class="flex gap-1">
+            <p class="text-xl mb-4 font-semibold hover:underline">Order #{{ order.id }}</p>
+            <div class="flex gap-4">
               @for (item of order.items; track item.productId; let index = $index; let count = $count) { @if (index <=
               MAX_THUMBNAILS - 1) { @if (index === MAX_THUMBNAILS - 1 && count > MAX_THUMBNAILS) {
-              <div class="w-8 h-8 bg-gray-800 text-white text-center leading-8">+{{ count - MAX_THUMBNAILS + 1 }}</div>
+              <div class="w-24 h-24 bg-gray-800 text-5xl text-white flex items-center justify-center rounded-lg">
+                +{{ count - MAX_THUMBNAILS + 1 }}
+              </div>
               } @else {
-              <div class="relative w-8 h-8">
+              <div
+                class="relative w-24 h-24 rounded-lg overflow-hidden group-hover:opacity-75"
+                routerLink="/products/{{ item.productId }}">
                 <img
                   [ngSrc]="item.productThumbnail"
                   [alt]="item.productName"
+                  [title]="item.productName"
                   fill=""
                   onerror="this.src='images/placeholder-image.jpg'" />
               </div>
@@ -34,18 +40,9 @@
             </div>
           </div>
         </div>
-        <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-          <p class="text-sm leading-6 text-gray-900">{{ order.amount | currency }}</p>
-          <p class="mt-1 text-xs leading-5 text-gray-500">
-            <time [dateTime]="order.created">{{ order.created | date : 'MMM dd, YYYY' : 'GMT' }}</time>
-          </p>
-          <p
-            class="rounded-md my-1 px-1 py-0.5 bg-gray-300 border border-slate-900 text-xs"
-            [ngClass]="{
-              'bg-green-900 text-white': order.status === 'Completed'
-            }">
-            {{ order?.status | titlecase }}
-          </p>
+        <div class="flex flex-col mt-4 sm:items-end sm:justify-end gap-1">
+          <p class="text-sm leading-none text-gray-900">{{ order.amount | currency }}</p>
+          <lib-date-time [dateTime]="order.created" class="text-xs leading-none text-gray-500" />
         </div>
       </li>
       }
