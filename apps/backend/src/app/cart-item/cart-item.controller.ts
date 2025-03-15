@@ -13,7 +13,7 @@ import { DecodedToken } from '../common/models/decoded-token';
 import { UpdateCartItemQuantityRequest } from './dtos/update-cart-item-quantity-request';
 import { AddCartItemRequest } from './dtos/add-cart-item-request';
 
-@CustomController({ path: 'shopping-sessions/current/cart-items', version: '1' })
+@CustomController({ path: 'shopping-sessions', version: '1' })
 @Auth({ roles: ['realm:buy_products'] })
 export class CartItemController {
   constructor(
@@ -21,7 +21,7 @@ export class CartItemController {
     private readonly cartItemService: CartItemService
   ) {}
 
-  @CustomPost({ body: AddCartItemRequest, res: CartItemResponse })
+  @CustomPost({ path: '/current/cart-items', body: AddCartItemRequest, res: CartItemResponse })
   async createCartItem(
     @Body() dto: AddCartItemRequest,
     @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken
@@ -35,7 +35,7 @@ export class CartItemController {
     return this.cartItemService.create(dto, shoppingSession.id);
   }
 
-  @CustomPatch({ path: ':id', body: UpdateCartItemQuantityRequest, res: CartItemResponse })
+  @CustomPatch({ path: '/current/cart-items/:id', body: UpdateCartItemQuantityRequest, res: CartItemResponse })
   async updateCartItem(
     @Param('id') id: string,
     @Body() dto: UpdateCartItemQuantityRequest,
@@ -50,7 +50,7 @@ export class CartItemController {
     return this.cartItemService.update(Number(id), dto, shoppingSession.id);
   }
 
-  @CustomDelete({ path: ':id' })
+  @CustomDelete({ path: '/current/cart-items/:id' })
   async removeCartItem(
     @Param('id') id: string,
     @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken

@@ -36,25 +36,25 @@ services:
       context: .
       dockerfile: apps/backend/Dockerfile
       target: dev
-    env_file:
-      - .env
-      - ./secrets/sentry-config.txt
     environment:
       - PORT=3000
       - NODE_ENV=development
       - NX_DAEMON=false
       - NX_REJECT_UNKNOWN_LOCAL_CACHE=0
-      - KEYCLOAK_REALM
-      - KEYCLOAK_CLIENT_API
+      - ALLOWED_ORIGIN=http://localhost:4200
+      - KEYCLOAK_REALM=demo_shop
+      - KEYCLOAK_CLIENT_API=demo_shop_api
+      - KEYCLOAK_URL=http://keycloak:8080
       - KEYCLOAK_REALM_PUBLIC_KEY
-      - KEYCLOAK_URL
       - SENTRY_AUTH_TOKEN
       - SENTRY_ORG
-      - SENTRY_TRUSTED_DOMAIN
+      - SENTRY_TRUSTED_DOMAIN=http://localhost
       - SENTRY_DEMO_SHOP_API_DSN
       - SENTRY_DEMO_SHOP_API_PROJECT
-      - POSTGRES_HOST=db
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}?schema=public
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
     volumes:
       - .:/app:cached
       - /app/node_modules
@@ -68,16 +68,16 @@ services:
     image: quay.io/keycloak/keycloak:23.0.6
     command: start-dev --import-realm
     environment:
-      - KC_DB=${KC_DB}
-      - KC_DB_URL=${KC_DB_URL}
-      - KC_DB_USERNAME=${POSTGRES_USER}
-      - KC_DB_PASSWORD=${POSTGRES_PASSWORD}
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://host.docker.internal/keycloak
       - KC_HOSTNAME=localhost
       - KC_HOSTNAME_STRICT=false
       - KC_HOSTNAME_STRICT_HTTPS=false
       - KC_LOG_LEVEL=info
       - KC_METRICS_ENABLED=true
       - KC_HEALTH_ENABLED=true
+      - KC_DB_USERNAME=${POSTGRES_USER}
+      - KC_DB_PASSWORD=${POSTGRES_PASSWORD}
       - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN}
       - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
     depends_on:
@@ -97,12 +97,12 @@ services:
       context: .
       dockerfile: ./apps/frontend/Dockerfile
       target: dev
-    env_file:
-      - .env
-      - ./secrets/sentry-config.txt
     environment:
       - API_URL=http://api:3000
       - NODE_ENV=development
+      - KEYCLOAK_URL=http://localhost:8080
+      - SENTRY_DEMO_SHOP_UI_DSN
+      - SENTRY_TRUSTED_DOMAIN=http://localhost
     ports:
       - '4200:4200'
     volumes:

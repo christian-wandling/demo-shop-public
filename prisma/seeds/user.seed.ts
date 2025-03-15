@@ -70,8 +70,7 @@ const getKeycloakAdminToken = async (): Promise<KeycloakAdminUser> => {
   try {
     const username = process.env.KEYCLOAK_ADMIN as string;
     const password = process.env.KEYCLOAK_ADMIN_PASSWORD as string;
-    const keycloakUrl = process.env.KEYCLOAK_URL as string;
-    const url = `${keycloakUrl}/realms/master/protocol/openid-connect/token`;
+    const url = `http://localhost:8080/realms/master/protocol/openid-connect/token`;
 
     const res = await fetch(url, {
       method: 'POST',
@@ -87,8 +86,6 @@ const getKeycloakAdminToken = async (): Promise<KeycloakAdminUser> => {
     });
 
     if (!res.ok) {
-      console.log('Hello');
-
       const errorBody = await res.text();
       console.error(`Error: ${res.statusText}, Body: ${errorBody}`);
       throw new Error(`Error: ${res.statusText}, Body: ${errorBody}`);
@@ -102,10 +99,7 @@ const getKeycloakAdminToken = async (): Promise<KeycloakAdminUser> => {
 
 const getKeycloakUserIds = async (): Promise<UserIdentity[]> => {
   const { access_token } = await getKeycloakAdminToken();
-  const keycloakUrl = process.env.KEYCLOAK_URL as string;
-  const keycloakRealm = process.env.KEYCLOAK_REALM as string;
-  const url = `${keycloakUrl}/admin/realms/${keycloakRealm}/users`;
-  console.log(url);
+  const url = `http://localhost:8080/admin/realms/demo_shop/users`;
 
   try {
     const res = await fetch(url, {

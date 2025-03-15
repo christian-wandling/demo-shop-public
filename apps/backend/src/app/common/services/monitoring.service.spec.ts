@@ -9,6 +9,7 @@ jest.mock('@sentry/nestjs', () => ({
 
 describe('MonitoringService', () => {
   let service: MonitoringService;
+  const originalEnv = process.env;
 
   beforeEach(async () => {
     jest.clearAllMocks();
@@ -17,11 +18,17 @@ describe('MonitoringService', () => {
       providers: [MonitoringService],
     }).compile();
 
+    process.env = { ...originalEnv };
     service = module.get<MonitoringService>(MonitoringService);
   });
 
   describe('setUser', () => {
-    it('should call Sentry.setUser with user data and ip_address set to none', () => {
+    it('should call Sentry.setUser if Sentry is configured', () => {
+      process.env.SENTRY_AUTH_TOKEN = 'test-token';
+      process.env.SENTRY_ORG = 'test-org';
+      process.env.SENTRY_DEMO_SHOP_API_PROJECT = 'test-project';
+      process.env.SENTRY_DEMO_SHOP_API_DSN = 'test-dsn';
+
       const mockUser: MonitoredUser = {
         id: 123,
       };
@@ -35,7 +42,27 @@ describe('MonitoringService', () => {
       });
     });
 
+    it('should not call Sentry.setUser if Sentry is not configured', () => {
+      process.env.SENTRY_AUTH_TOKEN = '';
+      process.env.SENTRY_ORG = '';
+      process.env.SENTRY_DEMO_SHOP_API_PROJECT = '';
+      process.env.SENTRY_DEMO_SHOP_API_DSN = '';
+
+      const mockUser: MonitoredUser = {
+        id: 123,
+      };
+
+      service.setUser(mockUser);
+
+      expect(Sentry.setUser).not.toHaveBeenCalled();
+    });
+
     it('should handle empty user object', () => {
+      process.env.SENTRY_AUTH_TOKEN = 'test-token';
+      process.env.SENTRY_ORG = 'test-org';
+      process.env.SENTRY_DEMO_SHOP_API_PROJECT = 'test-project';
+      process.env.SENTRY_DEMO_SHOP_API_DSN = 'test-dsn';
+
       const emptyUser: MonitoredUser = { id: undefined };
 
       service.setUser(emptyUser);

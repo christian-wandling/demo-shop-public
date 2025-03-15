@@ -74,7 +74,7 @@ describe('CartItemController', () => {
   describe('CartItemController', () => {
     it('should have correct path', () => {
       const path = Reflect.getMetadata('path', CartItemController);
-      expect(path).toBe('shopping-sessions/current/cart-items');
+      expect(path).toBe('shopping-sessions');
     });
 
     it('should have correct version', () => {
@@ -112,7 +112,7 @@ describe('CartItemController', () => {
 
     it('should have the correct path', () => {
       const path = Reflect.getMetadata('path', CartItemController.prototype.createCartItem);
-      expect(path).toEqual('/');
+      expect(path).toEqual('/current/cart-items');
     });
 
     it('should have the correct method', () => {
@@ -154,7 +154,7 @@ describe('CartItemController', () => {
 
     it('should have the correct path', () => {
       const path = Reflect.getMetadata('path', CartItemController.prototype.updateCartItem);
-      expect(path).toEqual(':id');
+      expect(path).toEqual('/current/cart-items/:id');
     });
 
     it('should have the correct method', () => {
@@ -184,7 +184,7 @@ describe('CartItemController', () => {
 
     it('should have the correct path', () => {
       const path = Reflect.getMetadata('path', CartItemController.prototype.removeCartItem);
-      expect(path).toEqual(':id');
+      expect(path).toEqual('/current/cart-items/:id');
     });
 
     it('should have the correct method', () => {
