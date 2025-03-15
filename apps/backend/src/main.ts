@@ -21,7 +21,7 @@ async function bootstrap() {
   app.use(helmet());
   app.useGlobalFilters(new CatchEverythingFilter(httpAdapterHost));
   app.enableCors({
-    origin: [process.env.FRONTEND_URL],
+    origin: [process.env.ALLOWED_ORIGIN],
   });
   app.enableVersioning({
     type: VersioningType.URI,

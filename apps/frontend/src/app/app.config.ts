@@ -12,6 +12,7 @@ import { authInterceptor, provideAuth } from '@demo-shop/auth';
 import { environment } from '../environments/environment';
 import * as Sentry from '@sentry/angular';
 import { NoReuseStrategy } from './strategies/no-reuse-strategy';
+import { provideMonitoring } from '@demo-shop/monitoring';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -42,14 +43,9 @@ export const appConfig: ApplicationConfig = {
       deps: [Sentry.TraceService],
       multi: true,
     },
-    provideApi(
-      withConfiguration({
-        basePath: '',
-      })
-    ),
-    provideAuth({
-      keycloak: environment.keycloak,
-    }),
+    provideApi(withConfiguration({ basePath: '' })),
+    provideAuth({ keycloak: environment.keycloak }),
+    provideMonitoring({ sentry: environment.sentry }),
     provideNavigation({ routes: appRoutes }),
   ],
 };
