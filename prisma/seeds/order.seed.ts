@@ -1,8 +1,6 @@
 import { Image, Order, OrderStatus, PrismaClient, Product, User } from '@prisma/client';
 import { faker } from '@faker-js/faker';
 import { differenceInMonths } from 'date-fns/differenceInMonths';
-import * as dotenv from 'dotenv';
-import * as process from 'node:process';
 
 const moreThan2MonthsAgo = (date: Date) => differenceInMonths(new Date(), date) > 2;
 
@@ -28,14 +26,6 @@ export const seedOrders = async (
   >
 ): Promise<Order[]> => {
   console.log('Seeding orders...');
-
-  dotenv.config();
-
-  const isProduction = (process.env.NODE_ENV as string) === 'production';
-
-  if (isProduction) {
-    console.log(`Environment is not development, skip seeding orders`);
-  }
 
   const orders: Order[] = [];
 

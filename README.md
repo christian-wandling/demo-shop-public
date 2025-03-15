@@ -8,7 +8,7 @@ A more refined implementation of the API with ASP.NET Core can be found in this 
 http://github.com/christian-wandling/demo-shop-dotnet-api
 ```
 
-## 🏗️ Overview
+## Overview
 
 This project implements an e-commerce application with:
 
@@ -18,7 +18,7 @@ This project implements an e-commerce application with:
 - Order processing
 - PDF invoice generation
 
-## 🚀 Tech Stack
+## Tech Stack
 
 ### Frontend
 
@@ -232,9 +232,7 @@ http://localhost:80
 
 4. In the connection tab of the server use `db` for host and for username and password use the values of `POSTGRES_USER` and `POSTGRES_PASSWORD` in your .env file
 
-## Development
-
-### Testing
+## Testing
 
 To run all tests in the project use
 

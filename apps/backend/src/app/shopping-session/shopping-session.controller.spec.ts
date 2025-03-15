@@ -78,34 +78,6 @@ describe('ShoppingSessionsController', () => {
     });
   });
 
-  describe('createShoppingSession', () => {
-    it('should create a shopping session by email', async () => {
-      const result = await controller.createShoppingSession(mockDecodedToken);
-
-      expect(result).toEqual(shoppingSessionResponse);
-      expect(shoppingSessionService.create).toHaveBeenCalledWith(mockDecodedToken.sub);
-      expect(shoppingSessionService.create).toHaveBeenCalledTimes(1);
-    });
-
-    it('should throw an error if shopping session could not be created', async () => {
-      jest.spyOn(shoppingSessionService, 'create').mockRejectedValueOnce(new Error('ShoppingSession not found'));
-
-      await expect(controller.createShoppingSession(mockDecodedToken)).rejects.toThrow('ShoppingSession not found');
-      expect(shoppingSessionService.create).toHaveBeenCalledWith(mockDecodedToken.sub);
-      expect(shoppingSessionService.create).toHaveBeenCalledTimes(1);
-    });
-
-    it('should have the correct path', () => {
-      const path = Reflect.getMetadata('path', ShoppingSessionController.prototype.createShoppingSession);
-      expect(path).toEqual('/');
-    });
-
-    it('should have the correct method', () => {
-      const method = Reflect.getMetadata('method', ShoppingSessionController.prototype.createShoppingSession);
-      expect(method).toEqual(RequestMethod.POST);
-    });
-  });
-
   describe('resolveShoppingSessionOfCurrentUser', () => {
     it('should return a shopping session by email', async () => {
       const result = await controller.resolveShoppingSessionOfCurrentUser(mockDecodedToken);

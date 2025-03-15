@@ -1,6 +1,5 @@
 import { Image, PrismaClient, Product } from '@prisma/client';
 import { faker } from '@faker-js/faker';
-// import { generateDescription } from './ai-generate';
 
 const getHasProducts = async (prisma: PrismaClient) => {
   const product = await prisma.product.findFirst();
