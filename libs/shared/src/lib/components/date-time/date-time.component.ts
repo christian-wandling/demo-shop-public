@@ -14,4 +14,12 @@ export class DateTimeComponent {
    * Date to display
    */
   readonly dateTime: InputSignal<Date | string> = input.required<Date | string>();
+  /**
+   * Pattern used to format date
+   */
+  readonly pattern: InputSignal<string> = input<string>('MMM dd, YYYY');
+  /**
+   * Timezone used to display date
+   */
+  readonly timezone: InputSignal<string> = input<string>('UTC');
 }

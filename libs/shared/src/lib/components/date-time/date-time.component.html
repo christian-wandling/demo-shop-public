@@ -1,1 +1,3 @@
-<time [dateTime]="dateTime()">{{ dateTime() | date : 'MMM dd, YYYY' }}</time>
+<time [dateTime]="dateTime() | date : pattern() : timezone()">
+  {{ dateTime() | date : pattern() : timezone() }}
+</time>

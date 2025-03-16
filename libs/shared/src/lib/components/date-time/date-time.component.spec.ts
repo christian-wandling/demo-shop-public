@@ -16,7 +16,7 @@ describe('DateTimeComponent', () => {
     component = fixture.componentInstance;
 
     // Set a fixed date for consistent testing
-    const testDate = new Date('2025-03-16T12:00:00Z');
+    const testDate = new Date('2025-03-16T12:00:00+00:00');
     fixture.componentRef.setInput('dateTime', testDate);
     fixture.detectChanges();
   });
