@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DateTimeComponent should match snapshot 1`] = `
+<lib-date-time
+  dateTime={[Function Function]}
+>
+  <time
+    datetime="Sun Mar 16 2025 19:00:00 GMT+0700 (Indochina Time)"
+  >
+    Mar 16, 2025
+  </time>
+</lib-date-time>
+`;
+
+exports[`DateTimeComponent with different date formats should handle future dates: future-date 1`] = `
+<lib-date-time
+  dateTime={[Function Function]}
+>
+  <time
+    datetime="Fri Dec 25 2026 07:00:00 GMT+0700 (Indochina Time)"
+  >
+    Dec 25, 2026
+  </time>
+</lib-date-time>
+`;
+
+exports[`DateTimeComponent with different date formats should handle past dates: past-date 1`] = `
+<lib-date-time
+  dateTime={[Function Function]}
+>
+  <time
+    datetime="Wed Apr 01 2020 07:00:00 GMT+0700 (Indochina Time)"
+  >
+    Apr 01, 2020
+  </time>
+</lib-date-time>
+`;

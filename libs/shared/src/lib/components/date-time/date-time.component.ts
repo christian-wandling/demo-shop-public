@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, InputSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -10,5 +10,8 @@ import { CommonModule } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DateTimeComponent {
-  readonly dateTime = input.required<Date | string>();
+  /**
+   * Date to display
+   */
+  readonly dateTime: InputSignal<Date | string> = input.required<Date | string>();
 }
