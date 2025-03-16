@@ -26,3 +26,5 @@ README.md
 .ops/k8s
 .local
 *.tar
+storybook-static
+**/docs

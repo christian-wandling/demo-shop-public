@@ -4,6 +4,10 @@
   "license": "MIT",
   "scripts": {
     "cm": "cz",
+    "compodoc:backend": "npx @compodoc/compodoc -p apps/backend/tsconfig.app.json -d apps/backend/docs/compodoc",
+    "compodoc:frontend": "npx @compodoc/compodoc -p apps/frontend/tsconfig.doc.json -d apps/frontend/docs/compodoc",
+    "graph:backend": "nx graph --focus=backend --file=apps/backend/docs/graph/dependencies.html",
+    "graph:frontend": "nx graph --focus=frontend --file=apps/frontend/docs/graph/dependencies.html",
     "start": "docker-compose up -d",
     "rebuild": "docker-compose up -d --build --remove-orphans",
     "openapi:generate": "openapi-generator generate -g typescript-angular -o libs/api -i http://localhost:3000/api/v1/swagger.json -c open-api.yaml",
@@ -17,7 +21,9 @@
     "release:major": "standard-version",
     "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch",
-    "storybook": "npx nx storybook ",
+    "storybook:build": "npx nx build-storybook frontend",
+    "storybook:serve": "npx nx storybook frontend",
+    "storybook:static": "npx nx static-storybook frontend",
     "lint": "npx nx run-many -t lint",
     "test": "npx nx run-many -t test --coverage",
     "e2e": "npx nx run-many -t e2e"
