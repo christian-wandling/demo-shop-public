@@ -4,19 +4,30 @@ A full-stack e-commerce application built for educational purposes using modern 
 
 A more refined implementation of the API with ASP.NET Core can be found in this repository:
 
-```
-http://github.com/christian-wandling/demo-shop-dotnet-api
-```
+> [github.com/christian-wandling/demo-shop-dotnet-api](http://github.com/christian-wandling/demo-shop-dotnet-api)
 
 ## Overview
 
-This project implements an e-commerce application with:
+### Backend
 
-- User authentication and authorization
-- Product catalog with categories
-- Shopping cart functionality
-- Order processing
-- PDF invoice generation
+- [API Documentation](/apps/backend/docs/compodoc) - Complete API reference and backend architecture
+
+### Frontend
+
+- [Frontend Documentation](/apps/frontend/docs/compodoc) - Component structure and frontend architecture
+- [Storybook](/apps/frontend/docs/storybook) - Interactive UI component library and visual testing
+
+#### Libraries
+
+- [Authentication](/libs/auth/README.md) - User authentication and authorization flows
+- [User](/libs/user/README.md) - User management
+- [Products](/libs/product/README.md) - Product catalog, categories, and search functionality
+- [Shopping](/libs/cart/README.md) - Shopping cart implementation and session management
+- [Order](/libs/order/README.md) - Order processing, history, and management
+- [Monitoring](/libs/monitoring/README.md) - Application performance monitoring and logging
+- [Navigation](/libs/navigation/README.md) - Site navigation components and routing
+- [Shared](/libs/shared/README.md) - Common utilities and shared components
+- [OpenApiGenerator](/libs/api/README.md) - API client generation tools and configurations
 
 ## Tech Stack
 
@@ -160,9 +171,9 @@ npx @sentry/wizard@latest -i sourcemaps --saas
 
 An equivalent API created with ASP.Net Core is available in the following repository:
 
-```
-http://github.com/christian-wandling/demo-shop-dotnet-api
-```
+> [github.com/christian-wandling/demo-shop-dotnet-api](http://github.com/christian-wandling/demo-shop-dotnet-api)
+
+To use the API with this frontend, ensure both applications are running and connected via the shared Docker network.
 
 ## User management
 

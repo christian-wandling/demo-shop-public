@@ -10947,7 +10947,7 @@
         },
         {
             "name": "DateTimeComponent",
-            "id": "component-DateTimeComponent-6ed2be03c872f24f1ad78dcd1b96e0943a91a84093e6447c3a2b1aeca0893a1edb67eeb1f06c354536f3a4a2a399599f92e758360948c0ce0be2ebf3cc5809e8",
+            "id": "component-DateTimeComponent-9c5aa0cf193c54ccb87c4ee87d90cd796e40100258ba7815399bc0a0999414962a69d41b5a0bac0d2362b1ba797f57a0c9c2d3fb7ccec503c22bd9ab65e3b8e8",
             "file": "libs/shared/src/lib/components/date-time/date-time.component.ts",
             "changeDetection": "ChangeDetectionStrategy.OnPush",
             "encapsulation": [],
@@ -10980,6 +10980,36 @@
                     "modifierKind": [
                         148
                     ]
+                },
+                {
+                    "name": "pattern",
+                    "defaultValue": "input<string>('MMM dd, YYYY')",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "InputSignal<string>",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "<p>Pattern used to format date</p>\n",
+                    "line": 20,
+                    "rawdescription": "\n\nPattern used to format date\n",
+                    "modifierKind": [
+                        148
+                    ]
+                },
+                {
+                    "name": "timezone",
+                    "defaultValue": "input<string>('UTC')",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "InputSignal<string>",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "<p>Timezone used to display date</p>\n",
+                    "line": 24,
+                    "rawdescription": "\n\nTimezone used to display date\n",
+                    "modifierKind": [
+                        148
+                    ]
                 }
             ],
             "methodsClass": [],
@@ -10997,17 +11027,17 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { ChangeDetectionStrategy, Component, input, InputSignal } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\n@Component({\n  selector: 'lib-date-time',\n  standalone: true,\n  imports: [CommonModule],\n  templateUrl: './date-time.component.html',\n  styleUrl: './date-time.component.scss',\n  changeDetection: ChangeDetectionStrategy.OnPush,\n})\nexport class DateTimeComponent {\n  /**\n   * Date to display\n   */\n  readonly dateTime: InputSignal<Date | string> = input.required<Date | string>();\n}\n",
+            "sourceCode": "import { ChangeDetectionStrategy, Component, input, InputSignal } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\n@Component({\n  selector: 'lib-date-time',\n  standalone: true,\n  imports: [CommonModule],\n  templateUrl: './date-time.component.html',\n  styleUrl: './date-time.component.scss',\n  changeDetection: ChangeDetectionStrategy.OnPush,\n})\nexport class DateTimeComponent {\n  /**\n   * Date to display\n   */\n  readonly dateTime: InputSignal<Date | string> = input.required<Date | string>();\n  /**\n   * Pattern used to format date\n   */\n  readonly pattern: InputSignal<string> = input<string>('MMM dd, YYYY');\n  /**\n   * Timezone used to display date\n   */\n  readonly timezone: InputSignal<string> = input<string>('UTC');\n}\n",
             "styleUrl": "./date-time.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<time [dateTime]=\"dateTime()\">{{ dateTime() | date : 'MMM dd, YYYY' }}</time>\n"
+            "templateData": "<time [dateTime]=\"dateTime() | date : pattern() : timezone()\">\n  {{ dateTime() | date : pattern() : timezone() }}\n</time>\n"
         },
         {
             "name": "FormErrorComponent",
-            "id": "component-FormErrorComponent-cf4db6d51411ad499a7fafb7aba949190792bb65e59081db43968cd77f21fc0bccecb9704b3e798c1d6f45c82a837df1b6fae330fb29b87021b8a0454e6e64f3",
+            "id": "component-FormErrorComponent-6f733638377381e9d6964f9cd8949fd4d59da2fdf62661c1db360da275433e9329039f7c400130584ed34cfd67e104b32d09cec3dda0ebb270afb202840a0b0a",
             "file": "libs/shared/src/lib/components/form-error/form-error.component.ts",
             "changeDetection": "ChangeDetectionStrategy.OnPush",
             "encapsulation": [],
@@ -11073,7 +11103,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { ChangeDetectionStrategy, Component, input, InputSignal } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { ValidationErrors } from '@angular/forms';\n\n@Component({\n  selector: 'lib-form-error',\n  standalone: true,\n  imports: [CommonModule],\n  templateUrl: './form-error.component.html',\n  styleUrl: './form-error.component.scss',\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  host: {\n    'class': 'text-xs text-red-600',\n  },\n})\nexport class FormErrorComponent {\n  /**\n   * Name of form field\n   */\n  readonly fieldName: InputSignal<string> = input<string>('Field');\n  /**\n   * Set of validation errors\n   */\n  readonly errors: InputSignal<ValidationErrors | null> = input.required<ValidationErrors | null>();\n}\n",
+            "sourceCode": "import { ChangeDetectionStrategy, Component, input, InputSignal } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { ValidationErrors } from '@angular/forms';\n\n@Component({\n  selector: 'lib-form-error',\n  standalone: true,\n  imports: [CommonModule],\n  templateUrl: './form-error.component.html',\n  styleUrl: './form-error.component.scss',\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  host: {\n    class: 'text-xs text-red-600',\n  },\n})\nexport class FormErrorComponent {\n  /**\n   * Name of form field\n   */\n  readonly fieldName: InputSignal<string> = input<string>('Field');\n  /**\n   * Set of validation errors\n   */\n  readonly errors: InputSignal<ValidationErrors | null> = input.required<ValidationErrors | null>();\n}\n",
             "styleUrl": "./form-error.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
@@ -14698,9 +14728,9 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "DateTimeComponent",
-                "coveragePercent": 50,
-                "coverageCount": "1/2",
-                "status": "medium"
+                "coveragePercent": 75,
+                "coverageCount": "3/4",
+                "status": "good"
             },
             {
                 "filePath": "libs/shared/src/lib/components/form-error/form-error.component.ts",

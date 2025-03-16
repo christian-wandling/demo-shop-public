@@ -24,55 +24,55 @@
 <title>cluster_ProductModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-195 500,-195 500,-70 8,-70"/>
 </g>
-<g id="clust3" class="cluster">
-<title>cluster_ProductModule_imports</title>
-<polygon fill="none" stroke="black" points="364,-78 364,-130 492,-130 492,-78 364,-78"/>
-</g>
 <g id="clust6" class="cluster">
 <title>cluster_ProductModule_providers</title>
-<polygon fill="none" stroke="black" points="16,-78 16,-130 356,-130 356,-78 16,-78"/>
+<polygon fill="none" stroke="black" points="152,-78 152,-130 492,-130 492,-78 152,-78"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_ProductModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 144,-130 144,-78 16,-78"/>
 </g>
 <!-- CommonModule -->
 <g id="node1" class="node">
 <title>CommonModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="483.67,-122 480.67,-126 459.67,-126 456.67,-122 372.33,-122 372.33,-86 483.67,-86 483.67,-122"/>
-<text text-anchor="middle" x="428" y="-99.8" font-family="Times,serif" font-size="14.00">CommonModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="135.67,-122 132.67,-126 111.67,-126 108.67,-122 24.33,-122 24.33,-86 135.67,-86 135.67,-122"/>
+<text text-anchor="middle" x="80" y="-99.8" font-family="Times,serif" font-size="14.00">CommonModule</text>
 </g>
 <!-- ProductModule -->
 <g id="node2" class="node">
 <title>ProductModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="316.6,-187 313.6,-191 292.6,-191 289.6,-187 213.4,-187 213.4,-151 316.6,-151 316.6,-187"/>
-<text text-anchor="middle" x="265" y="-164.8" font-family="Times,serif" font-size="14.00">ProductModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="281.6,-187 278.6,-191 257.6,-191 254.6,-187 178.4,-187 178.4,-151 281.6,-151 281.6,-187"/>
+<text text-anchor="middle" x="230" y="-164.8" font-family="Times,serif" font-size="14.00">ProductModule</text>
 </g>
 <!-- CommonModule&#45;&gt;ProductModule -->
 <g id="edge1" class="edge">
 <title>CommonModule&#45;&gt;ProductModule</title>
-<path fill="none" stroke="black" d="M428,-122.11C428,-141.34 428,-169 428,-169 428,-169 326.57,-169 326.57,-169"/>
-<polygon fill="black" stroke="black" points="326.57,-165.5 316.57,-169 326.57,-172.5 326.57,-165.5"/>
+<path fill="none" stroke="black" d="M80,-122.11C80,-141.34 80,-169 80,-169 80,-169 168.38,-169 168.38,-169"/>
+<polygon fill="black" stroke="black" points="168.38,-172.5 178.38,-169 168.38,-165.5 168.38,-172.5"/>
 </g>
 <!-- ProductRepository -->
 <g id="node3" class="node">
 <title>ProductRepository</title>
-<ellipse fill="#fdb462" stroke="black" cx="265" cy="-104" rx="83.41" ry="18"/>
-<text text-anchor="middle" x="265" y="-99.8" font-family="Times,serif" font-size="14.00">ProductRepository</text>
+<ellipse fill="#fdb462" stroke="black" cx="401" cy="-104" rx="83.41" ry="18"/>
+<text text-anchor="middle" x="401" y="-99.8" font-family="Times,serif" font-size="14.00">ProductRepository</text>
 </g>
 <!-- ProductRepository&#45;&gt;ProductModule -->
 <g id="edge2" class="edge">
 <title>ProductRepository&#45;&gt;ProductModule</title>
-<path fill="none" stroke="black" d="M265,-122.11C265,-122.11 265,-140.99 265,-140.99"/>
-<polygon fill="black" stroke="black" points="261.5,-140.99 265,-150.99 268.5,-140.99 261.5,-140.99"/>
+<path fill="none" stroke="black" d="M401,-122.11C401,-141.34 401,-169 401,-169 401,-169 291.77,-169 291.77,-169"/>
+<polygon fill="black" stroke="black" points="291.77,-165.5 281.77,-169 291.77,-172.5 291.77,-165.5"/>
 </g>
 <!-- ProductService -->
 <g id="node4" class="node">
 <title>ProductService</title>
-<ellipse fill="#fdb462" stroke="black" cx="94" cy="-104" rx="70.06" ry="18"/>
-<text text-anchor="middle" x="94" y="-99.8" font-family="Times,serif" font-size="14.00">ProductService</text>
+<ellipse fill="#fdb462" stroke="black" cx="230" cy="-104" rx="70.06" ry="18"/>
+<text text-anchor="middle" x="230" y="-99.8" font-family="Times,serif" font-size="14.00">ProductService</text>
 </g>
 <!-- ProductService&#45;&gt;ProductModule -->
 <g id="edge3" class="edge">
 <title>ProductService&#45;&gt;ProductModule</title>
-<path fill="none" stroke="black" d="M94,-122.11C94,-141.34 94,-169 94,-169 94,-169 203.23,-169 203.23,-169"/>
-<polygon fill="black" stroke="black" points="203.23,-172.5 213.23,-169 203.23,-165.5 203.23,-172.5"/>
+<path fill="none" stroke="black" d="M230,-122.11C230,-122.11 230,-140.99 230,-140.99"/>
+<polygon fill="black" stroke="black" points="226.5,-140.99 230,-150.99 233.5,-140.99 226.5,-140.99"/>
 </g>
 </g>
 </svg>

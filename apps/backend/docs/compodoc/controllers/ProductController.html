@@ -293,7 +293,7 @@ import { CustomGet } from &#x27;../../common/decorators/custom-get.decorator&#x2
 import { ProductListResponse } from &#x27;../dtos/product-list-response&#x27;;
 
 @Public()
-@Controller({ path: &#x27;products&#x27;, version: &#x27;1&#x27;, })
+@Controller({ path: &#x27;products&#x27;, version: &#x27;1&#x27; })
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 

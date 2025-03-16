@@ -200,6 +200,14 @@
                                     <span class="modifier">Readonly</span>
                                 <a href="#dateTime" >dateTime</a>
                             </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#pattern" >pattern</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#timezone" >timezone</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -262,6 +270,82 @@
 
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pattern"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>pattern</b></span>
+                        <a href="#pattern"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>InputSignal&lt;string&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>input&lt;string&gt;(&#x27;MMM dd, YYYY&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">libs/shared/src/lib/components/date-time/date-time.component.ts:20</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Pattern used to format date</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="timezone"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>timezone</b></span>
+                        <a href="#timezone"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>InputSignal&lt;string&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>input&lt;string&gt;(&#x27;UTC&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">libs/shared/src/lib/components/date-time/date-time.component.ts:24</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Timezone used to display date</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
 </section>
 
 </div>
@@ -284,12 +368,22 @@ export class DateTimeComponent {
    * Date to display
    */
   readonly dateTime: InputSignal&lt;Date | string&gt; &#x3D; input.required&lt;Date | string&gt;();
+  /**
+   * Pattern used to format date
+   */
+  readonly pattern: InputSignal&lt;string&gt; &#x3D; input&lt;string&gt;(&#x27;MMM dd, YYYY&#x27;);
+  /**
+   * Timezone used to display date
+   */
+  readonly timezone: InputSignal&lt;string&gt; &#x3D; input&lt;string&gt;(&#x27;UTC&#x27;);
 }
 </code></pre>
     </div>
 
     <div class="tab-pane fade " id="templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;time [dateTime]&#x3D;&quot;dateTime()&quot;&gt;{{ dateTime() | date : &#x27;MMM dd, YYYY&#x27; }}&lt;/time&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;time [dateTime]&#x3D;&quot;dateTime() | date : pattern() : timezone()&quot;&gt;
+  {{ dateTime() | date : pattern() : timezone() }}
+&lt;/time&gt;
 </code></pre>
     </div>
 
@@ -319,7 +413,7 @@ export class DateTimeComponent {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><time [dateTime]="dateTime()">{{ dateTime() | date : \'MMM dd, YYYY\' }}</time></div>'
+        var COMPONENT_TEMPLATE = '<div><time [dateTime]="dateTime() | date : pattern() : timezone()">  {{ dateTime() | date : pattern() : timezone() }}</time></div>'
     var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CartComponent', 'selector': 'lib-cart'},{'name': 'CartIconComponent', 'selector': 'lib-cart-icon'},{'name': 'CartItemsComponent', 'selector': 'lib-cart-items'},{'name': 'CheckoutComponent', 'selector': 'lib-checkout'},{'name': 'DateTimeComponent', 'selector': 'lib-date-time'},{'name': 'FormErrorComponent', 'selector': 'lib-form-error'},{'name': 'NavigationComponent', 'selector': 'lib-navigation'},{'name': 'OrderDetailComponent', 'selector': 'lib-order-detail'},{'name': 'OrderListComponent', 'selector': 'lib-order-list'},{'name': 'OrderStatusComponent', 'selector': 'lib-order-status'},{'name': 'ProductDetailComponent', 'selector': 'lib-product-detail'},{'name': 'ProductListComponent', 'selector': 'lib-product-list'},{'name': 'ProductSearchComponent', 'selector': 'lib-product-search'},{'name': 'UserNavigationComponent', 'selector': 'lib-user-navigation'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'DateTimeComponent'};
