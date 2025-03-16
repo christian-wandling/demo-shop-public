@@ -1,0 +1,1407 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>@demo-shop/source documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">@demo-shop/source documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content miscellaneous-variables">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Miscellaneous</li>
+  <li class="breadcrumb-item">Variables</li>
+</ol>
+
+<section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <ul class="index-list">
+                        <li>
+                            <a href="#animateBackdrop" title="libs/cart/src/lib/components/cart/cart.animations.ts" ><b>animateBackdrop</b>&nbsp;&nbsp;&nbsp;(libs/.../cart.animations.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#animateBackdrop" title="libs/navigation/src/lib/components/navigation/navigation.animations.ts" ><b>animateBackdrop</b>&nbsp;&nbsp;&nbsp;(libs/.../navigation.animations.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#animateSlideOver" title="libs/cart/src/lib/components/cart/cart.animations.ts" ><b>animateSlideOver</b>&nbsp;&nbsp;&nbsp;(libs/.../cart.animations.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#animateSlideOver" title="libs/navigation/src/lib/components/navigation/navigation.animations.ts" ><b>animateSlideOver</b>&nbsp;&nbsp;&nbsp;(libs/.../navigation.animations.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#APIS" title="libs/api/api/api.ts" ><b>APIS</b>&nbsp;&nbsp;&nbsp;(libs/.../api.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#appConfig" title="apps/frontend/src/app/app.config.ts" ><b>appConfig</b>&nbsp;&nbsp;&nbsp;(apps/.../app.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#appRoutes" title="apps/frontend/src/app/app.routes.ts" ><b>appRoutes</b>&nbsp;&nbsp;&nbsp;(apps/.../app.routes.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#AppStore" title="apps/frontend/src/app/+state/app.store.ts" ><b>AppStore</b>&nbsp;&nbsp;&nbsp;(apps/.../app.store.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#AUTH_CONFIG" title="libs/auth/src/lib/models/auth-config.ts" ><b>AUTH_CONFIG</b>&nbsp;&nbsp;&nbsp;(libs/.../auth-config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#authInterceptor" title="libs/auth/src/lib/interceptors/auth.interceptor.ts" ><b>authInterceptor</b>&nbsp;&nbsp;&nbsp;(libs/.../auth.interceptor.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#BASE_PATH" title="libs/api/variables.ts" ><b>BASE_PATH</b>&nbsp;&nbsp;&nbsp;(libs/.../variables.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#CartStore" title="libs/cart/src/lib/+state/cart.store.ts" ><b>CartStore</b>&nbsp;&nbsp;&nbsp;(libs/.../cart.store.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#COLLECTION_FORMATS" title="libs/api/variables.ts" ><b>COLLECTION_FORMATS</b>&nbsp;&nbsp;&nbsp;(libs/.../variables.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#columns" title="libs/order/src/lib/config/print-invoice.config.ts" ><b>columns</b>&nbsp;&nbsp;&nbsp;(libs/.../print-invoice.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#companyData" title="libs/order/src/lib/config/print-invoice.config.ts" ><b>companyData</b>&nbsp;&nbsp;&nbsp;(libs/.../print-invoice.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#createDrawOptions" title="libs/order/src/lib/config/print-invoice.config.ts" ><b>createDrawOptions</b>&nbsp;&nbsp;&nbsp;(libs/.../print-invoice.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#initialState" title="apps/frontend/src/app/+state/app.store.ts" ><b>initialState</b>&nbsp;&nbsp;&nbsp;(apps/.../app.store.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#initialState" title="libs/cart/src/lib/+state/cart.store.ts" ><b>initialState</b>&nbsp;&nbsp;&nbsp;(libs/.../cart.store.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#initialState" title="libs/user/src/lib/+state/user.store.ts" ><b>initialState</b>&nbsp;&nbsp;&nbsp;(libs/.../user.store.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#MONITORING_CONFIG" title="libs/monitoring/src/lib/models/monitoring-config.ts" ><b>MONITORING_CONFIG</b>&nbsp;&nbsp;&nbsp;(libs/.../monitoring-config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#NAVIGATION_CONFIG" title="libs/navigation/src/lib/util/provide-navigation.ts" ><b>NAVIGATION_CONFIG</b>&nbsp;&nbsp;&nbsp;(libs/.../provide-navigation.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#orderRoutes" title="libs/order/src/lib/order.routes.ts" ><b>orderRoutes</b>&nbsp;&nbsp;&nbsp;(libs/.../order.routes.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#OrderStore" title="libs/order/src/lib/+state/order.store.ts" ><b>OrderStore</b>&nbsp;&nbsp;&nbsp;(libs/.../order.store.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#paymentTerms" title="libs/order/src/lib/config/print-invoice.config.ts" ><b>paymentTerms</b>&nbsp;&nbsp;&nbsp;(libs/.../print-invoice.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#permissionGuard" title="libs/auth/src/lib/guards/permission.guard.ts" ><b>permissionGuard</b>&nbsp;&nbsp;&nbsp;(libs/.../permission.guard.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ProductStore" title="libs/product/src/lib/+state/product.store.ts" ><b>ProductStore</b>&nbsp;&nbsp;&nbsp;(libs/.../product.store.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#provideApi" title="apps/frontend/src/app/providers/provide-api.ts" ><b>provideApi</b>&nbsp;&nbsp;&nbsp;(apps/.../provide-api.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#provideAuth" title="libs/auth/src/lib/providers/provide-auth.ts" ><b>provideAuth</b>&nbsp;&nbsp;&nbsp;(libs/.../provide-auth.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#provideMonitoring" title="libs/monitoring/src/lib/providers/provide-monitoring.ts" ><b>provideMonitoring</b>&nbsp;&nbsp;&nbsp;(libs/.../provide-monitoring.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#provideNavigation" title="libs/navigation/src/lib/util/provide-navigation.ts" ><b>provideNavigation</b>&nbsp;&nbsp;&nbsp;(libs/.../provide-navigation.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#UserStore" title="libs/user/src/lib/+state/user.store.ts" ><b>UserStore</b>&nbsp;&nbsp;&nbsp;(libs/.../user.store.ts)</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <h3>libs/cart/src/lib/components/cart/cart.animations.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animateBackdrop"></a>
+                    <span class="name">
+                        <span ><b>animateBackdrop</b></span>
+                        <a href="#animateBackdrop"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>trigger(&#x27;animateBackdrop&#x27;, [
+  transition(&#x27;:enter&#x27;, [style({ opacity: 0 }), animate(&#x27;500ms ease-in-out&#x27;, style({ opacity: 1 }))]),
+  transition(&#x27;:leave&#x27;, [animate(&#x27;500ms ease-in-out&#x27;, style({ opacity: 0 }))]),
+])</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animateSlideOver"></a>
+                    <span class="name">
+                        <span ><b>animateSlideOver</b></span>
+                        <a href="#animateSlideOver"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>trigger(&#x27;animateSlideOver&#x27;, [
+  transition(&#x27;:enter&#x27;, [
+    style({ transform: &#x27;translateX(100%)&#x27; }),
+    animate(&#x27;700ms ease-in-out&#x27;, style({ transform: &#x27;translateX(0)&#x27; })),
+  ]),
+  transition(&#x27;:leave&#x27;, [animate(&#x27;700ms ease-in-out&#x27;, style({ transform: &#x27;translateX(100%)&#x27; }))]),
+])</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/navigation/src/lib/components/navigation/navigation.animations.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animateBackdrop"></a>
+                    <span class="name">
+                        <span ><b>animateBackdrop</b></span>
+                        <a href="#animateBackdrop"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>trigger(&#x27;animateBackdrop&#x27;, [
+  transition(&#x27;:enter&#x27;, [style({ opacity: 0 }), animate(&#x27;300ms linear&#x27;, style({ opacity: 1 }))]),
+  transition(&#x27;:leave&#x27;, [style({ opacity: 1 }), animate(&#x27;300ms linear&#x27;, style({ opacity: 0 }))]),
+])</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animateSlideOver"></a>
+                    <span class="name">
+                        <span ><b>animateSlideOver</b></span>
+                        <a href="#animateSlideOver"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>trigger(&#x27;animateSlideOver&#x27;, [
+  transition(&#x27;:enter&#x27;, [
+    style({ transform: &#x27;translateX(-100%)&#x27; }),
+    animate(&#x27;300ms ease-in-out&#x27;, style({ transform: &#x27;translateX(0)&#x27; })),
+  ]),
+  transition(&#x27;:leave&#x27;, [
+    style({ transform: &#x27;translateX(0)&#x27; }),
+    animate(&#x27;300ms ease-in-out&#x27;, style({ transform: &#x27;translateX(-100%)&#x27; })),
+  ]),
+])</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/api/api/api.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="APIS"></a>
+                    <span class="name">
+                        <span ><b>APIS</b></span>
+                        <a href="#APIS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[OrderApi, ProductApi, ShoppingSessionApi, UserApi]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>apps/frontend/src/app/app.config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="appConfig"></a>
+                    <span class="name">
+                        <span ><b>appConfig</b></span>
+                        <a href="#appConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ApplicationConfig</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
+    provideRouter(appRoutes, withRouterConfig({ onSameUrlNavigation: &#x27;reload&#x27; })),
+    provideAnimationsAsync(),
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+    provideRouterStore(),
+    provideStore({
+      router: routerReducer,
+    }),
+    {
+      provide: RouteReuseStrategy,
+      useClass: NoReuseStrategy,
+    },
+    {
+      provide: ErrorHandler,
+      useValue: Sentry.createErrorHandler(),
+    },
+    {
+      provide: Sentry.TraceService,
+      deps: [Router],
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: () &#x3D;&gt; () &#x3D;&gt; undefined,
+      deps: [Sentry.TraceService],
+      multi: true,
+    },
+    provideApi(withConfiguration({ basePath: &#x27;&#x27; })),
+    provideAuth({ keycloak: environment.keycloak }),
+    provideMonitoring({ sentry: environment.sentry }),
+    provideNavigation({ routes: appRoutes }),
+  ],
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>apps/frontend/src/app/app.routes.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="appRoutes"></a>
+                    <span class="name">
+                        <span ><b>appRoutes</b></span>
+                        <a href="#appRoutes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Route[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  {
+    path: &#x27;&#x27;,
+    redirectTo: &#x27;products&#x27;,
+    pathMatch: &#x27;full&#x27;,
+  },
+  {
+    path: &#x27;checkout&#x27;,
+    component: CheckoutComponent,
+    data: { pageTitle: &#x27;Checkout&#x27;, showInMenu: false },
+  },
+  {
+    path: &#x27;orders&#x27;,
+    loadChildren: () &#x3D;&gt; import(&#x27;@demo-shop/order&#x27;).then(m &#x3D;&gt; m.orderRoutes),
+    data: { pageTitle: &#x27;Orders&#x27;, showInMenu: true },
+  },
+  {
+    path: &#x27;products&#x27;,
+    loadChildren: () &#x3D;&gt; import(&#x27;@demo-shop/product&#x27;).then(m &#x3D;&gt; m.productRoutes),
+    data: { pageTitle: &#x27;Products&#x27;, showInMenu: true },
+  },
+  {
+    path: &#x27;**&#x27;,
+    redirectTo: &#x27;products&#x27;,
+  },
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>apps/frontend/src/app/+state/app.store.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AppStore"></a>
+                    <span class="name">
+                        <span ><b>AppStore</b></span>
+                        <a href="#AppStore"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signalStore(
+  { providedIn: &#x27;root&#x27; },
+  withState(initialState),
+  withMethods(
+    (store, authFacade &#x3D; inject(AuthFacade), cartFacade &#x3D; inject(CartFacade), userFacade &#x3D; inject(UserFacade)) &#x3D;&gt; ({
+      async init(): Promise&lt;void&gt; {
+        const authorized &#x3D; await authFacade.authorize();
+
+        if (authorized) {
+          await userFacade.fetchCurrentUser();
+          await cartFacade.loadShoppingSession();
+        }
+
+        patchState(store, state &#x3D;&gt; ({ ...state, initialized: true }));
+      },
+    })
+  ),
+  withHooks({
+    onInit({ init }) {
+      init();
+    },
+  })
+)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initialState"></a>
+                    <span class="name">
+                        <span ><b>initialState</b></span>
+                        <a href="#initialState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#AppState" target="_self" >AppState</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  initialized: false,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/auth/src/lib/models/auth-config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AUTH_CONFIG"></a>
+                    <span class="name">
+                        <span ><b>AUTH_CONFIG</b></span>
+                        <a href="#AUTH_CONFIG"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;AuthConfig&gt;(&#x27;AUTH_CONFIG&#x27;)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/auth/src/lib/interceptors/auth.interceptor.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authInterceptor"></a>
+                    <span class="name">
+                        <span ><b>authInterceptor</b></span>
+                        <a href="#authInterceptor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>HttpInterceptorFn</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(req, next) &#x3D;&gt; {
+  const authFacade &#x3D; inject(AuthFacade);
+
+  if (!authFacade.isAuthenticated()) {
+    return next(req);
+  }
+
+  return next(
+    req.clone({
+      headers: req.headers.set(&#x27;Authorization&#x27;, &#x60;Bearer ${authFacade.getToken()}&#x60;),
+    })
+  );
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/api/variables.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="BASE_PATH"></a>
+                    <span class="name">
+                        <span ><b>BASE_PATH</b></span>
+                        <a href="#BASE_PATH"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;string&gt;(&#x27;basePath&#x27;)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="COLLECTION_FORMATS"></a>
+                    <span class="name">
+                        <span ><b>COLLECTION_FORMATS</b></span>
+                        <a href="#COLLECTION_FORMATS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  csv: &#x27;,&#x27;,
+  tsv: &#x27;   &#x27;,
+  ssv: &#x27; &#x27;,
+  pipes: &#x27;|&#x27;,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/cart/src/lib/+state/cart.store.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CartStore"></a>
+                    <span class="name">
+                        <span ><b>CartStore</b></span>
+                        <a href="#CartStore"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signalStore(
+  { providedIn: &#x27;root&#x27; },
+  withState&lt;AdditionalState&gt;(initialState),
+  withCallState(),
+  withDevtools(&#x27;cart&#x27;),
+  withEntities&lt;CartItemResponse&gt;(),
+  withComputed(store &#x3D;&gt; ({
+    totalPrice: computed(() &#x3D;&gt; store.entities().reduce((acc, curr) &#x3D;&gt; acc + curr.totalPrice, 0)),
+    itemCount: computed(() &#x3D;&gt; store.entities().reduce((acc, curr) &#x3D;&gt; acc + curr.quantity, 0)),
+    hasShoppingSession: computed(() &#x3D;&gt; !!store.shoppingSessionId()),
+  })),
+  withMethods((store, shoppingSessionApi &#x3D; inject(ShoppingSessionApi)) &#x3D;&gt; ({
+    async loadShoppingSession(): Promise&lt;void&gt; {
+      const shoppingSession &#x3D; await firstValueFrom(shoppingSessionApi.resolveCurrentShoppingSession());
+
+      patchState(store, setAllEntities(shoppingSession.items), { shoppingSessionId: shoppingSession.id });
+    },
+    async create(dto: AddCartItemRequest): Promise&lt;void&gt; {
+      if (!store.shoppingSessionId()) {
+        throw new Error(&#x27;Missing shopping session id&#x27;);
+      }
+
+      await firstValueFrom(shoppingSessionApi.addCartItem(dto));
+      await this.loadShoppingSession();
+    },
+    async delete(id: number): Promise&lt;void&gt; {
+      if (!store.shoppingSessionId()) {
+        throw new Error(&#x27;Missing shopping session id&#x27;);
+      }
+
+      await firstValueFrom(shoppingSessionApi.removeCartItem(id));
+      await this.loadShoppingSession();
+    },
+    async update(id: number, entity: UpdateCartItemQuantityRequest): Promise&lt;void&gt; {
+      if (!store.shoppingSessionId()) {
+        throw new Error(&#x27;Missing shopping session id&#x27;);
+      }
+
+      await firstValueFrom(shoppingSessionApi.updateCartItemQuantity(id, entity));
+      await this.loadShoppingSession();
+    },
+    getItemById(id: number): CartItemResponse | undefined {
+      return store.entityMap()[id];
+    },
+    getItemByProductId(productId: number): CartItemResponse | undefined {
+      return store.entities().find(item &#x3D;&gt; item.productId &#x3D;&#x3D;&#x3D; productId);
+    },
+    setShowCart(showCart: boolean): void {
+      patchState(store, { showCart });
+    },
+  }))
+)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initialState"></a>
+                    <span class="name">
+                        <span ><b>initialState</b></span>
+                        <a href="#initialState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/AdditionalState.html" target="_self" >AdditionalState</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{ showCart: false, shoppingSessionId: null }</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/order/src/lib/config/print-invoice.config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="columns"></a>
+                    <span class="name">
+                        <span ><b>columns</b></span>
+                        <a href="#columns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#PdfTableColumns" target="_self" >PdfTableColumns</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  article: { label: &#x27;Article&#x27;, x: 15, width: 105 },
+  qty: { label: &#x27;Qty&#x27;, x: 125, width: 20 },
+  price: { label: &#x27;Price&#x27;, x: 165, width: 30 },
+  amount: { label: &#x27;Amount&#x27;, x: 195, width: 30 },
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="companyData"></a>
+                    <span class="name">
+                        <span ><b>companyData</b></span>
+                        <a href="#companyData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#CompanyData" target="_self" >CompanyData</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  name: &#x27;Demo Shop&#x27;,
+  address: &#x27;123 Business Street&#x27;,
+  city: &#x27;Business City&#x27;,
+  zipCode: &#x27;12345&#x27;,
+  phone: &#x27;(555) 123-4567&#x27;,
+  email: &#x27;company@example.com&#x27;,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createDrawOptions"></a>
+                    <span class="name">
+                        <span ><b>createDrawOptions</b></span>
+                        <a href="#createDrawOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(width: number, height: number, margin &#x3D; 15): DrawOptions &#x3D;&gt; ({
+  pointer: {
+    x: 0,
+    y: 0,
+  },
+  border: {
+    left: margin,
+    right: width - margin,
+    top: margin,
+    bottom: height - margin,
+  },
+  line: {
+    color: {
+      light: 200,
+    },
+  },
+  text: {
+    color: {
+      darker: 25,
+      dark: 50,
+      light: 125,
+      lighter: 150,
+    },
+    size: {
+      tiny: 6,
+      smaller: 8,
+      small: 9,
+      default: 10,
+    },
+    font: {
+      default: &#x27;Helvetica&#x27;,
+    },
+  },
+})</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="paymentTerms"></a>
+                    <span class="name">
+                        <span ><b>paymentTerms</b></span>
+                        <a href="#paymentTerms"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#PaymentTerms" target="_self" >PaymentTerms</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  terms: &#x27;payment due within 30 days of invoice date&#x27;,
+  bankName: &#x27;First National Bank&#x27;,
+  accountName: &#x27;Demo Shop&#x27;,
+  accountNumber: &#x27;1234567890&#x27;,
+  routingNumber: &#x27;987654321&#x27;,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/user/src/lib/+state/user.store.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initialState"></a>
+                    <span class="name">
+                        <span ><b>initialState</b></span>
+                        <a href="#initialState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#UserState" target="_self" >UserState</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  user: undefined,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UserStore"></a>
+                    <span class="name">
+                        <span ><b>UserStore</b></span>
+                        <a href="#UserStore"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signalStore(
+  { providedIn: &#x27;root&#x27; },
+  withState(initialState),
+  withDevtools(&#x27;currentUser&#x27;),
+  withMethods((store, userApi &#x3D; inject(UserApi)) &#x3D;&gt; ({
+    async fetchCurrentUser(): Promise&lt;void&gt; {
+      const user &#x3D; await firstValueFrom(userApi.resolveCurrentUser());
+      patchState(store, state &#x3D;&gt; ({ ...state, user }));
+    },
+    async updateUserAddress(update: UpdateUserAddressRequest): Promise&lt;void&gt; {
+      const address &#x3D; await firstValueFrom(userApi.updateCurrentUserAddress(update));
+
+      patchState(store, state &#x3D;&gt; {
+        if (!state.user) {
+          throw new Error(&#x27;User not found&#x27;);
+        }
+
+        return { ...state, user: { ...state.user, address } };
+      });
+    },
+    async updateUserPhone(update: UpdateUserPhoneRequest): Promise&lt;void&gt; {
+      const res &#x3D; await firstValueFrom(userApi.updateCurrentUserPhone(update));
+
+      patchState(store, state &#x3D;&gt; {
+        if (!state.user) {
+          throw new Error(&#x27;User not found&#x27;);
+        }
+
+        return { ...state, user: { ...state.user, phone: res.phone } };
+      });
+    },
+  })),
+  withHooks({
+    onInit(store) {
+      const monitoringFacade &#x3D; inject(MonitoringFacade);
+
+      effect(() &#x3D;&gt; {
+        const { user } &#x3D; getState(store);
+        monitoringFacade.setUser({ id: user?.id });
+      });
+    },
+  })
+)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/monitoring/src/lib/models/monitoring-config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="MONITORING_CONFIG"></a>
+                    <span class="name">
+                        <span ><b>MONITORING_CONFIG</b></span>
+                        <a href="#MONITORING_CONFIG"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;MonitoringConfig&gt;(&#x27;MONITORING_CONFIG&#x27;)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/navigation/src/lib/util/provide-navigation.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="NAVIGATION_CONFIG"></a>
+                    <span class="name">
+                        <span ><b>NAVIGATION_CONFIG</b></span>
+                        <a href="#NAVIGATION_CONFIG"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;NavigationConfig&gt;(&#x27;NAVIGATION_CONFIG&#x27;)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="provideNavigation"></a>
+                    <span class="name">
+                        <span ><b>provideNavigation</b></span>
+                        <a href="#provideNavigation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(config: { routes: Routes }): EnvironmentProviders &#x3D;&gt; {
+  const routes &#x3D; config.routes.filter(route &#x3D;&gt; route.data?.[&#x27;showInMenu&#x27;]);
+
+  return makeEnvironmentProviders([
+    { provide: NAVIGATION_CONFIG, useValue: { routes } },
+  ]);
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/order/src/lib/order.routes.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="orderRoutes"></a>
+                    <span class="name">
+                        <span ><b>orderRoutes</b></span>
+                        <a href="#orderRoutes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Route[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  { path: &#x27;&#x27;, component: OrderListComponent, canActivate: [permissionGuard] },
+  { path: &#x27;:id&#x27;, component: OrderDetailComponent },
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/order/src/lib/+state/order.store.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="OrderStore"></a>
+                    <span class="name">
+                        <span ><b>OrderStore</b></span>
+                        <a href="#OrderStore"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signalStore(
+  { providedIn: &#x27;root&#x27; },
+  withCallState(),
+  withDevtools(&#x27;orders&#x27;),
+  withEntities&lt;OrderResponse&gt;(),
+  withDataService({
+    dataServiceType: OrderDataService,
+    filter: {},
+  }),
+  withMethods((store, orderApi &#x3D; inject(OrderApi)) &#x3D;&gt; ({
+    async fetchById(id: number) {
+      const order &#x3D; await firstValueFrom(orderApi.getOrderById(id));
+      patchState(store, addEntity(order));
+    },
+    getById(id: number) {
+      return computed(() &#x3D;&gt; store.entityMap()[id]);
+    },
+    getSortedByStatusAndDate() {
+      return computed(() &#x3D;&gt;
+        store.entities().sort((a, b) &#x3D;&gt; {
+          if (a.status &#x3D;&#x3D;&#x3D; b.status) {
+            return a.created &gt; b.created ? -1 : 1;
+          }
+
+          return a.status &#x3D;&#x3D;&#x3D; OrderStatus.Created ? -1 : 1;
+        })
+      );
+    },
+  }))
+)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/auth/src/lib/guards/permission.guard.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="permissionGuard"></a>
+                    <span class="name">
+                        <span ><b>permissionGuard</b></span>
+                        <a href="#permissionGuard"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>CanActivateFn</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(route, state) &#x3D;&gt; {
+  const permissionService &#x3D; inject(PermissionService);
+  const router &#x3D; inject(Router);
+
+  if (permissionService.hasPermission(PermissionStrategy.AUTHENTICATED)) {
+    return true;
+  }
+
+  return router.createUrlTree([&#x27;/&#x27;]);
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/product/src/lib/+state/product.store.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ProductStore"></a>
+                    <span class="name">
+                        <span ><b>ProductStore</b></span>
+                        <a href="#ProductStore"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signalStore(
+  { providedIn: &#x27;root&#x27; },
+  withCallState(),
+  withDevtools(&#x27;products&#x27;),
+  withEntities&lt;ProductResponse&gt;(),
+  withDataService({
+    dataServiceType: ProductDataService,
+    filter: {},
+  }),
+  withComputed(({ entities, filter }) &#x3D;&gt; ({
+    filteredEntities: computed(() &#x3D;&gt; {
+      const filterValues &#x3D; Object.entries(filter());
+
+      if (filterValues.length &#x3D;&#x3D;&#x3D; 0) {
+        return entities();
+      }
+
+      return entities().filter(entity &#x3D;&gt;
+        filterValues.every(([key, filterValue]) &#x3D;&gt; {
+          const value &#x3D; entity[key as AllowedProductFilterTypes];
+
+          if (Array.isArray(value)) {
+            return value.some(item &#x3D;&gt; item.toLowerCase().includes(filterValue.toLowerCase()));
+          }
+
+          return value.toLowerCase().includes(filterValue.toLowerCase());
+        })
+      );
+    }),
+  })),
+  withMethods((store, productApi &#x3D; inject(ProductApi)) &#x3D;&gt; ({
+    async fetchById(id: number) {
+      const product &#x3D; await firstValueFrom(productApi.getProductById(id));
+      patchState(store, addEntity(product));
+    },
+    getById(id: number) {
+      return computed(() &#x3D;&gt; store.entityMap()[id]);
+    },
+  }))
+)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>apps/frontend/src/app/providers/provide-api.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="provideApi"></a>
+                    <span class="name">
+                        <span ><b>provideApi</b></span>
+                        <a href="#provideApi"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(config: Configuration &#x3D; withConfiguration()) &#x3D;&gt; {
+  return makeEnvironmentProviders([{ provide: Configuration, useValue: config }]);
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/auth/src/lib/providers/provide-auth.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="provideAuth"></a>
+                    <span class="name">
+                        <span ><b>provideAuth</b></span>
+                        <a href="#provideAuth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(config: AuthConfig) &#x3D;&gt; {
+  return makeEnvironmentProviders([{ provide: AUTH_CONFIG, useValue: config }]);
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>libs/monitoring/src/lib/providers/provide-monitoring.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="provideMonitoring"></a>
+                    <span class="name">
+                        <span ><b>provideMonitoring</b></span>
+                        <a href="#provideMonitoring"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(config: MonitoringConfig) &#x3D;&gt; {
+  return makeEnvironmentProviders([{ provide: MONITORING_CONFIG, useValue: config }]);
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-variables';
+            var COMPODOC_CURRENT_PAGE_URL = 'variables.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

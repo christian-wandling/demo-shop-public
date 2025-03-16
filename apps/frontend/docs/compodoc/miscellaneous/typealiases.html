@@ -1,0 +1,613 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>@demo-shop/source documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">@demo-shop/source documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content miscellaneous-typealiases">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Miscellaneous</li>
+  <li class="breadcrumb-item">Type aliases</li>
+</ol>
+
+<section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <ul class="index-list">
+                        <li>
+                            <a href="#AddCartItem401Response" title="libs/api/model/add-cart-item401-response.ts" ><b>AddCartItem401Response</b>&nbsp;&nbsp;&nbsp;(libs/.../add-cart-item401-response.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#AllowedProductFilterTypes" title="libs/product/src/lib/models/product-filter.ts" ><b>AllowedProductFilterTypes</b>&nbsp;&nbsp;&nbsp;(libs/.../product-filter.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#AppState" title="apps/frontend/src/app/+state/app.store.ts" ><b>AppState</b>&nbsp;&nbsp;&nbsp;(apps/.../app.store.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#CartFilter" title="libs/cart/src/lib/models/cart-filter.ts" ><b>CartFilter</b>&nbsp;&nbsp;&nbsp;(libs/.../cart-filter.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#CompanyData" title="libs/order/src/lib/models/company-data.ts" ><b>CompanyData</b>&nbsp;&nbsp;&nbsp;(libs/.../company-data.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DataFormat" title="libs/api/param.ts" ><b>DataFormat</b>&nbsp;&nbsp;&nbsp;(libs/.../param.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DataType" title="libs/api/param.ts" ><b>DataType</b>&nbsp;&nbsp;&nbsp;(libs/.../param.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DrawOptions" title="libs/order/src/lib/models/draw-options.ts" ><b>DrawOptions</b>&nbsp;&nbsp;&nbsp;(libs/.../draw-options.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#OrderFilter" title="libs/order/src/lib/models/order-filter.ts" ><b>OrderFilter</b>&nbsp;&nbsp;&nbsp;(libs/.../order-filter.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ParamLocation" title="libs/api/param.ts" ><b>ParamLocation</b>&nbsp;&nbsp;&nbsp;(libs/.../param.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ParamStyle" title="libs/api/param.ts" ><b>ParamStyle</b>&nbsp;&nbsp;&nbsp;(libs/.../param.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#PaymentTerms" title="libs/order/src/lib/models/payment-terms.ts" ><b>PaymentTerms</b>&nbsp;&nbsp;&nbsp;(libs/.../payment-terms.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#PdfColumn" title="libs/order/src/lib/models/pdf-table.columns.ts" ><b>PdfColumn</b>&nbsp;&nbsp;&nbsp;(libs/.../pdf-table.columns.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#PdfTableColumns" title="libs/order/src/lib/models/pdf-table.columns.ts" ><b>PdfTableColumns</b>&nbsp;&nbsp;&nbsp;(libs/.../pdf-table.columns.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ProductFilter" title="libs/product/src/lib/models/product-filter.ts" ><b>ProductFilter</b>&nbsp;&nbsp;&nbsp;(libs/.../product-filter.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#StandardDataFormat" title="libs/api/param.ts" ><b>StandardDataFormat</b>&nbsp;&nbsp;&nbsp;(libs/.../param.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#StandardDataType" title="libs/api/param.ts" ><b>StandardDataType</b>&nbsp;&nbsp;&nbsp;(libs/.../param.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#StandardParamStyle" title="libs/api/param.ts" ><b>StandardParamStyle</b>&nbsp;&nbsp;&nbsp;(libs/.../param.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#UserState" title="libs/user/src/lib/+state/user.store.ts" ><b>UserState</b>&nbsp;&nbsp;&nbsp;(libs/.../user.store.ts)</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <h3>libs/api/model/add-cart-item401-response.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AddCartItem401Response"></a>
+                    <span class="name "><b>AddCartItem401Response</b><a href="#AddCartItem401Response"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>HttpValidationProblemDetails | ProblemDetails</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/product/src/lib/models/product-filter.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AllowedProductFilterTypes"></a>
+                    <span class="name "><b>AllowedProductFilterTypes</b><a href="#AllowedProductFilterTypes"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ProductFilter"></a>
+                    <span class="name "><b>ProductFilter</b><a href="#ProductFilter"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>apps/frontend/src/app/+state/app.store.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AppState"></a>
+                    <span class="name "><b>AppState</b><a href="#AppState"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/cart/src/lib/models/cart-filter.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CartFilter"></a>
+                    <span class="name "><b>CartFilter</b><a href="#CartFilter"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/order/src/lib/models/company-data.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CompanyData"></a>
+                    <span class="name "><b>CompanyData</b><a href="#CompanyData"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/api/param.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DataFormat"></a>
+                    <span class="name "><b>DataFormat</b><a href="#DataFormat"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>StandardDataFormat | string</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DataType"></a>
+                    <span class="name "><b>DataType</b><a href="#DataType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Standard <a href="../miscellaneous/typealiases.html#DataType">DataType</a>s plus your own types/classes.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>StandardDataType | string</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ParamLocation"></a>
+                    <span class="name "><b>ParamLocation</b><a href="#ParamLocation"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Standard parameter locations defined by OpenAPI spec</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;query&quot; | &quot;header&quot; | &quot;path&quot; | &quot;cookie&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ParamStyle"></a>
+                    <span class="name "><b>ParamStyle</b><a href="#ParamStyle"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The OpenAPI standard <a href="../miscellaneous/typealiases.html#StandardParamStyle">StandardParamStyle</a>s may be extended by custom styles by the user.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../interfaces/Param.html" target="_self" >StandardParamStyle | string</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="StandardDataFormat"></a>
+                    <span class="name "><b>StandardDataFormat</b><a href="#StandardDataFormat"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Standard formats as defined in <a href="https://swagger.io/specification/#data-types">OpenAPI Specification: Data Types</a></p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;int32&quot; | &quot;int64&quot; | &quot;float&quot; | &quot;double&quot; | &quot;byte&quot; | &quot;binary&quot; | &quot;date&quot; | &quot;date-time&quot; | &quot;password&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="StandardDataType"></a>
+                    <span class="name "><b>StandardDataType</b><a href="#StandardDataType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Standard types as defined in <a href="https://swagger.io/specification/#data-types">OpenAPI Specification: Data Types</a></p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;integer&quot; | &quot;number&quot; | &quot;boolean&quot; | &quot;string&quot; | &quot;object&quot; | &quot;array&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="StandardParamStyle"></a>
+                    <span class="name "><b>StandardParamStyle</b><a href="#StandardParamStyle"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Standard parameter styles defined by OpenAPI spec</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;matrix&quot; | &quot;label&quot; | &quot;form&quot; | &quot;simple&quot; | &quot;spaceDelimited&quot; | &quot;pipeDelimited&quot; | &quot;deepObject&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/order/src/lib/models/draw-options.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DrawOptions"></a>
+                    <span class="name "><b>DrawOptions</b><a href="#DrawOptions"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/order/src/lib/models/order-filter.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="OrderFilter"></a>
+                    <span class="name "><b>OrderFilter</b><a href="#OrderFilter"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>Record&lt;string | &gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/order/src/lib/models/payment-terms.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PaymentTerms"></a>
+                    <span class="name "><b>PaymentTerms</b><a href="#PaymentTerms"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/order/src/lib/models/pdf-table.columns.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PdfColumn"></a>
+                    <span class="name "><b>PdfColumn</b><a href="#PdfColumn"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PdfTableColumns"></a>
+                    <span class="name "><b>PdfTableColumns</b><a href="#PdfTableColumns"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/user/src/lib/+state/user.store.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UserState"></a>
+                    <span class="name "><b>UserState</b><a href="#UserState"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-typealiases';
+            var COMPODOC_CURRENT_PAGE_URL = 'typealiases.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

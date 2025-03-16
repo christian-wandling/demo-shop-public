@@ -1,0 +1,3513 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>@demo-shop/source documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">@demo-shop/source documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >ShoppingSessionApi</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/api/api/shopping-session-api.ts</code>
+        </p>
+
+
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#basePath" >basePath</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#configuration" >configuration</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#defaultHeaders" >defaultHeaders</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#encoder" >encoder</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addCartItem" >addCartItem</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addCartItem" >addCartItem</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addCartItem" >addCartItem</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addCartItem" >addCartItem</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#addToHttpParams" >addToHttpParams</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#addToHttpParamsRecursive" >addToHttpParamsRecursive</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#checkout" >checkout</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#checkout" >checkout</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#checkout" >checkout</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#checkout" >checkout</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#removeCartItem" >removeCartItem</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#removeCartItem" >removeCartItem</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#removeCartItem" >removeCartItem</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#removeCartItem" >removeCartItem</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#resolveCurrentShoppingSession" >resolveCurrentShoppingSession</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#resolveCurrentShoppingSession" >resolveCurrentShoppingSession</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#resolveCurrentShoppingSession" >resolveCurrentShoppingSession</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#resolveCurrentShoppingSession" >resolveCurrentShoppingSession</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#updateCartItemQuantity" >updateCartItemQuantity</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#updateCartItemQuantity" >updateCartItemQuantity</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#updateCartItemQuantity" >updateCartItemQuantity</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#updateCartItemQuantity" >updateCartItemQuantity</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(httpClient: HttpClient, basePath: string | string[], configuration: <a href="../classess/Configuration.html" target="_self">Configuration</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">libs/api/api/shopping-session-api.ts:53</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>httpClient</td>
+                                                  
+                                                        <td>
+                                                                    <code>HttpClient</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>basePath</td>
+                                                  
+                                                        <td>
+                                                                    <code>string | string[]</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>configuration</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../classess/Configuration.html" target="_self" >Configuration</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addCartItem"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>addCartItem</b></span>
+                        <a href="#addCartItem"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addCartItem(addCartItemRequest?: <a href="../interfaces/AddCartItemRequest.html" target="_self">AddCartItemRequest</a>, observe?, reportProgress?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="121"
+                                    class="link-to-prism">libs/api/api/shopping-session-api.ts:121</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Add cart item
+Add a cart item to the shopping session of current user based on identity extracted from bearer token</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>addCartItemRequest</td>
+                                            <td>
+                                                            <code><a href="../interfaces/AddCartItemRequest.html" target="_self" >AddCartItemRequest</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>observe</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>set whether or not to return the data Observable as the body, response or events. defaults to returning the body.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>flag to report request and response progress.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/CartItemResponse.html" target="_self" >Observable&lt;CartItemResponse&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addCartItem"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>addCartItem</b></span>
+                        <a href="#addCartItem"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addCartItem(addCartItemRequest?: <a href="../interfaces/AddCartItemRequest.html" target="_self">AddCartItemRequest</a>, observe?, reportProgress?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="131"
+                                    class="link-to-prism">libs/api/api/shopping-session-api.ts:131</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>addCartItemRequest</td>
+                                            <td>
+                                                            <code><a href="../interfaces/AddCartItemRequest.html" target="_self" >AddCartItemRequest</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>observe</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/CartItemResponse.html" target="_self" >Observable&lt;HttpResponse&lt;CartItemResponse&gt;&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addCartItem"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>addCartItem</b></span>
+                        <a href="#addCartItem"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addCartItem(addCartItemRequest?: <a href="../interfaces/AddCartItemRequest.html" target="_self">AddCartItemRequest</a>, observe?, reportProgress?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="141"
+                                    class="link-to-prism">libs/api/api/shopping-session-api.ts:141</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>addCartItemRequest</td>
+                                            <td>
+                                                            <code><a href="../interfaces/AddCartItemRequest.html" target="_self" >AddCartItemRequest</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>observe</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/CartItemResponse.html" target="_self" >Observable&lt;HttpEvent&lt;CartItemResponse&gt;&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addCartItem"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>addCartItem</b></span>
+                        <a href="#addCartItem"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addCartItem(addCartItemRequest?: <a href="../interfaces/AddCartItemRequest.html" target="_self">AddCartItemRequest</a>, observe: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, reportProgress: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="151"
+                                    class="link-to-prism">libs/api/api/shopping-session-api.ts:151</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>addCartItemRequest</td>
+                                            <td>
+                                                            <code><a href="../interfaces/AddCartItemRequest.html" target="_self" >AddCartItemRequest</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>observe</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;body&#x27;</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>false</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addToHttpParams"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>addToHttpParams</b></span>
+                        <a href="#addToHttpParams"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addToHttpParams(httpParams: <a href="../interfaces/Param.html" target="_self">HttpParams</a>, value: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, key?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="78"
+                                    class="link-to-prism">libs/api/api/shopping-session-api.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>httpParams</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Param.html" target="_self" >HttpParams</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>key</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/Param.html" target="_self" >HttpParams</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addToHttpParamsRecursive"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>addToHttpParamsRecursive</b></span>
+                        <a href="#addToHttpParamsRecursive"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addToHttpParamsRecursive(httpParams: <a href="../interfaces/Param.html" target="_self">HttpParams</a>, value?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, key?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="87"
+                                    class="link-to-prism">libs/api/api/shopping-session-api.ts:87</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>httpParams</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Param.html" target="_self" >HttpParams</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>key</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/Param.html" target="_self" >HttpParams</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkout"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>checkout</b></span>
+                        <a href="#checkout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>checkout(observe?, reportProgress?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="220"
+                                    class="link-to-prism">libs/api/api/shopping-session-api.ts:220</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Checkout current shopping session
+Check out by creating an order from the current shopping session and deleting the shopping session afterwardds</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>observe</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>set whether or not to return the data Observable as the body, response or events. defaults to returning the body.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>flag to report request and response progress.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/OrderResponse.html" target="_self" >Observable&lt;OrderResponse&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkout"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>checkout</b></span>
+                        <a href="#checkout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>checkout(observe?, reportProgress?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="229"
+                                    class="link-to-prism">libs/api/api/shopping-session-api.ts:229</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>observe</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/OrderResponse.html" target="_self" >Observable&lt;HttpResponse&lt;OrderResponse&gt;&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkout"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>checkout</b></span>
+                        <a href="#checkout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>checkout(observe?, reportProgress?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="238"
+                                    class="link-to-prism">libs/api/api/shopping-session-api.ts:238</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>observe</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/OrderResponse.html" target="_self" >Observable&lt;HttpEvent&lt;OrderResponse&gt;&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkout"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>checkout</b></span>
+                        <a href="#checkout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>checkout(observe: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, reportProgress: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="247"
+                                    class="link-to-prism">libs/api/api/shopping-session-api.ts:247</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>observe</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;body&#x27;</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>false</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeCartItem"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>removeCartItem</b></span>
+                        <a href="#removeCartItem"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removeCartItem(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, observe?, reportProgress?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="308"
+                                    class="link-to-prism">libs/api/api/shopping-session-api.ts:308</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Remove cart item
+Remove a cart item from the shopping session of current user based on identity extracted from bearer token</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>observe</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>set whether or not to return the data Observable as the body, response or events. defaults to returning the body.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>flag to report request and response progress.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeCartItem"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>removeCartItem</b></span>
+                        <a href="#removeCartItem"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removeCartItem(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, observe?, reportProgress?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="318"
+                                    class="link-to-prism">libs/api/api/shopping-session-api.ts:318</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>observe</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;HttpResponse&lt;any&gt;&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeCartItem"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>removeCartItem</b></span>
+                        <a href="#removeCartItem"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removeCartItem(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, observe?, reportProgress?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="328"
+                                    class="link-to-prism">libs/api/api/shopping-session-api.ts:328</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>observe</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;HttpEvent&lt;any&gt;&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeCartItem"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>removeCartItem</b></span>
+                        <a href="#removeCartItem"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removeCartItem(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, observe: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, reportProgress: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="338"
+                                    class="link-to-prism">libs/api/api/shopping-session-api.ts:338</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>observe</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;body&#x27;</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>false</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resolveCurrentShoppingSession"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>resolveCurrentShoppingSession</b></span>
+                        <a href="#resolveCurrentShoppingSession"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>resolveCurrentShoppingSession(observe?, reportProgress?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="411"
+                                    class="link-to-prism">libs/api/api/shopping-session-api.ts:411</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Resolve current shopping session
+Resolve current shopping session based on identity extracted from bearer token</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>observe</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>set whether or not to return the data Observable as the body, response or events. defaults to returning the body.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>flag to report request and response progress.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/ShoppingSessionResponse.html" target="_self" >Observable&lt;ShoppingSessionResponse&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resolveCurrentShoppingSession"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>resolveCurrentShoppingSession</b></span>
+                        <a href="#resolveCurrentShoppingSession"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>resolveCurrentShoppingSession(observe?, reportProgress?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="420"
+                                    class="link-to-prism">libs/api/api/shopping-session-api.ts:420</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>observe</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/ShoppingSessionResponse.html" target="_self" >Observable&lt;HttpResponse&lt;ShoppingSessionResponse&gt;&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resolveCurrentShoppingSession"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>resolveCurrentShoppingSession</b></span>
+                        <a href="#resolveCurrentShoppingSession"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>resolveCurrentShoppingSession(observe?, reportProgress?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="429"
+                                    class="link-to-prism">libs/api/api/shopping-session-api.ts:429</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>observe</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/ShoppingSessionResponse.html" target="_self" >Observable&lt;HttpEvent&lt;ShoppingSessionResponse&gt;&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resolveCurrentShoppingSession"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>resolveCurrentShoppingSession</b></span>
+                        <a href="#resolveCurrentShoppingSession"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>resolveCurrentShoppingSession(observe: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, reportProgress: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="438"
+                                    class="link-to-prism">libs/api/api/shopping-session-api.ts:438</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>observe</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;body&#x27;</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>false</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateCartItemQuantity"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>updateCartItemQuantity</b></span>
+                        <a href="#updateCartItemQuantity"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateCartItemQuantity(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, updateCartItemQuantityRequest: <a href="../interfaces/UpdateCartItemQuantityRequest.html" target="_self">UpdateCartItemQuantityRequest</a>, observe?, reportProgress?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="500"
+                                    class="link-to-prism">libs/api/api/shopping-session-api.ts:500</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Update cart item quantity
+Update quantity of a cart item in shopping session of current user based on identity extracted from bearer token</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>updateCartItemQuantityRequest</td>
+                                            <td>
+                                                            <code><a href="../interfaces/UpdateCartItemQuantityRequest.html" target="_self" >UpdateCartItemQuantityRequest</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>observe</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>set whether or not to return the data Observable as the body, response or events. defaults to returning the body.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>flag to report request and response progress.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/UpdateCartItemQuantityResponse.html" target="_self" >Observable&lt;UpdateCartItemQuantityResponse&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateCartItemQuantity"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>updateCartItemQuantity</b></span>
+                        <a href="#updateCartItemQuantity"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateCartItemQuantity(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, updateCartItemQuantityRequest: <a href="../interfaces/UpdateCartItemQuantityRequest.html" target="_self">UpdateCartItemQuantityRequest</a>, observe?, reportProgress?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="511"
+                                    class="link-to-prism">libs/api/api/shopping-session-api.ts:511</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>updateCartItemQuantityRequest</td>
+                                            <td>
+                                                            <code><a href="../interfaces/UpdateCartItemQuantityRequest.html" target="_self" >UpdateCartItemQuantityRequest</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>observe</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/UpdateCartItemQuantityResponse.html" target="_self" >Observable&lt;HttpResponse&lt;UpdateCartItemQuantityResponse&gt;&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateCartItemQuantity"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>updateCartItemQuantity</b></span>
+                        <a href="#updateCartItemQuantity"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateCartItemQuantity(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, updateCartItemQuantityRequest: <a href="../interfaces/UpdateCartItemQuantityRequest.html" target="_self">UpdateCartItemQuantityRequest</a>, observe?, reportProgress?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="522"
+                                    class="link-to-prism">libs/api/api/shopping-session-api.ts:522</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>updateCartItemQuantityRequest</td>
+                                            <td>
+                                                            <code><a href="../interfaces/UpdateCartItemQuantityRequest.html" target="_self" >UpdateCartItemQuantityRequest</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>observe</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/UpdateCartItemQuantityResponse.html" target="_self" >Observable&lt;HttpEvent&lt;UpdateCartItemQuantityResponse&gt;&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateCartItemQuantity"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>updateCartItemQuantity</b></span>
+                        <a href="#updateCartItemQuantity"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateCartItemQuantity(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, updateCartItemQuantityRequest: <a href="../interfaces/UpdateCartItemQuantityRequest.html" target="_self">UpdateCartItemQuantityRequest</a>, observe: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, reportProgress: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="533"
+                                    class="link-to-prism">libs/api/api/shopping-session-api.ts:533</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>updateCartItemQuantityRequest</td>
+                                            <td>
+                                                            <code><a href="../interfaces/UpdateCartItemQuantityRequest.html" target="_self" >UpdateCartItemQuantityRequest</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>observe</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;body&#x27;</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>false</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="basePath"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>basePath</b></span>
+                        <a href="#basePath"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;http://localhost&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">libs/api/api/shopping-session-api.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="configuration"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>configuration</b></span>
+                        <a href="#configuration"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Configuration()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">libs/api/api/shopping-session-api.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="defaultHeaders"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>defaultHeaders</b></span>
+                        <a href="#defaultHeaders"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new HttpHeaders()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">libs/api/api/shopping-session-api.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="encoder"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>encoder</b></span>
+                        <a href="#encoder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Param.html" target="_self" >HttpParameterCodec</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">libs/api/api/shopping-session-api.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable, Optional } from &#x27;@angular/core&#x27;;
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams,
+  HttpResponse,
+  HttpEvent,
+  HttpParameterCodec,
+  HttpContext,
+} from &#x27;@angular/common/http&#x27;;
+import { CustomHttpParameterCodec } from &#x27;../encoder&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
+
+// @ts-ignore
+import { AddCartItem401Response } from &#x27;../model/add-cart-item401-response&#x27;;
+// @ts-ignore
+import { AddCartItemRequest } from &#x27;../model/add-cart-item-request&#x27;;
+// @ts-ignore
+import { CartItemResponse } from &#x27;../model/cart-item-response&#x27;;
+// @ts-ignore
+import { OrderResponse } from &#x27;../model/order-response&#x27;;
+// @ts-ignore
+import { ShoppingSessionResponse } from &#x27;../model/shopping-session-response&#x27;;
+// @ts-ignore
+import { UpdateCartItemQuantityRequest } from &#x27;../model/update-cart-item-quantity-request&#x27;;
+// @ts-ignore
+import { UpdateCartItemQuantityResponse } from &#x27;../model/update-cart-item-quantity-response&#x27;;
+// @ts-ignore
+import { ValidationProblemDetails } from &#x27;../model/validation-problem-details&#x27;;
+
+// @ts-ignore
+import { BASE_PATH, COLLECTION_FORMATS } from &#x27;../variables&#x27;;
+import { Configuration } from &#x27;../configuration&#x27;;
+
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
+export class ShoppingSessionApi {
+  protected basePath &#x3D; &#x27;http://localhost&#x27;;
+  public defaultHeaders &#x3D; new HttpHeaders();
+  public configuration &#x3D; new Configuration();
+  public encoder: HttpParameterCodec;
+
+  constructor(
+    protected httpClient: HttpClient,
+    @Optional() @Inject(BASE_PATH) basePath: string | string[],
+    @Optional() configuration: Configuration
+  ) {
+    if (configuration) {
+      this.configuration &#x3D; configuration;
+    }
+    if (typeof this.configuration.basePath !&#x3D;&#x3D; &#x27;string&#x27;) {
+      const firstBasePath &#x3D; Array.isArray(basePath) ? basePath[0] : undefined;
+      if (firstBasePath !&#x3D; undefined) {
+        basePath &#x3D; firstBasePath;
+      }
+
+      if (typeof basePath !&#x3D;&#x3D; &#x27;string&#x27;) {
+        basePath &#x3D; this.basePath;
+      }
+      this.configuration.basePath &#x3D; basePath;
+    }
+    this.encoder &#x3D; this.configuration.encoder || new CustomHttpParameterCodec();
+  }
+
+  // @ts-ignore
+  private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
+    if (typeof value &#x3D;&#x3D;&#x3D; &#x27;object&#x27; &amp;&amp; value instanceof Date &#x3D;&#x3D;&#x3D; false) {
+      httpParams &#x3D; this.addToHttpParamsRecursive(httpParams, value);
+    } else {
+      httpParams &#x3D; this.addToHttpParamsRecursive(httpParams, value, key);
+    }
+    return httpParams;
+  }
+
+  private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
+    if (value &#x3D;&#x3D; null) {
+      return httpParams;
+    }
+
+    if (typeof value &#x3D;&#x3D;&#x3D; &#x27;object&#x27;) {
+      if (Array.isArray(value)) {
+        (value as any[]).forEach(elem &#x3D;&gt; (httpParams &#x3D; this.addToHttpParamsRecursive(httpParams, elem, key)));
+      } else if (value instanceof Date) {
+        if (key !&#x3D; null) {
+          httpParams &#x3D; httpParams.append(key, (value as Date).toISOString().substring(0, 10));
+        } else {
+          throw Error(&#x27;key may not be null if value is Date&#x27;);
+        }
+      } else {
+        Object.keys(value).forEach(
+          k &#x3D;&gt; (httpParams &#x3D; this.addToHttpParamsRecursive(httpParams, value[k], key !&#x3D; null ? &#x60;${key}.${k}&#x60; : k))
+        );
+      }
+    } else if (key !&#x3D; null) {
+      httpParams &#x3D; httpParams.append(key, value);
+    } else {
+      throw Error(&#x27;key may not be null if value is not object or array&#x27;);
+    }
+    return httpParams;
+  }
+
+  /**
+   * Add cart item
+   * Add a cart item to the shopping session of current user based on identity extracted from bearer token
+   * @param addCartItemRequest
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public addCartItem(
+    addCartItemRequest?: AddCartItemRequest,
+    observe?: &#x27;body&#x27;,
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: &#x27;text/plain&#x27; | &#x27;application/json&#x27; | &#x27;text/json&#x27;;
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable&lt;CartItemResponse&gt;;
+  public addCartItem(
+    addCartItemRequest?: AddCartItemRequest,
+    observe?: &#x27;response&#x27;,
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: &#x27;text/plain&#x27; | &#x27;application/json&#x27; | &#x27;text/json&#x27;;
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable&lt;HttpResponse&lt;CartItemResponse&gt;&gt;;
+  public addCartItem(
+    addCartItemRequest?: AddCartItemRequest,
+    observe?: &#x27;events&#x27;,
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: &#x27;text/plain&#x27; | &#x27;application/json&#x27; | &#x27;text/json&#x27;;
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable&lt;HttpEvent&lt;CartItemResponse&gt;&gt;;
+  public addCartItem(
+    addCartItemRequest?: AddCartItemRequest,
+    observe: any &#x3D; &#x27;body&#x27;,
+    reportProgress: boolean &#x3D; false,
+    options?: {
+      httpHeaderAccept?: &#x27;text/plain&#x27; | &#x27;application/json&#x27; | &#x27;text/json&#x27;;
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable&lt;any&gt; {
+    let localVarHeaders &#x3D; this.defaultHeaders;
+
+    let localVarHttpHeaderAcceptSelected: string | undefined &#x3D; options &amp;&amp; options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected &#x3D;&#x3D;&#x3D; undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] &#x3D; [&#x27;text/plain&#x27;, &#x27;application/json&#x27;, &#x27;text/json&#x27;];
+      localVarHttpHeaderAcceptSelected &#x3D; this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !&#x3D;&#x3D; undefined) {
+      localVarHeaders &#x3D; localVarHeaders.set(&#x27;Accept&#x27;, localVarHttpHeaderAcceptSelected);
+    }
+
+    let localVarHttpContext: HttpContext | undefined &#x3D; options &amp;&amp; options.context;
+    if (localVarHttpContext &#x3D;&#x3D;&#x3D; undefined) {
+      localVarHttpContext &#x3D; new HttpContext();
+    }
+
+    let localVarTransferCache: boolean | undefined &#x3D; options &amp;&amp; options.transferCache;
+    if (localVarTransferCache &#x3D;&#x3D;&#x3D; undefined) {
+      localVarTransferCache &#x3D; true;
+    }
+
+    // to determine the Content-Type header
+    const consumes: string[] &#x3D; [&#x27;application/json&#x27;, &#x27;text/json&#x27;, &#x27;application/*+json&#x27;];
+    const httpContentTypeSelected: string | undefined &#x3D; this.configuration.selectHeaderContentType(consumes);
+    if (httpContentTypeSelected !&#x3D;&#x3D; undefined) {
+      localVarHeaders &#x3D; localVarHeaders.set(&#x27;Content-Type&#x27;, httpContentTypeSelected);
+    }
+
+    let responseType_: &#x27;text&#x27; | &#x27;json&#x27; | &#x27;blob&#x27; &#x3D; &#x27;json&#x27;;
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith(&#x27;text&#x27;)) {
+        responseType_ &#x3D; &#x27;text&#x27;;
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ &#x3D; &#x27;json&#x27;;
+      } else {
+        responseType_ &#x3D; &#x27;blob&#x27;;
+      }
+    }
+
+    let localVarPath &#x3D; &#x60;/api/v1/shopping-sessions/current/cart-items&#x60;;
+    return this.httpClient.request&lt;CartItemResponse&gt;(&#x27;post&#x27;, &#x60;${this.configuration.basePath}${localVarPath}&#x60;, {
+      context: localVarHttpContext,
+      body: addCartItemRequest,
+      responseType: &lt;any&gt;responseType_,
+      withCredentials: this.configuration.withCredentials,
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * Checkout current shopping session
+   * Check out by creating an order from the current shopping session and deleting the shopping session afterwardds
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public checkout(
+    observe?: &#x27;body&#x27;,
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: &#x27;text/plain&#x27; | &#x27;application/json&#x27; | &#x27;text/json&#x27;;
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable&lt;OrderResponse&gt;;
+  public checkout(
+    observe?: &#x27;response&#x27;,
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: &#x27;text/plain&#x27; | &#x27;application/json&#x27; | &#x27;text/json&#x27;;
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable&lt;HttpResponse&lt;OrderResponse&gt;&gt;;
+  public checkout(
+    observe?: &#x27;events&#x27;,
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: &#x27;text/plain&#x27; | &#x27;application/json&#x27; | &#x27;text/json&#x27;;
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable&lt;HttpEvent&lt;OrderResponse&gt;&gt;;
+  public checkout(
+    observe: any &#x3D; &#x27;body&#x27;,
+    reportProgress: boolean &#x3D; false,
+    options?: {
+      httpHeaderAccept?: &#x27;text/plain&#x27; | &#x27;application/json&#x27; | &#x27;text/json&#x27;;
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable&lt;any&gt; {
+    let localVarHeaders &#x3D; this.defaultHeaders;
+
+    let localVarHttpHeaderAcceptSelected: string | undefined &#x3D; options &amp;&amp; options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected &#x3D;&#x3D;&#x3D; undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] &#x3D; [&#x27;text/plain&#x27;, &#x27;application/json&#x27;, &#x27;text/json&#x27;];
+      localVarHttpHeaderAcceptSelected &#x3D; this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !&#x3D;&#x3D; undefined) {
+      localVarHeaders &#x3D; localVarHeaders.set(&#x27;Accept&#x27;, localVarHttpHeaderAcceptSelected);
+    }
+
+    let localVarHttpContext: HttpContext | undefined &#x3D; options &amp;&amp; options.context;
+    if (localVarHttpContext &#x3D;&#x3D;&#x3D; undefined) {
+      localVarHttpContext &#x3D; new HttpContext();
+    }
+
+    let localVarTransferCache: boolean | undefined &#x3D; options &amp;&amp; options.transferCache;
+    if (localVarTransferCache &#x3D;&#x3D;&#x3D; undefined) {
+      localVarTransferCache &#x3D; true;
+    }
+
+    let responseType_: &#x27;text&#x27; | &#x27;json&#x27; | &#x27;blob&#x27; &#x3D; &#x27;json&#x27;;
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith(&#x27;text&#x27;)) {
+        responseType_ &#x3D; &#x27;text&#x27;;
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ &#x3D; &#x27;json&#x27;;
+      } else {
+        responseType_ &#x3D; &#x27;blob&#x27;;
+      }
+    }
+
+    let localVarPath &#x3D; &#x60;/api/v1/shopping-sessions/checkout&#x60;;
+    return this.httpClient.request&lt;OrderResponse&gt;(&#x27;post&#x27;, &#x60;${this.configuration.basePath}${localVarPath}&#x60;, {
+      context: localVarHttpContext,
+      responseType: &lt;any&gt;responseType_,
+      withCredentials: this.configuration.withCredentials,
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * Remove cart item
+   * Remove a cart item from the shopping session of current user based on identity extracted from bearer token
+   * @param id
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public removeCartItem(
+    id: number,
+    observe?: &#x27;body&#x27;,
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: &#x27;text/plain&#x27; | &#x27;application/json&#x27; | &#x27;text/json&#x27;;
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable&lt;any&gt;;
+  public removeCartItem(
+    id: number,
+    observe?: &#x27;response&#x27;,
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: &#x27;text/plain&#x27; | &#x27;application/json&#x27; | &#x27;text/json&#x27;;
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable&lt;HttpResponse&lt;any&gt;&gt;;
+  public removeCartItem(
+    id: number,
+    observe?: &#x27;events&#x27;,
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: &#x27;text/plain&#x27; | &#x27;application/json&#x27; | &#x27;text/json&#x27;;
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable&lt;HttpEvent&lt;any&gt;&gt;;
+  public removeCartItem(
+    id: number,
+    observe: any &#x3D; &#x27;body&#x27;,
+    reportProgress: boolean &#x3D; false,
+    options?: {
+      httpHeaderAccept?: &#x27;text/plain&#x27; | &#x27;application/json&#x27; | &#x27;text/json&#x27;;
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable&lt;any&gt; {
+    if (id &#x3D;&#x3D;&#x3D; null || id &#x3D;&#x3D;&#x3D; undefined) {
+      throw new Error(&#x27;Required parameter id was null or undefined when calling removeCartItem.&#x27;);
+    }
+
+    let localVarHeaders &#x3D; this.defaultHeaders;
+
+    let localVarHttpHeaderAcceptSelected: string | undefined &#x3D; options &amp;&amp; options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected &#x3D;&#x3D;&#x3D; undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] &#x3D; [&#x27;text/plain&#x27;, &#x27;application/json&#x27;, &#x27;text/json&#x27;];
+      localVarHttpHeaderAcceptSelected &#x3D; this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !&#x3D;&#x3D; undefined) {
+      localVarHeaders &#x3D; localVarHeaders.set(&#x27;Accept&#x27;, localVarHttpHeaderAcceptSelected);
+    }
+
+    let localVarHttpContext: HttpContext | undefined &#x3D; options &amp;&amp; options.context;
+    if (localVarHttpContext &#x3D;&#x3D;&#x3D; undefined) {
+      localVarHttpContext &#x3D; new HttpContext();
+    }
+
+    let localVarTransferCache: boolean | undefined &#x3D; options &amp;&amp; options.transferCache;
+    if (localVarTransferCache &#x3D;&#x3D;&#x3D; undefined) {
+      localVarTransferCache &#x3D; true;
+    }
+
+    let responseType_: &#x27;text&#x27; | &#x27;json&#x27; | &#x27;blob&#x27; &#x3D; &#x27;json&#x27;;
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith(&#x27;text&#x27;)) {
+        responseType_ &#x3D; &#x27;text&#x27;;
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ &#x3D; &#x27;json&#x27;;
+      } else {
+        responseType_ &#x3D; &#x27;blob&#x27;;
+      }
+    }
+
+    let localVarPath &#x3D; &#x60;/api/v1/shopping-sessions/current/cart-items/${this.configuration.encodeParam({
+      name: &#x27;id&#x27;,
+      value: id,
+      in: &#x27;path&#x27;,
+      style: &#x27;simple&#x27;,
+      explode: false,
+      dataType: &#x27;number&#x27;,
+      dataFormat: &#x27;int32&#x27;,
+    })}&#x60;;
+    return this.httpClient.request&lt;any&gt;(&#x27;delete&#x27;, &#x60;${this.configuration.basePath}${localVarPath}&#x60;, {
+      context: localVarHttpContext,
+      responseType: &lt;any&gt;responseType_,
+      withCredentials: this.configuration.withCredentials,
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * Resolve current shopping session
+   * Resolve current shopping session based on identity extracted from bearer token
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public resolveCurrentShoppingSession(
+    observe?: &#x27;body&#x27;,
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: &#x27;text/plain&#x27; | &#x27;application/json&#x27; | &#x27;text/json&#x27;;
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable&lt;ShoppingSessionResponse&gt;;
+  public resolveCurrentShoppingSession(
+    observe?: &#x27;response&#x27;,
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: &#x27;text/plain&#x27; | &#x27;application/json&#x27; | &#x27;text/json&#x27;;
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable&lt;HttpResponse&lt;ShoppingSessionResponse&gt;&gt;;
+  public resolveCurrentShoppingSession(
+    observe?: &#x27;events&#x27;,
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: &#x27;text/plain&#x27; | &#x27;application/json&#x27; | &#x27;text/json&#x27;;
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable&lt;HttpEvent&lt;ShoppingSessionResponse&gt;&gt;;
+  public resolveCurrentShoppingSession(
+    observe: any &#x3D; &#x27;body&#x27;,
+    reportProgress: boolean &#x3D; false,
+    options?: {
+      httpHeaderAccept?: &#x27;text/plain&#x27; | &#x27;application/json&#x27; | &#x27;text/json&#x27;;
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable&lt;any&gt; {
+    let localVarHeaders &#x3D; this.defaultHeaders;
+
+    let localVarHttpHeaderAcceptSelected: string | undefined &#x3D; options &amp;&amp; options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected &#x3D;&#x3D;&#x3D; undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] &#x3D; [&#x27;text/plain&#x27;, &#x27;application/json&#x27;, &#x27;text/json&#x27;];
+      localVarHttpHeaderAcceptSelected &#x3D; this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !&#x3D;&#x3D; undefined) {
+      localVarHeaders &#x3D; localVarHeaders.set(&#x27;Accept&#x27;, localVarHttpHeaderAcceptSelected);
+    }
+
+    let localVarHttpContext: HttpContext | undefined &#x3D; options &amp;&amp; options.context;
+    if (localVarHttpContext &#x3D;&#x3D;&#x3D; undefined) {
+      localVarHttpContext &#x3D; new HttpContext();
+    }
+
+    let localVarTransferCache: boolean | undefined &#x3D; options &amp;&amp; options.transferCache;
+    if (localVarTransferCache &#x3D;&#x3D;&#x3D; undefined) {
+      localVarTransferCache &#x3D; true;
+    }
+
+    let responseType_: &#x27;text&#x27; | &#x27;json&#x27; | &#x27;blob&#x27; &#x3D; &#x27;json&#x27;;
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith(&#x27;text&#x27;)) {
+        responseType_ &#x3D; &#x27;text&#x27;;
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ &#x3D; &#x27;json&#x27;;
+      } else {
+        responseType_ &#x3D; &#x27;blob&#x27;;
+      }
+    }
+
+    let localVarPath &#x3D; &#x60;/api/v1/shopping-sessions/current&#x60;;
+    return this.httpClient.request&lt;ShoppingSessionResponse&gt;(&#x27;post&#x27;, &#x60;${this.configuration.basePath}${localVarPath}&#x60;, {
+      context: localVarHttpContext,
+      responseType: &lt;any&gt;responseType_,
+      withCredentials: this.configuration.withCredentials,
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * Update cart item quantity
+   * Update quantity of a cart item in shopping session of current user based on identity extracted from bearer token
+   * @param id
+   * @param updateCartItemQuantityRequest
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public updateCartItemQuantity(
+    id: number,
+    updateCartItemQuantityRequest: UpdateCartItemQuantityRequest,
+    observe?: &#x27;body&#x27;,
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: &#x27;text/plain&#x27; | &#x27;application/json&#x27; | &#x27;text/json&#x27;;
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable&lt;UpdateCartItemQuantityResponse&gt;;
+  public updateCartItemQuantity(
+    id: number,
+    updateCartItemQuantityRequest: UpdateCartItemQuantityRequest,
+    observe?: &#x27;response&#x27;,
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: &#x27;text/plain&#x27; | &#x27;application/json&#x27; | &#x27;text/json&#x27;;
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable&lt;HttpResponse&lt;UpdateCartItemQuantityResponse&gt;&gt;;
+  public updateCartItemQuantity(
+    id: number,
+    updateCartItemQuantityRequest: UpdateCartItemQuantityRequest,
+    observe?: &#x27;events&#x27;,
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: &#x27;text/plain&#x27; | &#x27;application/json&#x27; | &#x27;text/json&#x27;;
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable&lt;HttpEvent&lt;UpdateCartItemQuantityResponse&gt;&gt;;
+  public updateCartItemQuantity(
+    id: number,
+    updateCartItemQuantityRequest: UpdateCartItemQuantityRequest,
+    observe: any &#x3D; &#x27;body&#x27;,
+    reportProgress: boolean &#x3D; false,
+    options?: {
+      httpHeaderAccept?: &#x27;text/plain&#x27; | &#x27;application/json&#x27; | &#x27;text/json&#x27;;
+      context?: HttpContext;
+      transferCache?: boolean;
+    }
+  ): Observable&lt;any&gt; {
+    if (id &#x3D;&#x3D;&#x3D; null || id &#x3D;&#x3D;&#x3D; undefined) {
+      throw new Error(&#x27;Required parameter id was null or undefined when calling updateCartItemQuantity.&#x27;);
+    }
+    if (updateCartItemQuantityRequest &#x3D;&#x3D;&#x3D; null || updateCartItemQuantityRequest &#x3D;&#x3D;&#x3D; undefined) {
+      throw new Error(
+        &#x27;Required parameter updateCartItemQuantityRequest was null or undefined when calling updateCartItemQuantity.&#x27;
+      );
+    }
+
+    let localVarHeaders &#x3D; this.defaultHeaders;
+
+    let localVarHttpHeaderAcceptSelected: string | undefined &#x3D; options &amp;&amp; options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected &#x3D;&#x3D;&#x3D; undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] &#x3D; [&#x27;text/plain&#x27;, &#x27;application/json&#x27;, &#x27;text/json&#x27;];
+      localVarHttpHeaderAcceptSelected &#x3D; this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !&#x3D;&#x3D; undefined) {
+      localVarHeaders &#x3D; localVarHeaders.set(&#x27;Accept&#x27;, localVarHttpHeaderAcceptSelected);
+    }
+
+    let localVarHttpContext: HttpContext | undefined &#x3D; options &amp;&amp; options.context;
+    if (localVarHttpContext &#x3D;&#x3D;&#x3D; undefined) {
+      localVarHttpContext &#x3D; new HttpContext();
+    }
+
+    let localVarTransferCache: boolean | undefined &#x3D; options &amp;&amp; options.transferCache;
+    if (localVarTransferCache &#x3D;&#x3D;&#x3D; undefined) {
+      localVarTransferCache &#x3D; true;
+    }
+
+    // to determine the Content-Type header
+    const consumes: string[] &#x3D; [&#x27;application/json&#x27;, &#x27;text/json&#x27;, &#x27;application/*+json&#x27;];
+    const httpContentTypeSelected: string | undefined &#x3D; this.configuration.selectHeaderContentType(consumes);
+    if (httpContentTypeSelected !&#x3D;&#x3D; undefined) {
+      localVarHeaders &#x3D; localVarHeaders.set(&#x27;Content-Type&#x27;, httpContentTypeSelected);
+    }
+
+    let responseType_: &#x27;text&#x27; | &#x27;json&#x27; | &#x27;blob&#x27; &#x3D; &#x27;json&#x27;;
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith(&#x27;text&#x27;)) {
+        responseType_ &#x3D; &#x27;text&#x27;;
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ &#x3D; &#x27;json&#x27;;
+      } else {
+        responseType_ &#x3D; &#x27;blob&#x27;;
+      }
+    }
+
+    let localVarPath &#x3D; &#x60;/api/v1/shopping-sessions/current/cart-items/${this.configuration.encodeParam({
+      name: &#x27;id&#x27;,
+      value: id,
+      in: &#x27;path&#x27;,
+      style: &#x27;simple&#x27;,
+      explode: false,
+      dataType: &#x27;number&#x27;,
+      dataFormat: &#x27;int32&#x27;,
+    })}&#x60;;
+    return this.httpClient.request&lt;UpdateCartItemQuantityResponse&gt;(
+      &#x27;patch&#x27;,
+      &#x60;${this.configuration.basePath}${localVarPath}&#x60;,
+      {
+        context: localVarHttpContext,
+        body: updateCartItemQuantityRequest,
+        responseType: &lt;any&gt;responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: localVarHeaders,
+        observe: observe,
+        transferCache: localVarTransferCache,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'ShoppingSessionApi.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
