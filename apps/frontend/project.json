@@ -101,7 +101,7 @@
         "configDir": "apps/frontend/.storybook",
         "browserTarget": "frontend:build",
         "compodoc": true,
-        "compodocArgs": ["-e", "json", "-d", "apps/frontend/docs"],
+        "compodocArgs": ["-e", "json", "-d", "dist/storybook-helper"],
         "styles": ["apps/frontend/src/styles.scss"]
       },
       "configurations": {
@@ -114,11 +114,11 @@
       "executor": "@storybook/angular:build-storybook",
       "outputs": ["{options.outputDir}"],
       "options": {
-        "outputDir": "apps/frontend/docs/storybook",
+        "outputDir": "dist/docs/storybook",
         "configDir": "apps/frontend/.storybook",
         "browserTarget": "frontend:build",
         "compodoc": true,
-        "compodocArgs": ["-e", "json", "-d", "apps/frontend/docs"],
+        "compodocArgs": ["-e", "json", "-d", "dist/storybook-helper"],
         "styles": ["apps/frontend/src/styles.scss"]
       },
       "configurations": {

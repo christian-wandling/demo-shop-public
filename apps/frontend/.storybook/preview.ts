@@ -1,7 +1,7 @@
 import { Preview } from '@storybook/angular';
 import { setCompodocJson } from '@storybook/addon-docs/angular';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import * as docJson from 'apps/frontend/docs/documentation.json';
+import * as docJson from 'dist/storybook-helper/documentation.json';
 
 setCompodocJson(docJson);
 

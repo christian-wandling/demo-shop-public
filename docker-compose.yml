@@ -44,7 +44,7 @@ services:
       - ALLOWED_ORIGIN=http://localhost:4200
       - KEYCLOAK_REALM=demo_shop
       - KEYCLOAK_CLIENT_API=demo_shop_api
-      - KEYCLOAK_URL=http://keycloak:8080
+      - KEYCLOAK_URL=http://localhost:8080
       - KEYCLOAK_REALM_PUBLIC_KEY
       - SENTRY_AUTH_TOKEN
       - SENTRY_ORG

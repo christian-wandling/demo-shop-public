@@ -10,24 +10,26 @@ A more refined implementation of the API with ASP.NET Core can be found in this 
 
 ### Backend
 
-- [API Documentation](/apps/backend/docs/compodoc) - Complete API reference and backend architecture
+- [API Documentation](https://christian-wandling.github.io/demo-shop-public/compodoc/backend) - Complete API reference and backend architecture
+- [Dependency Graph](https://christian-wandling.github.io/demo-shop-public/graph/backend/#/projects/backend) - Dependency graph of the backend apps and libs
 
 ### Frontend
 
-- [Frontend Documentation](/apps/frontend/docs/compodoc) - Component structure and frontend architecture
-- [Storybook](/apps/frontend/docs/storybook) - Interactive UI component library and visual testing
+- [Frontend Documentation](https://christian-wandling.github.io/demo-shop-public/compodoc/frontend) - Component structure and frontend architecture
+- [Storybook](https://christian-wandling.github.io/demo-shop-public/storybook) - Interactive UI component library and visual testing
+- [Dependency Graph](https://christian-wandling.github.io/demo-shop-public/graph/frontend/#/projects/frontend) - Dependency graph of the frontend apps and libs
 
 #### Libraries
 
-- [Authentication](/libs/auth/README.md) - User authentication and authorization flows
-- [User](/libs/user/README.md) - User management
-- [Products](/libs/product/README.md) - Product catalog, categories, and search functionality
-- [Shopping](/libs/cart/README.md) - Shopping cart implementation and session management
-- [Order](/libs/order/README.md) - Order processing, history, and management
-- [Monitoring](/libs/monitoring/README.md) - Application performance monitoring and logging
-- [Navigation](/libs/navigation/README.md) - Site navigation components and routing
-- [Shared](/libs/shared/README.md) - Common utilities and shared components
-- [OpenApiGenerator](/libs/api/README.md) - API client generation tools and configurations
+- [Authentication](https://github.com/christian-wandling/demo-shop-public/tree/main/libs/auth/README.md) - User authentication and authorization flows
+- [User](https://github.com/christian-wandling/demo-shop-public/tree/main/libs/user/README.md) - User management
+- [Products](https://github.com/christian-wandling/demo-shop-public/tree/main/libs/product/README.md) - Product catalog, categories, and search functionality
+- [Shopping](https://github.com/christian-wandling/demo-shop-public/tree/main/libs/cart/README.md) - Shopping cart implementation and session management
+- [Order](https://github.com/christian-wandling/demo-shop-public/tree/main/libs/order/README.md) - Order processing, history, and management
+- [Monitoring](https://github.com/christian-wandling/demo-shop-public/tree/main/libs/monitoring/README.md) - Application performance monitoring and logging
+- [Navigation](https://github.com/christian-wandling/demo-shop-public/tree/main/libs/navigation/README.md) - Site navigation components and routing
+- [Shared](https://github.com/christian-wandling/demo-shop-public/tree/main/libs/shared/README.md) - Common utilities and shared components
+- [OpenApiGenerator](https://github.com/christian-wandling/demo-shop-public/tree/main/libs/api/README.md) - API client generation tools and configurations
 
 ## Tech Stack
 
@@ -127,7 +129,7 @@ npm run prisma:generate
 6. Push the prisma schema to database
 
 ```
-npm run prisma:migrate:dev
+npm run prisma:push
 ```
 
 7. Build & Run the docker containers

@@ -26,7 +26,7 @@ Features
 
 ## API Reference
 
-For a complete API reference, see the [Compodoc documentation](/apps/frontend/docs/compodoc).
+For a complete API reference, see the [Compodoc documentation](https://christian-wandling.github.io/demo-shop-public/compodoc/frontend).
 
 ## Running unit tests
 
