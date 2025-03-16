@@ -1,24 +1,24 @@
 import { TestBed } from '@angular/core/testing';
-import { PermissionService, PermissionStrategy } from '@demo-shop/auth';
+import { AuthFacade, PermissionStrategy } from '@demo-shop/auth';
 import { NavigationService } from './navigation.service';
 import { NavigationType } from '../enums/navigation-type';
 import { RouteItem } from '../models/navigation-item';
 
 describe('NavigationService', () => {
   let service: NavigationService;
-  let permissionService: jest.Mocked<PermissionService>;
+  let authFacade: jest.Mocked<AuthFacade>;
 
   beforeEach(() => {
-    const permissionServiceMock = {
+    const authFacadeMock = {
       hasPermission: jest.fn(),
     };
 
     TestBed.configureTestingModule({
-      providers: [NavigationService, { provide: PermissionService, useValue: permissionServiceMock }],
+      providers: [NavigationService, { provide: AuthFacade, useValue: authFacadeMock }],
     });
 
     service = TestBed.inject(NavigationService);
-    permissionService = TestBed.inject(PermissionService) as jest.Mocked<PermissionService>;
+    authFacade = TestBed.inject(AuthFacade) as jest.Mocked<AuthFacade>;
   });
 
   it('should be created', () => {
@@ -27,7 +27,7 @@ describe('NavigationService', () => {
 
   describe('getFilteredItems', () => {
     it('should return items of specified type when user has permission', () => {
-      permissionService.hasPermission.mockReturnValue(true);
+      authFacade.hasPermission.mockReturnValue(true);
 
       const items = service.getFilteredItems(NavigationType.ROUTE);
 
@@ -38,7 +38,7 @@ describe('NavigationService', () => {
     });
 
     it('should filter out items requiring permission when user lacks permission', () => {
-      permissionService.hasPermission.mockReturnValue(false);
+      authFacade.hasPermission.mockReturnValue(false);
 
       const items = service.getFilteredItems(NavigationType.ROUTE);
 
@@ -48,7 +48,7 @@ describe('NavigationService', () => {
     });
 
     it('should return items sorted by order', () => {
-      permissionService.hasPermission.mockReturnValue(true);
+      authFacade.hasPermission.mockReturnValue(true);
 
       const items = service.getFilteredItems(NavigationType.ROUTE);
 
@@ -56,7 +56,7 @@ describe('NavigationService', () => {
     });
 
     it('should include items without permission strategy regardless of permission service response', () => {
-      permissionService.hasPermission.mockReturnValue(false);
+      authFacade.hasPermission.mockReturnValue(false);
 
       const items = service.getFilteredItems(NavigationType.ROUTE) as RouteItem[];
 
@@ -65,11 +65,11 @@ describe('NavigationService', () => {
     });
 
     it('should check permission service with correct strategy', () => {
-      permissionService.hasPermission.mockReturnValue(true);
+      authFacade.hasPermission.mockReturnValue(true);
 
       service.getFilteredItems(NavigationType.ROUTE);
 
-      expect(permissionService.hasPermission).toHaveBeenCalledWith(PermissionStrategy.AUTHENTICATED);
+      expect(authFacade.hasPermission).toHaveBeenCalledWith(PermissionStrategy.AUTHENTICATED);
     });
   });
 });

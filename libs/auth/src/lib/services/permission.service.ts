@@ -6,10 +6,10 @@ import { PermissionStrategy } from '../enums/permission-strategy';
   providedIn: 'root',
 })
 export class PermissionService {
-  readonly permissionStrategies: { [key in PermissionStrategy]: (...args: unknown[]) => boolean } = {
-    [PermissionStrategy.AUTHENTICATED]: this.isAuthenticated,
-  };
   readonly #keycloakService = inject(KeycloakService);
+  readonly permissionStrategies: { [key in PermissionStrategy]: (...args: unknown[]) => boolean } = {
+    [PermissionStrategy.AUTHENTICATED]: () => this.#keycloakService.authenticated,
+  };
 
   hasPermission(permissionStrategy: PermissionStrategy, ...args: unknown[]): boolean {
     const permissionStrategyFn = this.permissionStrategies[permissionStrategy];
@@ -19,9 +19,5 @@ export class PermissionService {
     }
 
     return permissionStrategyFn.bind(this)();
-  }
-
-  isAuthenticated(): boolean {
-    return this.#keycloakService.authenticated;
   }
 }

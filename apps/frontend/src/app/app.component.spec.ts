@@ -7,6 +7,14 @@ import { NavigationComponent } from '@demo-shop/navigation';
 import { CartComponent } from '@demo-shop/cart';
 import { By } from '@angular/platform-browser';
 
+// eslint-disable-next-line @angular-eslint/component-selector
+@Component({ standalone: true, selector: 'lib-navigation', template: '' })
+export class NavigationStubComponent {}
+
+// eslint-disable-next-line @angular-eslint/component-selector
+@Component({ standalone: true, selector: 'lib-cart', template: '' })
+export class CartStubComponent {}
+
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
@@ -14,14 +22,6 @@ describe('AppComponent', () => {
   const appStoreStub = {
     initialized: signal(false),
   };
-
-  // eslint-disable-next-line @angular-eslint/component-selector
-  @Component({ standalone: true, selector: 'lib-navigation', template: '' })
-  class NavigationStubComponent {}
-
-  // eslint-disable-next-line @angular-eslint/component-selector
-  @Component({ standalone: true, selector: 'lib-cart', template: '' })
-  class CartStubComponent {}
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

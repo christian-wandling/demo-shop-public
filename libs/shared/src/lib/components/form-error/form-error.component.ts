@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, InputSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ValidationErrors } from '@angular/forms';
 
@@ -10,10 +10,16 @@ import { ValidationErrors } from '@angular/forms';
   styleUrl: './form-error.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    'class': 'text-xs text-red-600',
+    class: 'text-xs text-red-600',
   },
 })
 export class FormErrorComponent {
-  readonly fieldName = input<string>('Field');
-  readonly errors = input.required<ValidationErrors | null>();
+  /**
+   * Name of form field
+   */
+  readonly fieldName: InputSignal<string> = input<string>('Field');
+  /**
+   * Set of validation errors
+   */
+  readonly errors: InputSignal<ValidationErrors | null> = input.required<ValidationErrors | null>();
 }

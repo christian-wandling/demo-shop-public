@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { OrderController } from './order.controller';
-import { OrderService } from './services/order.service';
-import { OrderResponse } from './dtos/order-response';
-import { DecodeTokenPipe } from '../common/pipes/decode-token-pipe';
+import { OrderService } from '../services/order.service';
+import { OrderResponse } from '../dtos/order-response';
+import { DecodeTokenPipe } from '../../common/pipes/decode-token-pipe';
 import { RequestMethod } from '@nestjs/common';
 import { OrderStatus } from '@prisma/client';
-import { DecodedToken } from '../common/models/decoded-token';
+import { DecodedToken } from '../../common/models/decoded-token';
 
 describe('OrdersController', () => {
   let controller: OrderController;

@@ -4,11 +4,11 @@ import { NavigationService } from '../../services/navigation.service';
 import { provideRouter, Router } from '@angular/router';
 import { NavigationType } from '../../enums/navigation-type';
 import { BrowserAnimationsModule, provideNoopAnimations } from '@angular/platform-browser/animations';
-import { NavigationItem } from '../../models/navigation-item';
 import { ProductFacade, ProductSearchComponent } from '@demo-shop/product';
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { CartIconComponent } from '@demo-shop/cart';
 import { UserNavigationComponent } from './user-navigation/user-navigation.component';
+
 describe('NavigationComponent', () => {
   let component: NavigationComponent;
   let fixture: ComponentFixture<NavigationComponent>;

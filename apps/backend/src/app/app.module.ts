@@ -17,7 +17,6 @@ import {
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { SentryGlobalFilter, SentryModule } from '@sentry/nestjs/setup';
-import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -67,6 +66,6 @@ import { AppController } from './app.controller';
       useClass: ThrottlerGuard,
     },
   ],
-  controllers: [AppController],
+  controllers: [],
 })
 export class AppModule {}

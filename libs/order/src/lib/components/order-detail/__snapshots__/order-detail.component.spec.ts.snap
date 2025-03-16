@@ -28,9 +28,9 @@ exports[`OrderDetailComponent should match the snapshot 1`] = `
               class="h-3 text-xs leading-none text-gray-500"
             >
               <time
-                datetime="Wed Jan 1 2020 00:00:00 GMT+0000 (Coordinated Universal Time)"
+                datetime="Jan 01, 2020"
               >
-                Jan 01, 2020
+                 Jan 01, 2020
               </time>
             </lib-date-time>
           </div>

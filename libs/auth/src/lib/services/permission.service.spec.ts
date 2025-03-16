@@ -30,17 +30,14 @@ describe('PermissionService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return true if keycloak is authenticated', () => {
-    expect(service.isAuthenticated()).toBe(true);
-  });
-
-  it('should return false if keycloak is not authenticated', () => {
-    jest.spyOn(keycloakService, 'authenticated', 'get').mockReturnValue(false);
-    expect(service.isAuthenticated()).toBe(false);
-  });
-
   it('should return true if user has permission', () => {
     expect(service.hasPermission(PermissionStrategy.AUTHENTICATED)).toBe(true);
+  });
+
+  it('should return false if user not has permission', () => {
+    jest.spyOn(keycloakService, 'authenticated', 'get').mockReturnValue(false);
+
+    expect(service.hasPermission(PermissionStrategy.AUTHENTICATED)).toBe(false);
   });
 
   it('should return false if PermissionStrategy not found', () => {
