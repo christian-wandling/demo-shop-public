@@ -1,20 +1,19 @@
-import { UserService } from './services/user.service';
-import { UserResponse } from './dtos/user-response';
-import { CustomHeaders } from '../common/decorators/custom-headers.decorator';
-import { DecodeTokenPipe } from '../common/pipes/decode-token-pipe';
-import { CustomController } from '../common/decorators/custom-controller.decorator';
-import { Auth } from '../common/decorators/auth.decorator';
-import { DecodedToken } from '../common/models/decoded-token';
-import { CustomPost } from '../common/decorators/custom-post.decorator';
-import { CustomPut } from '../common/decorators/custom-put.decorator';
-import { UpdateUserAddressRequest } from './dtos/update-user-address-request';
-import { Body } from '@nestjs/common';
-import { CustomPatch } from '../common/decorators/custom-patch.decorator';
-import { AddressResponse } from './dtos/address-response';
-import { UpdateUserPhoneRequest } from './dtos/update-user-phone-request';
+import { UserService } from '../services/user.service';
+import { UserResponse } from '../dtos/user-response';
+import { CustomHeaders } from '../../common/decorators/custom-headers.decorator';
+import { DecodeTokenPipe } from '../../common/pipes/decode-token-pipe';
+import { Auth } from '../../common/decorators/auth.decorator';
+import { DecodedToken } from '../../common/models/decoded-token';
+import { CustomPost } from '../../common/decorators/custom-post.decorator';
+import { CustomPut } from '../../common/decorators/custom-put.decorator';
+import { UpdateUserAddressRequest } from '../dtos/update-user-address-request';
+import { Body, Controller } from '@nestjs/common';
+import { CustomPatch } from '../../common/decorators/custom-patch.decorator';
+import { AddressResponse } from '../dtos/address-response';
+import { UpdateUserPhoneRequest } from '../dtos/update-user-phone-request';
 
-@CustomController({ path: 'users', version: '1' })
 @Auth({ roles: ['realm:buy_products'] })
+@Controller({ path: 'users', version: '1' })
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

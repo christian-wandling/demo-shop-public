@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
-import { UserService } from './services/user.service';
-import { UserResponse } from './dtos/user-response';
-import { DecodeTokenPipe } from '../common/pipes/decode-token-pipe';
+import { UserService } from '../services/user.service';
+import { UserResponse } from '../dtos/user-response';
+import { DecodeTokenPipe } from '../../common/pipes/decode-token-pipe';
 import { BadRequestException, NotFoundException, RequestMethod } from '@nestjs/common';
-import { DecodedToken } from '../common/models/decoded-token';
-import { MonitoringService } from '../common/services/monitoring.service';
+import { DecodedToken } from '../../common/models/decoded-token';
+import { MonitoringService } from '../../common/services/monitoring.service';
 
 describe('UserController', () => {
   let controller: UserController;

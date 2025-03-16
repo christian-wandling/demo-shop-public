@@ -1,14 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { DecodeTokenPipe } from '../common/pipes/decode-token-pipe';
+import { DecodeTokenPipe } from '../../common/pipes/decode-token-pipe';
 import { CartItemController } from './cart-item.controller';
-import { CartItemService } from './services/cart-item.service';
-import { CartItemResponse } from './dtos/cart-item-response';
+import { CartItemService } from '../services/cart-item.service';
+import { CartItemResponse } from '../dtos/cart-item-response';
 import { ForbiddenException, RequestMethod } from '@nestjs/common';
-import { ShoppingSessionResponse } from '../shopping-session/dtos/shopping-session-response';
-import { ShoppingSessionService } from '../shopping-session/services/shopping-session.service';
-import { DecodedToken } from '../common/models/decoded-token';
-import { UpdateCartItemQuantityRequest } from './dtos/update-cart-item-quantity-request';
-import { AddCartItemRequest } from './dtos/add-cart-item-request';
+import { ShoppingSessionResponse } from '../../shopping-session/dtos/shopping-session-response';
+import { ShoppingSessionService } from '../../shopping-session/services/shopping-session.service';
+import { DecodedToken } from '../../common/models/decoded-token';
+import { UpdateCartItemQuantityRequest } from '../dtos/update-cart-item-quantity-request';
+import { AddCartItemRequest } from '../dtos/add-cart-item-request';
 
 describe('CartItemController', () => {
   let controller: CartItemController;

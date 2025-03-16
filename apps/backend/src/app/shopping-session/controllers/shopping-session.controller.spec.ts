@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { DecodeTokenPipe } from '../common/pipes/decode-token-pipe';
+import { DecodeTokenPipe } from '../../common/pipes/decode-token-pipe';
 import { ShoppingSessionController } from './shopping-session.controller';
-import { ShoppingSessionService } from './services/shopping-session.service';
-import { ShoppingSessionResponse } from './dtos/shopping-session-response';
+import { ShoppingSessionService } from '../services/shopping-session.service';
+import { ShoppingSessionResponse } from '../dtos/shopping-session-response';
 import { ForbiddenException, RequestMethod } from '@nestjs/common';
-import { DecodedToken } from '../common/models/decoded-token';
-import { OrderResponse } from '../order/dtos/order-response';
+import { DecodedToken } from '../../common/models/decoded-token';
+import { OrderResponse } from '../../order/dtos/order-response';
 import { OrderStatus } from '@prisma/client';
 
 describe('ShoppingSessionsController', () => {

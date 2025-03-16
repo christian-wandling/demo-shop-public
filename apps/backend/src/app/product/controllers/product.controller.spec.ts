@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProductController } from './product.controller';
-import { ProductService } from './services/product.service';
-import { ProductResponse } from './dtos/product-response';
+import { ProductService } from '../services/product.service';
+import { ProductResponse } from '../dtos/product-response';
 import { RequestMethod } from '@nestjs/common';
 
 describe('ProductController', () => {
