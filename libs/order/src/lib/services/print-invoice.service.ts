@@ -8,10 +8,25 @@ import { DrawOptions } from '../models/draw-options';
 import { PdfTableColumns } from '../models/pdf-table.columns';
 import { columns, companyData, createDrawOptions, paymentTerms } from '../config/print-invoice.config';
 
+/**
+ * Service responsible for generating PDF invoices for orders
+ *
+ * This service provides functionality to create professional PDF invoices
+ * with company branding, customer information, order details, and payment terms.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class PrintInvoiceService {
+  /**
+   * Generates a complete PDF invoice document for a given order
+   *
+   * Creates a PDF document with order details including company information, logo,
+   * customer details, invoice number, date, and itemized order contents.
+   *
+   * @param order - Order information containing items and pricing details
+   * @param user - User information for the customer who placed the order
+   */
   generatePdf(order: OrderResponse, user: UserResponse) {
     const doc = new jsPDF('p', 'mm', 'A4', true);
     const drawOptions = createDrawOptions(doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight());
@@ -28,6 +43,14 @@ export class PrintInvoiceService {
     doc.save(`invoice-${order.id}.pdf`);
   }
 
+  /**
+   * Adds the company logo to the PDF document
+   *
+   * Positions and inserts the logo image at the top-left corner of the document.
+   *
+   * @param doc - The jsPDF document instance
+   * @param options - Drawing options with positioning information
+   */
   addLogo(doc: jsPDF, options: DrawOptions): void {
     options.pointer.x = options.border.left;
     options.pointer.y = options.border.top;
@@ -38,6 +61,16 @@ export class PrintInvoiceService {
     doc.addImage('icons/demo-shop.png', 'PNG', options.pointer.x, options.pointer.y, width, height);
   }
 
+  /**
+   * Adds company information to the PDF document
+   *
+   * Displays company details including name, address, contact information
+   * at the top-right corner of the document.
+   *
+   * @param doc - The jsPDF document instance
+   * @param options - Drawing options with positioning information
+   * @param companyData - Company information to display
+   */
   addCompanyInformation(doc: jsPDF, options: DrawOptions, companyData: CompanyData): void {
     options.pointer.x = options.border.right;
     options.pointer.y += 6;
@@ -61,6 +94,15 @@ export class PrintInvoiceService {
     doc.text(companyData.email, options.pointer.x, options.pointer.y, { align: 'right' });
   }
 
+  /**
+   * Adds invoice details to the PDF document
+   *
+   * Displays the invoice number and creation date in the document.
+   *
+   * @param doc - The jsPDF document instance
+   * @param options - Drawing options with positioning information
+   * @param order - Order information containing the invoice ID and creation date
+   */
   addInvoiceDetails(doc: jsPDF, options: DrawOptions, order: OrderResponse): void {
     options.pointer.y += 22;
     doc.setFontSize(options.text.size.smaller);
@@ -73,6 +115,15 @@ export class PrintInvoiceService {
     doc.text(date, options.pointer.x, options.pointer.y, { align: 'right' });
   }
 
+  /**
+   * Adds customer information to the PDF document
+   *
+   * Displays customer details including name, address, and contact information.
+   *
+   * @param doc - The jsPDF document instance
+   * @param options - Drawing options with positioning information
+   * @param user - User information for the customer
+   */
   addCustomerInformation(doc: jsPDF, options: DrawOptions, user: UserResponse): void {
     options.pointer.x = options.border.left;
     options.pointer.y += 15;
@@ -97,6 +148,15 @@ export class PrintInvoiceService {
     doc.text(user.email, options.pointer.x, options.pointer.y);
   }
 
+  /**
+   * Adds the table header for order items to the PDF document
+   *
+   * Creates column headers for article, quantity, price, and amount.
+   *
+   * @param doc - The jsPDF document instance
+   * @param options - Drawing options with positioning information
+   * @param columns - Column configuration for the table
+   */
   addTableHeader(doc: jsPDF, options: DrawOptions, columns: PdfTableColumns): void {
     options.pointer.y += 20;
     this.addLine(doc, options);
@@ -115,6 +175,18 @@ export class PrintInvoiceService {
     this.addLine(doc, options);
   }
 
+  /**
+   * Adds order item details to the PDF document
+   *
+   * Creates rows for each item in the order with product name, quantity,
+   * unit price, and total price. Handles automatic page breaks if needed.
+   *
+   * @param doc - The jsPDF document instance
+   * @param options - Drawing options with positioning information
+   * @param columns - Column configuration for the table
+   * @param order - Order information containing the items
+   * @param paymentTerms - Payment terms to display if a new page is created
+   */
   addTableItems(
     doc: jsPDF,
     options: DrawOptions,
@@ -143,6 +215,16 @@ export class PrintInvoiceService {
     });
   }
 
+  /**
+   * Adds table footer with order totals to the PDF document
+   *
+   * Displays the total amount for the entire order.
+   *
+   * @param doc - The jsPDF document instance
+   * @param options - Drawing options with positioning information
+   * @param columns - Column configuration for the table
+   * @param order - Order information containing the total amount
+   */
   addTableFooter(doc: jsPDF, options: DrawOptions, columns: PdfTableColumns, order: OrderResponse) {
     options.pointer.y += 6;
     this.addLine(doc, options);
@@ -154,12 +236,30 @@ export class PrintInvoiceService {
     doc.text(`$${order.amount.toFixed(2)}`, columns.amount.x, options.pointer.y, { align: 'right' });
   }
 
+  /**
+   * Adds a new page to the PDF document
+   *
+   * Creates a new page and adds the footer with payment terms.
+   *
+   * @param doc - The jsPDF document instance
+   * @param options - Drawing options with positioning information
+   * @param paymentTerms - Payment terms to display in the footer
+   */
   addPage(doc: jsPDF, options: DrawOptions, paymentTerms: PaymentTerms) {
     doc.addPage();
     options.pointer.y = options.border.top;
     this.addFooter(doc, options, paymentTerms);
   }
 
+  /**
+   * Adds footer with payment terms to the PDF document
+   *
+   * Displays payment terms and banking information at the bottom of the page.
+   *
+   * @param doc - The jsPDF document instance
+   * @param options - Drawing options with positioning information
+   * @param paymentTerms - Payment terms and banking information to display
+   */
   addFooter(doc: jsPDF, options: DrawOptions, paymentTerms: PaymentTerms) {
     const xCenter = doc.internal.pageSize.getWidth() / 2;
     let y = options.border.bottom;
@@ -178,6 +278,14 @@ export class PrintInvoiceService {
     doc.text(bankingText, xCenter, y, { align: 'center' });
   }
 
+  /**
+   * Adds a horizontal line to the PDF document
+   *
+   * Creates a separator line across the document at the current pointer position.
+   *
+   * @param doc - The jsPDF document instance
+   * @param options - Drawing options with positioning information
+   */
   addLine(doc: jsPDF, options: DrawOptions): void {
     doc.setDrawColor(options.line.color.light);
     doc.line(options.border.left, options.pointer.y, options.border.right, options.pointer.y);

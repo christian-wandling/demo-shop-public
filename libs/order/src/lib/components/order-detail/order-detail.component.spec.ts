@@ -46,7 +46,7 @@ describe('OrderDetailComponent', () => {
         {
           provide: OrderFacade,
           useValue: {
-            find: jest.fn().mockReturnValue(signal(mockOrder)),
+            getById: jest.fn().mockReturnValue(signal(mockOrder)),
             fetchById: jest.fn(),
           },
         },

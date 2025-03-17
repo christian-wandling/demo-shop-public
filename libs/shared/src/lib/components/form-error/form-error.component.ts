@@ -2,6 +2,15 @@ import { ChangeDetectionStrategy, Component, input, InputSignal } from '@angular
 import { CommonModule } from '@angular/common';
 import { ValidationErrors } from '@angular/forms';
 
+/**
+ * Component that displays form validation error messages.
+ *
+ * This component renders error messages for form fields that fail validation.
+ * It accepts the field name and validation errors as inputs and displays
+ * appropriate error messages.
+ *
+ * @example <lib-form-error [fieldName]="email" [errors]="form.controls.email.errors" />
+ */
 @Component({
   selector: 'lib-form-error',
   standalone: true,
@@ -15,11 +24,16 @@ import { ValidationErrors } from '@angular/forms';
 })
 export class FormErrorComponent {
   /**
-   * Name of form field
+   * Name of the form field associated with the error.
+   * This is used to identify which field the error belongs to.
+   * Defaults to 'Field' if not provided.
    */
   readonly fieldName: InputSignal<string> = input<string>('Field');
+
   /**
-   * Set of validation errors
+   * Validation errors object containing error keys and their values.
+   * This is typically obtained from Angular's FormControl.errors property.
+   * Required input that must be provided when using this component.
    */
   readonly errors: InputSignal<ValidationErrors | null> = input.required<ValidationErrors | null>();
 }

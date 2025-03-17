@@ -4,6 +4,12 @@ import { ProductFacade } from '../../product.facade';
 import { ActivatedRoute } from '@angular/router';
 import { CartFacade } from '@demo-shop/cart';
 
+/**
+ * Component for displaying details of a single product.
+ *
+ * This component fetches product data based on the route parameter 'id',
+ * displays product details, and allows users to add the product to their cart.
+ */
 @Component({
   selector: 'lib-product-detail',
   standalone: true,
@@ -22,10 +28,17 @@ export class ProductDetailComponent implements OnInit {
   readonly #cartFacade = inject(CartFacade);
   readonly addButtonEnabled = this.#cartFacade.getHasShoppingSession();
 
+  /**
+   * Fetches the product data using the ID from the route parameters.
+   */
   ngOnInit() {
     this.#productFacade.fetchById(this.#activatedRoute.snapshot.params['id']);
   }
 
+  /**
+   * Adds a product to the cart
+   * @param id - The ID of the product to add
+   */
   addToCart(id: number): void {
     this.#cartFacade.addItem(id);
   }

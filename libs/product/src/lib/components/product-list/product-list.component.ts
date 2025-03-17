@@ -3,6 +3,12 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ProductFacade } from '../../product.facade';
 import { RouterLink } from '@angular/router';
 
+/**
+ * Component for displaying a list of products.
+ *
+ * This standalone component fetches and displays a list of products,
+ * using the ProductFacade for data access and OnPush change detection for performance.
+ */
 @Component({
   selector: 'lib-product-list',
   standalone: true,
@@ -19,6 +25,9 @@ export class ProductListComponent implements OnInit {
 
   readonly products = this.#productFacade.getFiltered();
 
+  /**
+   * Fetches all products from the backend.
+   */
   ngOnInit() {
     this.#productFacade.fetchAll();
   }

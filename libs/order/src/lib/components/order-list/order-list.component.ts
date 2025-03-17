@@ -6,6 +6,13 @@ import { RouterLink } from '@angular/router';
 import { OrderStatusComponent } from '../shared/order-status/order-status.component';
 import { DateTimeComponent } from '@demo-shop/shared';
 
+/**
+ * Component that displays a list of orders for the current user.
+ * The orders are sorted by status and date.
+ *
+ * @example
+ * <lib-order-list></lib-order-list>
+ */
 @Component({
   selector: 'lib-order-list',
   standalone: true,
@@ -15,6 +22,9 @@ import { DateTimeComponent } from '@demo-shop/shared';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderListComponent implements OnInit {
+  /**
+   * Maximum number of product thumbnails to display per order
+   */
   readonly MAX_THUMBNAILS = 5;
 
   readonly #userFacade = inject(UserFacade);
@@ -22,6 +32,9 @@ export class OrderListComponent implements OnInit {
   readonly #orderFacade = inject(OrderFacade);
   readonly orders = this.#orderFacade.getSortedByStatusAndDate();
 
+  /**
+   * Fetches all orders for the current user
+   */
   ngOnInit() {
     this.#orderFacade.fetchAll();
   }

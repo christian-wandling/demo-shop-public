@@ -3,6 +3,9 @@ import { inject } from '@angular/core';
 import { PermissionService } from '../services/permission.service';
 import { PermissionStrategy } from '../enums/permission-strategy';
 
+/**
+ * Route Guard that check if user is authenticated.
+ */
 export const permissionGuard: CanActivateFn = (route, state) => {
   const permissionService = inject(PermissionService);
   const router = inject(Router);

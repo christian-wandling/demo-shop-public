@@ -13,7 +13,7 @@ describe('AppStore', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: AuthFacade, useValue: { authorize: jest.fn() } },
+        { provide: AuthFacade, useValue: { initializeAuth: jest.fn() } },
         { provide: UserFacade, useValue: { fetchCurrentUser: jest.fn() } },
         { provide: CartFacade, useValue: { loadShoppingSession: jest.fn() } },
       ],
@@ -31,13 +31,13 @@ describe('AppStore', () => {
   it('should set initialized to true after executing side effects', async () => {
     expect.assertions(4);
 
-    const authorize = jest.spyOn(authFacade, 'authorize').mockResolvedValue(true);
+    const initializeAuth = jest.spyOn(authFacade, 'initializeAuth').mockResolvedValue(true);
     const loadCurrentUser = jest.spyOn(userFacade, 'fetchCurrentUser');
     const loadShoppingSession = jest.spyOn(cartFacade, 'loadShoppingSession');
 
     await store.init();
 
-    expect(authorize).toHaveBeenCalled();
+    expect(initializeAuth).toHaveBeenCalled();
     expect(loadCurrentUser).toHaveBeenCalled();
     expect(loadShoppingSession).toHaveBeenCalled();
     expect(store.initialized()).toBe(true);

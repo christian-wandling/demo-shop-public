@@ -2,6 +2,13 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CartFacade } from '../../cart.facade';
 
+/**
+ * Displays a cart icon and provides functionality to show the shopping cart.
+ * It shows the current number of items in the cart and allows users to open the cart view.
+ *
+ * @example
+ * <lib-cart-icon/>
+ */
 @Component({
   selector: 'lib-cart-icon',
   standalone: true,
@@ -14,6 +21,9 @@ export class CartIconComponent {
   readonly #cartFacade = inject(CartFacade);
   readonly itemsInCart = this.#cartFacade.getItemCount();
 
+  /**
+   * Shows the cart by updating the cart visibility state
+   */
   showCart(): void {
     this.#cartFacade.setShowCart(true);
   }

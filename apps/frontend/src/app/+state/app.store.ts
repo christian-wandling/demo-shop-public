@@ -18,9 +18,9 @@ export const AppStore = signalStore(
   withMethods(
     (store, authFacade = inject(AuthFacade), cartFacade = inject(CartFacade), userFacade = inject(UserFacade)) => ({
       async init(): Promise<void> {
-        const authorized = await authFacade.authorize();
+        const hasActiveSession = await authFacade.initializeAuth();
 
-        if (authorized) {
+        if (hasActiveSession) {
           await userFacade.fetchCurrentUser();
           await cartFacade.loadShoppingSession();
         }

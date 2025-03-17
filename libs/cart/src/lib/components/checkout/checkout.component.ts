@@ -9,6 +9,13 @@ import { UserFacade } from '@demo-shop/user';
 import { Router } from '@angular/router';
 import { UpdateUserAddressRequest } from '@demo-shop/api';
 
+/**
+ * Checkout component responsible for handling the user checkout flow.
+ * Manages the checkout form, user data update, and cart checkout process.
+ *
+ * @example
+ * <lib-checkout/>
+ */
 @Component({
   selector: 'lib-checkout',
   standalone: true,
@@ -18,9 +25,16 @@ import { UpdateUserAddressRequest } from '@demo-shop/api';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutComponent {
+  /**
+   * Constant for medium screen size breakpoint in pixels (786px).
+   */
+  readonly BREAKPOINT_MD = 786;
+
   readonly checkoutForm = this.createCheckOutForm();
-  readonly isUpdateEnabled = this.getUpdateEnabled();
-  readonly isCheckoutEnabled = this.getCheckoutEnabled();
+  /** Signal indicating whether the update user button should be enabled */
+  readonly updateButtonEnabled = this.getUpdateEnabled();
+  /** Signal indicating whether the checkout button should be enabled */
+  readonly checkoutButtonEnabled = this.getCheckoutEnabled();
   readonly #cartFacade = inject(CartFacade);
   readonly items = this.#cartFacade.getAll();
   readonly price = this.#cartFacade.getTotalPrice();
@@ -28,12 +42,23 @@ export class CheckoutComponent {
   readonly user = this.#userFacade.getCurrentUser();
   readonly #fb = inject(FormBuilder);
   readonly #router = inject(Router);
-  readonly showShippingInformation = signal(window.innerWidth >= 768);
 
+  /** Extend shipping information when above breakpoint */
+  readonly shippingInformationExtended = signal(window.innerWidth >= this.BREAKPOINT_MD);
+
+  /**
+   * Removes an item from the cart
+   * @param id - The ID of the item to remove
+   */
   removeItem(id: number): void {
     this.#cartFacade.removeItem(id);
   }
 
+  /**
+   * Processes the checkout operation
+   * Calls the cart facade to complete the checkout and navigates to the products page
+   * @throws Error if checkout fails
+   */
   async checkout(): Promise<void> {
     try {
       await this.#cartFacade.checkout();
@@ -43,6 +68,10 @@ export class CheckoutComponent {
     }
   }
 
+  /**
+   * Updates the user's information if the form has been modified
+   * Updates address and phone number if they have been changed
+   */
   async updateUser(): Promise<void> {
     const { address, phone } = this.checkoutForm().controls;
     if (address.dirty && address.valid) {
@@ -54,6 +83,10 @@ export class CheckoutComponent {
     }
   }
 
+  /**
+   * Creates and initializes the checkout form
+   * Populates form with user data when available
+   */
   createCheckOutForm(): Signal<FormGroup<CheckoutForm>> {
     return computed(() =>
       this.#fb.group<CheckoutForm>({
@@ -109,6 +142,10 @@ export class CheckoutComponent {
     );
   }
 
+  /**
+   * Determines whether the checkout button should be enabled
+   * Checks if there are items in cart, user has address, and no pending form changes
+   */
   getCheckoutEnabled(): Signal<boolean> {
     return computed(() => {
       const hasShoppingItems = this.items().length > 0;
@@ -119,6 +156,10 @@ export class CheckoutComponent {
     });
   }
 
+  /**
+   * Determines whether the update user button should be enabled
+   * Checks if the form is valid and has been modified
+   */
   getUpdateEnabled(): Signal<boolean> {
     return computed(() => this.checkoutForm().valid && this.checkoutForm().dirty);
   }

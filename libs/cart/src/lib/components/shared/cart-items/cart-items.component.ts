@@ -3,6 +3,15 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { CartItemResponse } from '@demo-shop/api';
 import { RouterLink } from '@angular/router';
 
+/**
+ * CartItemsComponent displays items in a shopping cart.
+ *
+ * This component is designed to render cart items and provide functionality
+ * to interact with them, such as removing items from the cart.
+ *
+ * @example
+ * <lib-cart-items [items]="cartItems" (removeItem)="handleRemoveItem($event)"></lib-cart-items>
+ */
 @Component({
   selector: 'lib-cart-items',
   standalone: true,
@@ -12,7 +21,15 @@ import { RouterLink } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartItemsComponent {
+  /**
+   * The list of items in the cart to be displayed.
+   * This input is required.
+   */
   readonly items = input.required<CartItemResponse[]>();
 
-  removeItem = output<number>();
+  /**
+   * Event emitted when a user requests to remove an item from the cart.
+   * The emitted value is the ID of the item to be removed.
+   */
+  readonly removeItem = output<number>();
 }
