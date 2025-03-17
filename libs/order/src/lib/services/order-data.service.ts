@@ -21,7 +21,7 @@ export class OrderDataService implements DataService<OrderResponse, OrderFilter>
   }
 
   async create(entity: OrderResponse): Promise<OrderResponse> {
-    return entity;
+    return Promise.reject(new Error('Not implemented'));
   }
 
   delete(entity: OrderResponse): Promise<void> {
