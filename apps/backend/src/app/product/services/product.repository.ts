@@ -18,7 +18,11 @@ export class ProductRepository implements ProductRepositoryModel {
             category: true,
           },
         },
-        images: true,
+        images: {
+          where: {
+            deleted: false,
+          },
+        },
       },
     });
   }
@@ -35,7 +39,11 @@ export class ProductRepository implements ProductRepositoryModel {
             category: true,
           },
         },
-        images: true,
+        images: {
+          where: {
+            deleted: false,
+          },
+        },
       },
     });
   }

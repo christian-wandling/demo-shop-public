@@ -83,7 +83,11 @@ describe('ProductsRepository', () => {
               category: true,
             },
           },
-          images: true,
+          images: {
+            where: {
+              deleted: false,
+            },
+          },
         },
       });
     });
@@ -113,7 +117,11 @@ describe('ProductsRepository', () => {
               category: true,
             },
           },
-          images: true,
+          images: {
+            where: {
+              deleted: false,
+            },
+          },
         },
       });
     });
@@ -130,7 +138,11 @@ describe('ProductsRepository', () => {
               category: true,
             },
           },
-          images: true,
+          images: {
+            where: {
+              deleted: false,
+            },
+          },
         },
       });
     });

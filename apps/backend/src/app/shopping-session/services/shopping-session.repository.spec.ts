@@ -105,7 +105,11 @@ describe('ShoppingSessionsRepository', () => {
             include: {
               product: {
                 include: {
-                  images: true,
+                  images: {
+                    where: {
+                      deleted: false,
+                    },
+                  },
                 },
               },
             },
@@ -141,7 +145,11 @@ describe('ShoppingSessionsRepository', () => {
             include: {
               product: {
                 include: {
-                  images: true,
+                  images: {
+                    where: {
+                      deleted: false,
+                    },
+                  },
                 },
               },
             },
@@ -238,7 +246,11 @@ describe('ShoppingSessionsRepository', () => {
           status: 'Created',
         },
         include: {
-          order_items: true,
+          order_items: {
+            where: {
+              deleted: false,
+            },
+          },
         },
       };
 
