@@ -4,6 +4,9 @@ import { AuthFacade } from '@demo-shop/auth';
 import { UserFacade } from '@demo-shop/user';
 import { CartFacade } from '@demo-shop/cart';
 
+/**
+ * Component that handles user navigation functionality including login, registration, and logout
+ */
 @Component({
   selector: 'lib-user-navigation',
   standalone: true,
@@ -13,6 +16,7 @@ import { CartFacade } from '@demo-shop/cart';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserNavigationComponent {
+  /** Flag indicating if the current view is on a small screen */
   readonly isSmallScreen = input(false, { transform: booleanAttribute });
 
   readonly #authFacade = inject(AuthFacade);
@@ -20,16 +24,19 @@ export class UserNavigationComponent {
   readonly currentUser = this.#userFacade.getCurrentUser();
   readonly #cartFacade = inject(CartFacade);
 
+  /** Handles user login and loads shopping session */
   async login(): Promise<void> {
     await this.#authFacade.login();
     await this.#cartFacade.loadShoppingSession();
   }
 
+  /** Handles user registration and loads shopping session */
   async register(): Promise<void> {
     await this.#authFacade.register();
     await this.#cartFacade.loadShoppingSession();
   }
 
+  /** Handles user logout */
   async logout(): Promise<void> {
     await this.#authFacade.logout();
   }

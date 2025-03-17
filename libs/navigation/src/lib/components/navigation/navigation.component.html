@@ -69,6 +69,21 @@
           </a>
         </div>
 
+        <!-- Navigation items -->
+        <div class="hidden lg:ml-8 lg:block lg:self-stretch">
+          <div class="flex h-full space-x-8">
+            @for (item of menuItems; track $index) {
+            <div class="menu-item flex h-full space-x-8">
+              <a
+                [routerLink]="item.options.route"
+                class="menu-item-button flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
+                {{ item.label | titlecase }}
+              </a>
+            </div>
+            }
+          </div>
+        </div>
+
         <div class="ml-auto flex items-center">
           <lib-user-navigation class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6" />
           <lib-product-search />

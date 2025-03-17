@@ -3,7 +3,6 @@ import { provideRouter, Router, RouteReuseStrategy, withRouterConfig } from '@an
 import { appRoutes } from './app.routes';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { provideNavigation } from '@demo-shop/navigation';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouterStore, routerReducer } from '@ngrx/router-store';
 import { provideStore } from '@ngrx/store';
@@ -46,6 +45,5 @@ export const appConfig: ApplicationConfig = {
     provideApi(withConfiguration({ basePath: '' })),
     provideAuth({ keycloak: environment.keycloak }),
     provideMonitoring({ sentry: environment.sentry }),
-    provideNavigation({ routes: appRoutes }),
   ],
 };

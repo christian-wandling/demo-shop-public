@@ -2,7 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { AuthFacade, PermissionStrategy } from '@demo-shop/auth';
 import { NavigationService } from './navigation.service';
 import { NavigationType } from '../enums/navigation-type';
-import { RouteItem } from '../models/navigation-item';
+
+import { RouteItem } from '../models/route-item';
 
 describe('NavigationService', () => {
   let service: NavigationService;
