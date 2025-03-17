@@ -25,7 +25,11 @@ export class ShoppingSessionRepository implements ShoppingSessionRepositoryModel
           include: {
             product: {
               include: {
-                images: true,
+                images: {
+                  where: {
+                    deleted: false,
+                  },
+                },
               },
             },
           },
@@ -46,7 +50,11 @@ export class ShoppingSessionRepository implements ShoppingSessionRepositoryModel
           include: {
             product: {
               include: {
-                images: true,
+                images: {
+                  where: {
+                    deleted: false,
+                  },
+                },
               },
             },
           },
@@ -81,7 +89,11 @@ export class ShoppingSessionRepository implements ShoppingSessionRepositoryModel
           status: 'Created',
         },
         include: {
-          order_items: true,
+          order_items: {
+            where: {
+              deleted: false,
+            },
+          },
         },
       }),
       this.prisma.shoppingSession.delete({

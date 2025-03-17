@@ -28,7 +28,11 @@ export class CartItemRepository implements CartItemRepositoryModel {
       include: {
         product: {
           include: {
-            images: true,
+            images: {
+              where: {
+                deleted: false,
+              },
+            },
           },
         },
       },
@@ -47,7 +51,11 @@ export class CartItemRepository implements CartItemRepositoryModel {
       include: {
         product: {
           include: {
-            images: true,
+            images: {
+              where: {
+                deleted: false,
+              },
+            },
           },
         },
       },

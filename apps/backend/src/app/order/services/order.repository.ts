@@ -14,9 +14,14 @@ export class OrderRepository implements OrderRepositoryModel {
         user: {
           keycloak_user_id: keycloakId,
         },
+        deleted: false,
       },
       include: {
-        order_items: true,
+        order_items: {
+          where: {
+            deleted: false,
+          },
+        },
       },
     });
   }
@@ -27,9 +32,14 @@ export class OrderRepository implements OrderRepositoryModel {
         user: {
           keycloak_user_id: keycloakId,
         },
+        deleted: false,
       },
       include: {
-        order_items: true,
+        order_items: {
+          where: {
+            deleted: false,
+          },
+        },
       },
     });
   }

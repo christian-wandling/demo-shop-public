@@ -77,7 +77,11 @@ describe('CartItemsRepository', () => {
         include: {
           product: {
             include: {
-              images: true,
+              images: {
+                where: {
+                  deleted: false,
+                },
+              },
             },
           },
         },
@@ -120,7 +124,11 @@ describe('CartItemsRepository', () => {
         include: {
           product: {
             include: {
-              images: true,
+              images: {
+                where: {
+                  deleted: false,
+                },
+              },
             },
           },
         },

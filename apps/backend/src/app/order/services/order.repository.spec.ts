@@ -74,9 +74,14 @@ describe('OrdersRepository', () => {
           user: {
             keycloak_user_id: mockKeycloakId,
           },
+          deleted: false,
         },
         include: {
-          order_items: true,
+          order_items: {
+            where: {
+              deleted: false,
+            },
+          },
         },
       });
       expect(result).toEqual(mockOrder);
@@ -127,9 +132,14 @@ describe('OrdersRepository', () => {
           user: {
             keycloak_user_id: mockKeycloakId,
           },
+          deleted: false,
         },
         include: {
-          order_items: true,
+          order_items: {
+            where: {
+              deleted: false,
+            },
+          },
         },
       });
       expect(result).toEqual(mockOrders);
