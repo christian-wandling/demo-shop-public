@@ -1,7 +1,28 @@
-# cart
+# `@demo-shop/cart`
 
-This library was generated with [Nx](https://nx.dev).
+This library handles all aspects of the shopping cart feature including product selection, cart management, and the checkout process.
 
-## Running unit tests
+## Features
+
+- **Shopping Cart Management**
+
+  - Add/remove items
+  - Update quantities
+
+- **Checkout Process**
+
+  - Address management
+  - Order review
+  - Order confirmation
+
+- **State Management**
+  - Signal based state
+  - Synchronization with backend
+
+## API Reference
+
+For a complete API reference, see the [Compodoc documentation](https://christian-wandling.github.io/demo-shop-public/compodoc/frontend).
+
+## Running Unit Tests
 
 Run `nx test cart` to execute the unit tests.

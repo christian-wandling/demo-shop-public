@@ -5,6 +5,7 @@ const { join } = require('path');
 module.exports = {
   content: [
     join(__dirname, 'src/**/!(*.stories|*.spec).{ts,html}'),
+    join(__dirname, '!**/__snapshots__}/**/*'),
     ...createGlobPatternsForDependencies(__dirname),
   ],
   theme: {
@@ -14,8 +15,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/aspect-ratio'),
-    require('@tailwindcss/forms'),
-  ],
+  plugins: [require('@tailwindcss/aspect-ratio'), require('@tailwindcss/forms')],
 };

@@ -1,7 +1,21 @@
-# user
+# `@demo-shop/user`
 
-This library was generated with [Nx](https://nx.dev).
+A library for user profile management.
+
+## Features
+
+- **User Profile Management**
+
+  - Update user address and phone
+
+- **State Management**
+- Signal-based reactive store
+- Synchronization with backend
+
+## API Reference
+
+For a complete API reference, see the [Compodoc documentation](https://christian-wandling.github.io/demo-shop-public/compodoc/frontend).
 
 ## Running unit tests
 
-Run `nx test user` to execute the unit tests.
+Run `nx test auth` to execute the unit tests.

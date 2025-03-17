@@ -71,3 +71,6 @@ tfplan
 .local
 
 rest
+
+storybook-static
+**/docs/**
