@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [0.3.30](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.29...v0.3.30) (2025-03-17)
+
+
+### Bug Fixes
+
+* **backend:** add filter for deleted false to queries ([#62](https://github.com/christian-wandling/demo-shop-public/issues/62)) ([3c6adac](https://github.com/christian-wandling/demo-shop-public/commit/3c6adac43d378118d8489f15e3483bc205a11f78))
+
 ### [0.3.29](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.28...v0.3.29) (2025-03-17)
 
 ### [0.3.28](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.27...v0.3.28) (2025-03-17)
