@@ -28,6 +28,9 @@ env:
 jobs:
   build-api:
     runs-on: ubuntu-latest
+    concurrency:
+      group: cd-build-backend
+      cancel-in-progress: true
     steps:
       - uses: actions/create-github-app-token@v1
         id: app-token
@@ -66,7 +69,9 @@ jobs:
 
   build-frontend:
     runs-on: ubuntu-latest
-
+    concurrency:
+      group: cd-build-frontend
+      cancel-in-progress: true
     steps:
       - uses: actions/create-github-app-token@v1
         id: app-token
@@ -110,7 +115,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     concurrency:
-      group: production
+      group: cd-deploy-infra
       cancel-in-progress: false
     outputs:
       deployment: ${{ steps.start-deployment.outputs.deployment_id }}
@@ -203,7 +208,7 @@ jobs:
     needs: [deploy-infra]
     runs-on: self-hosted
     concurrency:
-      group: production
+      group: cd-deploy-services
       cancel-in-progress: false
     env:
       TF_VAR_aws_region: ${{ secrets.AWS_REGION }}
