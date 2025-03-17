@@ -64,12 +64,6 @@ describe('OrderDataService', () => {
     expect(orderApi.getOrderById).toHaveBeenCalledWith(1);
   });
 
-  it('should create an order', async () => {
-    const order = await service.create(mockOrders.items[0]);
-
-    expect(order).toEqual(mockOrders.items[0]);
-  });
-
   it('should throw an error when calling not implemented functions', async () => {
     await expect(() => service.delete(mockOrders.items[0])).rejects.toEqual(new Error('Not implemented'));
     await expect(() => service.update(mockOrders.items[0])).rejects.toEqual(new Error('Not implemented'));

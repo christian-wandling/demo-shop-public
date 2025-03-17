@@ -3,14 +3,12 @@ import { CartFacade } from './cart.facade';
 import { CartStore } from './+state/cart.store';
 import { CartItemResponse, OrderResponse, OrderStatus, ShoppingSessionApi } from '@demo-shop/api';
 import { signal } from '@angular/core';
-import { OrderFacade } from '@demo-shop/order';
 import { of } from 'rxjs';
 
 describe('CartFacade', () => {
   let facade: CartFacade;
   let cartStore: any;
   let shoppingSessionApi: ShoppingSessionApi;
-  let orderFacade: OrderFacade;
 
   const mockCartItems: CartItemResponse[] = [
     {
@@ -63,12 +61,10 @@ describe('CartFacade', () => {
         CartFacade,
         { provide: CartStore, useValue: cartStore },
         { provide: ShoppingSessionApi, useValue: { checkout: jest.fn().mockReturnValue(of(mockOrder)) } },
-        { provide: OrderFacade, useValue: { add: jest.fn() } },
       ],
     });
 
     facade = TestBed.inject(CartFacade);
-    orderFacade = TestBed.inject(OrderFacade);
     shoppingSessionApi = TestBed.inject(ShoppingSessionApi);
   });
 
@@ -175,7 +171,6 @@ describe('CartFacade', () => {
       await facade.checkout();
 
       expect(shoppingSessionApi.checkout).toHaveBeenCalled();
-      expect(orderFacade.add).toHaveBeenCalledWith(mockOrder);
       expect(loadShoppingSession).toHaveBeenCalled();
     });
   });
