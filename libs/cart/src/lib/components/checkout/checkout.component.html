@@ -5,12 +5,12 @@
         <div>
           <div
             class="flex justify-between items-center p-4 bg-gray-100 cursor-pointer lg:pointer-events-none"
-            (click)="showShippingInformation.set(!showShippingInformation())">
+            (click)="shippingInformationExtended.set(!shippingInformationExtended())">
             <h2 class="text-base font-semibold leading-7 text-gray-900">Shipping information</h2>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="lg:hidden w-5 h-5 transition-transform duration-300"
-              [ngClass]="{ 'rotate-180': showShippingInformation() }"
+              [ngClass]="{ 'rotate-180': shippingInformationExtended() }"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor">
@@ -20,8 +20,8 @@
           <div
             class="mt-4 lg:max-h-[1000px] grid md:grid-cols-8 gap-x-6 gap-y-4 transition-all duration-500 ease-in-out overflow-hidden"
             [ngClass]="{
-              'max-h-0': !showShippingInformation(),
-              'max-h-[1000px]': showShippingInformation()
+              'max-h-0': !shippingInformationExtended(),
+              'max-h-[1000px]': shippingInformationExtended()
             }">
             <div class="md:col-span-4">
               <label for="first-name" class="required block text-sm font-medium leading-6 text-gray-500 disabled">
@@ -176,12 +176,12 @@
 
             <button
               (click)="updateUser()"
-              [disabled]="!isUpdateEnabled()"
+              [disabled]="!updateButtonEnabled()"
               class="btn-update md:col-span-full float-right mt-6 lg:max-w-60 flex w-full items-center justify-center rounded-md border border-transparent px-8 py-3 text-base font-medium"
               [ngClass]="{
-                'bg-gray-200 text-gray-800 pointer-events-none': !isUpdateEnabled(),
+                'bg-gray-200 text-gray-800 pointer-events-none': !updateButtonEnabled(),
                 'bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2':
-                  isUpdateEnabled()
+                  updateButtonEnabled()
               }">
               Update
             </button>
@@ -203,12 +203,12 @@
         <div class="mt-6 flex items-center justify-center gap-x-6">
           <button
             (click)="checkout()"
-            [disabled]="!isCheckoutEnabled()"
+            [disabled]="!checkoutButtonEnabled()"
             class="btn-checkout mt-6 lg:max-w-60 flex w-full items-center justify-center rounded-md border border-transparent px-8 py-3 text-base font-medium"
             [ngClass]="{
-              'bg-gray-200 text-gray-800 pointer-events-none': !isCheckoutEnabled,
+              'bg-gray-200 text-gray-800 pointer-events-none': !checkoutButtonEnabled,
               'bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2':
-                isCheckoutEnabled()
+                checkoutButtonEnabled()
             }">
             Checkout
           </button>

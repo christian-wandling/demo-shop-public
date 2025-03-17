@@ -8,6 +8,13 @@ import { OrderResponse, UserResponse } from '@demo-shop/api';
 import { OrderStatusComponent } from '../shared/order-status/order-status.component';
 import { DateTimeComponent } from '@demo-shop/shared';
 
+/**
+ * Component that displays detailed information about a specific order.
+ * Fetches order data based on the ID from the route parameters.
+ *
+ * @example
+ * <lib-order-detail></lib-order-detail>
+ */
 @Component({
   selector: 'lib-order-detail',
   standalone: true,
@@ -21,13 +28,22 @@ export class OrderDetailComponent implements OnInit {
   readonly user = this.#userFacade.getCurrentUser();
   readonly #orderFacade = inject(OrderFacade);
   readonly #activatedRoute = inject(ActivatedRoute);
-  readonly order = this.#orderFacade.find(this.#activatedRoute.snapshot.params['id']);
+  readonly order = this.#orderFacade.getById(this.#activatedRoute.snapshot.params['id']);
   readonly #printInvoiceService = inject(PrintInvoiceService);
 
+  /**
+   * Fetches the specific order data using the ID from route parameters
+   */
   ngOnInit(): void {
     this.#orderFacade.fetchById(this.#activatedRoute.snapshot.params['id']);
   }
 
+  /**
+   * Generates and prints a PDF invoice for the specified order
+   *
+   * @param order - The order data used to generate the invoice
+   * @param user - The user data needed for billing information
+   */
   printPdf(order: OrderResponse, user: UserResponse | undefined): void {
     if (!user) {
       console.error('Could not find user');

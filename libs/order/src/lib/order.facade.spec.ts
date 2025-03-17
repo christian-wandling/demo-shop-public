@@ -49,15 +49,9 @@ describe('OrderFacade', () => {
   });
 
   it('should return the order entity from the store', () => {
-    const order = orderFacade.find(123);
+    const order = orderFacade.getById(123);
 
     expect(order()).toEqual(mockOrders[0]);
-  });
-
-  it('should return all orders from the store', () => {
-    const orders = orderFacade.getAll();
-
-    expect(orders()).toEqual(mockOrders);
   });
 
   it('should return all orders from the store sorted by status and date', () => {

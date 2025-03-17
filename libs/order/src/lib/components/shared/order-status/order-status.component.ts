@@ -2,6 +2,21 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OrderStatus } from '@demo-shop/api';
 
+/**
+ * Component for displaying the status of an order.
+ *
+ * This standalone component displays the order status using different background colors
+ * based on the status value. It renders the status text in a styled container with
+ * conditional formatting:
+ * - Green background for "Completed" status
+ * - Orange background for "Created" status
+ *
+ * The component uses OnPush change detection for improved performance and is designed
+ * to be used within order-related views.
+ *
+ * @example
+ * <lib-order-status [status]="order.status"></lib-order-status>
+ */
 @Component({
   selector: 'lib-order-status',
   standalone: true,
@@ -16,5 +31,11 @@ import { OrderStatus } from '@demo-shop/api';
   },
 })
 export class OrderStatusComponent {
+  /**
+   * Required input property representing the order status.
+   * This signal input determines both the displayed text and styling of the component.
+   *
+   * @required
+   */
   readonly status = input.required<OrderStatus>();
 }
