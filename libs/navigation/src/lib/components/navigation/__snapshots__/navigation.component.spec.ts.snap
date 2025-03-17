@@ -3,7 +3,7 @@
 exports[`NavigationComponent snapshots should match snapshot with default state 1`] = `
 <div
   class="bg-white"
-  id="root5"
+  id="root4"
 >
   
   <header
@@ -73,6 +73,35 @@ exports[`NavigationComponent snapshots should match snapshot with default state 
             </a>
           </div>
           <div
+            class="hidden lg:ml-8 lg:block lg:self-stretch"
+          >
+            <div
+              class="flex h-full space-x-8"
+            >
+              <div
+                class="menu-item flex h-full space-x-8"
+              >
+                <a
+                  class="menu-item-button flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                  href="/route1"
+                >
+                   Route1 
+                </a>
+              </div>
+              <div
+                class="menu-item flex h-full space-x-8"
+              >
+                <a
+                  class="menu-item-button flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                  href="/route2"
+                >
+                   Route2 
+                </a>
+              </div>
+              
+            </div>
+          </div>
+          <div
             class="ml-auto flex items-center"
           >
             <lib-user-navigation
@@ -91,7 +120,7 @@ exports[`NavigationComponent snapshots should match snapshot with default state 
 exports[`NavigationComponent snapshots should match snapshot with mobile menu open 1`] = `
 <div
   class="bg-white"
-  id="root6"
+  id="root5"
 >
   <dialog
     aria-modal="true"
@@ -234,6 +263,35 @@ exports[`NavigationComponent snapshots should match snapshot with mobile menu op
                 style="position: absolute; width: 100%; height: 100%; inset: 0;"
               />
             </a>
+          </div>
+          <div
+            class="hidden lg:ml-8 lg:block lg:self-stretch"
+          >
+            <div
+              class="flex h-full space-x-8"
+            >
+              <div
+                class="menu-item flex h-full space-x-8"
+              >
+                <a
+                  class="menu-item-button flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                  href="/route1"
+                >
+                   Route1 
+                </a>
+              </div>
+              <div
+                class="menu-item flex h-full space-x-8"
+              >
+                <a
+                  class="menu-item-button flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                  href="/route2"
+                >
+                   Route2 
+                </a>
+              </div>
+              
+            </div>
           </div>
           <div
             class="ml-auto flex items-center"

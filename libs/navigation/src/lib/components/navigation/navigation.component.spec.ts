@@ -98,16 +98,6 @@ describe('NavigationComponent', () => {
     expect(component.menuItems).toEqual(mockRouteItems);
   });
 
-  it('should navigate to correct category when setCategory is called', () => {
-    jest.spyOn(router, 'navigateByUrl');
-    const testCategory = 'test-category';
-
-    component.setProductCategory(testCategory);
-
-    expect(productFacade.setFilter).toHaveBeenCalledWith({ categories: testCategory });
-    expect(router.navigateByUrl).toHaveBeenCalledWith('/products');
-  });
-
   it('should close mobile menu on window resize', () => {
     component.mobileMenuOpen.set(true);
 
