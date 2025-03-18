@@ -92,7 +92,7 @@ describe('OrdersController', () => {
 
   describe('getOrderById', () => {
     it('should return a order by id and keycloakId', async () => {
-      const id = '1';
+      const id = 1;
 
       const result = await controller.getOrderById(id, mockDecodedToken);
 
@@ -102,7 +102,7 @@ describe('OrdersController', () => {
     });
 
     it('should throw an error if order is not found', async () => {
-      const id = '1';
+      const id = 1;
 
       jest.spyOn(orderService, 'find').mockRejectedValueOnce(new Error('Order not found'));
 

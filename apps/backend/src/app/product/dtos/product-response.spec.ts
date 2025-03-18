@@ -57,7 +57,7 @@ describe('ProductResponse', () => {
         categories: ['category1', 'category2'],
         images: [],
         price: 29.99,
-        thumbnail: null,
+        thumbnail: undefined,
       };
 
       const result = toProductResponse(mockProduct);
