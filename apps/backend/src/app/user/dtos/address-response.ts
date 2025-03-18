@@ -1,21 +1,55 @@
 import { Address } from '@prisma/client';
-import { ApiResponseProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
+/**
+ * Response object representing a user's address details.
+ * Used for API responses when returning address information.
+ */
 export class AddressResponse {
-  @ApiResponseProperty()
+  /**
+   * The street name and number of the address.
+   */
+  @ApiProperty()
   readonly street: string;
-  @ApiResponseProperty()
+
+  /**
+   * The apartment, suite, or unit number (if applicable).
+   */
+  @ApiProperty()
   readonly apartment: string;
-  @ApiResponseProperty()
+
+  /**
+   * The city or locality name.
+   */
+  @ApiProperty()
   readonly city: string;
-  @ApiResponseProperty()
-  readonly region: string;
-  @ApiResponseProperty()
+
+  /**
+   * The region, state, or province.
+   */
+  @ApiProperty({ nullable: true, required: false })
+  readonly region?: string | null;
+
+  /**
+   * The postal or zip code.
+   */
+  @ApiProperty()
   readonly zip: string;
-  @ApiResponseProperty()
+
+  /**
+   * The country name.
+   */
+  @ApiProperty()
   readonly country: string;
 }
 
+/**
+ * Converts an internal Address model to an AddressResponse object.
+ * Maps the database entity to the API response format.
+ *
+ * @param address The internal Address entity to convert
+ * @returns An AddressResponse object containing the address details
+ */
 export const toAddressResponse = (address: Address): AddressResponse => {
   return {
     street: address.street,
