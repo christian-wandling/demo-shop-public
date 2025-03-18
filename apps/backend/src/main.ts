@@ -10,6 +10,23 @@ import { VersioningType } from '@nestjs/common/enums/version-type.enum';
 import helmet from 'helmet';
 import { CatchEverythingFilter } from './app/common/filters/catch-everything.filter';
 
+/**
+ * Bootstraps the NestJS application with necessary middleware and configuration.
+ *
+ * Sets up the following:
+ * - Helmet for security headers
+ * - Global exception filter to catch all errors
+ * - CORS configuration with allowed origins from environment
+ * - API versioning (defaulting to v1)
+ * - Global prefix for all routes
+ * - Validation pipe with security settings
+ * - Swagger documentation (in non-production environments)
+ *
+ * @async
+ * @function bootstrap
+ * @returns {Promise<void>} A promise that resolves when the application is successfully started
+ * @throws {Error} If the application fails to start or configure properly
+ */
 async function bootstrap() {
   const globalPrefix = 'api';
   const port = process.env.PORT || 3000;
@@ -38,6 +55,7 @@ async function bootstrap() {
 
   if (!isProd) {
     enableSwagger(app);
+    app.use(/^\/(api\/?)?(index\.html)?$/, (req, res) => res.redirect('/api/docs'));
   }
 
   await app.listen(port);
