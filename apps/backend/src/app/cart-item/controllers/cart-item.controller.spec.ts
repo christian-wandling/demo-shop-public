@@ -3,7 +3,7 @@ import { DecodeTokenPipe } from '../../common/pipes/decode-token-pipe';
 import { CartItemController } from './cart-item.controller';
 import { CartItemService } from '../services/cart-item.service';
 import { CartItemResponse } from '../dtos/cart-item-response';
-import { ForbiddenException, RequestMethod } from '@nestjs/common';
+import { NotFoundException, RequestMethod } from '@nestjs/common';
 import { ShoppingSessionResponse } from '../../shopping-session/dtos/shopping-session-response';
 import { ShoppingSessionService } from '../../shopping-session/services/shopping-session.service';
 import { DecodedToken } from '../../common/models/decoded-token';
@@ -97,7 +97,7 @@ describe('CartItemController', () => {
       jest.spyOn(shoppingSessionService, 'findCurrentSessionForUser').mockResolvedValue(mockShoppingSessionDto);
       jest.spyOn(cartItemService, 'create').mockResolvedValue(mockCartItemDto);
 
-      const result = await controller.createCartItem(createDto, mockDecodedToken);
+      const result = await controller.addCartItem(createDto, mockDecodedToken);
 
       expect(shoppingSessionService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.sub);
       expect(cartItemService.create).toHaveBeenCalledWith(createDto, mockShoppingSessionDto.id);
@@ -107,16 +107,16 @@ describe('CartItemController', () => {
     it('should throw the right exception when no shopping session found', async () => {
       jest.spyOn(shoppingSessionService, 'findCurrentSessionForUser').mockResolvedValue(null);
 
-      await expect(controller.createCartItem(createDto, mockDecodedToken)).rejects.toThrow(ForbiddenException);
+      await expect(controller.addCartItem(createDto, mockDecodedToken)).rejects.toThrow(NotFoundException);
     });
 
     it('should have the correct path', () => {
-      const path = Reflect.getMetadata('path', CartItemController.prototype.createCartItem);
+      const path = Reflect.getMetadata('path', CartItemController.prototype.addCartItem);
       expect(path).toEqual('/current/cart-items');
     });
 
     it('should have the correct method', () => {
-      const method = Reflect.getMetadata('method', CartItemController.prototype.createCartItem);
+      const method = Reflect.getMetadata('method', CartItemController.prototype.addCartItem);
       expect(method).toEqual(RequestMethod.POST);
     });
   });
@@ -134,7 +134,7 @@ describe('CartItemController', () => {
         quantity: updateDto.quantity,
       });
 
-      const result = await controller.updateCartItem(cartItemId, updateDto, mockDecodedToken);
+      const result = await controller.updateCartItemQuantity(cartItemId, updateDto, mockDecodedToken);
 
       expect(shoppingSessionService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.sub);
       expect(cartItemService.update).toHaveBeenCalledWith(Number(cartItemId), updateDto, mockShoppingSessionDto.id);
@@ -147,18 +147,18 @@ describe('CartItemController', () => {
     it('should throw the right exception when no shopping session found', async () => {
       jest.spyOn(shoppingSessionService, 'findCurrentSessionForUser').mockResolvedValue(null);
 
-      await expect(controller.updateCartItem(cartItemId, updateDto, mockDecodedToken)).rejects.toThrow(
-        ForbiddenException
+      await expect(controller.updateCartItemQuantity(cartItemId, updateDto, mockDecodedToken)).rejects.toThrow(
+        NotFoundException
       );
     });
 
     it('should have the correct path', () => {
-      const path = Reflect.getMetadata('path', CartItemController.prototype.updateCartItem);
+      const path = Reflect.getMetadata('path', CartItemController.prototype.updateCartItemQuantity);
       expect(path).toEqual('/current/cart-items/:id');
     });
 
     it('should have the correct method', () => {
-      const method = Reflect.getMetadata('method', CartItemController.prototype.updateCartItem);
+      const method = Reflect.getMetadata('method', CartItemController.prototype.updateCartItemQuantity);
       expect(method).toEqual(RequestMethod.PATCH);
     });
   });
@@ -179,7 +179,7 @@ describe('CartItemController', () => {
     it('should throw the right exception when no shopping session found', async () => {
       jest.spyOn(shoppingSessionService, 'findCurrentSessionForUser').mockResolvedValue(null);
 
-      await expect(controller.removeCartItem(cartItemId, mockDecodedToken)).rejects.toThrow(ForbiddenException);
+      await expect(controller.removeCartItem(cartItemId, mockDecodedToken)).rejects.toThrow(NotFoundException);
     });
 
     it('should have the correct path', () => {
