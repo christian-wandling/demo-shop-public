@@ -16,6 +16,7 @@ describe('ProductController', () => {
       description: 'description',
       categories: ['Category 1'],
       images: [],
+      thumbnail: undefined,
     },
   ];
 
@@ -82,7 +83,7 @@ describe('ProductController', () => {
 
   describe('getProductById', () => {
     it('should return a product by id', async () => {
-      const id = '1';
+      const id = 1;
       const result = await controller.getProductById(id);
 
       expect(result).toEqual(mockProducts[0]);

@@ -1,23 +1,61 @@
 import { HydratedCartItem } from '../entities/hydrated-cart-item';
-import { ApiResponseProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
+/**
+ * Represents a response object for cart items with product details.
+ * Used to provide structured information about items in a shopping cart.
+ */
 export class CartItemResponse {
-  @ApiResponseProperty()
+  /**
+   * Unique identifier of the cart item
+   */
+  @ApiProperty()
   readonly id: number;
-  @ApiResponseProperty()
+
+  /**
+   * Identifier of the product in the cart item
+   */
+  @ApiProperty()
   readonly productId: number;
-  @ApiResponseProperty()
+
+  /**
+   * Name of the product
+   */
+  @ApiProperty()
   readonly productName: string;
-  @ApiResponseProperty()
+
+  /**
+   * URL or path to the product thumbnail image
+   */
+  @ApiProperty()
   readonly productThumbnail: string;
-  @ApiResponseProperty()
+
+  /**
+   * Quantity of the product in the cart
+   */
+  @ApiProperty()
   readonly quantity: number;
-  @ApiResponseProperty()
+
+  /**
+   * Price per unit of the product
+   */
+  @ApiProperty()
   readonly unitPrice: number;
-  @ApiResponseProperty()
+
+  /**
+   * Total price calculated as unitPrice * quantity
+   */
+  @ApiProperty()
   readonly totalPrice: number;
 }
 
+/**
+ * Converts a HydratedCartItem to a CartItemResponse object.
+ * Extracts relevant product information and calculates prices.
+ *
+ * @param item - The hydrated cart item with product details
+ * @returns A formatted cart item response object
+ */
 export const toCartItemResponse = (item: HydratedCartItem): CartItemResponse => {
   const productThumbnail = item.product.images?.[0]?.uri;
 

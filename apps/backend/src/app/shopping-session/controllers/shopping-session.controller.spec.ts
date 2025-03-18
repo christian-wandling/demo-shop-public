@@ -80,7 +80,7 @@ describe('ShoppingSessionsController', () => {
 
   describe('resolveShoppingSessionOfCurrentUser', () => {
     it('should return a shopping session by email', async () => {
-      const result = await controller.resolveShoppingSessionOfCurrentUser(mockDecodedToken);
+      const result = await controller.resolveCurrentShoppingSession(mockDecodedToken);
 
       expect(result).toEqual(shoppingSessionResponse);
       expect(shoppingSessionService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.sub);
@@ -92,7 +92,7 @@ describe('ShoppingSessionsController', () => {
         .spyOn(shoppingSessionService, 'findCurrentSessionForUser')
         .mockRejectedValueOnce(new Error('ShoppingSession not found'));
 
-      await expect(controller.resolveShoppingSessionOfCurrentUser(mockDecodedToken)).rejects.toThrow(
+      await expect(controller.resolveCurrentShoppingSession(mockDecodedToken)).rejects.toThrow(
         'ShoppingSession not found'
       );
       expect(shoppingSessionService.findCurrentSessionForUser).toHaveBeenCalledWith(mockDecodedToken.sub);
@@ -100,15 +100,12 @@ describe('ShoppingSessionsController', () => {
     });
 
     it('should have the correct path', () => {
-      const path = Reflect.getMetadata('path', ShoppingSessionController.prototype.resolveShoppingSessionOfCurrentUser);
+      const path = Reflect.getMetadata('path', ShoppingSessionController.prototype.resolveCurrentShoppingSession);
       expect(path).toEqual('current');
     });
 
     it('should have the correct method', () => {
-      const method = Reflect.getMetadata(
-        'method',
-        ShoppingSessionController.prototype.resolveShoppingSessionOfCurrentUser
-      );
+      const method = Reflect.getMetadata('method', ShoppingSessionController.prototype.resolveCurrentShoppingSession);
       expect(method).toEqual(RequestMethod.POST);
     });
   });

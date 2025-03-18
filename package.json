@@ -10,7 +10,7 @@
     "graph:frontend": "nx graph --focus=frontend --file=dist/docs/graph/frontend/index.html",
     "start": "docker-compose up -d",
     "rebuild": "docker-compose up -d --build --remove-orphans",
-    "openapi:generate": "openapi-generator generate -g typescript-angular -o libs/api -i http://localhost:3000/api/v1/swagger.json -c open-api.yaml",
+    "openapi:generate": "rm -rf libs/api && openapi-generator generate -g typescript-angular -o libs/api -i http://localhost:3000/api/docs/v1/swagger.json -c open-api.yaml",
     "prepare": "husky",
     "prisma:generate": "npx prisma generate",
     "prisma:migrate:dev": "npx prisma migrate dev",

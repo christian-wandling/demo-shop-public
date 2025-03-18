@@ -9,5 +9,5 @@
  */
 
 export interface UpdateCartItemQuantityRequest {
-  quantity?: number;
+  quantity: number;
 }

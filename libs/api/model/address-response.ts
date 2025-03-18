@@ -12,7 +12,7 @@ export interface AddressResponse {
   street: string;
   apartment: string;
   city: string;
-  zip: string;
   region?: string | null;
+  zip: string;
   country: string;
 }

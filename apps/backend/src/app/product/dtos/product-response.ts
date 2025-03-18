@@ -1,23 +1,46 @@
 import { HydratedProduct } from '../entities/hydrated-product';
 import { ImageResponse, toImageResponse } from './image-response';
 import { batchConvert } from '../../common/util/batch-convert';
-import { ApiResponseProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
+/**
+ * Response DTO for product data
+ * Contains all relevant information about a product for API responses
+ */
 export class ProductResponse {
-  @ApiResponseProperty()
+  /** Unique identifier for the product */
+  @ApiProperty()
   readonly id: number;
-  @ApiResponseProperty()
+
+  /** Name of the product */
+  @ApiProperty()
   readonly name: string;
-  @ApiResponseProperty()
+
+  /** Detailed description of the product */
+  @ApiProperty()
   readonly description: string;
-  @ApiResponseProperty()
+
+  /** List of category names the product belongs to */
+  @ApiProperty()
   readonly categories: string[];
-  @ApiResponseProperty({ type: [ImageResponse] })
+
+  /** Collection of product images with their names and URIs */
+  @ApiProperty({ type: [ImageResponse] })
   readonly images: ImageResponse[];
-  @ApiResponseProperty()
+
+  /** Price of the product in the store's currency */
+  @ApiProperty()
   readonly price: number;
+  @ApiProperty({ type: ImageResponse })
+  readonly thumbnail: ImageResponse;
 }
 
+/**
+ * Converts a hydrated product entity to a product response DTO
+ *
+ * @param product - The hydrated product entity containing related data
+ * @returns A simplified ProductResponse object ready for API consumption
+ */
 export const toProductResponse = (product: HydratedProduct): ProductResponse => {
   const categories = product.categories.map(category => category.category.name);
   const images = batchConvert(product.images, toImageResponse);
@@ -29,5 +52,6 @@ export const toProductResponse = (product: HydratedProduct): ProductResponse => 
     categories,
     images,
     price: Number(product.price),
+    thumbnail: images[0],
   };
 };

@@ -43,6 +43,7 @@ describe('ProductsService', () => {
     description: 'description',
     categories: ['Category 1'],
     images: [],
+    thumbnail: undefined,
   };
 
   beforeEach(async () => {

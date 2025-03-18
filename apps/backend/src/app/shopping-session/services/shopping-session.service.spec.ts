@@ -162,7 +162,7 @@ describe('ShoppingSessionsService', () => {
     it('should throw the right exception when checkout returns null', async () => {
       jest.spyOn(repository, 'checkout').mockResolvedValue(null);
 
-      await expect(service.checkout(mockEmail)).rejects.toThrow(Error);
+      await expect(service.checkout(mockEmail)).rejects.toThrow(BadRequestException);
     });
   });
 });

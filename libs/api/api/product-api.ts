@@ -23,13 +23,9 @@ import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
 
 // @ts-ignore
-import { AddCartItem401Response } from '../model/add-cart-item401-response';
-// @ts-ignore
 import { ProductListResponse } from '../model/product-list-response';
 // @ts-ignore
 import { ProductResponse } from '../model/product-response';
-// @ts-ignore
-import { ValidationProblemDetails } from '../model/validation-problem-details';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
@@ -112,45 +108,29 @@ export class ProductApi {
   public getAllProducts(
     observe?: 'body',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<ProductListResponse>;
   public getAllProducts(
     observe?: 'response',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpResponse<ProductListResponse>>;
   public getAllProducts(
     observe?: 'events',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpEvent<ProductListResponse>>;
   public getAllProducts(
     observe: any = 'body',
     reportProgress: boolean = false,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<any> {
     let localVarHeaders = this.defaultHeaders;
 
     let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (localVarHttpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
-      const httpHeaderAccepts: string[] = ['text/plain', 'application/json', 'text/json'];
+      const httpHeaderAccepts: string[] = ['application/json'];
       localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (localVarHttpHeaderAcceptSelected !== undefined) {
@@ -191,8 +171,8 @@ export class ProductApi {
   }
 
   /**
-   * Get all products
-   * Get all products
+   * Get product by id
+   * Get product by id
    * @param id
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
@@ -201,41 +181,25 @@ export class ProductApi {
     id: number,
     observe?: 'body',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<ProductResponse>;
   public getProductById(
     id: number,
     observe?: 'response',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpResponse<ProductResponse>>;
   public getProductById(
     id: number,
     observe?: 'events',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpEvent<ProductResponse>>;
   public getProductById(
     id: number,
     observe: any = 'body',
     reportProgress: boolean = false,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling getProductById.');
@@ -246,7 +210,7 @@ export class ProductApi {
     let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (localVarHttpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
-      const httpHeaderAccepts: string[] = ['text/plain', 'application/json', 'text/json'];
+      const httpHeaderAccepts: string[] = ['application/json'];
       localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (localVarHttpHeaderAcceptSelected !== undefined) {
@@ -281,7 +245,7 @@ export class ProductApi {
       style: 'simple',
       explode: false,
       dataType: 'number',
-      dataFormat: 'int32',
+      dataFormat: undefined,
     })}`;
     return this.httpClient.request<ProductResponse>('get', `${this.configuration.basePath}${localVarPath}`, {
       context: localVarHttpContext,

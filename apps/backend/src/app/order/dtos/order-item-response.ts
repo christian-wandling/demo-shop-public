@@ -1,21 +1,54 @@
 import { OrderItem } from '@prisma/client';
-import { ApiResponseProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
+/**
+ * Response object representing an order item with product details and pricing.
+ */
 export class OrderItemResponse {
-  @ApiResponseProperty()
+  /**
+   * Unique identifier of the product.
+   */
+  @ApiProperty()
   readonly productId: number;
-  @ApiResponseProperty()
+
+  /**
+   * Name of the product.
+   */
+  @ApiProperty()
   readonly productName: string;
-  @ApiResponseProperty()
+
+  /**
+   * URL or path to the product's thumbnail image.
+   */
+  @ApiProperty()
   readonly productThumbnail: string;
-  @ApiResponseProperty()
+
+  /**
+   * Quantity of the product ordered.
+   */
+  @ApiProperty()
   readonly quantity: number;
-  @ApiResponseProperty()
+
+  /**
+   * Price per unit of the product.
+   */
+  @ApiProperty()
   readonly unitPrice: number;
-  @ApiResponseProperty()
+
+  /**
+   * Total price for this item (unitPrice × quantity).
+   */
+  @ApiProperty()
   readonly totalPrice: number;
 }
 
+/**
+ * Converts an OrderItem entity to an OrderItemResponse DTO.
+ * Calculates the total price based on unit price and quantity.
+ *
+ * @param item - The order item entity to convert
+ * @returns An OrderItemResponse object
+ */
 export const toOrderItemResponse = (item: OrderItem): OrderItemResponse => {
   return {
     productId: item.product_id,

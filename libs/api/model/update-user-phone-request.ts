@@ -9,5 +9,5 @@
  */
 
 export interface UpdateUserPhoneRequest {
-  phone?: string | null;
+  phone: string | null;
 }

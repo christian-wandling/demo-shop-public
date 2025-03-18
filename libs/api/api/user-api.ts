@@ -23,19 +23,13 @@ import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
 
 // @ts-ignore
-import { AddCartItem401Response } from '../model/add-cart-item401-response';
-// @ts-ignore
 import { AddressResponse } from '../model/address-response';
 // @ts-ignore
 import { UpdateUserAddressRequest } from '../model/update-user-address-request';
 // @ts-ignore
 import { UpdateUserPhoneRequest } from '../model/update-user-phone-request';
 // @ts-ignore
-import { UserPhoneResponse } from '../model/user-phone-response';
-// @ts-ignore
 import { UserResponse } from '../model/user-response';
-// @ts-ignore
-import { ValidationProblemDetails } from '../model/validation-problem-details';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
@@ -118,45 +112,36 @@ export class UserApi {
   public resolveCurrentUser(
     observe?: 'body',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<UserResponse>;
   public resolveCurrentUser(
     observe?: 'response',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpResponse<UserResponse>>;
   public resolveCurrentUser(
     observe?: 'events',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpEvent<UserResponse>>;
   public resolveCurrentUser(
     observe: any = 'body',
     reportProgress: boolean = false,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<any> {
     let localVarHeaders = this.defaultHeaders;
+
+    let localVarCredential: string | undefined;
+    // authentication (bearer) required
+    localVarCredential = this.configuration.lookupCredential('bearer');
+    if (localVarCredential) {
+      localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+    }
 
     let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (localVarHttpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
-      const httpHeaderAccepts: string[] = ['text/plain', 'application/json', 'text/json'];
+      const httpHeaderAccepts: string[] = ['application/json'];
       localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (localVarHttpHeaderAcceptSelected !== undefined) {
@@ -204,51 +189,48 @@ export class UserApi {
    * @param reportProgress flag to report request and response progress.
    */
   public updateCurrentUserAddress(
-    updateUserAddressRequest?: UpdateUserAddressRequest,
+    updateUserAddressRequest: UpdateUserAddressRequest,
     observe?: 'body',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<AddressResponse>;
   public updateCurrentUserAddress(
-    updateUserAddressRequest?: UpdateUserAddressRequest,
+    updateUserAddressRequest: UpdateUserAddressRequest,
     observe?: 'response',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpResponse<AddressResponse>>;
   public updateCurrentUserAddress(
-    updateUserAddressRequest?: UpdateUserAddressRequest,
+    updateUserAddressRequest: UpdateUserAddressRequest,
     observe?: 'events',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpEvent<AddressResponse>>;
   public updateCurrentUserAddress(
-    updateUserAddressRequest?: UpdateUserAddressRequest,
+    updateUserAddressRequest: UpdateUserAddressRequest,
     observe: any = 'body',
     reportProgress: boolean = false,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<any> {
+    if (updateUserAddressRequest === null || updateUserAddressRequest === undefined) {
+      throw new Error(
+        'Required parameter updateUserAddressRequest was null or undefined when calling updateCurrentUserAddress.'
+      );
+    }
+
     let localVarHeaders = this.defaultHeaders;
+
+    let localVarCredential: string | undefined;
+    // authentication (bearer) required
+    localVarCredential = this.configuration.lookupCredential('bearer');
+    if (localVarCredential) {
+      localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+    }
 
     let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (localVarHttpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
-      const httpHeaderAccepts: string[] = ['text/plain', 'application/json', 'text/json'];
+      const httpHeaderAccepts: string[] = ['application/json'];
       localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (localVarHttpHeaderAcceptSelected !== undefined) {
@@ -266,7 +248,7 @@ export class UserApi {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ['application/json', 'text/json', 'application/*+json'];
+    const consumes: string[] = ['application/json'];
     const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected !== undefined) {
       localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
@@ -304,51 +286,48 @@ export class UserApi {
    * @param reportProgress flag to report request and response progress.
    */
   public updateCurrentUserPhone(
-    updateUserPhoneRequest?: UpdateUserPhoneRequest,
+    updateUserPhoneRequest: UpdateUserPhoneRequest,
     observe?: 'body',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<UserPhoneResponse>;
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
+  ): Observable<UserResponse>;
   public updateCurrentUserPhone(
-    updateUserPhoneRequest?: UpdateUserPhoneRequest,
+    updateUserPhoneRequest: UpdateUserPhoneRequest,
     observe?: 'response',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<HttpResponse<UserPhoneResponse>>;
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
+  ): Observable<HttpResponse<UserResponse>>;
   public updateCurrentUserPhone(
-    updateUserPhoneRequest?: UpdateUserPhoneRequest,
+    updateUserPhoneRequest: UpdateUserPhoneRequest,
     observe?: 'events',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<HttpEvent<UserPhoneResponse>>;
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
+  ): Observable<HttpEvent<UserResponse>>;
   public updateCurrentUserPhone(
-    updateUserPhoneRequest?: UpdateUserPhoneRequest,
+    updateUserPhoneRequest: UpdateUserPhoneRequest,
     observe: any = 'body',
     reportProgress: boolean = false,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<any> {
+    if (updateUserPhoneRequest === null || updateUserPhoneRequest === undefined) {
+      throw new Error(
+        'Required parameter updateUserPhoneRequest was null or undefined when calling updateCurrentUserPhone.'
+      );
+    }
+
     let localVarHeaders = this.defaultHeaders;
+
+    let localVarCredential: string | undefined;
+    // authentication (bearer) required
+    localVarCredential = this.configuration.lookupCredential('bearer');
+    if (localVarCredential) {
+      localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+    }
 
     let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (localVarHttpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
-      const httpHeaderAccepts: string[] = ['text/plain', 'application/json', 'text/json'];
+      const httpHeaderAccepts: string[] = ['application/json'];
       localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (localVarHttpHeaderAcceptSelected !== undefined) {
@@ -366,7 +345,7 @@ export class UserApi {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ['application/json', 'text/json', 'application/*+json'];
+    const consumes: string[] = ['application/json'];
     const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected !== undefined) {
       localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
@@ -384,7 +363,7 @@ export class UserApi {
     }
 
     let localVarPath = `/api/v1/users/me/phone`;
-    return this.httpClient.request<UserPhoneResponse>('patch', `${this.configuration.basePath}${localVarPath}`, {
+    return this.httpClient.request<UserResponse>('patch', `${this.configuration.basePath}${localVarPath}`, {
       context: localVarHttpContext,
       body: updateUserPhoneRequest,
       responseType: <any>responseType_,
