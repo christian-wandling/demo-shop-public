@@ -14,6 +14,6 @@ export interface UserResponse {
   email: string;
   firstname: string;
   lastname: string;
-  phone?: string | null;
+  phone: string | null;
   address?: AddressResponse;
 }

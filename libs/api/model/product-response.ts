@@ -13,8 +13,8 @@ export interface ProductResponse {
   id: number;
   name: string;
   description: string;
-  price: number;
   categories: Array<string>;
   images: Array<ImageResponse>;
+  price: number;
   thumbnail: ImageResponse;
 }

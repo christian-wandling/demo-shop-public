@@ -23,8 +23,6 @@ import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
 
 // @ts-ignore
-import { AddCartItem401Response } from '../model/add-cart-item401-response';
-// @ts-ignore
 import { AddCartItemRequest } from '../model/add-cart-item-request';
 // @ts-ignore
 import { CartItemResponse } from '../model/cart-item-response';
@@ -34,10 +32,6 @@ import { OrderResponse } from '../model/order-response';
 import { ShoppingSessionResponse } from '../model/shopping-session-response';
 // @ts-ignore
 import { UpdateCartItemQuantityRequest } from '../model/update-cart-item-quantity-request';
-// @ts-ignore
-import { UpdateCartItemQuantityResponse } from '../model/update-cart-item-quantity-response';
-// @ts-ignore
-import { ValidationProblemDetails } from '../model/validation-problem-details';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
@@ -119,51 +113,46 @@ export class ShoppingSessionApi {
    * @param reportProgress flag to report request and response progress.
    */
   public addCartItem(
-    addCartItemRequest?: AddCartItemRequest,
+    addCartItemRequest: AddCartItemRequest,
     observe?: 'body',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<CartItemResponse>;
   public addCartItem(
-    addCartItemRequest?: AddCartItemRequest,
+    addCartItemRequest: AddCartItemRequest,
     observe?: 'response',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpResponse<CartItemResponse>>;
   public addCartItem(
-    addCartItemRequest?: AddCartItemRequest,
+    addCartItemRequest: AddCartItemRequest,
     observe?: 'events',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpEvent<CartItemResponse>>;
   public addCartItem(
-    addCartItemRequest?: AddCartItemRequest,
+    addCartItemRequest: AddCartItemRequest,
     observe: any = 'body',
     reportProgress: boolean = false,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<any> {
+    if (addCartItemRequest === null || addCartItemRequest === undefined) {
+      throw new Error('Required parameter addCartItemRequest was null or undefined when calling addCartItem.');
+    }
+
     let localVarHeaders = this.defaultHeaders;
+
+    let localVarCredential: string | undefined;
+    // authentication (bearer) required
+    localVarCredential = this.configuration.lookupCredential('bearer');
+    if (localVarCredential) {
+      localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+    }
 
     let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (localVarHttpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
-      const httpHeaderAccepts: string[] = ['text/plain', 'application/json', 'text/json'];
+      const httpHeaderAccepts: string[] = ['application/json'];
       localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (localVarHttpHeaderAcceptSelected !== undefined) {
@@ -181,7 +170,7 @@ export class ShoppingSessionApi {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ['application/json', 'text/json', 'application/*+json'];
+    const consumes: string[] = ['application/json'];
     const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected !== undefined) {
       localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
@@ -213,52 +202,43 @@ export class ShoppingSessionApi {
 
   /**
    * Checkout current shopping session
-   * Check out by creating an order from the current shopping session and deleting the shopping session afterwardds
+   * Check out by creating an order from the current shopping session and deleting the shopping session afterwards
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
   public checkout(
     observe?: 'body',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<OrderResponse>;
   public checkout(
     observe?: 'response',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpResponse<OrderResponse>>;
   public checkout(
     observe?: 'events',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpEvent<OrderResponse>>;
   public checkout(
     observe: any = 'body',
     reportProgress: boolean = false,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<any> {
     let localVarHeaders = this.defaultHeaders;
+
+    let localVarCredential: string | undefined;
+    // authentication (bearer) required
+    localVarCredential = this.configuration.lookupCredential('bearer');
+    if (localVarCredential) {
+      localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+    }
 
     let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (localVarHttpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
-      const httpHeaderAccepts: string[] = ['text/plain', 'application/json', 'text/json'];
+      const httpHeaderAccepts: string[] = ['application/json'];
       localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (localVarHttpHeaderAcceptSelected !== undefined) {
@@ -309,41 +289,25 @@ export class ShoppingSessionApi {
     id: number,
     observe?: 'body',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: undefined; context?: HttpContext; transferCache?: boolean }
   ): Observable<any>;
   public removeCartItem(
     id: number,
     observe?: 'response',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: undefined; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpResponse<any>>;
   public removeCartItem(
     id: number,
     observe?: 'events',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: undefined; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpEvent<any>>;
   public removeCartItem(
     id: number,
     observe: any = 'body',
     reportProgress: boolean = false,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: undefined; context?: HttpContext; transferCache?: boolean }
   ): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling removeCartItem.');
@@ -351,10 +315,17 @@ export class ShoppingSessionApi {
 
     let localVarHeaders = this.defaultHeaders;
 
+    let localVarCredential: string | undefined;
+    // authentication (bearer) required
+    localVarCredential = this.configuration.lookupCredential('bearer');
+    if (localVarCredential) {
+      localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+    }
+
     let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (localVarHttpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
-      const httpHeaderAccepts: string[] = ['text/plain', 'application/json', 'text/json'];
+      const httpHeaderAccepts: string[] = [];
       localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (localVarHttpHeaderAcceptSelected !== undefined) {
@@ -389,7 +360,7 @@ export class ShoppingSessionApi {
       style: 'simple',
       explode: false,
       dataType: 'number',
-      dataFormat: 'int32',
+      dataFormat: undefined,
     })}`;
     return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`, {
       context: localVarHttpContext,
@@ -411,45 +382,36 @@ export class ShoppingSessionApi {
   public resolveCurrentShoppingSession(
     observe?: 'body',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<ShoppingSessionResponse>;
   public resolveCurrentShoppingSession(
     observe?: 'response',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpResponse<ShoppingSessionResponse>>;
   public resolveCurrentShoppingSession(
     observe?: 'events',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<HttpEvent<ShoppingSessionResponse>>;
   public resolveCurrentShoppingSession(
     observe: any = 'body',
     reportProgress: boolean = false,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<any> {
     let localVarHeaders = this.defaultHeaders;
+
+    let localVarCredential: string | undefined;
+    // authentication (bearer) required
+    localVarCredential = this.configuration.lookupCredential('bearer');
+    if (localVarCredential) {
+      localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+    }
 
     let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (localVarHttpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
-      const httpHeaderAccepts: string[] = ['text/plain', 'application/json', 'text/json'];
+      const httpHeaderAccepts: string[] = ['application/json'];
       localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (localVarHttpHeaderAcceptSelected !== undefined) {
@@ -502,44 +464,28 @@ export class ShoppingSessionApi {
     updateCartItemQuantityRequest: UpdateCartItemQuantityRequest,
     observe?: 'body',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<UpdateCartItemQuantityResponse>;
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
+  ): Observable<CartItemResponse>;
   public updateCartItemQuantity(
     id: number,
     updateCartItemQuantityRequest: UpdateCartItemQuantityRequest,
     observe?: 'response',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<HttpResponse<UpdateCartItemQuantityResponse>>;
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
+  ): Observable<HttpResponse<CartItemResponse>>;
   public updateCartItemQuantity(
     id: number,
     updateCartItemQuantityRequest: UpdateCartItemQuantityRequest,
     observe?: 'events',
     reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
-  ): Observable<HttpEvent<UpdateCartItemQuantityResponse>>;
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
+  ): Observable<HttpEvent<CartItemResponse>>;
   public updateCartItemQuantity(
     id: number,
     updateCartItemQuantityRequest: UpdateCartItemQuantityRequest,
     observe: any = 'body',
     reportProgress: boolean = false,
-    options?: {
-      httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext; transferCache?: boolean }
   ): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling updateCartItemQuantity.');
@@ -552,10 +498,17 @@ export class ShoppingSessionApi {
 
     let localVarHeaders = this.defaultHeaders;
 
+    let localVarCredential: string | undefined;
+    // authentication (bearer) required
+    localVarCredential = this.configuration.lookupCredential('bearer');
+    if (localVarCredential) {
+      localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+    }
+
     let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (localVarHttpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
-      const httpHeaderAccepts: string[] = ['text/plain', 'application/json', 'text/json'];
+      const httpHeaderAccepts: string[] = ['application/json'];
       localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (localVarHttpHeaderAcceptSelected !== undefined) {
@@ -573,7 +526,7 @@ export class ShoppingSessionApi {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ['application/json', 'text/json', 'application/*+json'];
+    const consumes: string[] = ['application/json'];
     const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected !== undefined) {
       localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
@@ -597,21 +550,17 @@ export class ShoppingSessionApi {
       style: 'simple',
       explode: false,
       dataType: 'number',
-      dataFormat: 'int32',
+      dataFormat: undefined,
     })}`;
-    return this.httpClient.request<UpdateCartItemQuantityResponse>(
-      'patch',
-      `${this.configuration.basePath}${localVarPath}`,
-      {
-        context: localVarHttpContext,
-        body: updateCartItemQuantityRequest,
-        responseType: <any>responseType_,
-        withCredentials: this.configuration.withCredentials,
-        headers: localVarHeaders,
-        observe: observe,
-        transferCache: localVarTransferCache,
-        reportProgress: reportProgress,
-      }
-    );
+    return this.httpClient.request<CartItemResponse>('patch', `${this.configuration.basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      body: updateCartItemQuantityRequest,
+      responseType: <any>responseType_,
+      withCredentials: this.configuration.withCredentials,
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
   }
 }

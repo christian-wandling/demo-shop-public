@@ -9,5 +9,5 @@
  */
 
 export interface AddCartItemRequest {
-  productId?: number;
+  productId: number;
 }
