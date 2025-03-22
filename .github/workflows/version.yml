@@ -47,6 +47,28 @@ jobs:
           git config --global user.name 'CW Deploy Bot'
           git config --global user.email 'noreply@github.com'
 
+      - name: Pull latest changes
+        run: git pull origin main
+
+      - name: Check if version needs update
+        id: check-version
+        run: |
+          # Check if there are any changes since last version tag
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "none")
+          if [ "$LATEST_TAG" != "none" ]; then
+            CHANGES=$(git log $LATEST_TAG..HEAD --oneline -- . ':!CHANGELOG.md' ':!package.json' ':!package-lock.json')
+            if [ -z "$CHANGES" ]; then
+              echo "No changes detected since last version, skipping version bump"
+              echo "skip=true" >> $GITHUB_OUTPUT
+            else
+              echo "Changes detected, proceeding with version bump"
+              echo "skip=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "No previous tag found, proceeding with version bump"
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Create new version
         if: ${{ !inputs.dry_run }}
         run: |
