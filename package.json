@@ -1,6 +1,6 @@
 {
   "name": "@demo-shop/source",
-  "version": "0.3.34",
+  "version": "0.3.35",
   "license": "MIT",
   "scripts": {
     "cm": "cz",
