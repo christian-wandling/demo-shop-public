@@ -5,6 +5,7 @@ import { ProductFacade } from '../../product.facade';
 import { CartFacade } from '@demo-shop/cart';
 import { signal } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { ProductResponse } from '@demo-shop/api';
 
 describe('ProductDetailComponent', () => {
   const hasShoppingSession = signal(false);
@@ -13,7 +14,7 @@ describe('ProductDetailComponent', () => {
   let fixture: ComponentFixture<ProductDetailComponent>;
   let cartFacade: CartFacade;
 
-  const mockProduct = signal({
+  const mockProduct: ProductResponse = {
     id: 1,
     name: 'Product 1',
     price: 10,
@@ -25,7 +26,11 @@ describe('ProductDetailComponent', () => {
         uri: 'uri',
       },
     ],
-  });
+    thumbnail: {
+      name: 'name',
+      uri: 'uri',
+    },
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -44,7 +49,7 @@ describe('ProductDetailComponent', () => {
         {
           provide: ProductFacade,
           useValue: {
-            getById: jest.fn().mockReturnValue(mockProduct),
+            getById: jest.fn().mockReturnValue(signal(mockProduct)),
             fetchById: jest.fn(),
           },
         },
