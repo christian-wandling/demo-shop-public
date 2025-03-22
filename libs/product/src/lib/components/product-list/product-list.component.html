@@ -6,7 +6,7 @@
     <a routerLink="/products/{{ product.id }}" class="product-item group">
       <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
         <img
-          [ngSrc]="product.images[0]?.uri ?? ''"
+          [ngSrc]="product.thumbnail.uri ?? ''"
           [alt]="product.name"
           onerror="this.src='images/placeholder-image.jpg'"
           class="h-full w-full object-cover object-center group-hover:opacity-75"
