@@ -58,7 +58,7 @@ const meta: Meta<CartComponent> = {
   title: 'Cart/CartComponent',
   decorators: [
     applicationConfig({
-      providers: [provideImageLoader(), provideRouter([]), provideAnimations()],
+      providers: [provideImageLoader(), provideRouter([{ path: '**', redirectTo: '' }]), provideAnimations()],
     }),
     moduleMetadata({
       imports: [CommonModule, NgOptimizedImage, CartItemsComponent],

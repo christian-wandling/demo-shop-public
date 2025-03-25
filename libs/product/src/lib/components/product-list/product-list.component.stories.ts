@@ -43,7 +43,7 @@ const meta: Meta<ProductListComponent> = {
       providers: [
         importProvidersFrom(CommonModule, NgOptimizedImage),
         provideImageLoader(),
-        provideRouter([]),
+        provideRouter([{ path: '**', redirectTo: '' }]),
         { provide: ProductFacade, useValue: mockProductFacade },
       ],
     }),

@@ -6,6 +6,9 @@ import { CartFacade } from '@demo-shop/cart';
 
 /**
  * Component that handles user navigation functionality including login, registration, and logout
+ *
+ * @example
+ * <lib-user-navigation isSmallScreen>
  */
 @Component({
   selector: 'lib-user-navigation',

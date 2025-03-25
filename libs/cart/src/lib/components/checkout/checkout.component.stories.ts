@@ -6,12 +6,12 @@ import { AddressResponse, CartItemResponse, UserResponse } from '@demo-shop/api'
 import { faker } from '@faker-js/faker';
 import { FormErrorComponent, provideImageLoader } from '@demo-shop/shared';
 import { CartFacade } from '../../cart.facade';
-import { CheckoutComponent } from '../../cart.routes';
 import { CartItemsComponent } from '../shared/cart-items/cart-items.component';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserFacade } from '@demo-shop/user';
+import { CheckoutComponent } from './checkout.component';
 
 const items: CartItemResponse[] = Array.from({ length: 5 }).map((_, id) => {
   const quantity = faker.number.int({ min: 1, max: 5 });
@@ -78,7 +78,14 @@ const meta: Meta<CheckoutComponent> = {
   title: 'Cart/CheckoutComponent',
   decorators: [
     applicationConfig({
-      providers: [provideImageLoader(), provideRouter([]), { provide: CartFacade, useValue: mockCartFacade(items) }],
+      providers: [
+        provideImageLoader(),
+        provideRouter([{ path: '**', redirectTo: '' }]),
+        {
+          provide: CartFacade,
+          useValue: mockCartFacade(items),
+        },
+      ],
     }),
     moduleMetadata({
       imports: [CommonModule, NgOptimizedImage, ReactiveFormsModule, CartItemsComponent, FormErrorComponent],

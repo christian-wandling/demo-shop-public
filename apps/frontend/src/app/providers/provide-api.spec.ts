@@ -4,7 +4,7 @@ import { makeEnvironmentProviders } from '@angular/core';
 
 jest.mock('@angular/core', () => ({
   ...jest.requireActual('@angular/core'),
-  makeEnvironmentProviders: jest.fn(providers => undefined),
+  makeEnvironmentProviders: jest.fn(),
 }));
 
 describe('API Configuration', () => {

@@ -1,7 +1,7 @@
 import { applicationConfig, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { importProvidersFrom, signal } from '@angular/core';
 import { ProductSearchComponent } from './product-search.component';
 import { ProductFacade } from '../../product.facade';
@@ -15,22 +15,18 @@ const mockProductFacade = {
   setFilter: (filter: { name: string }) => productFilter.set(filter),
 };
 
-const mockRouter = {
-  navigateByUrl: () => {
-    return;
-  },
-};
-
 const meta: Meta<ProductSearchComponent> = {
   component: ProductSearchComponent,
   title: 'Product/ProductSearchComponent',
   decorators: [
     applicationConfig({
       providers: [
-        importProvidersFrom(CommonModule, FormsModule, NgOptimizedImage),
         { provide: ProductFacade, useValue: mockProductFacade },
-        { provide: Router, useValue: mockRouter },
+        provideRouter([{ path: '**', redirectTo: '' }]),
       ],
+    }),
+    moduleMetadata({
+      imports: [CommonModule, FormsModule, NgOptimizedImage],
     }),
   ],
   argTypes: {

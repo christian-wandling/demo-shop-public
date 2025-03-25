@@ -29,7 +29,11 @@ const meta: Meta<CartItemsComponent> = {
   title: 'Cart/CartItemsComponent',
   decorators: [
     applicationConfig({
-      providers: [importProvidersFrom(CommonModule, NgOptimizedImage), provideImageLoader(), provideRouter([])],
+      providers: [
+        importProvidersFrom(CommonModule, NgOptimizedImage),
+        provideImageLoader(),
+        provideRouter([{ path: '**', redirectTo: '' }]),
+      ],
     }),
   ],
   argTypes: {

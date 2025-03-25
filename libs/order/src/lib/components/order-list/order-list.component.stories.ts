@@ -88,7 +88,7 @@ const meta: Meta<OrderListComponent> = {
       providers: [
         importProvidersFrom(CommonModule, NgOptimizedImage),
         provideImageLoader(),
-        provideRouter([]),
+        provideRouter([{ path: '**', redirectTo: '' }]),
         { provide: OrderFacade, useValue: mockOrderFacade },
         { provide: UserFacade, useValue: mockUserFacade },
       ],
