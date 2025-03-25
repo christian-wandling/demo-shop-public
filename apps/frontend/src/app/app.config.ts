@@ -1,5 +1,5 @@
-import { APP_INITIALIZER, ApplicationConfig, ErrorHandler, isDevMode, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter, Router, RouteReuseStrategy, withRouterConfig } from '@angular/router';
+import { ApplicationConfig, isDevMode, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter, withRouterConfig } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
@@ -9,9 +9,8 @@ import { provideStore } from '@ngrx/store';
 import { provideApi, withConfiguration } from './providers/provide-api';
 import { authInterceptor, provideAuth } from '@demo-shop/auth';
 import { environment } from '../environments/environment';
-import * as Sentry from '@sentry/angular';
-import { NoReuseStrategy } from './strategies/no-reuse-strategy';
-import { provideMonitoring } from '@demo-shop/monitoring';
+import { provideMonitoring, provideSentry } from '@demo-shop/monitoring';
+import { provideImageLoader, provideRouteReuseStrategy } from '@demo-shop/shared';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -34,35 +33,13 @@ export const appConfig: ApplicationConfig = {
     provideRouterStore(),
 
     /** NgRx store setup with router reducer */
-    provideStore({
-      router: routerReducer,
-    }),
+    provideStore({ router: routerReducer }),
 
     /** Custom route reuse strategy to prevent component reuse */
-    {
-      provide: RouteReuseStrategy,
-      useClass: NoReuseStrategy,
-    },
+    provideRouteReuseStrategy(),
 
-    /** Sentry error handler integration */
-    {
-      provide: ErrorHandler,
-      useValue: Sentry.createErrorHandler(),
-    },
-
-    /** Sentry performance tracing service */
-    {
-      provide: Sentry.TraceService,
-      deps: [Router],
-    },
-
-    /**  Initialize Sentry tracing on application startup */
-    {
-      provide: APP_INITIALIZER,
-      useFactory: () => () => undefined,
-      deps: [Sentry.TraceService],
-      multi: true,
-    },
+    /** Sentry configuration **/
+    provideSentry(),
 
     /** API client configuration with basePath: '' */
     provideApi(withConfiguration({ basePath: '' })),
@@ -72,5 +49,8 @@ export const appConfig: ApplicationConfig = {
 
     /** Provide Sentry configuration to monitoring lib */
     provideMonitoring({ sentry: environment.sentry }),
+
+    /** Image loader configuration **/
+    provideImageLoader(),
   ],
 };
