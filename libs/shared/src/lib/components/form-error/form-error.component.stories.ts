@@ -30,7 +30,7 @@ export const RequiredError: Story = {
   },
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
-    expect(canvas.getByText(`${args.fieldName} is required`)).toBeTruthy();
+    expect(canvas.getByText(`${args.fieldName || 'Field'} is required`)).toBeTruthy();
   },
 };
 

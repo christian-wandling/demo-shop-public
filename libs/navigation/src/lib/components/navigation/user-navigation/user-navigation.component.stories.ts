@@ -3,20 +3,11 @@ import { CommonModule } from '@angular/common';
 import { importProvidersFrom, signal } from '@angular/core';
 import { UserResponse } from '@demo-shop/api';
 import { CartFacade } from '@demo-shop/cart';
-import { faker } from '@faker-js/faker';
 import { UserNavigationComponent } from './user-navigation.component';
-import { UserFacade } from '@demo-shop/user';
+import { mockUser, UserFacade } from '@demo-shop/user';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import { AuthFacade } from '@demo-shop/auth';
-
-const user: UserResponse = {
-  id: 1,
-  email: faker.internet.email(),
-  firstname: faker.person.firstName(),
-  lastname: faker.person.lastName(),
-  phone: faker.helpers.fromRegExp('+[0-9]{9}'),
-};
 
 const mockUserFacade = (user?: UserResponse) => ({
   getCurrentUser: () => signal(user),
@@ -94,7 +85,7 @@ export const Authenticated: Story = {
   },
   decorators: [
     applicationConfig({
-      providers: [{ provide: UserFacade, useValue: mockUserFacade(user) }],
+      providers: [{ provide: UserFacade, useValue: mockUserFacade(mockUser) }],
     }),
   ],
   play: async ({ canvasElement, args }) => {

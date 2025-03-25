@@ -3,7 +3,6 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { provideRouter } from '@angular/router';
 import { signal } from '@angular/core';
 import { CartItemResponse } from '@demo-shop/api';
-import { faker } from '@faker-js/faker';
 import { provideImageLoader } from '@demo-shop/shared';
 import { CartComponent } from './cart.component';
 import { CartFacade } from '../../cart.facade';
@@ -11,21 +10,7 @@ import { CartItemsComponent } from '../shared/cart-items/cart-items.component';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
-
-const items: CartItemResponse[] = Array.from({ length: 5 }).map((_, id) => {
-  const quantity = faker.number.int({ min: 1, max: 5 });
-  const unitPrice = faker.number.int({ min: 1, max: 20 }) * 10 - 1;
-
-  return {
-    id,
-    productId: faker.number.int({ min: 1, max: 20 }),
-    productName: faker.commerce.productName(),
-    productThumbnail: faker.image.urlPicsumPhotos(),
-    quantity,
-    unitPrice,
-    totalPrice: quantity * unitPrice,
-  };
-});
+import { mockCartItems } from '../../+mock/mock-cart-items';
 
 const mockCartFacade = (items: CartItemResponse[]) => ({
   removeItem: () => {
@@ -80,14 +65,14 @@ type Story = StoryObj<CartComponent>;
 export const WithItems: Story = {
   decorators: [
     applicationConfig({
-      providers: [{ provide: CartFacade, useValue: mockCartFacade(items) }],
+      providers: [{ provide: CartFacade, useValue: mockCartFacade(mockCartItems) }],
     }),
   ],
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     const productImages = canvas.getAllByRole('img');
     const checkoutButton = canvas.getByText('Checkout');
-    expect(productImages).toHaveLength(items.length);
+    expect(productImages).toHaveLength(mockCartItems.length);
     expect(checkoutButton).not.toHaveClass('disabled');
   },
 };

@@ -11,19 +11,10 @@ import { NavigationService } from '../../services/navigation.service';
 import { AuthFacade, PermissionStrategy } from '@demo-shop/auth';
 import { UserResponse } from '@demo-shop/api';
 import { signal } from '@angular/core';
-import { UserFacade } from '@demo-shop/user';
+import { mockUser, UserFacade } from '@demo-shop/user';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
-import { faker } from '@faker-js/faker';
 import { FormsModule } from '@angular/forms';
-
-const user: UserResponse = {
-  id: 1,
-  email: faker.internet.email(),
-  firstname: faker.person.firstName(),
-  lastname: faker.person.lastName(),
-  phone: faker.helpers.fromRegExp('+[0-9]{9}'),
-};
 
 const navItems = [
   new RouteItem('products', 101, {
@@ -131,7 +122,7 @@ export const Authenticated: Story = {
   decorators: [
     applicationConfig({
       providers: [
-        { provide: UserFacade, useValue: mockUserFacade(user) },
+        { provide: UserFacade, useValue: mockUserFacade(mockUser) },
         { provide: NavigationService, useValue: navigationService([...navItems, ...authItems]) },
       ],
     }),
@@ -140,7 +131,7 @@ export const Authenticated: Story = {
     const product = within(canvasElement).getByText('Products');
     const order = within(canvasElement).getByText('Orders');
     const signOut = within(canvasElement).getByText('Sign out');
-    const userName = within(canvasElement).getByText(`${user.firstname} ${user.lastname}`);
+    const userName = within(canvasElement).getByText(`${mockUser.firstname} ${mockUser.lastname}`);
     const productSearch = within(canvasElement).getByAltText('search');
     expect(product).toBeInTheDocument();
     expect(order).toBeInTheDocument();

@@ -23,7 +23,9 @@
     "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch",
     "storybook:build": "npx nx build-storybook frontend",
+    "storybook:static": "npx nx static-storybook frontend",
     "storybook:serve": "npx nx storybook frontend",
+    "storybook:test": "npx nx test-storybook frontend",
     "lint": "npx nx run-many -t lint",
     "test": "npx nx run-many -t test --coverage",
     "e2e": "npx nx run-many -t e2e"

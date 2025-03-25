@@ -2,66 +2,24 @@ import { applicationConfig, Meta, StoryObj } from '@storybook/angular';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { importProvidersFrom, signal } from '@angular/core';
-import { AddressResponse, OrderItemResponse, OrderResponse, OrderStatus, UserResponse } from '@demo-shop/api';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
-import { faker } from '@faker-js/faker';
 import { provideImageLoader } from '@demo-shop/shared';
 import { OrderDetailComponent } from './order-detail.component';
 import { OrderFacade } from '../../order.facade';
-import { UserFacade } from '@demo-shop/user';
+import { mockAddress, mockUserWithAddress, UserFacade } from '@demo-shop/user';
 import { PrintInvoiceService } from '../../services/print-invoice.service';
-
-const items: OrderItemResponse[] = Array.from({ length: 5 }).map((_, productId) => {
-  const quantity = faker.number.int({ min: 1, max: 5 });
-  const unitPrice = faker.number.int({ min: 1, max: 20 }) * 10 - 1;
-
-  return {
-    productId,
-    productName: faker.commerce.productName(),
-    productThumbnail: faker.image.urlPicsumPhotos(),
-    quantity,
-    unitPrice,
-    totalPrice: quantity * unitPrice,
-  };
-});
-
-const order: OrderResponse = {
-  id: 1,
-  amount: items.reduce((acc, curr) => acc + curr.totalPrice, 0),
-  created: faker.date.past().toISOString(),
-  items,
-  status: OrderStatus.Created,
-  userId: 0,
-};
-
-const address: AddressResponse = {
-  street: faker.location.streetAddress(),
-  apartment: faker.number.int({ max: 100 }).toString(),
-  city: faker.location.city(),
-  zip: faker.location.zipCode('#####'),
-  region: faker.location.state(),
-  country: faker.location.country(),
-};
-
-const user: UserResponse = {
-  id: 1,
-  email: faker.internet.email(),
-  firstname: faker.person.firstName(),
-  lastname: faker.person.lastName(),
-  phone: faker.helpers.fromRegExp('+[0-9]{9}'),
-  address,
-};
+import { mockOrders } from '../../+mock/mock-orders';
 
 const mockOrderFacade = {
-  getById: () => signal(order),
+  getById: () => signal(mockOrders[0]),
   fetchById: () => {
     return;
   },
 };
 
 const mockUserFacade = {
-  getCurrentUser: () => signal(user),
+  getCurrentUser: () => signal(mockUserWithAddress),
 };
 
 const mockActivatedRoute = {
@@ -116,10 +74,12 @@ export const Default: Story = {
     `,
   }),
   play: async ({ canvasElement, args }) => {
-    const name = within(canvasElement).getByText(`${user.firstname} ${user.lastname}`);
-    const addressLine1 = within(canvasElement).getByText(`${address.street} ${address.apartment}`);
-    const addressLine2 = within(canvasElement).getByText(`${address.zip} ${address.city}, ${address.region}`);
-    const addressLine3 = within(canvasElement).getByText(`${address.country}`);
+    const name = within(canvasElement).getByText(`${mockUserWithAddress.firstname} ${mockUserWithAddress.lastname}`);
+    const addressLine1 = within(canvasElement).getByText(`${mockAddress.street} ${mockAddress.apartment}`);
+    const addressLine2 = within(canvasElement).getByText(
+      `${mockAddress.zip} ${mockAddress.city}, ${mockAddress.region}`
+    );
+    const addressLine3 = within(canvasElement).getByText(`${mockAddress.country}`);
     const printPdfButton = within(canvasElement).getByRole('button');
     const productImages = within(canvasElement).getAllByRole('img');
     expect(name).toBeTruthy();
@@ -127,6 +87,6 @@ export const Default: Story = {
     expect(addressLine2).toBeTruthy();
     expect(addressLine3).toBeTruthy();
     expect(printPdfButton).toBeTruthy();
-    expect(productImages).toHaveLength(items.length);
+    expect(productImages).toHaveLength(mockOrders[0].items.length);
   },
 };

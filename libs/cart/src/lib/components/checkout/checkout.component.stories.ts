@@ -2,48 +2,16 @@ import { applicationConfig, Meta, moduleMetadata, StoryObj } from '@storybook/an
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { provideRouter } from '@angular/router';
 import { signal } from '@angular/core';
-import { AddressResponse, CartItemResponse, UserResponse } from '@demo-shop/api';
-import { faker } from '@faker-js/faker';
+import { CartItemResponse, UserResponse } from '@demo-shop/api';
 import { FormErrorComponent, provideImageLoader } from '@demo-shop/shared';
 import { CartFacade } from '../../cart.facade';
 import { CartItemsComponent } from '../shared/cart-items/cart-items.component';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import { ReactiveFormsModule } from '@angular/forms';
-import { UserFacade } from '@demo-shop/user';
+import { mockAddress, mockUser, mockUserWithAddress, UserFacade } from '@demo-shop/user';
 import { CheckoutComponent } from './checkout.component';
-
-const items: CartItemResponse[] = Array.from({ length: 5 }).map((_, id) => {
-  const quantity = faker.number.int({ min: 1, max: 5 });
-  const unitPrice = faker.number.int({ min: 1, max: 20 }) * 10 - 1;
-
-  return {
-    id,
-    productId: faker.number.int({ min: 1, max: 20 }),
-    productName: faker.commerce.productName(),
-    productThumbnail: faker.image.urlPicsumPhotos(),
-    quantity,
-    unitPrice,
-    totalPrice: quantity * unitPrice,
-  };
-});
-
-const address: AddressResponse = {
-  street: faker.location.streetAddress(),
-  apartment: faker.number.int({ max: 100 }).toString(),
-  city: faker.location.city(),
-  zip: faker.location.zipCode('#####'),
-  region: faker.location.state(),
-  country: 'United States',
-};
-
-const user: UserResponse = {
-  id: 1,
-  email: faker.internet.email(),
-  firstname: faker.person.firstName(),
-  lastname: faker.person.lastName(),
-  phone: faker.helpers.fromRegExp('+[0-9]{9}'),
-};
+import { mockCartItems } from '../../+mock/mock-cart-items';
 
 const mockCartFacade = (items: CartItemResponse[]) => ({
   removeItem: () => {
@@ -83,7 +51,7 @@ const meta: Meta<CheckoutComponent> = {
         provideRouter([{ path: '**', redirectTo: '' }]),
         {
           provide: CartFacade,
-          useValue: mockCartFacade(items),
+          useValue: mockCartFacade(mockCartItems),
         },
       ],
     }),
@@ -123,7 +91,7 @@ type Story = StoryObj<CheckoutComponent>;
 export const WithValidShippingInformation: Story = {
   decorators: [
     applicationConfig({
-      providers: [{ provide: UserFacade, useValue: mockUserFacade({ ...user, address }) }],
+      providers: [{ provide: UserFacade, useValue: mockUserFacade(mockUserWithAddress) }],
     }),
   ],
   play: async ({ canvasElement, args }) => {
@@ -139,16 +107,16 @@ export const WithValidShippingInformation: Story = {
     const region: HTMLInputElement = canvas.getByRole('textbox', { name: /state/i });
     const zip: HTMLInputElement = canvas.getByRole('textbox', { name: /zip/i });
     const buttonCheckout: HTMLButtonElement = canvas.getByText('Checkout');
-    expect(firstname.value).toBe(user.firstname);
-    expect(lastname.value).toBe(user.lastname);
-    expect(email.value).toBe(user.email);
-    expect(phone.value).toBe(user.phone);
-    expect(country.value).toBe(address.country);
-    expect(street.value).toBe(address.street);
-    expect(apartment.value).toBe(address.apartment);
-    expect(city.value).toBe(address.city);
-    expect(region.value).toBe(address.region);
-    expect(zip.value).toBe(address.zip);
+    expect(firstname.value).toBe(mockUserWithAddress.firstname);
+    expect(lastname.value).toBe(mockUserWithAddress.lastname);
+    expect(email.value).toBe(mockUserWithAddress.email);
+    expect(phone.value).toBe(mockUserWithAddress.phone);
+    expect(country.value).toBe(mockAddress.country);
+    expect(street.value).toBe(mockAddress.street);
+    expect(apartment.value).toBe(mockAddress.apartment);
+    expect(city.value).toBe(mockAddress.city);
+    expect(region.value).toBe(mockAddress.region);
+    expect(zip.value).toBe(mockAddress.zip);
     expect(buttonCheckout).not.toBeDisabled();
   },
 };
@@ -156,7 +124,7 @@ export const WithValidShippingInformation: Story = {
 export const WithoutValidShippingInformation: Story = {
   decorators: [
     applicationConfig({
-      providers: [{ provide: UserFacade, useValue: mockUserFacade(user) }],
+      providers: [{ provide: UserFacade, useValue: mockUserFacade(mockUser) }],
     }),
   ],
   play: async ({ canvasElement, args }) => {

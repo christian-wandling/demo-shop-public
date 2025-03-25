@@ -138,7 +138,7 @@
       "dependsOn": ["build-storybook"],
       "options": {
         "buildTarget": "frontend:build-storybook",
-        "staticFilePath": "dist/storybook/frontend",
+        "staticFilePath": "dist/docs/storybook",
         "spa": true
       },
       "configurations": {
