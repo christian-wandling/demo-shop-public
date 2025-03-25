@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [0.3.38](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.37...v0.3.38) (2025-03-25)
+
+
+### Bug Fixes
+
+* **backend:** fix user address update request validation ([4b60a0f](https://github.com/christian-wandling/demo-shop-public/commit/4b60a0f54494d27e4fe64f0aa8a0186fede102ad))
+
 ### [0.3.37](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.36...v0.3.37) (2025-03-24)
 
 ### [0.3.36](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.35...v0.3.36) (2025-03-22)
