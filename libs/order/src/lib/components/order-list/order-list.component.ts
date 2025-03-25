@@ -11,7 +11,7 @@ import { DateTimeComponent } from '@demo-shop/shared';
  * The orders are sorted by status and date.
  *
  * @example
- * <lib-order-list></lib-order-list>
+ * <lib-order-list/>
  */
 @Component({
   selector: 'lib-order-list',

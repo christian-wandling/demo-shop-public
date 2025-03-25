@@ -9,6 +9,9 @@ import { FormsModule } from '@angular/forms';
  *
  * This standalone component provides a product search interface that allows users to filter products by name
  * and navigate to the products page. It uses OnPush change detection strategy for improved performance.
+ *
+ * @example
+ * <lib-product-search/>
  */
 @Component({
   selector: 'lib-product-search',

@@ -1,24 +1,31 @@
-import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
+import { applicationConfig, Meta, StoryObj } from '@storybook/angular';
 import { FormErrorComponent } from './form-error.component';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import { CommonModule } from '@angular/common';
+import { importProvidersFrom } from '@angular/core';
 
 const meta: Meta<FormErrorComponent> = {
   component: FormErrorComponent,
   title: 'Shared/FormErrorComponent',
   decorators: [
-    moduleMetadata({
-      imports: [CommonModule],
+    applicationConfig({
+      providers: [importProvidersFrom(CommonModule)],
     }),
   ],
+  argTypes: {
+    fieldName: {
+      control: {
+        type: 'text',
+      },
+    },
+  },
 };
 export default meta;
 type Story = StoryObj<FormErrorComponent>;
 
 export const RequiredError: Story = {
   args: {
-    fieldName: 'Name',
     errors: { required: true },
   },
   play: async ({ canvasElement, args }) => {
@@ -30,6 +37,11 @@ export const RequiredError: Story = {
 export const InvalidEmailError: Story = {
   args: {
     errors: { email: true },
+  },
+  parameters: {
+    controls: {
+      exclude: ['fieldName'],
+    },
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
