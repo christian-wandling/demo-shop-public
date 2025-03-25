@@ -28,3 +28,4 @@ README.md
 *.tar
 storybook-static
 **/docs
+/build-storybook.log

@@ -74,3 +74,4 @@ rest
 
 storybook-static
 **/docs/**
+/build-storybook.log

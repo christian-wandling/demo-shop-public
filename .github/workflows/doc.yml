@@ -39,14 +39,14 @@ jobs:
       - name: Build Compodoc (Frontend)
         run: npm run compodoc:frontend
 
-      - name: Build Storybook
-        run: npm run storybook:build
-
       - name: Build Dependency Graph (Backend)
         run: npm run graph:backend
 
       - name: Build Dependency Graph (Frontend)
         run: npm run graph:frontend
+
+      - name: Create Directory
+        run: mkdir -p ./dist/docs
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -56,7 +56,26 @@ jobs:
         with:
           path: './dist/docs'
 
-  deploy:
+  deploy-chromatic:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: doc-workflow
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+      - run: npm
+      - uses: chromaui/action@c93e0bc3a63aa176e14a75b61a31847cbfdd341c
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy-gh-pages:
     needs: [build]
     runs-on: ubuntu-latest
     concurrency:

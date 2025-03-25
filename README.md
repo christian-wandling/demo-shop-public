@@ -16,7 +16,7 @@ A more refined implementation of the API with ASP.NET Core can be found in this 
 ### Frontend
 
 - [Frontend Documentation](https://christian-wandling.github.io/demo-shop-public/compodoc/frontend) - Component structure and frontend architecture
-- [Storybook](https://christian-wandling.github.io/demo-shop-public/storybook) - Interactive UI component library and visual testing
+- [Storybook](https://67e3398bb6689fcab1248c6a-ktupstjvwo.chromatic.com) - Interactive UI component library and visual testing
 - [Dependency Graph](https://christian-wandling.github.io/demo-shop-public/graph/frontend/#/projects/frontend) - Dependency graph of the frontend apps and libs
 
 #### Libraries
