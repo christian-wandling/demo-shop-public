@@ -103,35 +103,27 @@ describe('CheckoutComponent', () => {
       component.checkoutForm().markAsDirty();
       fixture.detectChanges();
 
-      const res = component.getUpdateEnabled();
-
-      expect(res()).toEqual(true);
+      expect(component.updateButtonEnabled()).toEqual(true);
     });
 
     it('should disable update if form is not dirty', () => {
       component.checkoutForm().markAsPristine();
       fixture.detectChanges();
 
-      const res = component.getUpdateEnabled();
-
-      expect(res()).toEqual(false);
+      expect(component.updateButtonEnabled()).toEqual(false);
     });
   });
 
   describe('checkout', () => {
     it('should enable checkout if all conditions are filled', () => {
-      const res = component.getCheckoutEnabled();
-
-      expect(res()).toEqual(true);
+      expect(component.checkoutButtonEnabled()).toEqual(true);
     });
 
     it('should disable checkout if cart is empty', () => {
       cartItems.set([]);
       fixture.detectChanges();
 
-      const res = component.getCheckoutEnabled();
-
-      expect(res()).toEqual(false);
+      expect(component.checkoutButtonEnabled()).toEqual(false);
     });
 
     it('should disable checkout if user address is empty', () => {
@@ -139,18 +131,14 @@ describe('CheckoutComponent', () => {
 
       fixture.detectChanges();
 
-      const res = component.getCheckoutEnabled();
-
-      expect(res()).toEqual(false);
+      expect(component.checkoutButtonEnabled()).toEqual(false);
     });
 
     it('should disable checkout if form is dirty', () => {
       component.checkoutForm().markAsDirty();
       fixture.detectChanges();
 
-      const res = component.getCheckoutEnabled();
-
-      expect(res()).toEqual(false);
+      expect(component.checkoutButtonEnabled()).toEqual(false);
     });
 
     it('should start the checkout process', async () => {
