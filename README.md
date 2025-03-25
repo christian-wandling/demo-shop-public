@@ -4,20 +4,19 @@ A full-stack e-commerce application built for educational purposes using modern 
 
 A more refined implementation of the API with ASP.NET Core can be found in this repository:
 
-> [github.com/christian-wandling/demo-shop-dotnet-api](http://github.com/christian-wandling/demo-shop-dotnet-api)
+> <a href="http://github.com/christian-wandling/demo-shop-dotnet-api" target="_blank">http://github.com/christian-wandling/demo-shop-dotnet-api</a>
 
 ## Overview
 
 ### Backend
 
-- [API Documentation](https://christian-wandling.github.io/demo-shop-public/compodoc/backend) - Complete API reference and backend architecture
-- [Dependency Graph](https://christian-wandling.github.io/demo-shop-public/graph/backend/#/projects/backend) - Dependency graph of the backend apps and libs
+- <a href="https://christian-wandling.github.io/demo-shop-public/compodoc/backend" target="_blank">API Documentation</a> - Complete API reference and backend architecture
 
 ### Frontend
 
-- [Frontend Documentation](https://christian-wandling.github.io/demo-shop-public/compodoc/frontend) - Component structure and frontend architecture
-- [Storybook](https://67e3398bb6689fcab1248c6a-ktupstjvwo.chromatic.com) - Interactive UI component library and visual testing
-- [Dependency Graph](https://christian-wandling.github.io/demo-shop-public/graph/frontend/#/projects/frontend) - Dependency graph of the frontend apps and libs
+- <a href="https://christian-wandling.github.io/demo-shop-public/compodoc/frontend" target="_blank">Frontend Documentation</a> - Component structure and frontend architecture
+- <a href="https://67e3398bb6689fcab1248c6a-ktupstjvwo.chromatic.com" target="_blank">Storybook</a> - Interactive UI component library and visual testing
+- <a href="https://christian-wandling.github.io/demo-shop-public/graph/frontend/#/projects/frontend">Dependency Graph</a> - Dependency graph of the frontend apps and libs
 
 #### Libraries
 
@@ -80,9 +79,9 @@ A more refined implementation of the API with ASP.NET Core can be found in this 
 
 ### Prerequisites
 
-- [Node.js 20](https://nodejs.org/en) or later
-- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
-- [Docker](https://www.docker.com/)
+- <a href="https://nodejs.org/en" target="\_blank>Node.js 20</a> or later
+- <a href="https://www.npmjs.com/" target="\_blank>npm</a> or <a href="https://yarnpkg.com/" target="\_blank>yarn</a>
+- <a href="https://www.docker.com/" target="\_blank>Docker</a>
 
 ### Installation
 
@@ -159,7 +158,7 @@ http://localhost:4200
 
 ### Sentry Setup
 
-1. Go to [sentry.io](https://sentry.io/welcome/) to create an account and follow the steps to setup projects for frontend and api
+1. Go to <a href="https://sentry.io/welcome/">sentry.io</a> to create an account and follow the steps to setup projects for frontend and api
 
 2. Add configuration values to your .env file
 
@@ -173,7 +172,7 @@ npx @sentry/wizard@latest -i sourcemaps --saas
 
 An equivalent API created with ASP.Net Core is available in the following repository:
 
-> [github.com/christian-wandling/demo-shop-dotnet-api](http://github.com/christian-wandling/demo-shop-dotnet-api)
+> <a href="http://github.com/christian-wandling/demo-shop-dotnet-api" target="_blank">http://github.com/christian-wandling/demo-shop-dotnet-api</a>
 
 To use the API with this frontend, ensure both applications are running and connected via the shared Docker network.
 

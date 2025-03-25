@@ -59,8 +59,10 @@ jobs:
   deploy-chromatic:
     runs-on: ubuntu-latest
     concurrency:
-      group: doc-workflow
+      group: chromatic-workflow
       cancel-in-progress: false
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
         with:
@@ -69,9 +71,11 @@ jobs:
         with:
           node-version: 22
           cache: 'npm'
-      - run: npm
+      - name: Install dependencies
+        run: npm ci
       - uses: chromaui/action@c93e0bc3a63aa176e14a75b61a31847cbfdd341c
         with:
+          buildScriptName: 'storybook:build'
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
