@@ -101,11 +101,6 @@ exports[`CartComponent showCart should should display the component if showCart 
               $3.00
             </p>
           </div>
-          <p
-            class="mt-0.5 text-sm text-gray-500"
-          >
-            Shipping and taxes calculated at checkout.
-          </p>
           <div
             class="mt-6"
           >

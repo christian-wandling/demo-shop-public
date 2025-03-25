@@ -3,12 +3,10 @@
 exports[`CheckoutComponent should match the snapshot 1`] = `
 <lib-checkout
   BREAKPOINT_MD={[Function Number]}
-  checkoutButtonEnabled={[Function Function]}
   checkoutForm={[Function Function]}
   items={[Function Function]}
   price={[Function Function]}
   shippingInformationExtended={[Function Function]}
-  updateButtonEnabled={[Function Function]}
   user={[Function Function]}
 >
   <div

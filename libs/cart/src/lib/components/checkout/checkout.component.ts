@@ -26,15 +26,11 @@ import { UpdateUserAddressRequest } from '@demo-shop/api';
 })
 export class CheckoutComponent {
   /**
-   * Constant for medium screen size breakpoint in pixels (786px).
+   * Constant for medium screen size breakpoint in pixels (768px).
    */
-  readonly BREAKPOINT_MD = 786;
-
+  readonly BREAKPOINT_MD = 768;
   readonly checkoutForm = this.createCheckOutForm();
-  /** Signal indicating whether the update user button should be enabled */
-  readonly updateButtonEnabled = this.getUpdateEnabled();
-  /** Signal indicating whether the checkout button should be enabled */
-  readonly checkoutButtonEnabled = this.getCheckoutEnabled();
+  readonly shippingInformationExtended = signal(window.innerWidth >= this.BREAKPOINT_MD);
   readonly #cartFacade = inject(CartFacade);
   readonly items = this.#cartFacade.getAll();
   readonly price = this.#cartFacade.getTotalPrice();
@@ -43,8 +39,89 @@ export class CheckoutComponent {
   readonly #fb = inject(FormBuilder);
   readonly #router = inject(Router);
 
-  /** Extend shipping information when above breakpoint */
-  readonly shippingInformationExtended = signal(window.innerWidth >= this.BREAKPOINT_MD);
+  get formDirty(): Signal<boolean> {
+    return computed(() => this.checkoutForm().dirty);
+  }
+
+  get formValid(): Signal<boolean> {
+    return computed(() => this.checkoutForm().valid);
+  }
+
+  get updateButtonEnabled(): Signal<boolean> {
+    return computed(() => this.formValid() && this.formDirty());
+  }
+
+  get checkoutButtonEnabled(): Signal<boolean> {
+    return computed(() => {
+      const hasShoppingItems = this.items().length > 0;
+      const hasUserAddress = !!this.user()?.address;
+      const hasUserDataChanges = this.formDirty();
+
+      return hasShoppingItems && hasUserAddress && !hasUserDataChanges;
+    });
+  }
+
+  /**
+   * Creates and initializes the checkout form
+   * Populates form with user data when available
+   */
+  createCheckOutForm(): Signal<FormGroup<CheckoutForm>> {
+    return computed(() => {
+      const fb = this.#fb;
+      const user = this.user();
+
+      return fb.group<CheckoutForm>({
+        firstname: fb.control(
+          {
+            value: user?.firstname ?? '',
+            disabled: true,
+          },
+          { validators: Validators.required, nonNullable: true }
+        ),
+        lastname: fb.control(
+          {
+            value: user?.lastname ?? '',
+            disabled: true,
+          },
+          { validators: Validators.required, nonNullable: true }
+        ),
+        email: fb.control(
+          { value: user?.email ?? '', disabled: true },
+          {
+            validators: [Validators.required, Validators.email],
+            nonNullable: true,
+          }
+        ),
+        phone: fb.control(user?.phone ?? ''),
+        address: fb.group<CheckoutAddressForm>(
+          {
+            country: fb.control(user?.address?.country ?? '', {
+              validators: Validators.required,
+              nonNullable: true,
+            }),
+            street: fb.control(user?.address?.street ?? '', {
+              validators: Validators.required,
+              nonNullable: true,
+            }),
+            apartment: fb.control(user?.address?.apartment ?? '', {
+              validators: Validators.required,
+              nonNullable: true,
+            }),
+            city: fb.control(user?.address?.city ?? '', {
+              validators: Validators.required,
+              nonNullable: true,
+            }),
+            region: fb.control(user?.address?.region ?? ''),
+            zip: fb.control(user?.address?.zip ?? '', {
+              validators: Validators.required,
+              nonNullable: true,
+            }),
+          },
+          { validators: Validators.required }
+        ),
+      });
+    });
+  }
 
   /**
    * Removes an item from the cart
@@ -81,86 +158,5 @@ export class CheckoutComponent {
     if (phone?.dirty) {
       await this.#userFacade.updateUserPhone({ phone: phone.value });
     }
-  }
-
-  /**
-   * Creates and initializes the checkout form
-   * Populates form with user data when available
-   */
-  createCheckOutForm(): Signal<FormGroup<CheckoutForm>> {
-    return computed(() =>
-      this.#fb.group<CheckoutForm>({
-        firstname: this.#fb.control(
-          {
-            value: this.user()?.firstname ?? '',
-            disabled: true,
-          },
-          { validators: Validators.required, nonNullable: true }
-        ),
-        lastname: this.#fb.control(
-          {
-            value: this.user()?.lastname ?? '',
-            disabled: true,
-          },
-          { validators: Validators.required, nonNullable: true }
-        ),
-        email: this.#fb.control(
-          { value: this.user()?.email ?? '', disabled: true },
-          {
-            validators: [Validators.required, Validators.email],
-            nonNullable: true,
-          }
-        ),
-        phone: this.#fb.control(this.user()?.phone ?? ''),
-        address: this.#fb.group<CheckoutAddressForm>(
-          {
-            country: this.#fb.control(this.user()?.address?.country ?? '', {
-              validators: Validators.required,
-              nonNullable: true,
-            }),
-            street: this.#fb.control(this.user()?.address?.street ?? '', {
-              validators: Validators.required,
-              nonNullable: true,
-            }),
-            apartment: this.#fb.control(this.user()?.address?.apartment ?? '', {
-              validators: Validators.required,
-              nonNullable: true,
-            }),
-            city: this.#fb.control(this.user()?.address?.city ?? '', {
-              validators: Validators.required,
-              nonNullable: true,
-            }),
-            region: this.#fb.control(this.user()?.address?.region ?? ''),
-            zip: this.#fb.control(this.user()?.address?.zip ?? '', {
-              validators: Validators.required,
-              nonNullable: true,
-            }),
-          },
-          { validators: Validators.required }
-        ),
-      })
-    );
-  }
-
-  /**
-   * Determines whether the checkout button should be enabled
-   * Checks if there are items in cart, user has address, and no pending form changes
-   */
-  getCheckoutEnabled(): Signal<boolean> {
-    return computed(() => {
-      const hasShoppingItems = this.items().length > 0;
-      const hasUserAddress = !!this.user()?.address;
-      const hasUserDataChanges = this.checkoutForm().dirty;
-
-      return hasShoppingItems && hasUserAddress && !hasUserDataChanges;
-    });
-  }
-
-  /**
-   * Determines whether the update user button should be enabled
-   * Checks if the form is valid and has been modified
-   */
-  getUpdateEnabled(): Signal<boolean> {
-    return computed(() => this.checkoutForm().valid && this.checkoutForm().dirty);
   }
 }
