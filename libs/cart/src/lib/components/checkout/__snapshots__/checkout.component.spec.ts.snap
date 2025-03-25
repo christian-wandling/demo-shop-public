@@ -339,22 +339,21 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                   class="flex py-6"
                 >
                   <div
-                    class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 group-hover:opacity-75 cursor-pointer"
+                    class="relative h-24 w-24 aspect-1 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 group-hover:opacity-75 cursor-pointer"
                     tabindex="0"
                   >
                     <img
                       alt="productName"
-                      class="h-full w-full object-cover object-center"
                       fetchpriority="auto"
-                      height="96"
+                      fill=""
                       loading="lazy"
                       ng-img="true"
                       placeholder=""
+                      sizes="100vw"
                       src="productThumbnail"
-                      srcset="productThumbnail 1x, productThumbnail 2x"
-                      style="background-size: cover; background-position: 50% 50%; background-repeat: no-repeat; background-image: url(productThumbnail); filter: blur(15px);"
+                      srcset="productThumbnail 640w, productThumbnail 750w, productThumbnail 828w, productThumbnail 1080w, productThumbnail 1200w, productThumbnail 1920w, productThumbnail 2048w, productThumbnail 3840w"
+                      style="position: absolute; width: 100%; height: 100%; inset: 0; background-size: cover; background-position: 50% 50%; background-repeat: no-repeat; background-image: url(productThumbnail); filter: blur(15px);"
                       title="productName"
-                      width="96"
                     />
                   </div>
                   <div

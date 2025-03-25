@@ -36,16 +36,11 @@ exports[`OrderListComponent should match the snapshot 1`] = `
         class="divide-y divide-gray-100"
       >
         <li
-          class="relative flex flex-col sm:flex-row justify-between gap-x-6 py-5 px-5 cursor-pointer hover:bg-slate-50"
+          class="relative flex flex-col md:flex-row justify-between gap-x-3 sm:gap-x-6 py-2 sm:py-5 py-2 sm:px-5 cursor-pointer hover:bg-slate-50"
           tabindex="0"
         >
-          <lib-order-status
-            class="rounded-lg px-4 py-1.5 max-w-28 text-center text-white border border-slate-300 text-xs absolute right-5 top-5 bg-orange-500"
-          >
-            Created
-          </lib-order-status>
           <div
-            class="flex min-w-0 gap-x-3"
+            class="flex min-w-0 gap-x-3 mb-4"
           >
             <div
               class="min-w-0 flex-auto"
@@ -56,13 +51,18 @@ exports[`OrderListComponent should match the snapshot 1`] = `
                 Order #1
               </p>
               <div
-                class="flex gap-4"
+                class="flex gap-1 sm:gap-4"
               >
               </div>
             </div>
           </div>
+          <lib-order-status
+            class="rounded-lg px-2 sm:px-4 py-1 sm:py-1.5 max-w-20 sm:max-w-28 text-center text-white border border-slate-300 text-xs sm:absolute sm:right-5 sm:top-5 mb-4 bg-orange-500"
+          >
+            Created
+          </lib-order-status>
           <div
-            class="flex flex-col mt-4 sm:items-end sm:justify-end gap-1"
+            class="flex flex-col md:items-end sm:justify-end gap-1"
           >
             <p
               class="text-sm leading-none text-gray-900"
@@ -81,16 +81,11 @@ exports[`OrderListComponent should match the snapshot 1`] = `
           </div>
         </li>
         <li
-          class="relative flex flex-col sm:flex-row justify-between gap-x-6 py-5 px-5 cursor-pointer hover:bg-slate-50"
+          class="relative flex flex-col md:flex-row justify-between gap-x-3 sm:gap-x-6 py-2 sm:py-5 py-2 sm:px-5 cursor-pointer hover:bg-slate-50"
           tabindex="0"
         >
-          <lib-order-status
-            class="rounded-lg px-4 py-1.5 max-w-28 text-center text-white border border-slate-300 text-xs absolute right-5 top-5 bg-orange-500"
-          >
-            Created
-          </lib-order-status>
           <div
-            class="flex min-w-0 gap-x-3"
+            class="flex min-w-0 gap-x-3 mb-4"
           >
             <div
               class="min-w-0 flex-auto"
@@ -101,13 +96,18 @@ exports[`OrderListComponent should match the snapshot 1`] = `
                 Order #2
               </p>
               <div
-                class="flex gap-4"
+                class="flex gap-1 sm:gap-4"
               >
               </div>
             </div>
           </div>
+          <lib-order-status
+            class="rounded-lg px-2 sm:px-4 py-1 sm:py-1.5 max-w-20 sm:max-w-28 text-center text-white border border-slate-300 text-xs sm:absolute sm:right-5 sm:top-5 mb-4 bg-orange-500"
+          >
+            Created
+          </lib-order-status>
           <div
-            class="flex flex-col mt-4 sm:items-end sm:justify-end gap-1"
+            class="flex flex-col md:items-end sm:justify-end gap-1"
           >
             <p
               class="text-sm leading-none text-gray-900"
