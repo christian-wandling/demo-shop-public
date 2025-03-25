@@ -6,6 +6,7 @@ import { CartFacade } from '@demo-shop/cart';
 import { signal } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { ProductResponse } from '@demo-shop/api';
+import { provideMockImageLoader } from '@demo-shop/shared';
 
 describe('ProductDetailComponent', () => {
   const hasShoppingSession = signal(false);
@@ -36,6 +37,7 @@ describe('ProductDetailComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ProductDetailComponent],
       providers: [
+        provideMockImageLoader(),
         {
           provide: ActivatedRoute,
           useValue: {

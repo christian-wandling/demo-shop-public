@@ -351,8 +351,10 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                       height="96"
                       loading="lazy"
                       ng-img="true"
-                      onerror="this.src='images/placeholder-image.jpg'"
+                      placeholder=""
                       src="productThumbnail"
+                      srcset="productThumbnail 1x, productThumbnail 2x"
+                      style="background-size: cover; background-position: 50% 50%; background-repeat: no-repeat; background-image: url(productThumbnail); filter: blur(15px);"
                       title="productName"
                       width="96"
                     />

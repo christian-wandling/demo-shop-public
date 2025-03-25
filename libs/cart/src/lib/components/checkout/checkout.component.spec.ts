@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { provideRouter, Router } from '@angular/router';
 import { CartItemResponse, UserResponse } from '@demo-shop/api';
+import { provideMockImageLoader } from '@demo-shop/shared';
 
 describe('CheckoutComponent', () => {
   const mockUser: WritableSignal<UserResponse> = signal({
@@ -47,6 +48,7 @@ describe('CheckoutComponent', () => {
     await TestBed.configureTestingModule({
       imports: [CheckoutComponent, ReactiveFormsModule],
       providers: [
+        provideMockImageLoader(),
         Router,
         {
           provide: CartFacade,

@@ -5,6 +5,7 @@ import { ProductResponse } from '@demo-shop/api';
 import { signal } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
+import { provideMockImageLoader } from '@demo-shop/shared';
 
 describe('ProductListComponent', () => {
   let component: ProductListComponent;
@@ -51,6 +52,7 @@ describe('ProductListComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ProductListComponent],
       providers: [
+        provideMockImageLoader(),
         {
           provide: ProductFacade,
           useValue: {
