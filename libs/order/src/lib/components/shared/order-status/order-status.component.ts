@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, InputSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OrderStatus } from '@demo-shop/api';
 
@@ -15,7 +15,7 @@ import { OrderStatus } from '@demo-shop/api';
  * to be used within order-related views.
  *
  * @example
- * <lib-order-status [status]="order.status"></lib-order-status>
+ * <lib-order-status [status]="order.status"/>
  */
 @Component({
   selector: 'lib-order-status',
@@ -37,5 +37,5 @@ export class OrderStatusComponent {
    *
    * @required
    */
-  readonly status = input.required<OrderStatus>();
+  readonly status: InputSignal<OrderStatus> = input.required<OrderStatus>();
 }

@@ -9,6 +9,9 @@ import { CartFacade } from '@demo-shop/cart';
  *
  * This component fetches product data based on the route parameter 'id',
  * displays product details, and allows users to add the product to their cart.
+ *
+ * @example
+ * <lib-product-detail/>
  */
 @Component({
   selector: 'lib-product-detail',

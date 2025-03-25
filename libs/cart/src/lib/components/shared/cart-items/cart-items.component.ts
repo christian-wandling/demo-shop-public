@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, InputSignal, output, OutputEmitterRef } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { CartItemResponse } from '@demo-shop/api';
 import { RouterLink } from '@angular/router';
@@ -10,7 +10,7 @@ import { RouterLink } from '@angular/router';
  * to interact with them, such as removing items from the cart.
  *
  * @example
- * <lib-cart-items [items]="cartItems" (removeItem)="handleRemoveItem($event)"></lib-cart-items>
+ * <lib-cart-items [items]="cartItems" (removeItem)="handleRemoveItem($event)"/>
  */
 @Component({
   selector: 'lib-cart-items',
@@ -23,13 +23,14 @@ import { RouterLink } from '@angular/router';
 export class CartItemsComponent {
   /**
    * The list of items in the cart to be displayed.
-   * This input is required.
+   *
+   * @required
    */
-  readonly items = input.required<CartItemResponse[]>();
+  readonly items: InputSignal<CartItemResponse[]> = input.required<CartItemResponse[]>();
 
   /**
    * Event emitted when a user requests to remove an item from the cart.
    * The emitted value is the ID of the item to be removed.
    */
-  readonly removeItem = output<number>();
+  readonly removeItem: OutputEmitterRef<number> = output<number>();
 }

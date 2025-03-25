@@ -8,6 +8,9 @@ import { RouterLink } from '@angular/router';
  *
  * This standalone component fetches and displays a list of products,
  * using the ProductFacade for data access and OnPush change detection for performance.
+ *
+ * @example
+ * <lib-product-list/>
  */
 @Component({
   selector: 'lib-product-list',

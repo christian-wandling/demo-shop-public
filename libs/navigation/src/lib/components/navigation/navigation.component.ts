@@ -9,6 +9,13 @@ import { UserNavigationComponent } from './user-navigation/user-navigation.compo
 import { CartIconComponent } from '@demo-shop/cart';
 import { RouteItem } from '../../models/route-item';
 
+/**
+ * NavigationComponent is responsible for rendering the main navigation of the application.
+ * It includes links to various sections, user-related actions, and a cart icon.
+ *
+ * @example
+ * <lib-navigation/>
+ */
 @Component({
   selector: 'lib-navigation',
   standalone: true,

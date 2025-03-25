@@ -13,7 +13,7 @@ import { DateTimeComponent } from '@demo-shop/shared';
  * Fetches order data based on the ID from the route parameters.
  *
  * @example
- * <lib-order-detail></lib-order-detail>
+ * <lib-order-detail/>
  */
 @Component({
   selector: 'lib-order-detail',

@@ -9,7 +9,10 @@ import { ValidationErrors } from '@angular/forms';
  * It accepts the field name and validation errors as inputs and displays
  * appropriate error messages.
  *
- * @example <lib-form-error [fieldName]="email" [errors]="form.controls.email.errors" />
+ * @example
+ * <lib-form-error
+ *  [fieldName]="email"
+ *  [errors]="form.controls.email.errors"/>
  */
 @Component({
   selector: 'lib-form-error',
@@ -33,7 +36,8 @@ export class FormErrorComponent {
   /**
    * Validation errors object containing error keys and their values.
    * This is typically obtained from Angular's FormControl.errors property.
-   * Required input that must be provided when using this component.
+   *
+   * @required
    */
   readonly errors: InputSignal<ValidationErrors | null> = input.required<ValidationErrors | null>();
 }

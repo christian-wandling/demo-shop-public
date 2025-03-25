@@ -29,6 +29,8 @@ export class DateTimeComponent {
    * This required input accepts either a Date object or a string that can be
    * parsed into a date. The component will format this value according to the
    * specified pattern and timezone.
+   *
+   * @required
    */
   readonly dateTime: InputSignal<Date | string> = input.required<Date | string>();
 
