@@ -3,10 +3,10 @@ import { toUserResponse, UserResponse } from '../dtos/user-response';
 import { fromDecodedToken, UserIdentity } from '../dtos/user-identity';
 import { DecodedToken } from '../../common/models/decoded-token';
 import { MonitoringService } from '../../common/services/monitoring.service';
-import { UpdateUserAddressRequest } from '@demo-shop/api';
 import { AddressResponse, toAddressResponse } from '../dtos/address-response';
 import { UpdateUserPhoneRequest } from '../dtos/update-user-phone-request';
 import { UserRepository } from './user.repository';
+import { UpdateUserAddressRequest } from '../dtos/update-user-address-request';
 
 /**
  * Service responsible for user-related operations.

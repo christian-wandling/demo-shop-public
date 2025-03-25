@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsOptional, IsString } from 'class-validator';
 
 /**
  * Request class for updating a user's phone number
@@ -13,5 +14,7 @@ export class UpdateUserPhoneRequest {
    * @property {string | null} phone - The new phone number value or null to remove the current number
    */
   @ApiProperty({ nullable: true })
+  @IsOptional()
+  @IsString()
   phone: string | null;
 }

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, MinLength } from 'class-validator';
+import { IsOptional, IsString, MinLength } from 'class-validator';
 
 /**
  * Data transfer object for updating a user's address information.
@@ -56,5 +56,7 @@ export class UpdateUserAddressRequest {
    * Optional field that can be null or undefined.
    */
   @ApiProperty({ required: false, nullable: true })
+  @IsOptional()
+  @IsString()
   region?: string | null;
 }
