@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [0.3.41](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.40...v0.3.41) (2025-03-25)
+
+
+### Bug Fixes
+
+* **cart:** fix checkout buttons enabled state ([#70](https://github.com/christian-wandling/demo-shop-public/issues/70)) ([7123711](https://github.com/christian-wandling/demo-shop-public/commit/71237111ec91f76c7a44b13ecc5aa94809a522f9))
+
 ### [0.3.40](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.39...v0.3.40) (2025-03-25)
 
 ### [0.3.39](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.38...v0.3.39) (2025-03-25)
