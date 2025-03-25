@@ -1,5 +1,5 @@
 <div class="mx-auto mb-8 px-8 max-w-5xl" id="invoice">
-  <section class="py-8 mb-2 flex justify-between items-end">
+  <section class="py-8 mb-2 top-16 sticky z-10 bg-white flex justify-between items-end">
     @if (user() && order()) {
     <div>
       <div class="flex flex-row gap-3 items-center justify-start">
@@ -30,11 +30,7 @@
       @for (item of order().items; track item.productId) {
       <li class="flex gap-x-6 py-5">
         <div class="relative w-24 h-24 sm:rounded-lg flex-shrink">
-          <img
-            [ngSrc]="item.productThumbnail"
-            [alt]="item.productName"
-            fill=""
-            onerror="this.src='images/placeholder-image.jpg'" />
+          <img [ngSrc]="item.productThumbnail" [alt]="item.productName" fill="" placeholder />
         </div>
         <div class="flex min-w-0 gap-x-4 flex-grow">
           <div class="min-w-0 flex-auto">

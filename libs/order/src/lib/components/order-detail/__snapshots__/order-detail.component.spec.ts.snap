@@ -10,7 +10,7 @@ exports[`OrderDetailComponent should match the snapshot 1`] = `
     id="invoice"
   >
     <section
-      class="py-8 mb-2 flex justify-between items-end"
+      class="py-8 mb-2 top-16 sticky z-10 bg-white flex justify-between items-end"
     >
       <div>
         <div
