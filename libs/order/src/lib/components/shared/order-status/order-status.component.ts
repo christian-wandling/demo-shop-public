@@ -25,7 +25,8 @@ import { OrderStatus } from '@demo-shop/api';
   styleUrl: './order-status.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'rounded-lg px-4 py-1.5 max-w-28 text-center text-white border border-slate-300 text-xs',
+    class:
+      'rounded-lg px-2 sm:px-4 py-1 sm:py-1.5 max-w-20 sm:max-w-28 text-center text-white border border-slate-300 text-xs',
     '[class.bg-green-800]': 'this.status() === "Completed"',
     '[class.bg-orange-500]': 'this.status() === "Created"',
   },

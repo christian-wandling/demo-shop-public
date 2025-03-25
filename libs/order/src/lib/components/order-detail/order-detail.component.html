@@ -1,48 +1,45 @@
+@if (user() && order()) {
 <div class="mx-auto mb-8 px-8 max-w-5xl" id="invoice">
-  <section class="py-8 mb-2 top-16 sticky z-10 bg-white flex justify-between items-end">
-    @if (user() && order()) {
-    <div>
-      <div class="flex flex-row gap-3 items-center justify-start">
-        <div class="leading-none">
-          <div class="text-xl leading-none font-semibold">Order #{{ order().id }}</div>
-          <lib-date-time [dateTime]="order().created" class="h-3 text-xs leading-none text-gray-500" />
+  <section class="py-8 top-16 sticky z-10 border-b-2 border-gray-100 bg-white flex justify-between">
+    <div class="flex flex-col gap-5">
+      <div>
+        <h1 class="text-s leading-tight font-bold text-gray-700">{{ user()?.firstname }} {{ user()?.lastname }}</h1>
+        <div class="text-xs text-gray-500">
+          <p>{{ user()?.address?.street }} {{ user()?.address?.apartment }}</p>
+          <p>{{ user()?.address?.zip }} {{ user()?.address?.city }}, {{ user()?.address?.region }}</p>
+          <p>{{ user()?.address?.country }}</p>
         </div>
-        <lib-order-status [status]="order().status" />
       </div>
-
-      <h1 class="mt-5 text-s font-bold text-gray-700">{{ user()?.firstname }} {{ user()?.lastname }}</h1>
-      <div class="text-xs text-gray-500">
-        <p>{{ user()?.address?.street }} {{ user()?.address?.apartment }}</p>
-        <p>{{ user()?.address?.zip }} {{ user()?.address?.city }}, {{ user()?.address?.region }}</p>
-        <p>{{ user()?.address?.country }}</p>
-      </div>
+      <button
+        (click)="printPdf(order(), user())"
+        class="btn-print w-36 flex items-center justify-center rounded-md border border-transparent px-8 py-2 text-base font-medium bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2':">
+        Print
+      </button>
     </div>
-    <button
-      (click)="printPdf(order(), user())"
-      class="btn-print w-44 flex items-center justify-center rounded-md border border-transparent mb-3 px-8 py-2 text-base font-medium bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2':">
-      Print
-    </button>
-    }
+    <div class="flex flex-col gap-2.5">
+      <div class="flex flex-col items-end">
+        <div class="text-s leading-tight font-semibold">Order #{{ order().id }}</div>
+        <lib-date-time [dateTime]="order().created" class="text-xs text-gray-500" />
+      </div>
+      <lib-order-status [status]="order().status" />
+    </div>
   </section>
   <section>
-    @if (order()) {
     <ul class="divide-y divide-gray-100">
       @for (item of order().items; track item.productId) {
-      <li class="flex gap-x-6 py-5">
-        <div class="relative w-24 h-24 sm:rounded-lg flex-shrink">
+      <li class="flex flex-col sm:flex-row gap-2 sm:gap-6 py-5">
+        <div class="relative w-12 sm:w-24 h-12 sm:h-24 aspect-1 rounded-lg flex-shrink-0 overflow-hidden">
           <img [ngSrc]="item.productThumbnail" [alt]="item.productName" fill="" placeholder />
         </div>
-        <div class="flex min-w-0 gap-x-4 flex-grow">
-          <div class="min-w-0 flex-auto">
-            <p class="text-sm leading-6 text-gray-900">#{{ item.productId }} {{ item.productName }}</p>
-            <p class="mt-1 truncate text-xs leading-5 text-gray-500">Qty {{ item.quantity }}</p>
-          </div>
+        <div class="flex flex-col min-w-0 grow">
+          <p class="text-sm sm:leading-6 text-gray-900">#{{ item.productId }} {{ item.productName }}</p>
+          <p class="sm:mt-1 truncate text-xs sm:leading-5 text-gray-500">Qty {{ item.quantity }}</p>
         </div>
-        <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-          <p class="text-sm leading-6 text-gray-900">{{ item.totalPrice | currency }}</p>
-          <p class="mt-1 text-xs leading-5 text-gray-500">
+        <div class="flex flex-row sm:flex-col-reverse grow sm:grow-0 justify-between sm:justify-end sm:items-end">
+          <p class="sm:mt-1 text-xs leading-5 text-gray-500">
             <span>{{ item.unitPrice | currency }}</span>
           </p>
+          <p class="text-sm leading-6 text-gray-900">{{ item.totalPrice | currency }}</p>
         </div>
       </li>
       }
@@ -52,11 +49,11 @@
             <p class="text-sm font-semibold leading-6 text-gray-900">total</p>
           </div>
         </div>
-        <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+        <div class="shrink-0 sm:flex sm:flex-col sm:items-end">
           <p class="text-sm leading-6 text-gray-900">{{ order().amount | currency }}</p>
         </div>
       </li>
     </ul>
-    }
   </section>
 </div>
+}
