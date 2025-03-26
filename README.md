@@ -43,29 +43,31 @@ A more refined implementation of the API with ASP.NET Core can be found in this 
 ### Backend
 
 - **NestJS** - Progressive Node.js framework
-- **NestJS Throttler** - Rate limiting
 - **OpenAPI/Swagger** - API documentation
 - **Prisma** - Modern ORM for database access
 - **PostgreSQL** - Relational database
-
-### Monitoring
-
-- **Sentry** - Monitoring
 
 ### Auth
 
 - **Keycloak** - Secure Authentication
 
-### Testing
+### Testing & Documentation
 
 - **Jest** - Unit testing
+- **Storybook** - Ui component documentation & testing
+- **Compodoc** - Automated documentation generation
+
+### Monitoring & Code Quality
+
+- **Sentry** - Error monitoring
+- **Sonarcloud** - Static analysis & quality gate
 
 ### Dev workflow
 
 - **Commitlint/Commitizen** - Standardize commit messages
 - **Husky** - Pre-commit hooks
-- **ESLint/Lint-staged** - automatic linting
-- **Prettier** - automatic code formating
+- **ESLint/Lint-staged** - Automated linting
+- **Prettier** - Automatef code formating
 
 ### DevOps & Infrastructure
 
@@ -79,9 +81,9 @@ A more refined implementation of the API with ASP.NET Core can be found in this 
 
 ### Prerequisites
 
-- <a href="https://nodejs.org/en" target="\_blank>Node.js 20</a> or later
-- <a href="https://www.npmjs.com/" target="\_blank>npm</a> or <a href="https://yarnpkg.com/" target="\_blank>yarn</a>
-- <a href="https://www.docker.com/" target="\_blank>Docker</a>
+- <a href="https://nodejs.org/en" target="\_blank">Node.js 20</a> or later
+- <a href="https://www.npmjs.com/" target="\_blank">npm</a> or <a href="https://yarnpkg.com/" target="\_blank">yarn</a>
+- <a href="https://www.docker.com/" target="\_blank">Docker</a>
 
 ### Installation
 
