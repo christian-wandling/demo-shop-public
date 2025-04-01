@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [0.3.48](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.47...v0.3.48) (2025-04-01)
+
+
+### Bug Fixes
+
+* **navigation:** fix small screen navigation backdrop not being displayed ([#73](https://github.com/christian-wandling/demo-shop-public/issues/73)) ([3db5f6b](https://github.com/christian-wandling/demo-shop-public/commit/3db5f6bdf7e31a1c6a869250cc5446a5cdce1fdd))
+
 ### [0.3.47](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.46...v0.3.47) (2025-03-26)
 
 ### [0.3.46](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.45...v0.3.46) (2025-03-26)
