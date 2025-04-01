@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [0.3.49](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.48...v0.3.49) (2025-04-01)
+
+
+### Bug Fixes
+
+* **navigation:** fix selected navigation item ([#74](https://github.com/christian-wandling/demo-shop-public/issues/74)) ([5484641](https://github.com/christian-wandling/demo-shop-public/commit/54846412f69abb819ce01ed2b9e99bee7a463497))
+
 ### [0.3.48](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.47...v0.3.48) (2025-04-01)
 
 
