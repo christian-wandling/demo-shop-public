@@ -32,7 +32,7 @@ import { RouteItem } from '../../models/route-item';
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [animateBackdrop, animateSlideOver],
   host: {
-    class: 'bg-white',
+    class: 'bg-white top-0 z-40 sticky',
     '(window:resize)': 'this.mobileMenuOpen.set(false);',
   },
 })

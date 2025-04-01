@@ -49,6 +49,10 @@ describe('UserNavigationComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
   it('should handle isSmallScreen input', () => {
     // Test default value
     expect(component.isSmallScreen()).toBe(false);
@@ -76,5 +80,17 @@ describe('UserNavigationComponent', () => {
     await component.logout();
 
     expect(authFacade.logout).toHaveBeenCalled();
+  });
+
+  describe('snapshots', () => {
+    it('should match snapshot with default state', () => {
+      expect(fixture.nativeElement).toMatchSnapshot();
+    });
+
+    it('should match snapshot for small screens', () => {
+      fixture.componentRef.setInput('isSmallScreen', true);
+      fixture.detectChanges();
+      expect(fixture.nativeElement).toMatchSnapshot();
+    });
   });
 });
