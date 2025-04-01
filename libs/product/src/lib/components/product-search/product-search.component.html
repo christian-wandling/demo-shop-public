@@ -10,7 +10,7 @@
     placeholder="Search products "
     [(ngModel)]="productFilter().name"
     (ngModelChange)="setProductNameFilter(productFilter().name)"
-    (keyup.enter)="goToProductPage()" />
+    (keydown.enter)="goToProductPage()" />
   @if (productFilter().name) {
   <div class="enter-icon absolute right-2 inset-y-0 flex items-center" (click)="goToProductPage()">
     <img ngSrc="icons/enter.svg" alt="enter" height="16" width="16" />

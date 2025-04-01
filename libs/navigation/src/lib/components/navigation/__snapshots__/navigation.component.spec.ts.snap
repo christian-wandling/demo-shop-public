@@ -124,7 +124,7 @@ exports[`NavigationComponent snapshots should match snapshot with mobile menu op
 >
   <dialog
     aria-modal="true"
-    class="relative z-40 lg:hidden ng-trigger ng-trigger-animateBackdrop ng-animating"
+    class="relative z-40 lg:hidden flex ng-trigger ng-trigger-animateBackdrop ng-animating"
   >
     <div
       aria-hidden="true"
