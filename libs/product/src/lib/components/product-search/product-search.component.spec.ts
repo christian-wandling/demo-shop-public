@@ -72,7 +72,7 @@ describe('ProductSearchComponent', () => {
       jest.spyOn(router, 'navigateByUrl');
       const input = fixture.debugElement.query(By.css('input'));
 
-      input.triggerEventHandler('keyup.enter', {});
+      input.triggerEventHandler('keydown.enter', {});
       fixture.detectChanges();
 
       expect(router.navigateByUrl).toHaveBeenCalledWith('/products');

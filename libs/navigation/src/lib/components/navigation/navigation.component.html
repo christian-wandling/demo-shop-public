@@ -3,16 +3,18 @@
   [@animateBackdrop]
   (keydown.escape)="mobileMenuOpen.set(false)"
   (click)="mobileMenuOpen.set(false)"
-  class="relative z-40 lg:hidden"
+  class="relative z-40 lg:hidden flex"
   aria-modal="true">
   <div class="fixed inset-0 bg-black bg-opacity-25" aria-hidden="true"></div>
 </dialog>
 <div
   [@animateSlideOver]
+  (keydown.escape)="mobileMenuOpen.set(false)"
   class="absolute h-screen z-40 flex w-full max-w-xs flex-col overflow-y-auto bg-white px-6 p-2 shadow-xl">
   <div class="sticky z-20 top-0 flex px-4 pb-2 pt-5">
     <button
       (click)="mobileMenuOpen.set(false)"
+      (keydown.escape)="mobileMenuOpen.set(false)"
       type="button"
       class="relative opacity-90 -m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400 bg-white">
       <span class="absolute -inset-0.5"></span>
