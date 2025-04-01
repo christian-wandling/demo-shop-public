@@ -28,7 +28,7 @@ import { SentryGlobalFilter, SentryModule } from '@sentry/nestjs/setup';
     ThrottlerModule.forRoot([
       {
         ttl: 60000,
-        limit: 10,
+        limit: 100,
       },
     ]),
     KeycloakConnectModule.register({
