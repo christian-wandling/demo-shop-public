@@ -30,8 +30,9 @@
     <div class="flow-root">
       <a
         [routerLink]="item.options.route"
-        (click)="mobileMenuOpen.set(false)"
-        class="-m-2 block p-2 font-medium text-gray-700 hover:text-gray-800 text-xl">
+        [ngClass]="{ 'text-indigo-600': selectedMenuItem() === item.label }"
+        (click)="mobileMenuOpen.set(false); selectedMenuItem.set(item.label)"
+        class="-m-2 block p-2 font-medium text-gray-700 hover:text-indigo-500 text-xl">
         {{ item.label | titlecase }}
       </a>
     </div>
@@ -78,7 +79,9 @@
             <div class="menu-item flex h-full space-x-8">
               <a
                 [routerLink]="item.options.route"
-                class="menu-item-button flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
+                [ngClass]="{ 'text-indigo-600': selectedMenuItem() === item.label }"
+                (click)="selectedMenuItem.set(item.label)"
+                class="menu-item-button flex items-center text-sm font-medium text-gray-700 hover:text-indigo-500">
                 {{ item.label | titlecase }}
               </a>
             </div>

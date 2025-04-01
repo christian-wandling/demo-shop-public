@@ -2,7 +2,7 @@
 
 exports[`NavigationComponent snapshots should match snapshot with default state 1`] = `
 <div
-  class="bg-white"
+  class="bg-white top-0 z-40 sticky"
   id="root4"
 >
   
@@ -82,7 +82,7 @@ exports[`NavigationComponent snapshots should match snapshot with default state 
                 class="menu-item flex h-full space-x-8"
               >
                 <a
-                  class="menu-item-button flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                  class="menu-item-button flex items-center text-sm font-medium text-gray-700 hover:text-indigo-500"
                   href="/route1"
                 >
                    Route1 
@@ -92,7 +92,7 @@ exports[`NavigationComponent snapshots should match snapshot with default state 
                 class="menu-item flex h-full space-x-8"
               >
                 <a
-                  class="menu-item-button flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                  class="menu-item-button flex items-center text-sm font-medium text-gray-700 hover:text-indigo-500"
                   href="/route2"
                 >
                    Route2 
@@ -119,7 +119,7 @@ exports[`NavigationComponent snapshots should match snapshot with default state 
 
 exports[`NavigationComponent snapshots should match snapshot with mobile menu open 1`] = `
 <div
-  class="bg-white"
+  class="bg-white top-0 z-40 sticky"
   id="root5"
 >
   <dialog
@@ -173,7 +173,7 @@ exports[`NavigationComponent snapshots should match snapshot with mobile menu op
         style=""
       >
         <a
-          class="-m-2 block p-2 font-medium text-gray-700 hover:text-gray-800 text-xl"
+          class="-m-2 block p-2 font-medium text-gray-700 hover:text-indigo-500 text-xl"
           href="/route1"
         >
            Route1 
@@ -184,7 +184,7 @@ exports[`NavigationComponent snapshots should match snapshot with mobile menu op
         style=""
       >
         <a
-          class="-m-2 block p-2 font-medium text-gray-700 hover:text-gray-800 text-xl"
+          class="-m-2 block p-2 font-medium text-gray-700 hover:text-indigo-500 text-xl"
           href="/route2"
         >
            Route2 
@@ -274,7 +274,7 @@ exports[`NavigationComponent snapshots should match snapshot with mobile menu op
                 class="menu-item flex h-full space-x-8"
               >
                 <a
-                  class="menu-item-button flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                  class="menu-item-button flex items-center text-sm font-medium text-gray-700 hover:text-indigo-500"
                   href="/route1"
                 >
                    Route1 
@@ -284,7 +284,7 @@ exports[`NavigationComponent snapshots should match snapshot with mobile menu op
                 class="menu-item flex h-full space-x-8"
               >
                 <a
-                  class="menu-item-button flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                  class="menu-item-button flex items-center text-sm font-medium text-gray-700 hover:text-indigo-500"
                   href="/route2"
                 >
                    Route2 
