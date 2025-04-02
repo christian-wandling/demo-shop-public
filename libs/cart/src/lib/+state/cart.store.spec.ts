@@ -73,50 +73,50 @@ describe('CartStore', () => {
     });
   });
 
-  describe('create', () => {
+  describe('add', () => {
     it('should throw error if no shopping session exists', async () => {
       const createDto = { productId: 'p3', quantity: 1 };
 
-      await expect(store.create(createDto)).rejects.toThrow('Missing shopping session id');
+      await expect(store.add(createDto)).rejects.toThrow('Missing shopping session id');
     });
 
     it('should create cart item and reload session', async () => {
       await store.loadShoppingSession();
       const createDto = { productId: 'p3', quantity: 1 };
 
-      await store.create(createDto);
+      await store.add(createDto);
 
       expect(mockShoppingSessionApi.addCartItem).toHaveBeenCalledWith(createDto);
       expect(mockShoppingSessionApi.resolveCurrentShoppingSession).toHaveBeenCalledTimes(2);
     });
   });
 
-  describe('delete', () => {
+  describe('remove', () => {
     it('should throw error if no shopping session exists', async () => {
-      await expect(store.delete(1)).rejects.toThrow('Missing shopping session id');
+      await expect(store.remove(1)).rejects.toThrow('Missing shopping session id');
     });
 
-    it('should delete cart item and reload session', async () => {
+    it('should remove cart item and reload session', async () => {
       await store.loadShoppingSession();
 
-      await store.delete(1);
+      await store.remove(1);
 
       expect(mockShoppingSessionApi.removeCartItem).toHaveBeenCalledWith(1);
       expect(mockShoppingSessionApi.resolveCurrentShoppingSession).toHaveBeenCalledTimes(2);
     });
   });
 
-  describe('update', () => {
+  describe('updateItemQuantity', () => {
     it('should throw error if no shopping session exists', async () => {
       const updateDto = { quantity: 2 };
-      await expect(store.update(1, updateDto)).rejects.toThrow('Missing shopping session id');
+      await expect(store.updateItemQuantity(1, updateDto)).rejects.toThrow('Missing shopping session id');
     });
 
     it('should update cart item and reload session', async () => {
       await store.loadShoppingSession();
       const updateDto = { quantity: 2 };
 
-      await store.update(1, updateDto);
+      await store.updateItemQuantity(1, updateDto);
 
       expect(mockShoppingSessionApi.updateCartItemQuantity).toHaveBeenCalledWith(1, updateDto);
       expect(mockShoppingSessionApi.resolveCurrentShoppingSession).toHaveBeenCalledTimes(2);

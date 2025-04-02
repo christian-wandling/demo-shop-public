@@ -43,9 +43,9 @@ export class CartFacade {
     const item = this.#cartStore.getItemByProductId(productId);
 
     if (item) {
-      this.updateItem(item.id, item.quantity + 1);
+      this.updateItemQuantity(item.id, item.quantity + 1);
     } else {
-      this.#cartStore.create({
+      this.#cartStore.add({
         productId,
       });
     }
@@ -54,8 +54,8 @@ export class CartFacade {
   /**
    * Updates the quantity of a specific cart item
    */
-  updateItem(id: number, quantity: number): void {
-    this.#cartStore.update(id, { quantity });
+  updateItemQuantity(id: number, quantity: number): void {
+    this.#cartStore.updateItemQuantity(id, { quantity });
   }
 
   /**
@@ -67,9 +67,9 @@ export class CartFacade {
     const item = this.#cartStore.getItemById(id);
 
     if (item && item.quantity > 1) {
-      this.updateItem(item.id, item.quantity - 1);
+      this.updateItemQuantity(item.id, item.quantity - 1);
     } else {
-      this.#cartStore.delete(id);
+      this.#cartStore.remove(id);
     }
   }
 

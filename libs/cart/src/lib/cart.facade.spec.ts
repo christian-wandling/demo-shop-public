@@ -49,9 +49,9 @@ describe('CartFacade', () => {
       hasShoppingSession: signal(true),
       getItemByProductId: jest.fn(),
       getItemById: jest.fn(),
-      create: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
+      add: jest.fn(),
+      updateItemQuantity: jest.fn(),
+      remove: jest.fn(),
       setShowCart: jest.fn(),
       loadShoppingSession: jest.fn(),
     };
@@ -93,25 +93,25 @@ describe('CartFacade', () => {
 
       facade.addItem(1);
 
-      expect(cartStore.update).toHaveBeenCalledWith(1, { quantity: 3 });
-      expect(cartStore.create).not.toHaveBeenCalled();
+      expect(cartStore.updateItemQuantity).toHaveBeenCalledWith(1, { quantity: 3 });
+      expect(cartStore.add).not.toHaveBeenCalled();
     });
 
-    it('should create new item when item does not exist', () => {
+    it('should add new item when item does not exist', () => {
       cartStore.getItemByProductId.mockReturnValue(null);
 
       facade.addItem(3);
 
-      expect(cartStore.create).toHaveBeenCalledWith({ productId: 3 });
-      expect(cartStore.update).not.toHaveBeenCalled();
+      expect(cartStore.add).toHaveBeenCalledWith({ productId: 3 });
+      expect(cartStore.updateItemQuantity).not.toHaveBeenCalled();
     });
   });
 
   describe('updateItem', () => {
     it('should update item quantity', () => {
-      facade.updateItem(1, 5);
+      facade.updateItemQuantity(1, 5);
 
-      expect(cartStore.update).toHaveBeenCalledWith(1, { quantity: 5 });
+      expect(cartStore.updateItemQuantity).toHaveBeenCalledWith(1, { quantity: 5 });
     });
   });
 
@@ -122,18 +122,18 @@ describe('CartFacade', () => {
 
       facade.removeItem(1);
 
-      expect(cartStore.update).toHaveBeenCalledWith(1, { quantity: 1 });
-      expect(cartStore.delete).not.toHaveBeenCalled();
+      expect(cartStore.updateItemQuantity).toHaveBeenCalledWith(1, { quantity: 1 });
+      expect(cartStore.remove).not.toHaveBeenCalled();
     });
 
-    it('should delete item when quantity is 1', () => {
+    it('should remove item when quantity is 1', () => {
       const existingItem = { id: 1, productId: 1, quantity: 1 };
       cartStore.getItemById.mockReturnValue(existingItem);
 
       facade.removeItem(1);
 
-      expect(cartStore.delete).toHaveBeenCalledWith(1);
-      expect(cartStore.update).not.toHaveBeenCalled();
+      expect(cartStore.remove).toHaveBeenCalledWith(1);
+      expect(cartStore.updateItemQuantity).not.toHaveBeenCalled();
     });
   });
 
