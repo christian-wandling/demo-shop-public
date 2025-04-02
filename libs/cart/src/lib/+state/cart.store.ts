@@ -34,7 +34,7 @@ export const CartStore = signalStore(
 
       patchState(store, setAllEntities(shoppingSession.items), { shoppingSessionId: shoppingSession.id });
     },
-    async create(dto: AddCartItemRequest): Promise<void> {
+    async add(dto: AddCartItemRequest): Promise<void> {
       if (!store.shoppingSessionId()) {
         throw new Error('Missing shopping session id');
       }
@@ -42,7 +42,7 @@ export const CartStore = signalStore(
       await firstValueFrom(shoppingSessionApi.addCartItem(dto));
       await this.loadShoppingSession();
     },
-    async delete(id: number): Promise<void> {
+    async remove(id: number): Promise<void> {
       if (!store.shoppingSessionId()) {
         throw new Error('Missing shopping session id');
       }
@@ -50,7 +50,7 @@ export const CartStore = signalStore(
       await firstValueFrom(shoppingSessionApi.removeCartItem(id));
       await this.loadShoppingSession();
     },
-    async update(id: number, entity: UpdateCartItemQuantityRequest): Promise<void> {
+    async updateItemQuantity(id: number, entity: UpdateCartItemQuantityRequest): Promise<void> {
       if (!store.shoppingSessionId()) {
         throw new Error('Missing shopping session id');
       }
