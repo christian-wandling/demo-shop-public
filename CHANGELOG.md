@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [0.3.50](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.49...v0.3.50) (2025-04-02)
+
+
+### Bug Fixes
+
+* **backend:** update rate limits ([80b8ff0](https://github.com/christian-wandling/demo-shop-public/commit/80b8ff0c642a64aae1b5fa18080e2cff4123c6f6))
+
 ### [0.3.49](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.48...v0.3.49) (2025-04-01)
 
 
