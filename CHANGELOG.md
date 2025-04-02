@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+### [0.3.51](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.50...v0.3.51) (2025-04-02)
+
 ### [0.3.50](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.49...v0.3.50) (2025-04-02)
 
 
