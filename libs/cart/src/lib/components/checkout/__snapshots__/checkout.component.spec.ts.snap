@@ -309,7 +309,7 @@ exports[`CheckoutComponent should match the snapshot 1`] = `
                 </lib-form-error>
               </div>
               <button
-                class="btn-update md:col-span-full float-right mt-6 lg:max-w-60 flex w-full items-center justify-center rounded-md border border-transparent px-8 py-3 text-base font-medium bg-gray-200 text-gray-800 pointer-events-none"
+                class="btn-update md:col-span-full float-right m-2 mt-6 lg:max-w-60 flex flex-1 items-center justify-center rounded-md border border-transparent px-8 py-3 text-base font-medium bg-gray-200 text-gray-800 pointer-events-none"
                 disabled=""
               >
                  Update 
