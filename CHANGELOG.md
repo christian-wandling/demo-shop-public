@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [0.3.53](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.52...v0.3.53) (2025-04-04)
+
+
+### Bug Fixes
+
+* **cart:** fix cut off outline ring on update button in checkout page ([#77](https://github.com/christian-wandling/demo-shop-public/issues/77)) ([2a32504](https://github.com/christian-wandling/demo-shop-public/commit/2a32504a359ea1110a0acd3af644855bc223c518))
+
 ### [0.3.52](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.51...v0.3.52) (2025-04-04)
 
 
