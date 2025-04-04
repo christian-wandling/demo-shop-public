@@ -3,7 +3,7 @@
   [@animateBackdrop]
   (keydown.escape)="closeCart()"
   (click)="closeCart()"
-  class="relative z-50"
+  class="relative z-50 flex"
   aria-labelledby="slide-over-title"
   aria-modal="true">
   <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
@@ -13,9 +13,9 @@
 </dialog>
 <div [@animateSlideOver] class="z-50 pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
   <div class="pointer-events-auto w-screen max-w-md">
-    <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-      <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
-        <div class="flex items-start justify-between">
+    <div class="flex h-full flex-col bg-white shadow-xl">
+      <div class="flex-1 overflow-y-auto sm:px-6">
+        <div class="flex items-start justify-between sticky top-0 py-6 px-4 z-10 border-b-2 border-gray-100 bg-white">
           <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">Shopping cart</h2>
           <div class="ml-3 flex h-7 items-center">
             <button (click)="closeCart()" type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500">
