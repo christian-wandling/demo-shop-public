@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [0.3.52](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.51...v0.3.52) (2025-04-04)
+
+
+### Bug Fixes
+
+* **cart:** fix missing backdrop for shopping cart and make header sticky ([#76](https://github.com/christian-wandling/demo-shop-public/issues/76)) ([52d6d8c](https://github.com/christian-wandling/demo-shop-public/commit/52d6d8c37309616cd2bc4ec02b2c53ecf7609e7e))
+
 ### [0.3.51](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.50...v0.3.51) (2025-04-02)
 
 ### [0.3.50](https://github.com/christian-wandling/demo-shop-public/compare/v0.3.49...v0.3.50) (2025-04-02)
