@@ -33,4 +33,9 @@ export class CartItemsComponent {
    * The emitted value is the ID of the item to be removed.
    */
   readonly removeItem: OutputEmitterRef<number> = output<number>();
+
+  /**
+   * Event emitted when a user clicks on a thumbnail.
+   */
+  readonly thumbnailClicked: OutputEmitterRef<void> = output();
 }
