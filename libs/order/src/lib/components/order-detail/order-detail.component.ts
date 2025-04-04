@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { OrderFacade } from '../../order.facade';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { UserFacade } from '@demo-shop/user';
 import { PrintInvoiceService } from '../../services/print-invoice.service';
 import { OrderResponse, UserResponse } from '@demo-shop/api';
@@ -18,7 +18,7 @@ import { DateTimeComponent } from '@demo-shop/shared';
 @Component({
   selector: 'lib-order-detail',
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage, OrderStatusComponent, DateTimeComponent],
+  imports: [CommonModule, NgOptimizedImage, OrderStatusComponent, DateTimeComponent, RouterLink],
   templateUrl: './order-detail.component.html',
   styleUrl: './order-detail.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
