@@ -23,13 +23,17 @@ export class OrderService {
    * @throws NotFoundException if the order doesn't exist
    */
   async find(id: number, keycloakId: string): Promise<OrderResponse> {
-    const order = await this.ordersRepository.find(id, keycloakId);
+    try {
+      const order = await this.ordersRepository.find(id, keycloakId);
 
-    if (!order) {
-      throw new NotFoundException(`Order not found`);
+      return toOrderResponse(order);
+    } catch (e) {
+      if (e.code === 'P2025') {
+        throw new NotFoundException(`Order with id ${id} not found`);
+      }
+
+      throw e;
     }
-
-    return toOrderResponse(order);
   }
 
   /**

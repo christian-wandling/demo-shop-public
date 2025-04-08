@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { OrderService } from './order.service';
 import { OrderRepository } from './order.repository';
-import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
 import { HydratedOrder } from '../entities/hydrated-order';
 import { OrderResponse } from '../dtos/order-response';
 import { OrderStatus } from '@prisma/client';
@@ -69,7 +69,8 @@ describe('OrdersService', () => {
     });
 
     it('should throw the right exception when order is not found', async () => {
-      repository.find.mockResolvedValue(null);
+      const error = { ...new Error(), code: 'P2025' };
+      repository.find.mockRejectedValue(error);
 
       await expect(service.find(123, 'test@example.com')).rejects.toThrow(NotFoundException);
     });
