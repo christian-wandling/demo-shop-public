@@ -1,4 +1,4 @@
-import { Body, Controller, NotFoundException, Param } from '@nestjs/common';
+import { Body, Controller, NotFoundException, Param, ParseIntPipe } from '@nestjs/common';
 import { CartItemService } from '../services/cart-item.service';
 import { CartItemResponse } from '../dtos/cart-item-response';
 import { CustomPost } from '../../common/decorators/custom-post.decorator';
@@ -71,7 +71,7 @@ export class CartItemController {
   })
   @CustomPatch({ path: '/current/cart-items/:id', body: UpdateCartItemQuantityRequest, res: CartItemResponse })
   async updateCartItemQuantity(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateCartItemQuantityRequest,
     @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken
   ): Promise<CartItemResponse> {
@@ -81,7 +81,7 @@ export class CartItemController {
       throw new NotFoundException('No active shopping session found. Please login to start a new shopping session.');
     }
 
-    return this.cartItemService.update(Number(id), dto, shoppingSession.id);
+    return this.cartItemService.update(id, dto, shoppingSession.id);
   }
 
   /**
@@ -99,7 +99,7 @@ export class CartItemController {
   })
   @CustomDelete({ path: '/current/cart-items/:id' })
   async removeCartItem(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken
   ): Promise<void> {
     const shoppingSession = await this.shoppingSessionService.findCurrentSessionForUser(decodedToken.sub);
@@ -108,6 +108,6 @@ export class CartItemController {
       throw new NotFoundException('No active shopping session found. Please login to start a new shopping session.');
     }
 
-    await this.cartItemService.remove(Number(id), shoppingSession.id);
+    await this.cartItemService.remove(id, shoppingSession.id);
   }
 }

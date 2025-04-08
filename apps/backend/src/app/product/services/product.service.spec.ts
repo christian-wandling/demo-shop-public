@@ -97,7 +97,8 @@ describe('ProductsService', () => {
     });
 
     it('should throw the right exception when product does not exist', async () => {
-      repository.find.mockResolvedValue(null);
+      const error = { ...new Error(), code: 'P2025' };
+      repository.find.mockRejectedValue(error);
 
       await expect(service.find(1)).rejects.toThrow(NotFoundException);
       expect(repository.find).toHaveBeenCalledWith(1);

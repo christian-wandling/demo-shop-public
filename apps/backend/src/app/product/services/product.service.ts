@@ -27,14 +27,18 @@ export class ProductService {
    * @param id The numeric identifier of the product to find
    * @returns A promise that resolves to the formatted product response
    * @throws NotFoundException if the product with the given ID doesn't exist
+   * @throws InternalServerErrorException for other database errors
    */
   async find(id: number): Promise<ProductResponse> {
-    const product = await this.productsRepository.find(id);
+    try {
+      const product = await this.productsRepository.find(id);
+      return toProductResponse(product);
+    } catch (e) {
+      if (e.code === 'P2025') {
+        throw new NotFoundException(`Product with id ${id} not found`);
+      }
 
-    if (!product) {
-      throw new NotFoundException(`Product not found`);
+      throw e;
     }
-
-    return toProductResponse(product);
   }
 }

@@ -1,4 +1,4 @@
-import { Controller, Param } from '@nestjs/common';
+import { Controller, Param, ParseIntPipe } from '@nestjs/common';
 import { OrderService } from '../services/order.service';
 import { OrderResponse } from '../dtos/order-response';
 import { Auth } from '../../common/decorators/auth.decorator';
@@ -49,9 +49,9 @@ export class OrderController {
   })
   @CustomGet({ path: ':id', res: OrderResponse })
   getOrderById(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @CustomHeaders('authorization', DecodeTokenPipe) decodedToken: DecodedToken
   ): Promise<OrderResponse> {
-    return this.orderService.find(Number(id), decodedToken.sub);
+    return this.orderService.find(id, decodedToken.sub);
   }
 }

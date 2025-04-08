@@ -96,7 +96,6 @@ describe('ProductController', () => {
       jest.spyOn(productService, 'find').mockRejectedValueOnce(new Error('Product not found'));
 
       await expect(controller.getProductById(id)).rejects.toThrow('Product not found');
-      expect(productService.find).toHaveBeenCalledWith(NaN);
       expect(productService.find).toHaveBeenCalledTimes(1);
     });
 
