@@ -1,4 +1,4 @@
-import { Controller, Param } from '@nestjs/common';
+import { Controller, Param, ParseIntPipe } from '@nestjs/common';
 import { ProductService } from '../services/product.service';
 import { ProductResponse } from '../dtos/product-response';
 import { Public } from 'nest-keycloak-connect';
@@ -47,7 +47,7 @@ export class ProductController {
     operationId: 'GetProductById',
   })
   @CustomGet({ path: ':id', res: ProductResponse })
-  getProductById(@Param('id') id: number): Promise<ProductResponse> {
-    return this.productService.find(Number(id));
+  getProductById(@Param('id', ParseIntPipe) id: number): Promise<ProductResponse> {
+    return this.productService.find(id);
   }
 }
