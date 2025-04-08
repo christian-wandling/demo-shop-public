@@ -67,7 +67,7 @@ A more refined implementation of the API with ASP.NET Core can be found in this 
 - **Commitlint/Commitizen** - Standardize commit messages
 - **Husky** - Pre-commit hooks
 - **ESLint/Lint-staged** - Automated linting
-- **Prettier** - Automatef code formating
+- **Prettier** - Automated code formating
 
 ### DevOps & Infrastructure
 
@@ -365,6 +365,6 @@ flowchart TB
     end
 ```
 
-## 📜 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
