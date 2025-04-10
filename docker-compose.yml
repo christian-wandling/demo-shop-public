@@ -63,6 +63,7 @@ services:
     networks:
       - backend
       - frontend
+      - shared
 
   keycloak:
     image: quay.io/keycloak/keycloak:23.0.6
