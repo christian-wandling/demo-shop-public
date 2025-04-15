@@ -20,6 +20,9 @@ import { DateTimeComponent } from '@demo-shop/shared';
   templateUrl: './order-list.component.html',
   styleUrl: './order-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'data-testid': 'order-list',
+  },
 })
 export class OrderListComponent implements OnInit {
   /**

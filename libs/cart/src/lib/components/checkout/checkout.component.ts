@@ -23,6 +23,9 @@ import { UpdateUserAddressRequest } from '@demo-shop/api';
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'data-testid': 'checkout-container',
+  },
 })
 export class CheckoutComponent {
   /**

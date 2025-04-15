@@ -21,6 +21,9 @@ import { CommonModule } from '@angular/common';
   templateUrl: './date-time.component.html',
   styleUrl: './date-time.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'data-testid': 'date-time',
+  },
 })
 export class DateTimeComponent {
   /**

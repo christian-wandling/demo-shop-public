@@ -21,6 +21,7 @@ import { CartFacade } from '@demo-shop/cart';
   styleUrl: './product-detail.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
+    'data-testid': 'product-detail',
     class: 'bg-white',
   },
 })

@@ -26,10 +26,15 @@ import { SentryGlobalFilter, SentryModule } from '@sentry/nestjs/setup';
       global: true,
     }),
     ThrottlerModule.forRoot([
-      {
-        ttl: 60000,
-        limit: 100,
-      },
+      process.env.NODE_ENV === 'production'
+        ? {
+            ttl: 60 * 1000,
+            limit: 100,
+          }
+        : {
+            ttl: 60 * 1000,
+            limit: 1000 * 1000,
+          },
     ]),
     KeycloakConnectModule.register({
       authServerUrl: process.env.KEYCLOAK_URL,

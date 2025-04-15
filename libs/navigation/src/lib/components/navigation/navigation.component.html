@@ -5,18 +5,23 @@
   (click)="mobileMenuOpen.set(false)"
   class="relative z-40 lg:hidden flex"
   aria-modal="true">
-  <div class="fixed inset-0 bg-black bg-opacity-25" aria-hidden="true"></div>
+  <div
+    class="fixed inset-0 bg-black bg-opacity-25"
+    aria-hidden="true"
+    data-testid="navigation-slide-over-backdrop"></div>
 </dialog>
 <div
   [@animateSlideOver]
   (keydown.escape)="mobileMenuOpen.set(false)"
-  class="absolute h-screen z-40 flex w-full max-w-xs flex-col overflow-y-auto bg-white px-6 p-2 shadow-xl">
+  class="absolute h-screen z-40 flex w-full max-w-xs flex-col overflow-y-auto bg-white px-6 p-2 shadow-xl"
+  data-testid="navigation-slide-over">
   <div class="sticky z-20 top-0 flex px-4 pb-2 pt-5">
     <button
       (click)="mobileMenuOpen.set(false)"
       (keydown.escape)="mobileMenuOpen.set(false)"
       type="button"
-      class="relative opacity-90 -m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400 bg-white">
+      class="relative opacity-90 -m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400 bg-white"
+      data-testid="navigation-slide-over-close-button">
       <span class="absolute -inset-0.5"></span>
       <span class="sr-only">Close menu</span>
       <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -32,25 +37,29 @@
         [routerLink]="item.options.route"
         [ngClass]="{ 'text-indigo-600': selectedMenuItem() === item.label }"
         (click)="mobileMenuOpen.set(false); selectedMenuItem.set(item.label)"
-        class="-m-2 block p-2 font-medium text-gray-700 hover:text-indigo-500 text-xl">
+        class="-m-2 block p-2 font-medium text-gray-700 hover:text-indigo-500 text-xl"
+        [attr.data-testid]="'navigation-slide-over-item-' + item.label">
         {{ item.label | titlecase }}
       </a>
     </div>
     }
   </div>
 
-  <lib-user-navigation isSmallScreen class="lg:hidden space-y-6 border-t border-gray-200 px-4 py-6" />
+  <lib-user-navigation
+    class="lg:hidden space-y-6 border-t border-gray-200 px-4 py-6"
+    data-testid="navigation-slide-over-user-section" />
 </div>
 }
 
-<header class="relative bg-white">
+<header class="relative bg-white" data-testid="navigation-bar">
   <nav aria-label="Top" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="border-b border-gray-200">
       <div class="flex h-16 items-center">
         <button
           (click)="mobileMenuOpen.set(true)"
           type="button"
-          class="relative rounded-md bg-white p-2 text-gray-400 lg:hidden">
+          class="relative rounded-md bg-white p-2 text-gray-400 lg:hidden"
+          data-testid="navigation-slide-over-toggle">
           <span class="absolute -inset-0.5"></span>
           <span class="sr-only">Open menu</span>
           <svg
@@ -64,8 +73,7 @@
           </svg>
         </button>
 
-        <!-- Logo -->
-        <div class="ml-4 flex lg:ml-0 h-8 w-8 relative">
+        <div class="ml-4 flex lg:ml-0 h-8 w-8 relative" data-testid="navigation-bar-logo">
           <a routerLink="/">
             <span class="sr-only">Demo Shop</span>
             <img class="object-contain" ngSrc="icons/demo-shop.png" alt="Demo shop logo" fill="" />
@@ -76,7 +84,7 @@
         <div class="hidden lg:ml-8 lg:block lg:self-stretch">
           <div class="flex h-full space-x-8">
             @for (item of menuItems; track $index) {
-            <div class="menu-item flex h-full space-x-8">
+            <div class="menu-item flex h-full space-x-8" [attr.data-testid]="'navigation-bar-item-' + item.label">
               <a
                 [routerLink]="item.options.route"
                 [ngClass]="{ 'text-indigo-600': selectedMenuItem() === item.label }"
@@ -90,7 +98,9 @@
         </div>
 
         <div class="ml-auto flex items-center">
-          <lib-user-navigation class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6" />
+          <lib-user-navigation
+            class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6"
+            data-testid="navigation-bar-user-section" />
           <lib-product-search />
           <lib-cart-icon />
         </div>

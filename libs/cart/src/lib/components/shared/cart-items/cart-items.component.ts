@@ -19,6 +19,9 @@ import { RouterLink } from '@angular/router';
   templateUrl: './cart-items.component.html',
   styleUrl: './cart-items.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'data-testid': 'shopping-cart-items',
+  },
 })
 export class CartItemsComponent {
   /**

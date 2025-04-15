@@ -27,8 +27,7 @@
     "storybook:serve": "npx nx storybook frontend",
     "storybook:test": "npx nx test-storybook frontend",
     "lint": "npx nx run-many -t lint",
-    "test": "npx nx run-many -t test",
-    "e2e": "npx nx run-many -t e2e"
+    "test": "npx nx run-many -t test"
   },
   "private": true,
   "prisma": {

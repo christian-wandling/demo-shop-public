@@ -1,12 +1,14 @@
 # Demo shop public
 
-A full-stack e-commerce application built for educational purposes using modern web technologies.
-
-A more refined implementation of the API with ASP.NET Core can be found in this repository:
-
-> <a href="http://github.com/christian-wandling/demo-shop-dotnet-api" target="_blank">http://github.com/christian-wandling/demo-shop-dotnet-api</a>
+This repository contains an Angular frontend and NestJS api for the Demo Shop platform, a full-stack e-commerce application built for educational purposes using modern web technologies.
 
 ## Overview
+
+The Demo Shop platform is maintained over multiple separate repositories supporting interchangeable implementations.
+
+1. [demo-shop-react-ui](http://github.com/christian-wandling/demo-shop-react-ui): React implementation of the frontend
+2. [demo-shop-dotnet-api](http://github.com/christian-wandling/demo-shop-dotnet-api): ASP.NET Core implementation of the API
+3. [demo-shop-e2e](http://github.com/christian-wandling/demo-shop-e2e): E2E Testing with playwright
 
 ### Backend
 
@@ -16,6 +18,7 @@ A more refined implementation of the API with ASP.NET Core can be found in this 
 
 - <a href="https://christian-wandling.github.io/demo-shop-public/compodoc/frontend" target="_blank">Frontend Documentation</a> - Component structure and frontend architecture
 - <a href="https://67e3398bb6689fcab1248c6a-ktupstjvwo.chromatic.com" target="_blank">Storybook</a> - Interactive UI component library and visual testing
+- <a href="https://67fdf0c9a95dbf7d8993b651-caleyrhptc.chromatic.com/" target="\_blank">Playwright</a> - Interactive E2E test reults
 - <a href="https://christian-wandling.github.io/demo-shop-public/graph/frontend/#/projects/frontend">Dependency Graph</a> - Dependency graph of the frontend apps and libs
 
 #### Libraries
@@ -56,6 +59,7 @@ A more refined implementation of the API with ASP.NET Core can be found in this 
 - **Jest** - Unit testing
 - **Storybook** - Ui component documentation & testing
 - **Compodoc** - Automated documentation generation
+- **Playwright** - E2E testing
 
 ### Monitoring & Code Quality
 
@@ -248,7 +252,7 @@ http://localhost:80
 
 ## Testing
 
-To run all tests in the project use
+To run all tests in this project use
 
 ```
 npm run test

@@ -44,7 +44,7 @@ export const AppStore = signalStore(
        * @returns A promise that resolves when initialization is complete
        */
       async init(): Promise<void> {
-        const hasActiveSession = await authFacade.initializeAuth();
+        const hasActiveSession = authFacade.isAuthenticated();
 
         if (hasActiveSession) {
           await userFacade.fetchCurrentUser();

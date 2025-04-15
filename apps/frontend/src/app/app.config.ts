@@ -7,7 +7,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideRouterStore, routerReducer } from '@ngrx/router-store';
 import { provideStore } from '@ngrx/store';
 import { provideApi, withConfiguration } from './providers/provide-api';
-import { authInterceptor, provideAuth } from '@demo-shop/auth';
+import { authInterceptor, provideAuth, createAuthInitializer } from '@demo-shop/auth';
 import { environment } from '../environments/environment';
 import { provideMonitoring, provideSentry } from '@demo-shop/monitoring';
 import { provideImageLoader, provideRouteReuseStrategy } from '@demo-shop/shared';
@@ -52,5 +52,8 @@ export const appConfig: ApplicationConfig = {
 
     /** Image loader configuration **/
     provideImageLoader(),
+
+    /** Create an initializer for keycloak **/
+    createAuthInitializer(),
   ],
 };

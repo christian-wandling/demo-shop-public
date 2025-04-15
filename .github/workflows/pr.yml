@@ -42,9 +42,6 @@ jobs:
       - name: Build
         run: npx nx affected -t build --base=origin/main
 
-      #      - name: E2E
-      #        run: npx nx affected --parallel 1 -t e2e --base=origin/main
-
       - name: Sonar
         uses: SonarSource/sonarqube-scan-action@bfd4e558cda28cda6b5defafb9232d191be8c203
         env:

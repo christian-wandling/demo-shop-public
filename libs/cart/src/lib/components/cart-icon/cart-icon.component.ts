@@ -16,6 +16,9 @@ import { CartFacade } from '../../cart.facade';
   templateUrl: './cart-icon.component.html',
   styleUrl: './cart-icon.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'data-testid': 'shopping-cart-icon',
+  },
 })
 export class CartIconComponent {
   readonly #cartFacade = inject(CartFacade);

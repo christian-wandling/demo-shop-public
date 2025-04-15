@@ -20,6 +20,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './product-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
+    'data-testid': 'product-list',
     class: 'bg-white',
   },
 })

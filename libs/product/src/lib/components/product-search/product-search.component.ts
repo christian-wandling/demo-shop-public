@@ -22,6 +22,7 @@ import { FormsModule } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'flex align-middle lg:ml-6 cursor-pointer relative',
+    'data-testid': 'product-search',
   },
 })
 export class ProductSearchComponent {

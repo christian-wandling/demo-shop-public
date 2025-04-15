@@ -5,5 +5,5 @@ import { permissionGuard } from '@demo-shop/auth';
 
 export const orderRoutes: Route[] = [
   { path: '', component: OrderListComponent, canActivate: [permissionGuard] },
-  { path: ':id', component: OrderDetailComponent },
+  { path: ':id', component: OrderDetailComponent, canActivate: [permissionGuard] },
 ];

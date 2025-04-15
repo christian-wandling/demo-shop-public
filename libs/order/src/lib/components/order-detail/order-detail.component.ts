@@ -22,6 +22,9 @@ import { DateTimeComponent } from '@demo-shop/shared';
   templateUrl: './order-detail.component.html',
   styleUrl: './order-detail.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'data-testid': 'order-detail',
+  },
 })
 export class OrderDetailComponent implements OnInit {
   readonly #userFacade = inject(UserFacade);

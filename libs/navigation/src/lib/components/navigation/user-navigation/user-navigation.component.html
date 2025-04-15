@@ -1,41 +1,24 @@
-<ng-container *ngIf="isSmallScreen(); else largeScreen">
-  @if (currentUser()) {
-  <div class="flow-root">
-    <a class="-m-2 block p-2 font-medium text-xl text-gray-400">
-      {{ currentUser()?.firstname }}&nbsp;{{ currentUser()?.lastname }}
-    </a>
-  </div>
-  <div class="flow-root">
-    <a (click)="logout()" class="-m-2 block p-2 font-medium text-xl text-gray-700 hover:text-indigo-500 cursor-pointer">
-      Sign out
-    </a>
-  </div>
-  } @else {
-  <div class="flow-root">
-    <a (click)="login()" class="-m-2 block p-2 font-medium text-xl text-gray-700 hover:text-indigo-500 cursor-pointer">
-      Sign in
-    </a>
-  </div>
-  <div class="flow-root">
-    <a
-      (click)="register()"
-      class="-m-2 block p-2 font-medium text-xl text-gray-700 hover:text-indigo-500 cursor-pointer">
-      Register
-    </a>
-  </div>
-  }
-</ng-container>
-
-<ng-template #largeScreen>
-  @if (currentUser()) {
-  <a class="text-sm font-medium text-gray-700 hover:text-gray-800 cursor-pointer">
-    {{ currentUser()?.firstname }}&nbsp;{{ currentUser()?.lastname }}
-  </a>
-  <span class="h-6 w-px bg-gray-200" aria-hidden="true"></span>
-  <a (click)="logout()" class="text-sm font-medium text-gray-700 hover:text-gray-800 cursor-pointer"> Sign out </a>
-  } @else {
-  <a (click)="login()" class="text-sm font-medium text-gray-700 hover:text-gray-800 cursor-pointer"> Sign in </a>
-  <span class="h-6 w-px bg-gray-200" aria-hidden="true"></span>
-  <a (click)="register()" class="text-sm font-medium text-gray-700 hover:text-gray-800 cursor-pointer"> Register </a>
-  }
-</ng-template>
+@if (currentUser()) {
+<a class="block -m-2 lg:m-0 p-2 lg:p-0 font-medium text-xl lg:text-sm text-gray-400" data-testid="user-navigation-name">
+  {{ currentUser()?.firstname }}&nbsp;{{ currentUser()?.lastname }}
+</a>
+<a
+  (click)="logout()"
+  class="block -m-2 lg:m-0 p-2 lg:p-0 font-medium text-xl lg:text-sm lg:hover:text-indigo-500 cursor-pointer"
+  data-testid="user-navigation-sign-out">
+  Sign out
+</a>
+} @else {
+<a
+  (click)="login()"
+  class="block -m-2 lg:m-0 p-2 lg:p-0 font-medium text-xl lg:text-sm lg:hover:text-indigo-500 cursor-pointer"
+  data-testid="user-navigation-sign-in">
+  Sign in
+</a>
+<a
+  (click)="register()"
+  class="block -m-2 lg:m-0 p-2 lg:p-0 font-medium text-xl lg:text-sm lg:hover:text-indigo-500 cursor-pointer"
+  data-testid="user-navigation-register">
+  Register
+</a>
+}

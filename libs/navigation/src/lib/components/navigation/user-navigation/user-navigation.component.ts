@@ -1,4 +1,4 @@
-import { booleanAttribute, ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthFacade } from '@demo-shop/auth';
 import { UserFacade } from '@demo-shop/user';
@@ -8,7 +8,7 @@ import { CartFacade } from '@demo-shop/cart';
  * Component that handles user navigation functionality including login, registration, and logout
  *
  * @example
- * <lib-user-navigation isSmallScreen>
+ * <lib-user-navigation>
  */
 @Component({
   selector: 'lib-user-navigation',
@@ -19,9 +19,6 @@ import { CartFacade } from '@demo-shop/cart';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserNavigationComponent {
-  /** Flag indicating if the current view is on a small screen */
-  readonly isSmallScreen = input(false, { transform: booleanAttribute });
-
   readonly #authFacade = inject(AuthFacade);
   readonly #userFacade = inject(UserFacade);
   readonly currentUser = this.#userFacade.getCurrentUser();
