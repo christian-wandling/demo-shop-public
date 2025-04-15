@@ -149,7 +149,7 @@ npm start
 ```
 Frontend: http://localhost:4200
 API: http://localhost:3000
-Swagger Documentation: http://localhost:3000/api
+Swagger Documentation: http://localhost:4200/api/docs
 Keycloak: http://localhost:8080
 PgAdmin: http://localhost:80
 ```
