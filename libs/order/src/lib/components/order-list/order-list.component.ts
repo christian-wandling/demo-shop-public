@@ -21,6 +21,7 @@ import { DateTimeComponent } from '@demo-shop/shared';
   styleUrl: './order-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
+    class: 'block mx-auto px-8 max-w-7xl',
     'data-testid': 'order-list',
   },
 })

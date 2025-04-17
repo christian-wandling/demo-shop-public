@@ -20,6 +20,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './cart-items.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
+    class: 'block mt-8',
     'data-testid': 'shopping-cart-items',
   },
 })

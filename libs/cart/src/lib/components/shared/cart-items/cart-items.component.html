@@ -1,56 +1,48 @@
-<div class="mt-8">
-  <div class="flow-root">
-    <ul class="-my-6 divide-y divide-gray-200">
-      @for (item of items(); track item.id) {
-      <li class="flex py-6">
-        <div
-          class="relative h-24 w-24 aspect-1 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 group-hover:opacity-75 cursor-pointer"
-          routerLink="/products/{{ item.productId }}"
-          [attr.data-testid]="'shopping-cart-items-link' + item.id + '-productId:' + item.productId">
-          <img
-            [ngSrc]="item.productThumbnail"
-            [alt]="item.productName"
-            [title]="item.productName"
-            [attr.data-testid]="'shopping-cart-items-image' + item.id + '-productId:' + item.productId"
-            fill=""
-            placeholder />
-        </div>
+<ul class="-my-6 divide-y divide-gray-200">
+  @for (item of items(); track item.id) {
+  <li class="flex py-6">
+    <div
+      class="relative h-24 w-24 aspect-1 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 group-hover:opacity-75 cursor-pointer"
+      routerLink="/products/{{ item.productId }}"
+      [attr.data-testid]="'shopping-cart-items-link' + item.id + '-productId:' + item.productId">
+      <img
+        [ngSrc]="item.productThumbnail"
+        [alt]="item.productName"
+        [title]="item.productName"
+        [attr.data-testid]="'shopping-cart-items-image' + item.id + '-productId:' + item.productId"
+        fill=""
+        placeholder />
+    </div>
 
-        <div class="ml-4 flex flex-1 flex-col">
-          <div>
-            <div class="flex justify-between text-base font-medium text-gray-900">
-              <h3>
-                <a [attr.data-testid]="'shopping-cart-items-name' + item.id + '-productId:' + item.productId">
-                  {{ item.productName }}
-                </a>
-              </h3>
-              <p
-                class="ml-4"
-                [attr.data-testid]="'shopping-cart-items-price' + item.id + '-productId:' + item.productId">
-                {{ item.totalPrice | currency }}
-              </p>
-            </div>
-          </div>
-          <div class="flex flex-1 items-end justify-between text-sm">
-            <p
-              class="text-gray-500"
-              [attr.data-testid]="'shopping-cart-items-quantity' + item.id + '-productId:' + item.productId">
-              Qty {{ item.quantity }}
-            </p>
-
-            <div class="flex">
-              <button
-                (click)="removeItem.emit(item.id)"
-                type="button"
-                class="font-medium text-indigo-600 hover:text-indigo-500"
-                [attr.data-testid]="'shopping-cart-items-remove-button' + item.id + '-productId:' + item.productId">
-                Remove
-              </button>
-            </div>
-          </div>
+    <div class="ml-4 flex flex-1 flex-col">
+      <div>
+        <div class="flex justify-between text-base font-medium text-gray-900">
+          <h3 [attr.data-testid]="'shopping-cart-items-name' + item.id + '-productId:' + item.productId">
+            {{ item.productName }}
+          </h3>
+          <p class="ml-4" [attr.data-testid]="'shopping-cart-items-price' + item.id + '-productId:' + item.productId">
+            {{ item.totalPrice | currency }}
+          </p>
         </div>
-      </li>
-      }
-    </ul>
-  </div>
-</div>
+      </div>
+      <div class="flex flex-1 items-end justify-between text-sm">
+        <p
+          class="text-gray-500"
+          [attr.data-testid]="'shopping-cart-items-quantity' + item.id + '-productId:' + item.productId">
+          Qty {{ item.quantity }}
+        </p>
+
+        <div class="flex">
+          <button
+            (click)="removeItem.emit(item.id)"
+            type="button"
+            class="font-medium text-indigo-600 hover:text-indigo-500"
+            [attr.data-testid]="'shopping-cart-items-remove-button' + item.id + '-productId:' + item.productId">
+            Remove
+          </button>
+        </div>
+      </div>
+    </div>
+  </li>
+  }
+</ul>

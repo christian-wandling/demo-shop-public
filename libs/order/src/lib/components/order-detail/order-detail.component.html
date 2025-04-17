@@ -1,88 +1,86 @@
 @if (user() && order()) {
-<div class="mx-auto mb-8 px-8 max-w-5xl" id="invoice">
-  <section class="py-8 top-16 sticky z-10 border-b-2 border-gray-100 bg-white flex justify-between">
-    <div class="flex flex-col gap-5">
-      <div>
-        <h1 class="text-s leading-tight font-bold text-gray-700" data-testid="order-detail-username">
-          {{ user()?.firstname }} {{ user()?.lastname }}
-        </h1>
-        <div class="text-xs text-gray-500">
-          <p data-testid="order-detail-address1">{{ user()?.address?.street }} {{ user()?.address?.apartment }}</p>
-          <p data-testid="order-detail-address2">
-            {{ user()?.address?.zip }} {{ user()?.address?.city }} , {{ user()?.address?.region }}
-          </p>
-          <p data-testid="order-detail-address3">{{ user()?.address?.country }}</p>
+<section class="py-8 top-16 sticky z-10 border-b-2 border-gray-100 bg-white flex justify-between">
+  <div class="flex flex-col gap-5">
+    <div>
+      <h1 class="text-s leading-tight font-bold text-gray-700" data-testid="order-detail-username">
+        {{ user()?.firstname }} {{ user()?.lastname }}
+      </h1>
+      <div class="text-xs text-gray-500">
+        <p data-testid="order-detail-address1">{{ user()?.address?.street }} {{ user()?.address?.apartment }}</p>
+        <p data-testid="order-detail-address2">
+          {{ user()?.address?.zip }} {{ user()?.address?.city }} , {{ user()?.address?.region }}
+        </p>
+        <p data-testid="order-detail-address3">{{ user()?.address?.country }}</p>
+      </div>
+    </div>
+    <button
+      (click)="printPdf(order(), user())"
+      class="btn-print w-36 flex items-center justify-center rounded-md border border-transparent px-8 py-2 text-base font-medium bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'"
+      data-testid="order-detail-print-invoice-button">
+      Print
+    </button>
+  </div>
+  <div class="flex flex-col gap-2.5">
+    <div class="flex flex-col items-end">
+      <div class="text-s leading-tight font-semibold" data-testid="order-detail-id">Order #{{ order().id }}</div>
+      <lib-date-time [dateTime]="order().created" class="text-xs text-gray-500" />
+    </div>
+    <lib-order-status [status]="order().status" />
+  </div>
+</section>
+<section>
+  <ul class="divide-y divide-gray-100">
+    @for (item of order().items; track item.productId) {
+    <li class="flex flex-col sm:flex-row gap-2 sm:gap-6 py-5">
+      <div
+        class="relative w-12 sm:w-24 h-12 sm:h-24 aspect-1 rounded-lg flex-shrink-0 overflow-hidden"
+        routerLink="/products/{{ item.productId }}"
+        [attr.data-testid]="'order-detail-item-product-link' + item.productId">
+        <img
+          [ngSrc]="item.productThumbnail"
+          [alt]="item.productName"
+          [attr.data-testid]="'order-detail-item-image' + item.productId"
+          fill=""
+          placeholder />
+      </div>
+      <div class="flex flex-col min-w-0 grow">
+        <p
+          class="text-sm sm:leading-6 text-gray-900"
+          [attr.data-testid]="'order-detail-item-product-info' + item.productId">
+          #{{ item.productId }} {{ item.productName }}
+        </p>
+        <p
+          class="sm:mt-1 truncate text-xs sm:leading-5 text-gray-500"
+          [attr.data-testid]="'order-detail-item-quantity' + item.productId">
+          Qty {{ item.quantity }}
+        </p>
+      </div>
+      <div class="flex flex-row sm:flex-col-reverse grow sm:grow-0 justify-between sm:justify-end sm:items-end">
+        <p
+          class="sm:mt-1 text-xs leading-5 text-gray-500"
+          [attr.data-testid]="'order-detail-item-unit-price' + item.productId">
+          <span>{{ item.unitPrice | currency }}</span>
+        </p>
+        <p
+          class="text-sm leading-6 text-gray-900"
+          [attr.data-testid]="'order-detail-item-total-price' + item.productId">
+          {{ item.totalPrice | currency }}
+        </p>
+      </div>
+    </li>
+    }
+    <li class="flex justify-between gap-x-6 py-5">
+      <div class="flex min-w-0 gap-x-4">
+        <div class="min-w-0 flex-auto">
+          <p class="text-sm font-semibold leading-6 text-gray-900">total</p>
         </div>
       </div>
-      <button
-        (click)="printPdf(order(), user())"
-        class="btn-print w-36 flex items-center justify-center rounded-md border border-transparent px-8 py-2 text-base font-medium bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'"
-        data-testid="order-detail-print-invoice-button">
-        Print
-      </button>
-    </div>
-    <div class="flex flex-col gap-2.5">
-      <div class="flex flex-col items-end">
-        <div class="text-s leading-tight font-semibold" data-testid="order-detail-id">Order #{{ order().id }}</div>
-        <lib-date-time [dateTime]="order().created" class="text-xs text-gray-500" />
+      <div class="shrink-0 sm:flex sm:flex-col sm:items-end">
+        <p class="text-sm leading-6 text-gray-900" data-testid="order-detail-total-price">
+          {{ order().amount | currency }}
+        </p>
       </div>
-      <lib-order-status [status]="order().status" />
-    </div>
-  </section>
-  <section>
-    <ul class="divide-y divide-gray-100">
-      @for (item of order().items; track item.productId) {
-      <li class="flex flex-col sm:flex-row gap-2 sm:gap-6 py-5">
-        <div
-          class="relative w-12 sm:w-24 h-12 sm:h-24 aspect-1 rounded-lg flex-shrink-0 overflow-hidden"
-          routerLink="/products/{{ item.productId }}"
-          [attr.data-testid]="'order-detail-item-product-link' + item.productId">
-          <img
-            [ngSrc]="item.productThumbnail"
-            [alt]="item.productName"
-            [attr.data-testid]="'order-detail-item-image' + item.productId"
-            fill=""
-            placeholder />
-        </div>
-        <div class="flex flex-col min-w-0 grow">
-          <p
-            class="text-sm sm:leading-6 text-gray-900"
-            [attr.data-testid]="'order-detail-item-product-info' + item.productId">
-            #{{ item.productId }} {{ item.productName }}
-          </p>
-          <p
-            class="sm:mt-1 truncate text-xs sm:leading-5 text-gray-500"
-            [attr.data-testid]="'order-detail-item-quantity' + item.productId">
-            Qty {{ item.quantity }}
-          </p>
-        </div>
-        <div class="flex flex-row sm:flex-col-reverse grow sm:grow-0 justify-between sm:justify-end sm:items-end">
-          <p
-            class="sm:mt-1 text-xs leading-5 text-gray-500"
-            [attr.data-testid]="'order-detail-item-unit-price' + item.productId">
-            <span>{{ item.unitPrice | currency }}</span>
-          </p>
-          <p
-            class="text-sm leading-6 text-gray-900"
-            [attr.data-testid]="'order-detail-item-total-price' + item.productId">
-            {{ item.totalPrice | currency }}
-          </p>
-        </div>
-      </li>
-      }
-      <li class="flex justify-between gap-x-6 py-5">
-        <div class="flex min-w-0 gap-x-4">
-          <div class="min-w-0 flex-auto">
-            <p class="text-sm font-semibold leading-6 text-gray-900">total</p>
-          </div>
-        </div>
-        <div class="shrink-0 sm:flex sm:flex-col sm:items-end">
-          <p class="text-sm leading-6 text-gray-900" data-testid="order-detail-total-price">
-            {{ order().amount | currency }}
-          </p>
-        </div>
-      </li>
-    </ul>
-  </section>
-</div>
+    </li>
+  </ul>
+</section>
 }

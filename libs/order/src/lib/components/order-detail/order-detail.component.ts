@@ -23,6 +23,7 @@ import { DateTimeComponent } from '@demo-shop/shared';
   styleUrl: './order-detail.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
+    class: 'block mx-auto mb-8 px-8 max-w-5xl',
     'data-testid': 'order-detail',
   },
 })
