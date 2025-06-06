@@ -20,19 +20,25 @@ export const seedProducts = async (prisma: PrismaClient): Promise<Array<Product 
 
   const products = [];
 
+  const now = new Date();
   const categories = await prisma.category.createManyAndReturn({
     data: faker.helpers.uniqueArray(faker.commerce.department, 5).map(name => ({
       name,
+      created_at: now,
+      updated_at: now,
     })),
   });
 
   for (const name of faker.helpers.uniqueArray(faker.commerce.productName, 30)) {
     const category = categories[Math.floor(Math.random() * categories.length)];
 
+    const now = new Date();
     const image = await prisma.image.create({
       data: {
         name,
         uri: faker.image.urlPicsumPhotos(),
+        created_at: now,
+        updated_at: now,
       },
     });
 
@@ -47,6 +53,8 @@ export const seedProducts = async (prisma: PrismaClient): Promise<Array<Product 
         images: {
           connect: [{ id: image.id }],
         },
+        created_at: now,
+        updated_at: now,
       },
       include: {
         images: true,

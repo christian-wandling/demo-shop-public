@@ -50,6 +50,7 @@ export const seedOrders = async (
           },
           status,
           created_at: date,
+          updated_at: date,
         },
       });
 
@@ -64,6 +65,7 @@ export const seedOrders = async (
             quantity: faker.number.int({ min: 1, max: 10 }),
             price: orderedProduct.price,
             created_at: date,
+            updated_at: date,
             order: {
               connect: { id: order.id },
             },

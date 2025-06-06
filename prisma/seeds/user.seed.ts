@@ -38,6 +38,8 @@ export const seedUsers = async (prisma: PrismaClient): Promise<User[]> => {
       continue;
     }
 
+    const now = new Date();
+
     const user = await prisma.user.create({
       data: {
         firstname: keycloakUserId.firstName,
@@ -53,8 +55,12 @@ export const seedUsers = async (prisma: PrismaClient): Promise<User[]> => {
             zip: faker.location.zipCode('#####'),
             region: faker.location.state(),
             country: 'United States',
+            created_at: now,
+            updated_at: now,
           },
         },
+        created_at: now,
+        updated_at: now,
       },
     });
 
