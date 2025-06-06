@@ -68,7 +68,7 @@
       {
         "id": "ad6583cf-21cc-4817-8052-3aae52185322",
         "name": "buy_products",
-        "description": "",
+        "description": "Demo shop realm role to buy products",
         "composite": false,
         "clientRole": false,
         "containerId": "254e4485-5d8a-4c22-9084-5a6afa47798c",
@@ -91,6 +91,7 @@
       }
     ],
     "client": {
+      "demo_shop_payment_service": [],
       "realm-management": [
         {
           "id": "cb5d2fc7-c4a5-422d-abc7-b7e87a0e97ed",
@@ -298,8 +299,19 @@
           "attributes": {}
         }
       ],
-      "demo_shop_ui": [],
+      "demo_shop_frontend_core": [],
       "security-admin-console": [],
+      "demo_shop_api_core": [
+        {
+          "id": "13f22c9b-1151-413e-98c1-922b0ded88f5",
+          "name": "buy_products",
+          "description": "Demo Shop API client role to buy products",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "54a82db7-7b30-4e7f-ae3f-2ef47f466d33",
+          "attributes": {}
+        }
+      ],
       "admin-cli": [],
       "account-console": [],
       "broker": [
@@ -394,17 +406,6 @@
           "composite": false,
           "clientRole": true,
           "containerId": "8971918b-60c7-4dc9-90ab-5406ba214f4c",
-          "attributes": {}
-        }
-      ],
-      "demo_shop_api": [
-        {
-          "id": "13f22c9b-1151-413e-98c1-922b0ded88f5",
-          "name": "buy_products",
-          "description": "",
-          "composite": false,
-          "clientRole": true,
-          "containerId": "54a82db7-7b30-4e7f-ae3f-2ef47f466d33",
           "attributes": {}
         }
       ]
@@ -505,6 +506,21 @@
       "authenticationFlowBindingOverrides": {},
       "fullScopeAllowed": false,
       "nodeReRegistrationTimeout": 0,
+      "protocolMappers": [
+        {
+          "id": "d194e528-b317-4fb4-a226-05dc9e543c64",
+          "name": "Account to Api core audience mapper",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "included.client.audience": "demo_shop_api_core",
+            "id.token.claim": "false",
+            "access.token.claim": "true",
+            "introspection.token.claim": "true"
+          }
+        }
+      ],
       "defaultClientScopes": ["web-origins", "acr", "roles", "profile", "email"],
       "optionalClientScopes": ["address", "phone", "offline_access", "microprofile-jwt"]
     },
@@ -610,8 +626,8 @@
     },
     {
       "id": "54a82db7-7b30-4e7f-ae3f-2ef47f466d33",
-      "clientId": "demo_shop_api",
-      "name": "Demo shop API",
+      "clientId": "demo_shop_api_core",
+      "name": "Demo shop Api core",
       "description": "",
       "rootUrl": "",
       "adminUrl": "",
@@ -643,13 +659,28 @@
       "authenticationFlowBindingOverrides": {},
       "fullScopeAllowed": true,
       "nodeReRegistrationTimeout": -1,
+      "protocolMappers": [
+        {
+          "id": "267ca480-b467-4670-a3cd-c17ba513a3c8",
+          "name": "Api core to Payment service audience mapper",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "included.client.audience": "demo_shop_payment_service",
+            "id.token.claim": "false",
+            "access.token.claim": "true",
+            "introspection.token.claim": "true"
+          }
+        }
+      ],
       "defaultClientScopes": ["web-origins", "acr", "roles", "profile", "email"],
       "optionalClientScopes": ["address", "phone", "offline_access", "microprofile-jwt"]
     },
     {
       "id": "f7e9bdaf-4c90-4b89-9e87-e93d0a10ce56",
-      "clientId": "demo_shop_ui",
-      "name": "Demo shop UI",
+      "clientId": "demo_shop_frontend_core",
+      "name": "Demo shop Frontend core",
       "description": "",
       "rootUrl": "",
       "adminUrl": "",
@@ -688,6 +719,57 @@
         "post.logout.redirect.uris": "+",
         "display.on.consent.screen": "false",
         "oauth2.device.authorization.grant.enabled": "false",
+        "backchannel.logout.revoke.offline.tokens": "false"
+      },
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": true,
+      "nodeReRegistrationTimeout": -1,
+      "protocolMappers": [
+        {
+          "id": "004e933a-1a17-4079-9772-b6ae4eaaaad1",
+          "name": "Frontend core to Api core audience mapper",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "included.client.audience": "demo_shop_api_core",
+            "id.token.claim": "false",
+            "access.token.claim": "true",
+            "introspection.token.claim": "true"
+          }
+        }
+      ],
+      "defaultClientScopes": ["web-origins", "acr", "roles", "profile", "email"],
+      "optionalClientScopes": ["address", "phone", "offline_access", "microprofile-jwt"]
+    },
+    {
+      "id": "4f7402d4-0237-4817-bf0a-45b23f6cc8a0",
+      "clientId": "demo_shop_payment_service",
+      "name": "Demo shop payment service",
+      "description": "",
+      "rootUrl": "",
+      "adminUrl": "",
+      "baseUrl": "",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "redirectUris": ["/*"],
+      "webOrigins": ["/*"],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "publicClient": true,
+      "frontchannelLogout": true,
+      "protocol": "openid-connect",
+      "attributes": {
+        "oidc.ciba.grant.enabled": "false",
+        "oauth2.device.authorization.grant.enabled": "false",
+        "backchannel.logout.session.required": "true",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},
@@ -1385,13 +1467,13 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "oidc-sha256-pairwise-sub-mapper",
-            "saml-user-attribute-mapper",
+            "oidc-full-name-mapper",
+            "saml-user-property-mapper",
             "oidc-usermodel-property-mapper",
             "oidc-address-mapper",
-            "oidc-full-name-mapper",
             "oidc-usermodel-attribute-mapper",
-            "saml-user-property-mapper",
+            "oidc-sha256-pairwise-sub-mapper",
+            "saml-user-attribute-mapper",
             "saml-role-list-mapper"
           ]
         }
@@ -1412,14 +1494,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
+            "saml-user-property-mapper",
+            "oidc-sha256-pairwise-sub-mapper",
+            "oidc-usermodel-attribute-mapper",
             "saml-user-attribute-mapper",
             "oidc-usermodel-property-mapper",
-            "saml-user-property-mapper",
-            "saml-role-list-mapper",
-            "oidc-sha256-pairwise-sub-mapper",
             "oidc-address-mapper",
-            "oidc-usermodel-attribute-mapper",
-            "oidc-full-name-mapper"
+            "oidc-full-name-mapper",
+            "saml-role-list-mapper"
           ]
         }
       },
