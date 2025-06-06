@@ -1,36 +1,30 @@
 services:
-  db:
+  postgres-core:
     image: postgres
+    container_name: postgres-core
     environment:
-      - POSTGRES_PASSWORD
+      - POSTGRES_DB=demo_shop_core_dev
       - POSTGRES_USER
-      - POSTGRES_DB
+      - POSTGRES_PASSWORD
       - TZ=UTC
       - PGTZ=UTC
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres-core-data:/var/lib/postgresql/data
       - ./.ops/docker/db/init-scripts:/docker-entrypoint-initdb.d
     networks:
-      - backend
-      - shared
+      - backend-net
     ports:
       - '127.0.0.1:5432:5432'
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          memory: 512M
 
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    environment:
-      - PGADMIN_DEFAULT_EMAIL
-      - PGADMIN_DEFAULT_PASSWORD
-      - PGADMIN_CONFIG_SERVER_MODE=False
-    networks:
-      - backend
-    ports:
-      - '127.0.0.1:80:80'
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
-    depends_on:
-      - db
-  api:
+  api-core:
+    container_name: api-core
     command: sh -c "npx prisma generate && npx nx serve backend --watch --host=0.0.0.0"
     build:
       context: .
@@ -43,7 +37,7 @@ services:
       - NX_REJECT_UNKNOWN_LOCAL_CACHE=0
       - ALLOWED_ORIGIN=http://localhost:4200
       - KEYCLOAK_REALM=demo_shop
-      - KEYCLOAK_CLIENT_API=demo_shop_api
+      - KEYCLOAK_CLIENT_API=demo_shop_api_core
       - KEYCLOAK_URL=http://localhost:8080
       - KEYCLOAK_REALM_PUBLIC_KEY
       - SENTRY_AUTH_TOKEN
@@ -51,26 +45,35 @@ services:
       - SENTRY_TRUSTED_DOMAIN=http://localhost
       - SENTRY_DEMO_SHOP_API_DSN
       - SENTRY_DEMO_SHOP_API_PROJECT
+      - POSTGRES_DB=demo_shop_core_dev
       - POSTGRES_USER
       - POSTGRES_PASSWORD
-      - POSTGRES_DB
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/demo_shop_core_dev?schema=public
     volumes:
       - .:/app:cached
       - /app/node_modules
     ports:
       - '127.0.0.1:3000:3000'
     networks:
-      - backend
-      - frontend
-      - shared
+      - backend-net
+      - frontend-net
+      - messaging-net
+    deploy:
+      resources:
+        limits:
+          cpus: '0.75'
+          memory: 768M
+        reservations:
+          memory: 384M
 
   keycloak:
     image: quay.io/keycloak/keycloak:23.0.6
     command: start-dev --import-realm
+    container_name: keycloak
     environment:
       - KC_DB=postgres
-      - KC_DB_URL=jdbc:postgresql://host.docker.internal/keycloak
+      - KC_DB_URL=jdbc:postgresql://postgres-core/keycloak
+      #      - KC_DB_URL=jdbc:postgresql://host.docker.internal/keycloak
       - KC_HOSTNAME=localhost
       - KC_HOSTNAME_STRICT=false
       - KC_HOSTNAME_STRICT_HTTPS=false
@@ -82,24 +85,32 @@ services:
       - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN}
       - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
     depends_on:
-      - db
+      - postgres-core
     volumes:
       - ./.ops/docker/keycloak/imports:/opt/keycloak/data/import
+      - keycloak-data:/opt/keycloak/data
     ports:
       - '8080:8080'
     networks:
-      - frontend
-      - backend
-      - shared
+      - frontend-net
+      - backend-net
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          memory: 512M
 
-  frontend:
+  frontend-core:
+    container_name: frontend-core
     command: npx nx serve frontend
     build:
       context: .
       dockerfile: ./apps/frontend/Dockerfile
       target: dev
     environment:
-      - API_URL=http://api:3000
+      - API_URL=http://api-core:3000
       - NODE_ENV=development
       - KEYCLOAK_URL=http://localhost:8080
       - SENTRY_DEMO_SHOP_UI_DSN
@@ -110,17 +121,24 @@ services:
       - .:/app:cached
       - /app/node_modules
     networks:
-      - frontend
-      - shared
+      - frontend-net
     depends_on:
-      - api
+      - api-core
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          memory: 256M
 
 volumes:
-  postgres_data:
-  pgadmin_data:
+  postgres-core-data:
 
 networks:
-  frontend:
-  backend:
-  shared:
+  frontend-net:
+    external: true
+  backend-net:
+    external: true
+  messaging-net:
     external: true
